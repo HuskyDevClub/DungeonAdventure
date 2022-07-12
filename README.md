@@ -25,7 +25,17 @@ ___
     git clone https://github.com/TCSS360A/DungeonAdventure.git
     cd DungeonAdventure/
 
-> M1 Apple computers don't play nicely with JavaFX or LWJGL at the moment, so JDK 16 is required for macOS systems (not JDK 17/18)
+> The `lwjgl` branch features the DungeonAdventure project built on LWJGL.
+
+> To run this version of DungeonAdventure, just `cd` into the project directory and use `gradle`
+
+    cd DungeonAdventure/
+    gradle build
+    gradle run
+
+> The `glryan` branch currently features a JavaFX application.
+
+> M1 Apple computers don't play nicely with JavaFX at the moment, so JDK 16 is required for macOS systems (not JDK 17/18)
 
 > If developing on macOS, make sure the project and Gradle build script is configured to use JDK 16
 
