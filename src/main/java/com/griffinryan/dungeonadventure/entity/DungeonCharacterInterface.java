@@ -1,6 +1,6 @@
-package com.griffinryan.dungeonadventure;
+package com.griffinryan.dungeonadventure.entity;
 
-public interface DungeonCharacterInterface {
+interface DungeonCharacterInterface {
 
     void attack(final DungeonCharacter theTarget);
 
