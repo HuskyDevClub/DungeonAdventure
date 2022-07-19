@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure;
 
+import com.griffinryan.dungeonadventure.systems.Combat;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -23,5 +24,8 @@ public class App extends Application {
 		// here
 
         stage.show();
+
+        // just here for testing the combat system
+        Combat.start();
     }
 }
