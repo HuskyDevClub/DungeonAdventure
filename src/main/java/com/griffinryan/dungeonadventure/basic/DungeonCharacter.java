@@ -40,9 +40,13 @@ public abstract class DungeonCharacter extends Random implements DungeonCharacte
         this.myHealth = Integer.max(this.myHealth - value, 0);
     }
 
+    public void heal(int value) {
+        this.myHealth = this.myHealth + value;
+    }
+
     public void selfHeal() {
         if (isLuckyToAct(this.myChanceToHeal)) {
-            this.injury(generateRandomValue(this.myMinHealing, this.myMaxHealing));
+            this.heal(generateRandomValue(this.myMinHealing, this.myMaxHealing));
         }
     }
 
