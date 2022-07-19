@@ -21,5 +21,9 @@ public class BasicGameApp extends GameApplication {
 	@Override
 	protected void initSettings(GameSettings settings){
 
+		settings.setWidth(600);
+		settings.setHeight(600);
+		settings.setTitle("Dungeon Adventure");
+		settings.setVersion("0.1");
 	}
 }
