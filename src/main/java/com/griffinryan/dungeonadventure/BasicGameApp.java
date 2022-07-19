@@ -31,7 +31,7 @@ public class BasicGameApp extends GameApplication {
 	@Override
 	protected void initGame(){
 		player = FXGL.entityBuilder().at(300,300)
-				.view(new Rectangle(25,25,Color.DODGERBLUE))
+				.view(new Rectangle(25,25,Color.DEEPPINK))
 				.buildAndAttach();
 	}
 
