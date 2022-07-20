@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.entity;
+package com.griffinryan.dungeonadventure.basic;
 
 interface DungeonCharacterInterface {
 

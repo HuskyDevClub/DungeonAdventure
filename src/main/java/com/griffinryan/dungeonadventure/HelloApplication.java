@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure;
 
+import com.griffinryan.dungeonadventure.systems.Combat;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,6 +30,9 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent()));
         stage.show();
+
+        // just here for testing the combat system
+        Combat.start();
     }
 
     private Parent createContent() {
