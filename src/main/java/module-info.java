@@ -5,8 +5,6 @@ module com.griffinryan.dungeonadventure {
 
     opens com.griffinryan.dungeonadventure to javafx.fxml;
     exports com.griffinryan.dungeonadventure;
- 
-    opens com.griffinryan.dungeonadventure.entity to javafx.fxml;
     exports com.griffinryan.dungeonadventure.basic;
     opens com.griffinryan.dungeonadventure.basic to javafx.fxml;
     exports com.griffinryan.dungeonadventure.heroes;

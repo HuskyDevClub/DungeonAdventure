@@ -30,9 +30,6 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent()));
         stage.show();
-
-        // just here for testing the combat system
-        Combat.start();
     }
 
     private Parent createContent() {
@@ -46,7 +43,7 @@ public class HelloApplication extends Application {
 
         VBox box = new VBox(
                 5,
-                new MenuItem("START GAME", () -> {}),
+                new MenuItem("START GAME", () -> {Combat.start();}),
                 new MenuItem("SETTINGS", () -> {}),
                 new MenuItem("CREDITS", () -> {}),
                 new MenuItem("QUIT", () -> Platform.exit())
