@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.monsters;
+package com.griffinryan.dungeonadventure.model.monsters;
 
 public class Gremlin extends Monster {
 

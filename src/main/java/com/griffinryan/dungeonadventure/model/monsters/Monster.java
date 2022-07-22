@@ -1,6 +1,6 @@
-package com.griffinryan.dungeonadventure.monsters;
+package com.griffinryan.dungeonadventure.model.monsters;
 
-import com.griffinryan.dungeonadventure.basic.DungeonCharacter;
+import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 
 public abstract class Monster extends DungeonCharacter {
 

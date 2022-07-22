@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.dungeon;
+package com.griffinryan.dungeonadventure.model.dungeon;
 
 public enum Direction {
     UP,

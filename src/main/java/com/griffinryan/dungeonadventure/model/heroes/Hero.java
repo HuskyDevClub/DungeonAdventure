@@ -1,8 +1,8 @@
-package com.griffinryan.dungeonadventure.heroes;
+package com.griffinryan.dungeonadventure.model.heroes;
 
-import com.griffinryan.dungeonadventure.basic.DungeonCharacter;
-import com.griffinryan.dungeonadventure.dungeon.Pillar;
-import com.griffinryan.dungeonadventure.monsters.Monster;
+import com.griffinryan.dungeonadventure.model.DungeonCharacter;
+import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
+import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 import java.util.ArrayList;
 

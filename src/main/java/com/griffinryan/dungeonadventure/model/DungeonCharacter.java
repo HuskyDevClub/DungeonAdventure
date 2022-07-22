@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.basic;
+package com.griffinryan.dungeonadventure.model;
 
 public abstract class DungeonCharacter extends Random implements DungeonCharacterInterface {
     private final String myName;

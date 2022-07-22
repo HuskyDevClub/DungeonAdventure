@@ -1,6 +1,6 @@
-package com.griffinryan.dungeonadventure.heroes;
+package com.griffinryan.dungeonadventure.model.heroes;
 
-import com.griffinryan.dungeonadventure.monsters.Monster;
+import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 public class Warrior extends Hero {
 

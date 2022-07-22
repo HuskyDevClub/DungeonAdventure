@@ -1,11 +1,11 @@
-package com.griffinryan.dungeonadventure.systems;
+package com.griffinryan.dungeonadventure.controller;
 
-import com.griffinryan.dungeonadventure.basic.DungeonCharacter;
-import com.griffinryan.dungeonadventure.dungeon.Direction;
-import com.griffinryan.dungeonadventure.dungeon.Dungeon;
-import com.griffinryan.dungeonadventure.heroes.Hero;
-import com.griffinryan.dungeonadventure.heroes.Warrior;
-import com.griffinryan.dungeonadventure.monsters.Monster;
+import com.griffinryan.dungeonadventure.model.DungeonCharacter;
+import com.griffinryan.dungeonadventure.model.dungeon.Direction;
+import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
+import com.griffinryan.dungeonadventure.model.heroes.Hero;
+import com.griffinryan.dungeonadventure.model.heroes.Warrior;
+import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 import java.util.ArrayList;
 import java.util.Random;

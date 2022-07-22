@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.basic;
+package com.griffinryan.dungeonadventure.model;
 
 abstract class Random {
 

@@ -1,14 +1,13 @@
 package com.griffinryan.dungeonadventure;
 
-import com.griffinryan.dungeonadventure.systems.Combat;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import com.griffinryan.dungeonadventure.controller.Combat;
 import javafx.animation.FillTransition;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,10 +18,15 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
 public class HelloApplication extends Application {
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(createContent()));
@@ -40,9 +44,13 @@ public class HelloApplication extends Application {
 
         VBox box = new VBox(
                 5,
-                new MenuItem("START GAME", () -> {Combat.start();}),
-                new MenuItem("SETTINGS", () -> {}),
-                new MenuItem("CREDITS", () -> {}),
+                new MenuItem("START GAME", () -> {
+                    Combat.start();
+                }),
+                new MenuItem("SETTINGS", () -> {
+                }),
+                new MenuItem("CREDITS", () -> {
+                }),
                 new MenuItem("QUIT", () -> Platform.exit())
         );
         box.setBackground(new Background(
@@ -114,9 +122,5 @@ public class HelloApplication extends Application {
 
             getChildren().addAll(bg0, bg1, box);
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

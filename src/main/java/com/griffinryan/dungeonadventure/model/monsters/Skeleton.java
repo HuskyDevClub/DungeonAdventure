@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.monsters;
+package com.griffinryan.dungeonadventure.model.monsters;
 
 public class Skeleton extends Monster {
     public Skeleton(String theName, int theHealth, int theMinDamage, int theMaxDamage, int theAttackSpeed, byte theChanceToHit, byte theChanceToHeal, int theMinHealing, int theMaxHealing) {

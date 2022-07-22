@@ -1,9 +1,9 @@
-package com.griffinryan.dungeonadventure.dungeon;
+package com.griffinryan.dungeonadventure.model.dungeon;
 
-import com.griffinryan.dungeonadventure.monsters.Gremlin;
-import com.griffinryan.dungeonadventure.monsters.Monster;
-import com.griffinryan.dungeonadventure.monsters.Ogre;
-import com.griffinryan.dungeonadventure.monsters.Skeleton;
+import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
+import com.griffinryan.dungeonadventure.model.monsters.Monster;
+import com.griffinryan.dungeonadventure.model.monsters.Ogre;
+import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 
 import java.util.ArrayList;
 import java.util.Random;
