@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
@@ -24,7 +25,7 @@ abstract public class Hero extends DungeonCharacter {
     }
 
     public void injury(int value) {
-        if (isLuckyToAct(this.myChanceToBlock)) {
+        if (!DevelopmentTool.invincible && isLuckyToAct(this.myChanceToBlock)) {
             super.injury(value);
             System.out.println("the hero does not block");
         } else {

@@ -1,22 +1,42 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
+import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
+import com.griffinryan.dungeonadventure.model.monsters.Monster;
+import com.griffinryan.dungeonadventure.model.monsters.Ogre;
+import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Dungeon {
-    private final Room[][] rooms;
+    private final AbstractRoom[][] rooms;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
     public Dungeon(int width, int height) {
-        rooms = new Room[height][width];
-        final Random rand = new Random();
+        rooms = new AbstractRoom[height][width];
+        final Random theRandom = new Random();
         for (int y = 0; y < rooms.length; y++) {
             for (int x = 0; x < rooms[y].length; x++) {
-                if (rand.nextInt(100) < 85) {
-                    rooms[y][x] = new Room();
+                if (theRandom.nextInt(100) < 85) {
+                    if (theRandom.nextInt(0, 6) != 0) {
+                        final int theNumOfMonsters = theRandom.nextInt(0, 6);
+                        final ArrayList<Monster> theMonsters = new ArrayList<>(theNumOfMonsters);
+                        for (int i = 0; i < theNumOfMonsters; i++) {
+                            switch (theRandom.nextInt(0, 2)) {
+                                case 0 -> theMonsters.add(new Gremlin("G1"));
+                                case 1 -> theMonsters.add(new Ogre("O1"));
+                                default -> theMonsters.add(new Skeleton("S1"));
+                            }
+                        }
+                        rooms[y][x] = new Room(theMonsters, theRandom.nextInt(0, 3), theRandom.nextInt(0, 2));
+                    } else {
+                        rooms[y][x] = new Pit();
+                    }
                 }
             }
         }
+        rooms[theRandom.nextInt(height)][theRandom.nextInt(width)] = new Exit();
         myHeroCurrentX = width / 2;
         myHeroCurrentY = height / 2;
     }
@@ -62,10 +82,14 @@ public class Dungeon {
             for (int x = 0; x < rooms[y].length; x++) {
                 if (y == myHeroCurrentY && x == myHeroCurrentX) {
                     theInfo.append("*");
+                } else if (rooms[y][x] instanceof Pit) {
+                    theInfo.append("P");
+                } else if (rooms[y][x] instanceof Exit) {
+                    theInfo.append("E");
                 } else if (rooms[y][x] != null) {
                     theInfo.append(".");
                 } else {
-                    theInfo.append("X");
+                    theInfo.append("|");
                 }
             }
             theInfo.append("]\n");
@@ -81,7 +105,7 @@ public class Dungeon {
         return myHeroCurrentY;
     }
 
-    public Room getCurrentRoom() {
+    public AbstractRoom getCurrentRoom() {
         return rooms[myHeroCurrentY][myHeroCurrentX];
     }
 }

@@ -3,6 +3,8 @@ package com.griffinryan.dungeonadventure.controller;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
+import com.griffinryan.dungeonadventure.model.dungeon.Exit;
+import com.griffinryan.dungeonadventure.model.dungeon.Pit;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
@@ -14,84 +16,80 @@ import java.util.Scanner;
 public class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
+    private static Dungeon myDungeon;
+    private static Hero myHero;
+    private static boolean isPlaying;
+
+    public static void main(String[] args) {
+        start();
+    }
 
     public static void start() {
-        Hero theHero = new Warrior("myHero");
-        Dungeon theDungeon = new Dungeon(10, 10);
+        myHero = new Warrior("myHero");
+        myDungeon = new Dungeon(10, 10);
         final Scanner theScanner = new Scanner(System.in);
 
-        boolean gameMainLoop = true;
+        isPlaying = true;
 
-        while (gameMainLoop) {
+        while (isPlaying) {
+
+            log("Current room:");
+            log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
+            log(myDungeon.getCurrentRoom().toString());
+            log(myHero.toString());
+            System.out.println(myDungeon);
             System.out.println("PLease enter action:");
-            boolean result = false;
+
             switch (theScanner.next()) {
-                case "up" -> result = theDungeon.move(Direction.UP);
-                case "down" -> result = theDungeon.move(Direction.DOWN);
-                case "left" -> result = theDungeon.move(Direction.LEFT);
-                case "right" -> result = theDungeon.move(Direction.RIGHT);
+                case "up" -> move(Direction.UP);
+                case "down" -> move(Direction.DOWN);
+                case "left" -> move(Direction.LEFT);
+                case "right" -> move(Direction.RIGHT);
                 case "php" -> {
-                    if (theDungeon.getCurrentRoom().getNumberOfHealingPotions() > 0) {
-                        log(String.format("%s picks up %d healing potions", theHero.getMyName(), theDungeon.getCurrentRoom().getNumberOfHealingPotions()));
-                        theHero.gainHealingPotions(theDungeon.getCurrentRoom().pickUpHealingPotions());
+                    if (myDungeon.getCurrentRoom().getNumberOfHealingPotions() > 0) {
+                        log(String.format("%s picks up %d healing potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfHealingPotions()));
+                        myHero.gainHealingPotions(myDungeon.getCurrentRoom().pickUpHealingPotions());
                     } else {
                         log("There is no healing potion to pick up.");
                     }
                 }
                 case "uhp" -> {
-                    if (theHero.useHealingPotion()) {
-                        log(String.format("%s used one healing potion and feel much better.", theHero.getMyName()));
+                    if (myHero.useHealingPotion()) {
+                        log(String.format("%s used one healing potion and feel much better.", myHero.getMyName()));
                     } else {
-                        log(String.format("%s does not have any healing potion.", theHero.getMyName()));
+                        log(String.format("%s does not have any healing potion.", myHero.getMyName()));
                     }
                 }
+                // picks up vision potions
                 case "pvp" -> {
-                    if (theDungeon.getCurrentRoom().getNumberOfVisionPotions() > 0) {
-                        log(String.format("%s picks up %d vision potions", theHero.getMyName(), theDungeon.getCurrentRoom().getNumberOfVisionPotions()));
-                        theHero.gainHealingPotions(theDungeon.getCurrentRoom().pickUpVisionPotions());
+                    if (myDungeon.getCurrentRoom().getNumberOfVisionPotions() > 0) {
+                        log(String.format("%s picks up %d vision potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfVisionPotions()));
+                        myHero.gainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
                     } else {
                         log("There is no healing vision to pick up.");
                     }
                 }
                 case "fight" -> {
-                    if (theDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
-                        var theTarget = theDungeon.getCurrentRoom().removeMonster(0);
+                    if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
+                        var theTarget = myDungeon.getCurrentRoom().removeMonster(0);
                         while (true) {
-                            if (theHero.getMyHealth() <= 0) {
+                            if (myHero.getMyHealth() <= 0) {
                                 log("Mission fail, your hero is killed by the monster.");
-                                gameMainLoop = false;
+                                isPlaying = false;
                                 break;
                             } else if (theTarget.getMyHealth() <= 0) {
                                 log("You successfully kill the monster.");
                                 break;
                             } else {
-                                fight(theHero, theTarget);
+                                fight(myHero, theTarget);
                             }
                         }
                     } else {
                         log("There is no monsters in current room");
                     }
                 }
-                case "quit" -> gameMainLoop = false;
+                case "quit" -> isPlaying = false;
             }
-            if (!result) {
-                log("fail to move");
-            } else {
-                log("Moved!");
-                if (theDungeon.getCurrentRoom().hasPit()) {
-                    final Random theRandom = new Random();
-                    final int theDamage = theRandom.nextInt(1, 20);
-                    log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
-                    theHero.injury(theDamage);
-                }
-            }
-
-            log("Current room:");
-            log(String.format("X: %d, Y: %d", theDungeon.getCurrentX(), theDungeon.getCurrentY()));
-            log(theDungeon.getCurrentRoom().toString());
-            log(theHero.toString());
-
-            System.out.println(theDungeon);
         }
     }
 
@@ -103,6 +101,26 @@ public class Combat {
     private static void log(String theMessage) {
         messageHistory.add(theMessage);
         System.out.println(theMessage);
+    }
+
+    private static void move(Direction theDirection) {
+        // check whether the hero can move to certain direction, move if the hero can
+        if (myDungeon.move(theDirection)) {
+            log("Moved!");
+            // if current room is a Pit, then subtract hp from the hero
+            if (myDungeon.getCurrentRoom() instanceof Pit) {
+                final int theDamage = new Random().nextInt(1, 20);
+                log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
+                myHero.injury(theDamage);
+            }
+            // if current room is the Exit, the player win
+            else if (myDungeon.getCurrentRoom() instanceof Exit) {
+                log("Mission succeed, your find the exit and escape.");
+                isPlaying = false;
+            }
+        } else {
+            log("Fail to move");
+        }
     }
 
     private static void oneAttackAnother(DungeonCharacter theAttacker, DungeonCharacter theTarget) {
