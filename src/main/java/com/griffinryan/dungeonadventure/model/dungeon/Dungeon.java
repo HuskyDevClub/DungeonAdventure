@@ -6,39 +6,51 @@ import com.griffinryan.dungeonadventure.model.monsters.Ogre;
 import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Dungeon {
-    private final AbstractRoom[][] rooms;
+    final static private int myChanceToGenerateRoom = 85;
+    private final AbstractRoom[][] my2dMaze2dArray;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
     public Dungeon(int width, int height) {
-        rooms = new AbstractRoom[height][width];
+        my2dMaze2dArray = new AbstractRoom[height][width];
         final Random theRandom = new Random();
-        for (int y = 0; y < rooms.length; y++) {
-            for (int x = 0; x < rooms[y].length; x++) {
-                if (theRandom.nextInt(100) < 85) {
-                    if (theRandom.nextInt(0, 6) != 0) {
-                        final int theNumOfMonsters = theRandom.nextInt(0, 6);
-                        final ArrayList<Monster> theMonsters = new ArrayList<>(theNumOfMonsters);
-                        for (int i = 0; i < theNumOfMonsters; i++) {
-                            switch (theRandom.nextInt(0, 2)) {
-                                case 0 -> theMonsters.add(new Gremlin("G1"));
-                                case 1 -> theMonsters.add(new Ogre("O1"));
-                                default -> theMonsters.add(new Skeleton("S1"));
+        boolean canPlayerReachExit = true;
+        do {
+            if (!canPlayerReachExit) {
+                for (final AbstractRoom[] _row : my2dMaze2dArray) {
+                    Arrays.fill(_row, null);
+                }
+            }
+            for (int y = 0; y < my2dMaze2dArray.length; y++) {
+                for (int x = 0; x < my2dMaze2dArray[y].length; x++) {
+                    if (theRandom.nextInt(100) < myChanceToGenerateRoom) {
+                        if (theRandom.nextInt(0, 6) != 0) {
+                            final int theNumOfMonsters = theRandom.nextInt(0, 6);
+                            final ArrayList<Monster> theMonsters = new ArrayList<>(theNumOfMonsters);
+                            for (int i = 0; i < theNumOfMonsters; i++) {
+                                switch (theRandom.nextInt(0, 2)) {
+                                    case 0 -> theMonsters.add(new Gremlin("G1"));
+                                    case 1 -> theMonsters.add(new Ogre("O1"));
+                                    default -> theMonsters.add(new Skeleton("S1"));
+                                }
                             }
+                            my2dMaze2dArray[y][x] = new Room(theMonsters, theRandom.nextInt(0, 3), theRandom.nextInt(0, 2));
+                        } else {
+                            my2dMaze2dArray[y][x] = new Pit();
                         }
-                        rooms[y][x] = new Room(theMonsters, theRandom.nextInt(0, 3), theRandom.nextInt(0, 2));
-                    } else {
-                        rooms[y][x] = new Pit();
                     }
                 }
             }
-        }
-        rooms[theRandom.nextInt(height)][theRandom.nextInt(width)] = new Exit();
-        myHeroCurrentX = width / 2;
-        myHeroCurrentY = height / 2;
+            my2dMaze2dArray[theRandom.nextInt(height)][theRandom.nextInt(width)] = new Exit();
+            myHeroCurrentX = width / 2;
+            myHeroCurrentY = height / 2;
+            my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX] = new Entrance();
+            canPlayerReachExit = new PathFinder(my2dMaze2dArray).isReachable(myHeroCurrentX, myHeroCurrentY);
+        } while (!canPlayerReachExit);
     }
 
     public boolean move(Direction theDirection) {
@@ -71,22 +83,22 @@ public class Dungeon {
     }
 
     public boolean canMoveTo(int theX, int theY) {
-        return 0 <= theY && theY < rooms.length && 0 <= theX && theX < rooms[theY].length && rooms[theY][theX] != null;
+        return 0 <= theY && theY < my2dMaze2dArray.length && 0 <= theX && theX < my2dMaze2dArray[theY].length && my2dMaze2dArray[theY][theX] != null;
     }
 
     @Override
     public String toString() {
         final StringBuilder theInfo = new StringBuilder();
-        for (int y = 0; y < rooms.length; y++) {
+        for (int y = 0; y < my2dMaze2dArray.length; y++) {
             theInfo.append("[");
-            for (int x = 0; x < rooms[y].length; x++) {
+            for (int x = 0; x < my2dMaze2dArray[y].length; x++) {
                 if (y == myHeroCurrentY && x == myHeroCurrentX) {
                     theInfo.append("*");
-                } else if (rooms[y][x] instanceof Pit) {
+                } else if (my2dMaze2dArray[y][x] instanceof Pit) {
                     theInfo.append("P");
-                } else if (rooms[y][x] instanceof Exit) {
+                } else if (my2dMaze2dArray[y][x] instanceof Exit) {
                     theInfo.append("E");
-                } else if (rooms[y][x] != null) {
+                } else if (my2dMaze2dArray[y][x] != null) {
                     theInfo.append(".");
                 } else {
                     theInfo.append("|");
@@ -106,6 +118,15 @@ public class Dungeon {
     }
 
     public AbstractRoom getCurrentRoom() {
-        return rooms[myHeroCurrentY][myHeroCurrentX];
+        return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
     }
+
+    public boolean isCurrentRoomPit() {
+        return getCurrentRoom() instanceof Pit;
+    }
+
+    public boolean isCurrentRoomExit() {
+        return getCurrentRoom() instanceof Exit;
+    }
+
 }

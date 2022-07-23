@@ -3,8 +3,6 @@ package com.griffinryan.dungeonadventure.controller;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
-import com.griffinryan.dungeonadventure.model.dungeon.Exit;
-import com.griffinryan.dungeonadventure.model.dungeon.Pit;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
@@ -69,25 +67,7 @@ public class Combat {
                         log("There is no healing vision to pick up.");
                     }
                 }
-                case "fight" -> {
-                    if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
-                        var theTarget = myDungeon.getCurrentRoom().removeMonster(0);
-                        while (true) {
-                            if (myHero.getMyHealth() <= 0) {
-                                log("Mission fail, your hero is killed by the monster.");
-                                isPlaying = false;
-                                break;
-                            } else if (theTarget.getMyHealth() <= 0) {
-                                log("You successfully kill the monster.");
-                                break;
-                            } else {
-                                fight(myHero, theTarget);
-                            }
-                        }
-                    } else {
-                        log("There is no monsters in current room");
-                    }
-                }
+                case "fight" -> fightOne();
                 case "quit" -> isPlaying = false;
             }
         }
@@ -108,13 +88,13 @@ public class Combat {
         if (myDungeon.move(theDirection)) {
             log("Moved!");
             // if current room is a Pit, then subtract hp from the hero
-            if (myDungeon.getCurrentRoom() instanceof Pit) {
+            if (myDungeon.isCurrentRoomPit()) {
                 final int theDamage = new Random().nextInt(1, 20);
                 log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
                 myHero.injury(theDamage);
             }
             // if current room is the Exit, the player win
-            else if (myDungeon.getCurrentRoom() instanceof Exit) {
+            else if (myDungeon.isCurrentRoomExit()) {
                 log("Mission succeed, your find the exit and escape.");
                 isPlaying = false;
             }
@@ -133,6 +113,26 @@ public class Combat {
                         "The %s %s fail to do any damage to the %s %s", theAttacker.getClass().getSimpleName(), theAttacker.getMyName(), theTarget.getClass().getSimpleName(), theTarget.getMyName()
                 )
         );
+    }
+
+    public static void fightOne() {
+        if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
+            var theTarget = myDungeon.getCurrentRoom().removeMonster(0);
+            while (true) {
+                if (myHero.getMyHealth() <= 0) {
+                    log("Mission fail, your hero is killed by the monster.");
+                    isPlaying = false;
+                    break;
+                } else if (theTarget.getMyHealth() <= 0) {
+                    log("You successfully kill the monster.");
+                    break;
+                } else {
+                    fight(myHero, theTarget);
+                }
+            }
+        } else {
+            log("There is no monsters in current room");
+        }
     }
 
     public static void fight(Hero theHero, Monster theMonster) {

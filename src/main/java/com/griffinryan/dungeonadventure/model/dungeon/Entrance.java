@@ -1,7 +1,7 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
-final class Exit extends AbstractRoom {
-    Exit() {
+final class Entrance extends AbstractRoom {
+    Entrance() {
         super(null, 0, 0);
     }
 }
