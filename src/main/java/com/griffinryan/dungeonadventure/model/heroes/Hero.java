@@ -21,7 +21,7 @@ abstract public class Hero extends DungeonCharacter {
     }
 
     public void injury(int value) {
-        if (!DevelopmentTool.invincible && isLuckyToAct(this.myChanceToBlock)) {
+        if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.myChanceToBlock)) {
             super.injury(value);
             System.out.println("the hero does not block");
         } else {
@@ -31,11 +31,7 @@ abstract public class Hero extends DungeonCharacter {
 
     abstract public void skill(final Monster theTarget);
 
-    public int getNumberOfHealingPotions() {
-        return this.myNumberOfHealingPotions;
-    }
-
-    public void gainHealingPotions(int theNum) {
+    public void obtainHealingPotions(int theNum) {
         this.myNumberOfHealingPotions += theNum;
     }
 
@@ -48,24 +44,13 @@ abstract public class Hero extends DungeonCharacter {
         return false;
     }
 
-    public int getNumberOfVisionPotions() {
-        return myNumberOfVisionPotions;
-    }
-
-    public void gainVisionPotions(int theNum) {
+    public void obtainVisionPotions(int theNum) {
         this.myNumberOfVisionPotions += theNum;
     }
 
     public boolean useVisionPotion() {
         if (this.myNumberOfVisionPotions > 0) {
             this.myNumberOfVisionPotions--;
-
-            /*
-             *
-             * put the affect here!!!!
-             *
-             */
-
             return true;
         }
         return false;

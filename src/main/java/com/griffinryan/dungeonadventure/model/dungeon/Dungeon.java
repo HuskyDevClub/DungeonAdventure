@@ -53,8 +53,16 @@ public class Dungeon {
                 for (Pillar thePillar : myPillars) {
                     final int thePillarX = theRandom.nextInt(width);
                     final int thePillarY = theRandom.nextInt(height);
-                    if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && the2dMaze2dArrayTemp[thePillarY][thePillarX].myPillar == null && theFinder.isReachable(thePillarX, thePillarY)) {
-                        the2dMaze2dArrayTemp[thePillarY][thePillarX].myPillar = thePillar;
+                    boolean placed = false;
+                    for (int i = 0; i < 5; i++) {
+                        if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && the2dMaze2dArrayTemp[thePillarY][thePillarX].myPillar == null && theFinder.isReachable(thePillarX, thePillarY)) {
+                            thePillar.setPos(thePillarX, thePillarY);
+                            the2dMaze2dArrayTemp[thePillarY][thePillarX].myPillar = thePillar;
+                            placed = true;
+                            break;
+                        }
+                    }
+                    if (placed) {
                         pillarPlaced++;
                     } else {
                         break;
@@ -110,17 +118,25 @@ public class Dungeon {
             theInfo.append("[");
             for (int x = 0; x < my2dMaze2dArray[y].length; x++) {
                 if (y == myHeroCurrentY && x == myHeroCurrentX) {
-                    theInfo.append("*");
-                } else if (my2dMaze2dArray[y][x] instanceof Pit) {
-                    theInfo.append("O");
-                } else if (my2dMaze2dArray[y][x] instanceof Exit) {
-                    theInfo.append("E");
+                    theInfo.append("U");
                 } else if (my2dMaze2dArray[y][x] != null) {
-                    if (my2dMaze2dArray[y][x].hasPillar()) {
-                        theInfo.append("P");
-                    } else {
-                        theInfo.append(".");
-                    }
+                    theInfo.append(my2dMaze2dArray[y][x].getFlag());
+                } else {
+                    theInfo.append("|");
+                }
+            }
+            theInfo.append("]\n");
+        }
+        return theInfo.toString();
+    }
+
+    public String getSurroundingRooms() {
+        final StringBuilder theInfo = new StringBuilder();
+        for (int y = Integer.max(myHeroCurrentY - 1, 0); y < Integer.min(myHeroCurrentY + 2, my2dMaze2dArray.length); y++) {
+            theInfo.append("[");
+            for (int x = Integer.max(myHeroCurrentX - 1, 0); x < Integer.min(myHeroCurrentX + 2, my2dMaze2dArray[y].length); x++) {
+                if (my2dMaze2dArray[y][x] != null) {
+                    theInfo.append(my2dMaze2dArray[y][x].getFlag());
                 } else {
                     theInfo.append("|");
                 }
@@ -172,5 +188,13 @@ public class Dungeon {
             }
         }
         return num;
+    }
+
+    public void pickUpAllPillars() {
+        for (Pillar thePillar : myPillars) {
+            thePillar.found();
+            final var thePos = thePillar.getPos();
+            my2dMaze2dArray[thePos[0]][thePos[1]].myPillar = null;
+        }
     }
 }

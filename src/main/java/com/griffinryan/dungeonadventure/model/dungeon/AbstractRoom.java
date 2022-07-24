@@ -68,6 +68,19 @@ abstract public class AbstractRoom {
                     this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
             );
         }
+    }
 
+    char getFlag() {
+        if (!this.hasPillar()) {
+            if (myNumberOfHealingPotions > 0 && myNumberOfVisionPotions > 0) {
+                return 'M';
+            } else if (myNumberOfHealingPotions > 0) {
+                return 'H';
+            } else if (myNumberOfVisionPotions > 0) {
+                return 'V';
+            }
+            return '*';
+        }
+        return this.myPillar.getFlag();
     }
 }

@@ -3,6 +3,8 @@ package com.griffinryan.dungeonadventure.model.dungeon;
 final public class Pillar {
     private final String myName;
     private boolean myHasBeenFound;
+    private int myX;
+    private int myY;
 
     public Pillar(String myName) {
         this.myName = myName;
@@ -20,5 +22,18 @@ final public class Pillar {
 
     public boolean hasBeenFound() {
         return myHasBeenFound;
+    }
+
+    int[] getPos() {
+        return new int[]{myX, myY};
+    }
+
+    void setPos(int theX, int theY) {
+        myX = theX;
+        myY = theY;
+    }
+
+    char getFlag() {
+        return myName.charAt(0);
     }
 }

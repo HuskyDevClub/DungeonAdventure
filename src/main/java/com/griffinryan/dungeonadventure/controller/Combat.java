@@ -47,51 +47,67 @@ public class Combat {
                 }
                 log("]");
             }
-            log(myDungeon.toString());
+            //log(myDungeon.toString());
 
             // ask the player to input an action
             System.out.println("PLease enter action:");
+            final String theInput = theScanner.next();
+            if (!theInput.startsWith("!")) {
+                switch (theInput) {
+                    case "up" -> move(Direction.UP);
+                    case "down" -> move(Direction.DOWN);
+                    case "left" -> move(Direction.LEFT);
+                    case "right" -> move(Direction.RIGHT);
+                    // picks up healing potions
+                    case "php" -> {
+                        if (myDungeon.getCurrentRoom().getNumberOfHealingPotions() > 0) {
+                            log(String.format("%s picks up %d healing potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfHealingPotions()));
+                            myHero.obtainHealingPotions(myDungeon.getCurrentRoom().pickUpHealingPotions());
+                        } else {
+                            log("There is no healing potion to pick up.");
+                        }
+                    }
+                    // use healing potions
+                    case "uhp" -> {
+                        if (myHero.useHealingPotion()) {
+                            log(String.format("%s used one healing potion and feel much better.", myHero.getMyName()));
+                        } else {
+                            log(String.format("%s does not have any healing potion.", myHero.getMyName()));
+                        }
+                    }
+                    // picks up vision potions
+                    case "pvp" -> {
+                        if (myDungeon.getCurrentRoom().getNumberOfVisionPotions() > 0) {
+                            log(String.format("%s picks up %d vision potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfVisionPotions()));
+                            myHero.obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
+                        } else {
+                            log("There is no healing vision to pick up.");
+                        }
+                    }
+                    // use vision potions
+                    case "uvp" -> {
+                        if (myHero.useVisionPotion()) {
+                            log(String.format("%s used one vision potion and saw:", myHero.getMyName()));
+                            log(myDungeon.getSurroundingRooms());
 
-            switch (theScanner.next()) {
-                case "up" -> move(Direction.UP);
-                case "down" -> move(Direction.DOWN);
-                case "left" -> move(Direction.LEFT);
-                case "right" -> move(Direction.RIGHT);
-                case "php" -> {
-                    if (myDungeon.getCurrentRoom().getNumberOfHealingPotions() > 0) {
-                        log(String.format("%s picks up %d healing potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfHealingPotions()));
-                        myHero.gainHealingPotions(myDungeon.getCurrentRoom().pickUpHealingPotions());
-                    } else {
-                        log("There is no healing potion to pick up.");
+                        } else {
+                            log(String.format("%s does not have any vision potion.", myHero.getMyName()));
+                        }
                     }
-                }
-                case "uhp" -> {
-                    if (myHero.useHealingPotion()) {
-                        log(String.format("%s used one healing potion and feel much better.", myHero.getMyName()));
-                    } else {
-                        log(String.format("%s does not have any healing potion.", myHero.getMyName()));
+                    // pick up pillar
+                    case "pp" -> {
+                        if (myDungeon.getCurrentRoom().hasPillar()) {
+                            log(String.format("%s picks up pillar [%s]", myHero.getMyName(), myDungeon.getCurrentRoom().pickUpPillar()));
+                            myHero.obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
+                        } else {
+                            log("There is no pillar to pick up.");
+                        }
                     }
+                    case "fight" -> fightOne();
+                    case "quit" -> isPlaying = false;
                 }
-                // picks up vision potions
-                case "pvp" -> {
-                    if (myDungeon.getCurrentRoom().getNumberOfVisionPotions() > 0) {
-                        log(String.format("%s picks up %d vision potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfVisionPotions()));
-                        myHero.gainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
-                    } else {
-                        log("There is no healing vision to pick up.");
-                    }
-                }
-                // pick up pillar
-                case "pp" -> {
-                    if (myDungeon.getCurrentRoom().hasPillar()) {
-                        log(String.format("%s picks up pillar [%s]", myHero.getMyName(), myDungeon.getCurrentRoom().pickUpPillar()));
-                        myHero.gainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
-                    } else {
-                        log("There is no pillar to pick up.");
-                    }
-                }
-                case "fight" -> fightOne();
-                case "quit" -> isPlaying = false;
+            } else {
+                DevelopmentTool.execute(theInput, myDungeon, myHero);
             }
         }
     }
@@ -119,10 +135,10 @@ public class Combat {
             // if current room is the Exit, the player win
             else if (myDungeon.isCurrentRoomExit()) {
                 if (myDungeon.areAllPillarsFound()) {
-                    log("Mission succeed, your find the exit and escape.");
+                    log("Mission succeed, your find the exit and escape with all the pillars.");
                     isPlaying = false;
                 } else {
-                    log("Your find the exit, but you cannot escape because you did not find all pillars.");
+                    log("Your find the exit, but you cannot escape because you did not find all the pillars.");
                 }
 
             }
