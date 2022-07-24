@@ -28,12 +28,12 @@
   - [ ] once game is over, I can
     - [ ] start a new game immediately
     - [ ] go back to main menu
-    - [ ] rage quit, I hate my life!
+    - [ ] rage-quit, I hate my life!
     - [ ] start from a previous saved game
-    - [ ] see the the entire Dungeon
+    - [ ] see the entire Dungeon
 - [ ] As a developer for Dungeon Adventure, I hope that
   - [ ] there is a hidden menu option for testing that prints out the entire Dungeon
   - [ ] Monsters are randomly placed in rooms of dungeon
   - [ ] Stronger/special/more monsters should be placed with pillars and exit
-  - [ ] all the progress will be save into a SQLite database
-  - [ ] all the progress will be load from a SQLite database
+  - [ ] all the progress will be saved into a SQLite database
+  - [ ] all the progress will be loaded from a SQLite database
