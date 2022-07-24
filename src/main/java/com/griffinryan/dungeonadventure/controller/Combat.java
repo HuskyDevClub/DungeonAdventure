@@ -5,6 +5,8 @@ import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
+import com.griffinryan.dungeonadventure.model.heroes.Priestess;
+import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
@@ -12,26 +14,48 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Combat {
+public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
+    private static final Scanner SCANNER = new Scanner(System.in);
     private static Dungeon myDungeon;
     private static Hero myHero;
     private static boolean isPlaying;
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
+        reset();
         start();
     }
 
-    public static void start() {
-        myHero = new Warrior("myHero");
+    public static void reset() {
+        // ask the player to choose hero by entering a number
+        System.out.println("Please choose your hero:");
+        System.out.println("1 - Priestess");
+        System.out.println("2 - Thief");
+        System.out.println("3 - Warrior");
+        final int heroIndex = SCANNER.nextInt();
+        // ask the player to enter the name of the hero
+        while (true) {
+            System.out.println("Please enter a name for your hero:");
+            final String theName = SCANNER.nextLine();
+            // ensure that the name is not empty
+            if (theName.length() > 0) {
+                switch (heroIndex) {
+                    case 1 -> myHero = new Priestess(theName);
+                    case 2 -> myHero = new Thief(theName);
+                    default -> myHero = new Warrior(theName);
+                }
+                break;
+            }
+            System.out.println("The name cannot be empty, please try again!");
+        }
+        // generate a new dungeon
         myDungeon = new Dungeon(10, 10);
-        final Scanner theScanner = new Scanner(System.in);
+    }
 
+    public static void start() {
         isPlaying = true;
-
         while (isPlaying) {
-
             // print out current status
             log("Current room:");
             log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
@@ -40,18 +64,16 @@ public class Combat {
             // list out all the Pillar(s) that player found (if any)
             if (myDungeon.getNumOfPillarsFound() > 0) {
                 log("Pillars Found:[");
-                for (Pillar thePillar : myDungeon.getPillars()) {
+                for (final Pillar thePillar : myDungeon.getPillars()) {
                     if (thePillar.hasBeenFound()) {
                         log(thePillar.toString());
                     }
                 }
                 log("]");
             }
-            //log(myDungeon.toString());
-
             // ask the player to input an action
             System.out.println("PLease enter action:");
-            final String theInput = theScanner.next();
+            final String theInput = SCANNER.next();
             if (!theInput.startsWith("!")) {
                 switch (theInput) {
                     case "up" -> move(Direction.UP);
@@ -104,6 +126,11 @@ public class Combat {
                         }
                     }
                     case "fight" -> fightOne();
+                    case "history" -> {
+                        for (final String theMsg : messageHistory) {
+                            System.out.println(theMsg);
+                        }
+                    }
                     case "quit" -> isPlaying = false;
                 }
             } else {
@@ -117,12 +144,12 @@ public class Combat {
      *
      * @param theMessage the message that needs to be print to the console or screen
      */
-    private static void log(String theMessage) {
+    private static void log(final String theMessage) {
         messageHistory.add(theMessage);
         System.out.println(theMessage);
     }
 
-    private static void move(Direction theDirection) {
+    private static void move(final Direction theDirection) {
         // check whether the hero can move to certain direction, move if the hero can
         if (myDungeon.move(theDirection)) {
             log("Moved!");
@@ -147,7 +174,7 @@ public class Combat {
         }
     }
 
-    private static void oneAttackAnother(DungeonCharacter theAttacker, DungeonCharacter theTarget) {
+    private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
         theAttacker.attack(theTarget);
         log(
                 theAttacker.getMyLastDamageDone() > 0 ? String.format(
@@ -161,7 +188,7 @@ public class Combat {
 
     public static void fightOne() {
         if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
-            var theTarget = myDungeon.getCurrentRoom().removeMonster(0);
+            final Monster theTarget = myDungeon.getCurrentRoom().removeMonster(0);
             while (true) {
                 if (myHero.getMyHealth() <= 0) {
                     log("Mission fail, your hero is killed by the monster.");
@@ -179,7 +206,7 @@ public class Combat {
         }
     }
 
-    public static void fight(Hero theHero, Monster theMonster) {
+    public static void fight(final Hero theHero, final Monster theMonster) {
         if (theHero.getMyAttackSpeed() >= theMonster.getMyAttackSpeed()) {
             for (int i = 0; i < theHero.getMyAttackSpeed() / theMonster.getMyAttackSpeed(); i++) {
                 oneAttackAnother(theHero, theMonster);
