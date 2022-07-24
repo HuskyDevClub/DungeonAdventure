@@ -14,8 +14,8 @@ public class Warrior extends Hero {
     }
 
     @Override
-    public void skill(Monster theTarget) {
-        byte theChance = 40;
+    public void skill(final Monster theTarget) {
+        final byte theChance = 40;
         if (isLuckyToAct(theChance)) {
             theTarget.injury(generateRandomValue(75, 175));
         }

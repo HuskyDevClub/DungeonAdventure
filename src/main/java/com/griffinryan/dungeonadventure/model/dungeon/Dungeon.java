@@ -15,7 +15,7 @@ public class Dungeon {
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
-    public Dungeon(int width, int height) {
+    public Dungeon(final int width, final int height) {
         AbstractRoom[][] the2dMaze2dArrayTemp;
         final Random theRandom = new Random();
         while (true) {
@@ -50,7 +50,7 @@ public class Dungeon {
             // check whether the player can reach the
             if (!theFinder.isReachable(theExitX, theExitY)) {
                 int pillarPlaced = 0;
-                for (Pillar thePillar : myPillars) {
+                for (final Pillar thePillar : myPillars) {
                     final int thePillarX = theRandom.nextInt(width);
                     final int thePillarY = theRandom.nextInt(height);
                     boolean placed = false;
@@ -71,14 +71,12 @@ public class Dungeon {
                 if (pillarPlaced == this.myPillars.length) {
                     break;
                 }
-            } else {
-                continue;
             }
         }
         my2dMaze2dArray = the2dMaze2dArrayTemp;
     }
 
-    public boolean move(Direction theDirection) {
+    public boolean move(final Direction theDirection) {
         switch (theDirection) {
             case UP -> {
                 return moveTo(myHeroCurrentX, myHeroCurrentY - 1);
@@ -96,7 +94,7 @@ public class Dungeon {
         return false;
     }
 
-    private boolean moveTo(int theX, int theY) {
+    private boolean moveTo(final int theX, final int theY) {
         // check the coordinate to ensure that the player can move
         // which means no out of bound
         if (this.canMoveTo(theX, theY)) {
@@ -107,7 +105,7 @@ public class Dungeon {
         return false;
     }
 
-    public boolean canMoveTo(int theX, int theY) {
+    public boolean canMoveTo(final int theX, final int theY) {
         return 0 <= theY && theY < my2dMaze2dArray.length && 0 <= theX && theX < my2dMaze2dArray[theY].length && my2dMaze2dArray[theY][theX] != null;
     }
 
@@ -172,7 +170,7 @@ public class Dungeon {
     }
 
     public boolean areAllPillarsFound() {
-        for (Pillar thePillar : myPillars) {
+        for (final Pillar thePillar : myPillars) {
             if (!thePillar.hasBeenFound()) {
                 return false;
             }
@@ -182,7 +180,7 @@ public class Dungeon {
 
     public int getNumOfPillarsFound() {
         int num = 0;
-        for (Pillar thePillar : myPillars) {
+        for (final Pillar thePillar : myPillars) {
             if (thePillar.hasBeenFound()) {
                 num++;
             }
@@ -191,7 +189,7 @@ public class Dungeon {
     }
 
     public void pickUpAllPillars() {
-        for (Pillar thePillar : myPillars) {
+        for (final Pillar thePillar : myPillars) {
             thePillar.found();
             final var thePos = thePillar.getPos();
             my2dMaze2dArray[thePos[0]][thePos[1]].myPillar = null;

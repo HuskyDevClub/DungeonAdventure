@@ -1,6 +1,6 @@
 package com.griffinryan.dungeonadventure.model;
 
-public abstract class DungeonCharacter extends Random implements DungeonCharacterInterface {
+public abstract class DungeonCharacter extends Random {
     private final String myName;
     private final int myMinDamage;
     private final int myMaxDamage;
@@ -12,7 +12,7 @@ public abstract class DungeonCharacter extends Random implements DungeonCharacte
     private int myHealth;
     private int myLastDamageDone = 0;
 
-    protected DungeonCharacter(String theName, int theHealth, int theMinDamage, int theMaxDamage, int theAttackSpeed, byte theChanceToHit, byte theChanceToHeal, int theMinHealing, int theMaxHealing) {
+    protected DungeonCharacter(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToHeal, final int theMinHealing, final int theMaxHealing) {
         this.myName = theName;
         this.myHealth = theHealth;
         this.myMinDamage = theMinDamage;
@@ -24,7 +24,7 @@ public abstract class DungeonCharacter extends Random implements DungeonCharacte
         this.myMaxHealing = theMaxHealing;
     }
 
-    protected DungeonCharacter(String theName, int theHealth, int theMinDamage, int theMaxDamage, int theAttackSpeed, byte theChanceToHit) {
+    protected DungeonCharacter(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit) {
         this.myName = theName;
         this.myHealth = theHealth;
         this.myMinDamage = theMinDamage;
@@ -36,11 +36,11 @@ public abstract class DungeonCharacter extends Random implements DungeonCharacte
         this.myMaxHealing = 0;
     }
 
-    public void injury(int value) {
+    public void injury(final int value) {
         this.myHealth = Integer.max(this.myHealth - value, 0);
     }
 
-    public void heal(int value) {
+    public void heal(final int value) {
         this.myHealth = this.myHealth + value;
     }
 
@@ -50,7 +50,7 @@ public abstract class DungeonCharacter extends Random implements DungeonCharacte
         }
     }
 
-    public void attack(DungeonCharacter theTarget) {
+    public void attack(final DungeonCharacter theTarget) {
         if (isLuckyToAct(this.myChanceToHit)) {
             this.myLastDamageDone = generateRandomValue(this.myMinDamage, this.myMaxDamage);
             theTarget.injury(this.myLastDamageDone);

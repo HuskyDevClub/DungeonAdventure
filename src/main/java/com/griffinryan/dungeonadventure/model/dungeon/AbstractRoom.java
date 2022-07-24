@@ -10,7 +10,7 @@ abstract public class AbstractRoom {
     private int myNumberOfHealingPotions;
     private int myNumberOfVisionPotions;
 
-    protected AbstractRoom(ArrayList<Monster> theMonsters, int theNumberOfHealingPotions, int theNumberOfVisionPotions) {
+    protected AbstractRoom(final ArrayList<Monster> theMonsters, final int theNumberOfHealingPotions, final int theNumberOfVisionPotions) {
         this.myMonsters = theMonsters;
         this.myNumberOfHealingPotions = theNumberOfHealingPotions;
         this.myNumberOfVisionPotions = theNumberOfVisionPotions;
@@ -51,7 +51,7 @@ abstract public class AbstractRoom {
         return myPillar != null;
     }
 
-    public Monster removeMonster(int index) {
+    public Monster removeMonster(final int index) {
         return myMonsters.remove(index);
     }
 

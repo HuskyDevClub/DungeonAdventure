@@ -6,7 +6,7 @@ import com.griffinryan.dungeonadventure.model.heroes.Hero;
 public final class DevelopmentTool {
     private static boolean invincible = false;
 
-    public static void execute(String cmd, Dungeon theDungeon, Hero theHero) {
+    public static void execute(final String cmd, final Dungeon theDungeon, final Hero theHero) {
         switch (cmd) {
             case "!invincible" -> invincible = !invincible;
             case "!pick_up_all_pillars" -> theDungeon.pickUpAllPillars();

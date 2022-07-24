@@ -6,7 +6,7 @@ final public class Pillar {
     private int myX;
     private int myY;
 
-    public Pillar(String myName) {
+    public Pillar(final String myName) {
         this.myName = myName;
         this.myHasBeenFound = false;
     }
@@ -28,7 +28,7 @@ final public class Pillar {
         return new int[]{myX, myY};
     }
 
-    void setPos(int theX, int theY) {
+    void setPos(final int theX, final int theY) {
         myX = theX;
         myY = theY;
     }

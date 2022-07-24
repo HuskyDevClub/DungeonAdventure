@@ -10,17 +10,17 @@ abstract public class Hero extends DungeonCharacter {
     private int myNumberOfHealingPotions = 0;
     private int myNumberOfVisionPotions = 0;
 
-    protected Hero(String theName, int theHealth, int theMinDamage, int theMaxDamage, int theAttackSpeed, byte theChanceToHit, byte theChanceToHeal, int theMinHealing, int theMaxHealing, byte theChanceToBlock) {
+    protected Hero(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToHeal, final int theMinHealing, final int theMaxHealing, final byte theChanceToBlock) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing);
         this.myChanceToBlock = theChanceToBlock;
     }
 
-    protected Hero(String theName, int theHealth, int theMinDamage, int theMaxDamage, int theAttackSpeed, byte theChanceToHit, byte theChanceToBlock) {
+    protected Hero(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToBlock) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit);
         this.myChanceToBlock = theChanceToBlock;
     }
 
-    public void injury(int value) {
+    public void injury(final int value) {
         if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.myChanceToBlock)) {
             super.injury(value);
             System.out.println("the hero does not block");
@@ -31,7 +31,7 @@ abstract public class Hero extends DungeonCharacter {
 
     abstract public void skill(final Monster theTarget);
 
-    public void obtainHealingPotions(int theNum) {
+    public void obtainHealingPotions(final int theNum) {
         this.myNumberOfHealingPotions += theNum;
     }
 
@@ -44,7 +44,7 @@ abstract public class Hero extends DungeonCharacter {
         return false;
     }
 
-    public void obtainVisionPotions(int theNum) {
+    public void obtainVisionPotions(final int theNum) {
         this.myNumberOfVisionPotions += theNum;
     }
 
