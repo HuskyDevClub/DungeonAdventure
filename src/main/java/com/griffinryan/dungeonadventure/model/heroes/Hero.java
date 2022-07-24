@@ -2,15 +2,11 @@ package com.griffinryan.dungeonadventure.model.heroes;
 
 import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
-import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
-
-import java.util.ArrayList;
 
 abstract public class Hero extends DungeonCharacter {
 
     private final byte myChanceToBlock;
-    private final ArrayList<Pillar> myPillarsFound = new ArrayList<>(4);
     private int myNumberOfHealingPotions = 0;
     private int myNumberOfVisionPotions = 0;
 
@@ -75,15 +71,11 @@ abstract public class Hero extends DungeonCharacter {
         return false;
     }
 
-    public ArrayList<Pillar> getPillarsFound() {
-        return myPillarsFound;
-    }
-
     @Override
     public String toString() {
         return String.format(
-                "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d\nList of Pillars Pieces Found: %s",
-                this.getMyName(), this.getMyHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions, this.myPillarsFound
+                "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d",
+                this.getMyName(), this.getMyHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions
         );
     }
 }

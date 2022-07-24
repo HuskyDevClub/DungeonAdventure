@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 abstract public class AbstractRoom {
     private final ArrayList<Monster> myMonsters;
+    Pillar myPillar = null;
     private int myNumberOfHealingPotions;
     private int myNumberOfVisionPotions;
 
@@ -27,6 +28,13 @@ abstract public class AbstractRoom {
         return num;
     }
 
+    public String pickUpPillar() {
+        final var thePillarName = myPillar.toString();
+        myPillar.found();
+        myPillar = null;
+        return thePillarName;
+    }
+
     public int getNumberOfHealingPotions() {
         return myNumberOfHealingPotions;
     }
@@ -39,12 +47,27 @@ abstract public class AbstractRoom {
         return myMonsters != null ? myMonsters.size() : 0;
     }
 
+    public boolean hasPillar() {
+        return myPillar != null;
+    }
+
     public Monster removeMonster(int index) {
         return myMonsters.remove(index);
     }
 
     @Override
     public String toString() {
-        return String.format("Monsters: %d\nHealing Potions: %d\nVision Potions: %d", this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions());
+        if (!this.hasPillar()) {
+            return String.format(
+                    "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
+                    this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
+            );
+        } else {
+            return String.format(
+                    "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
+                    this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
+            );
+        }
+
     }
 }

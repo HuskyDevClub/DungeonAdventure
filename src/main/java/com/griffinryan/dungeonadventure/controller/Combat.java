@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure.controller;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
+import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
@@ -31,11 +32,24 @@ public class Combat {
 
         while (isPlaying) {
 
+            // print out current status
             log("Current room:");
             log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
             log(myDungeon.getCurrentRoom().toString());
             log(myHero.toString());
-            System.out.println(myDungeon);
+            // list out all the Pillar(s) that player found (if any)
+            if (myDungeon.getNumOfPillarsFound() > 0) {
+                log("Pillars Found:[");
+                for (Pillar thePillar : myDungeon.getPillars()) {
+                    if (thePillar.hasBeenFound()) {
+                        log(thePillar.toString());
+                    }
+                }
+                log("]");
+            }
+            log(myDungeon.toString());
+
+            // ask the player to input an action
             System.out.println("PLease enter action:");
 
             switch (theScanner.next()) {
@@ -67,6 +81,15 @@ public class Combat {
                         log("There is no healing vision to pick up.");
                     }
                 }
+                // pick up pillar
+                case "pp" -> {
+                    if (myDungeon.getCurrentRoom().hasPillar()) {
+                        log(String.format("%s picks up pillar [%s]", myHero.getMyName(), myDungeon.getCurrentRoom().pickUpPillar()));
+                        myHero.gainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
+                    } else {
+                        log("There is no pillar to pick up.");
+                    }
+                }
                 case "fight" -> fightOne();
                 case "quit" -> isPlaying = false;
             }
@@ -95,8 +118,13 @@ public class Combat {
             }
             // if current room is the Exit, the player win
             else if (myDungeon.isCurrentRoomExit()) {
-                log("Mission succeed, your find the exit and escape.");
-                isPlaying = false;
+                if (myDungeon.areAllPillarsFound()) {
+                    log("Mission succeed, your find the exit and escape.");
+                    isPlaying = false;
+                } else {
+                    log("Your find the exit, but you cannot escape because you did not find all pillars.");
+                }
+
             }
         } else {
             log("Fail to move");

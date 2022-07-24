@@ -3,16 +3,23 @@ package com.griffinryan.dungeonadventure.model.dungeon;
 class PathFinder {
 
     final private AbstractRoom[][] myMaze;
-    final private boolean[][] myTravelMark;
+    final private int myEntranceX;
+    final private int myEntranceY;
+    private boolean[][] myTravelMark;
+    private int myTargetX;
+    private int myTargetY;
 
-    PathFinder(AbstractRoom[][] theMaze) {
+    PathFinder(AbstractRoom[][] theMaze, int theEntranceX, int theEntranceY) {
+        this.myEntranceX = theEntranceX;
+        this.myEntranceY = theEntranceY;
         this.myMaze = theMaze;
-        this.myTravelMark = new boolean[this.myMaze.length][this.myMaze[0].length];
     }
 
-    boolean isReachable(int theEntranceX, int theEntranceY) {
-        System.out.println("checking");
-        return this.check(theEntranceX, theEntranceY);
+    boolean isReachable(int theTargetX, int theTargetY) {
+        this.myTravelMark = new boolean[this.myMaze.length][this.myMaze[0].length];
+        myTargetX = theTargetX;
+        myTargetY = theTargetY;
+        return this.check(myEntranceX, myEntranceY);
     }
 
     private boolean check(int theX, int theY) {
@@ -22,7 +29,7 @@ class PathFinder {
         this.myTravelMark[theY][theX] = true;
         if (this.myMaze[theY][theX] == null) {
             return false;
-        } else if (this.myMaze[theY][theX] instanceof Exit) {
+        } else if (theX == this.myTargetX && theX == this.myTargetY) {
             return true;
         }
         return check(theX - 1, theY) || check(theX + 1, theY) || check(theX, theY - 1) || check(theX, theY + 1);
