@@ -4,7 +4,7 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 import java.util.ArrayList;
 
-abstract public class AbstractRoom {
+public abstract class AbstractRoom {
     private final ArrayList<Monster> myMonsters;
     Pillar myPillar = null;
     private int myNumberOfHealingPotions;
@@ -17,19 +17,19 @@ abstract public class AbstractRoom {
     }
 
     public int pickUpHealingPotions() {
-        final var num = myNumberOfHealingPotions;
+        final int num = myNumberOfHealingPotions;
         myNumberOfHealingPotions = 0;
         return num;
     }
 
     public int pickUpVisionPotions() {
-        final var num = myNumberOfVisionPotions;
+        final int num = myNumberOfVisionPotions;
         myNumberOfVisionPotions = 0;
         return num;
     }
 
     public String pickUpPillar() {
-        final var thePillarName = myPillar.toString();
+        final String thePillarName = myPillar.toString();
         myPillar.found();
         myPillar = null;
         return thePillarName;

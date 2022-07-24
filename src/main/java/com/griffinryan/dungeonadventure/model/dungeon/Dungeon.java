@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Dungeon {
-    final static private int myChanceToGenerateRoom = 85;
+    private static final int myChanceToGenerateRoom = 85;
     private final AbstractRoom[][] my2dMaze2dArray;
-    final private Pillar[] myPillars = {new Pillar("Abstract"), new Pillar("Encapsulation"), new Pillar("Inheritance"), new Pillar("Polymorphism")};
+    private final Pillar[] myPillars = {new Pillar("Abstract"), new Pillar("Encapsulation"), new Pillar("Inheritance"), new Pillar("Polymorphism")};
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
@@ -46,7 +46,7 @@ public class Dungeon {
             myHeroCurrentX = width / 2;
             myHeroCurrentY = height / 2;
             the2dMaze2dArrayTemp[myHeroCurrentY][myHeroCurrentX] = new Entrance();
-            final var theFinder = new PathFinder(the2dMaze2dArrayTemp, myHeroCurrentX, myHeroCurrentY);
+            final PathFinder theFinder = new PathFinder(the2dMaze2dArrayTemp, myHeroCurrentX, myHeroCurrentY);
             // check whether the player can reach the
             if (!theFinder.isReachable(theExitX, theExitY)) {
                 int pillarPlaced = 0;
@@ -191,7 +191,7 @@ public class Dungeon {
     public void pickUpAllPillars() {
         for (final Pillar thePillar : myPillars) {
             thePillar.found();
-            final var thePos = thePillar.getPos();
+            final int[] thePos = thePillar.getPos();
             my2dMaze2dArray[thePos[0]][thePos[1]].myPillar = null;
         }
     }

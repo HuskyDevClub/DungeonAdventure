@@ -4,7 +4,7 @@ import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
-abstract public class Hero extends DungeonCharacter {
+public abstract class Hero extends DungeonCharacter {
 
     private final byte myChanceToBlock;
     private int myNumberOfHealingPotions = 0;
@@ -29,7 +29,7 @@ abstract public class Hero extends DungeonCharacter {
         }
     }
 
-    abstract public void skill(final Monster theTarget);
+    public abstract void skill(final Monster theTarget);
 
     public void obtainHealingPotions(final int theNum) {
         this.myNumberOfHealingPotions += theNum;

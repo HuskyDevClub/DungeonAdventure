@@ -2,9 +2,9 @@ package com.griffinryan.dungeonadventure.model.dungeon;
 
 class PathFinder {
 
-    final private AbstractRoom[][] myMaze;
-    final private int myEntranceX;
-    final private int myEntranceY;
+    private final AbstractRoom[][] myMaze;
+    private final int myEntranceX;
+    private final int myEntranceY;
     private boolean[][] myTravelMark;
     private int myTargetX;
     private int myTargetY;

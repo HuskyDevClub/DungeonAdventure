@@ -1,6 +1,6 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
-final public class Pillar {
+public final class Pillar {
     private final String myName;
     private boolean myHasBeenFound;
     private int myX;
