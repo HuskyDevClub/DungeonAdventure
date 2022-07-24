@@ -20,9 +20,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import com.griffinryan.dungeonadventure.BasicGameApp;
 
 public class HelloApplication extends Application {
+    private final static BasicGameApp GAME_APPLICATION = new BasicGameApp();
     public static void main(String[] args) {
         launch(args);
     }
@@ -45,7 +46,7 @@ public class HelloApplication extends Application {
         VBox box = new VBox(
                 5,
                 new MenuItem("START GAME", () -> {
-                    Combat.start();
+                    GAME_APPLICATION.launchGame();
                 }),
                 new MenuItem("SETTINGS", () -> {
                 }),

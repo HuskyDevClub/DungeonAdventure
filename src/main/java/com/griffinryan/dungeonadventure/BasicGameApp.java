@@ -17,6 +17,10 @@ public class BasicGameApp extends GameApplication {
         launch(args);
     }
 
+    public void launchGame(){
+        System.out.println("Test");
+    }
+    
     @Override
     protected void initSettings(GameSettings settings) {
         settings.setWidth(600);
