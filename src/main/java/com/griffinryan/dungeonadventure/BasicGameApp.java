@@ -2,10 +2,14 @@ package com.griffinryan.dungeonadventure;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.audio.Audio;
+import com.almasb.fxgl.audio.Music;
+import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
+import javafx.scene.*;
 
 import java.util.Map;
 
@@ -55,7 +59,11 @@ public class BasicGameApp extends GameApplication {
         FXGL.onKey(KeyCode.S, () -> {
             player.translateY(5); // Move down.
         });
-    }
+
+		FXGL.onKeyDown(KeyCode.F, () -> {
+			FXGL.play("drop.wav");
+		});
+	}
 
     @Override
     protected void initGameVars(Map<String, Object> vars) {
