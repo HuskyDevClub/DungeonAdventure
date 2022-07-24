@@ -1,15 +1,12 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
-import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
-
-import java.util.ArrayList;
 
 abstract public class Hero extends DungeonCharacter {
 
     private final byte myChanceToBlock;
-    private final ArrayList<Pillar> myPillarsFound = new ArrayList<>(4);
     private int myNumberOfHealingPotions = 0;
     private int myNumberOfVisionPotions = 0;
 
@@ -24,7 +21,7 @@ abstract public class Hero extends DungeonCharacter {
     }
 
     public void injury(int value) {
-        if (isLuckyToAct(this.myChanceToBlock)) {
+        if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.myChanceToBlock)) {
             super.injury(value);
             System.out.println("the hero does not block");
         } else {
@@ -34,11 +31,7 @@ abstract public class Hero extends DungeonCharacter {
 
     abstract public void skill(final Monster theTarget);
 
-    public int getNumberOfHealingPotions() {
-        return this.myNumberOfHealingPotions;
-    }
-
-    public void gainHealingPotions(int theNum) {
+    public void obtainHealingPotions(int theNum) {
         this.myNumberOfHealingPotions += theNum;
     }
 
@@ -51,38 +44,23 @@ abstract public class Hero extends DungeonCharacter {
         return false;
     }
 
-    public int getNumberOfVisionPotions() {
-        return myNumberOfVisionPotions;
-    }
-
-    public void gainVisionPotions(int theNum) {
+    public void obtainVisionPotions(int theNum) {
         this.myNumberOfVisionPotions += theNum;
     }
 
     public boolean useVisionPotion() {
         if (this.myNumberOfVisionPotions > 0) {
             this.myNumberOfVisionPotions--;
-
-            /*
-             *
-             * put the affect here!!!!
-             *
-             */
-
             return true;
         }
         return false;
     }
 
-    public ArrayList<Pillar> getPillarsFound() {
-        return myPillarsFound;
-    }
-
     @Override
     public String toString() {
         return String.format(
-                "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d\nList of Pillars Pieces Found: %s",
-                this.getMyName(), this.getMyHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions, this.myPillarsFound
+                "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d",
+                this.getMyName(), this.getMyHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions
         );
     }
 }
