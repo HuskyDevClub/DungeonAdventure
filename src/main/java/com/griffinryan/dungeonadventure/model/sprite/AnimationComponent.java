@@ -19,9 +19,9 @@ public class AnimationComponent extends Component {
 
 	public AnimationComponent(){
 		this.animIdle = new AnimationChannel(FXGL.image("spritesheet/front.png"),
-				4, 32, 42, Duration.seconds(1), 1, 1);
-		this.animWalk = new AnimationChannel(FXGL.image("spritesheet/right.png"),
 				4, 32, 42, Duration.seconds(1), 0, 3);
+		this.animWalk = new AnimationChannel(FXGL.image("spritesheet/right.png"),
+				4, 32, 42, Duration.seconds(0.2), 0, 3);
 
 		this.texture = new AnimatedTexture(animIdle);
 	}

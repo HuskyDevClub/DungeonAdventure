@@ -81,6 +81,7 @@ public class DungeonMainMenu extends FXGLMenu {
 					stopAudio("drumloop.mp3"); // Stops current background music.
                     play("menuSelect.mp3");
 					playAudio("chordloop.mp3"); // Starts new background music.
+					//playAudio("bg.mp3"); // Starts new background music.
                     fireNewGame();
                 }),
                 new MenuItem("SETTINGS", () -> {
