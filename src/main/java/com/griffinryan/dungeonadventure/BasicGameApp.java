@@ -45,7 +45,7 @@ public class BasicGameApp extends GameApplication {
     @Override
     protected void initGame() {
         player = FXGL.entityBuilder().at(300, 300)
-                .view("mario.png")
+                .view("sprite/front-1.png")
                 .buildAndAttach();
     }
 
@@ -81,9 +81,9 @@ public class BasicGameApp extends GameApplication {
 
     @Override
     protected void initUI() {
-        var marioTexture = FXGL.getAssetLoader().loadTexture("mario.png");
-        marioTexture.setTranslateX(50);
-        marioTexture.setTranslateY(450);
+        var closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");
+        closeUpTexture.setTranslateX(50);
+        closeUpTexture.setTranslateY(450);
 
         Text textPixels = new Text();
         textPixels.setTranslateX(50); // x = 50
@@ -92,6 +92,6 @@ public class BasicGameApp extends GameApplication {
         textPixels.textProperty().bind(FXGL.getWorldProperties().intProperty("pixelsMoved").asString());
 
         FXGL.getGameScene().addUINode(textPixels); // add to the scene graph
-        FXGL.getGameScene().addUINode(marioTexture);
+        FXGL.getGameScene().addUINode(closeUpTexture);
     }
 }
