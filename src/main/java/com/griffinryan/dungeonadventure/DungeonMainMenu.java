@@ -52,7 +52,7 @@ public class DungeonMainMenu extends FXGLMenu {
 
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
-        loopBGM("bg.mp3");
+        playAudio("drumloop.mp3");
         createContent(getContentRoot());
 
     }
@@ -78,9 +78,9 @@ public class DungeonMainMenu extends FXGLMenu {
         VBox box = new VBox(
                 5,
                 new MenuItem("START GAME", () -> {
-					stopAudio("bg.mp3"); // Stops current background music.
+					stopAudio("drumloop.mp3"); // Stops current background music.
                     play("menuSelect.mp3");
-					playAudio("bg.mp3"); // Starts new background music.
+					playAudio("chordloop.mp3"); // Starts new background music.
                     fireNewGame();
                 }),
                 new MenuItem("SETTINGS", () -> {

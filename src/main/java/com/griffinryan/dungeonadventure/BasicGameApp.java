@@ -7,6 +7,8 @@ import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.UserAction;
+import com.griffinryan.dungeonadventure.model.sprite.AnimationComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import javafx.scene.*;
@@ -47,40 +49,48 @@ public class BasicGameApp extends GameApplication {
 
 	@Override
 	protected void onPreInit(){
-		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.2 : 0.0);
-		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.5 : 0.0);
+		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.4 : 0.0);
+		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.8 : 0.0);
 	}
 
     @Override
     protected void initGame() {
         player = FXGL.entityBuilder().at(300, 300)
-                .view("sprite/front-1.png")
+                .with(new AnimationComponent())
                 .buildAndAttach();
     }
 
     @Override
     protected void initInput() {
 
-        FXGL.onKey(KeyCode.D, () -> {
-            player.translateX(5); // Move right.
-            FXGL.inc("pixelsMoved", +5);
-        });
+		FXGL.getInput().addAction(new UserAction("Right") {
+			@Override
+			protected void onAction() {
+				player.getComponent(AnimationComponent.class).moveRight();
+			}
+		}, KeyCode.D);
 
-        FXGL.onKey(KeyCode.A, () -> {
-            player.translateX(-5); // Move left.
-        });
+		FXGL.getInput().addAction(new UserAction("Left") {
+			@Override
+			protected void onAction() {
+				player.getComponent(AnimationComponent.class).moveLeft();
+			}
+		}, KeyCode.A);
 
-        FXGL.onKey(KeyCode.W, () -> {
-            player.translateY(-5); // Move up.
-        });
+		FXGL.getInput().addAction(new UserAction("Up") {
+			@Override
+			protected void onAction() {
+				player.getComponent(AnimationComponent.class).moveUp();
+			}
+		}, KeyCode.S);
 
-        FXGL.onKey(KeyCode.S, () -> {
-            player.translateY(5); // Move down.
-        });
+		FXGL.getInput().addAction(new UserAction("Down") {
+			@Override
+			protected void onAction() {
+				player.getComponent(AnimationComponent.class).moveDown();
+			}
+		}, KeyCode.W);
 
-		FXGL.onKeyDown(KeyCode.F, () -> {
-			FXGL.play("drop.wav");
-		});
 	}
 
     @Override
