@@ -1,0 +1,1 @@
+This is character text to display. This is kept in /src/main/resources/assets/text/*.txt:
