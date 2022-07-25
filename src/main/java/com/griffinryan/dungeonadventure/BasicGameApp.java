@@ -12,6 +12,12 @@ import javafx.scene.text.Text;
 import javafx.scene.*;
 
 import java.util.Map;
+import com.almasb.fxgl.app.scene.FXGLMenu;
+import com.almasb.fxgl.app.scene.SceneFactory;
+import com.griffinryan.dungeonadventure.DungeonMainMenu;
+
+import com.almasb.fxgl.app.scene.SimpleGameMenu;
+
 
 public class BasicGameApp extends GameApplication {
 
@@ -23,10 +29,17 @@ public class BasicGameApp extends GameApplication {
 
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setWidth(600);
-        settings.setHeight(600);
+        settings.setWidth(1280);
+        settings.setHeight(720);
         settings.setTitle("Dungeon Adventure");
         settings.setVersion("0.1");
+        settings.setMainMenuEnabled(true);
+        settings.setSceneFactory(new SceneFactory() {
+            @Override
+            public FXGLMenu newMainMenu() {
+                return new DungeonMainMenu();
+            }
+        });
     }
 
     @Override

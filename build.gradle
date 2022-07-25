@@ -10,6 +10,10 @@ version '0.0.1'
 
 repositories {
 	mavenCentral()
+	jcenter()
+	maven {
+        url "https://nexus.gluonhq.com/nexus/content/repositories/releases/"
+    }
 }
 
 ext {
@@ -24,14 +28,13 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-	// mainModule = 'com.griffinryan.dungeonadventure'
+	mainModule = 'com.griffinryan.dungeonadventure'
 	mainClass = 'com.griffinryan.dungeonadventure.BasicGameApp'
 }
 
 javafx {
-	version = '17.0.1'
-	modules = ['javafx.controls', 'javafx.fxml', 'javafx.media']
-	// modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.media']
+	version = '17.0,1'
+	modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.media']
 }
 
 dependencies {
