@@ -47,10 +47,6 @@ public class BasicGameApp extends GameApplication {
         player = FXGL.entityBuilder().at(300, 300)
                 .view("mario.png")
                 .buildAndAttach();
-		/*
-		player = FXGL.entityBuilder().at(300,300)
-				.view(new Rectangle(25,25,Color.DEEPPINK))
-				.buildAndAttach();	*/
     }
 
     @Override
