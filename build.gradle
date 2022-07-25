@@ -33,8 +33,7 @@ application {
 }
 
 javafx {
-	version = '18'
-	//modules = ['javafx.controls', 'javafx.fxml']
+	version = '17.0,1'
 	modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.media']
 }
 

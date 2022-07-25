@@ -4,7 +4,6 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 public class Warrior extends Hero {
 
-
     public Warrior(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToBlock) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToBlock);
     }
@@ -14,8 +13,8 @@ public class Warrior extends Hero {
     }
 
     @Override
-    public void skill(Monster theTarget) {
-        byte theChance = 40;
+    public void skill(final Monster theTarget) {
+        final byte theChance = 40;
         if (isLuckyToAct(theChance)) {
             theTarget.injury(generateRandomValue(75, 175));
         }
