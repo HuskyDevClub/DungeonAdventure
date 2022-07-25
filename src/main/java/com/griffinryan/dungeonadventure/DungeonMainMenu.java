@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure;
 import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.input.view.KeyView;
 import com.almasb.fxgl.input.view.MouseButtonView;
@@ -56,9 +57,15 @@ public class DungeonMainMenu extends FXGLMenu {
 
     }
 
-    private void playAudio() {
-
+    private void playAudio(String s) {
+		Music m = FXGL.getAssetLoader().loadMusic(s);
+		FXGL.getAudioPlayer().loopMusic(m);
     }
+
+	private void stopAudio(String s){
+		Music m = FXGL.getAssetLoader().loadMusic(s);
+		FXGL.getAudioPlayer().stopMusic(m);
+	}
 
     private void createContent(Pane root) {
         root.setPrefSize(1280, 720);
@@ -71,7 +78,9 @@ public class DungeonMainMenu extends FXGLMenu {
         VBox box = new VBox(
                 5,
                 new MenuItem("START GAME", () -> {
+					stopAudio("bg.mp3"); // Stops current background music.
                     play("menuSelect.mp3");
+					playAudio("bg.mp3"); // Starts new background music.
                     fireNewGame();
                 }),
                 new MenuItem("SETTINGS", () -> {
