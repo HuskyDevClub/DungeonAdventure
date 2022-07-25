@@ -17,6 +17,9 @@ import com.almasb.fxgl.app.scene.SceneFactory;
 import com.griffinryan.dungeonadventure.DungeonMainMenu;
 
 import com.almasb.fxgl.app.scene.SimpleGameMenu;
+import static com.griffinryan.dungeonadventure.Config.*;
+import static com.almasb.fxgl.dsl.FXGL.getSettings;
+import static com.almasb.fxgl.dsl.FXGL.loopBGM;
 
 
 public class BasicGameApp extends GameApplication {
@@ -41,6 +44,17 @@ public class BasicGameApp extends GameApplication {
             }
         });
     }
+
+	@Override
+	protected void onPreInit(){
+		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.2 : 0.0);
+		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.5 : 0.0);
+
+		// loopBGM("intro-1.mp3");
+		// String intro = "intro-1.mp3";
+		// Music gameMusic = FXGL.getAssetLoader().loadMusic(intro);
+		// FXGL.getAudioPlayer().loopMusic(gameMusic);
+	}
 
     @Override
     protected void initGame() {
