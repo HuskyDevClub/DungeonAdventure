@@ -1,44 +1,69 @@
 package com.griffinryan.dungeonadventure;
 
-import com.griffinryan.dungeonadventure.controller.Combat;
+import com.almasb.fxgl.animation.Interpolators;
+import com.almasb.fxgl.app.scene.FXGLMenu;
+import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.input.view.KeyView;
+import com.almasb.fxgl.input.view.MouseButtonView;
+import com.almasb.fxgl.input.view.TriggerView;
+import com.almasb.fxgl.logging.Logger;
+import com.almasb.fxgl.scene.Scene;
+
+import javafx.beans.binding.Bindings;
+import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import javafx.animation.FillTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.scene.shape.Rectangle;
+import static com.almasb.fxgl.dsl.FXGL.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import com.griffinryan.dungeonadventure.BasicGameApp;
+import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Button;
+import java.io.File;
 
-public class HelloApplication extends Application {
-    private final static BasicGameApp GAME_APPLICATION = new BasicGameApp();
-    public static void main(String[] args) {
-        launch(args);
+public class DungeonMainMenu extends FXGLMenu {
+
+    public DungeonMainMenu() {
+        super(MenuType.MAIN_MENU);
+        loopBGM("bg.mp3");
+        createContent(getContentRoot());
+
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        stage.setScene(new Scene(createContent()));
-        stage.show();
+    private void playAudio() {
+
     }
 
-    private Parent createContent() {
-        Pane root = new Pane();
+    private void createContent(Pane root) {
         root.setPrefSize(1280, 720);
 
-        Image bgImage = new Image(HelloApplication.class.getResource("dungeonadventure.jpg").toString(),
+        Image bgImage = new Image(DungeonMainMenu.class.getResource("dungeonadventure.jpg").toString(),
                 1280, 720,
                 false, true
         );
@@ -46,7 +71,8 @@ public class HelloApplication extends Application {
         VBox box = new VBox(
                 5,
                 new MenuItem("START GAME", () -> {
-                    GAME_APPLICATION.launchGame();
+                    play("menuSelect.mp3");
+                    fireNewGame();
                 }),
                 new MenuItem("SETTINGS", () -> {
                 }),
@@ -54,6 +80,7 @@ public class HelloApplication extends Application {
                 }),
                 new MenuItem("QUIT", () -> Platform.exit())
         );
+
         box.setBackground(new Background(
                 new BackgroundFill(Color.web("black", 0.6), null, null)
         ));
@@ -64,8 +91,6 @@ public class HelloApplication extends Application {
                 new ImageView(bgImage),
                 box
         );
-
-        return root;
     }
 
     private static class MenuItem extends StackPane {
@@ -85,6 +110,7 @@ public class HelloApplication extends Application {
             ft.setCycleCount(Integer.MAX_VALUE);
 
             hoverProperty().addListener((o, oldValue, isHovering) -> {
+                play("menuHover.wav");
                 if (isHovering) {
                     ft.playFromStart();
                 } else {
