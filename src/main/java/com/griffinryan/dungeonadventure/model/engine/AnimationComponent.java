@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.model.sprite;
+package com.griffinryan.dungeonadventure.model.engine;
 
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;

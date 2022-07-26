@@ -2,23 +2,23 @@ package com.griffinryan.dungeonadventure;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.audio.Audio;
-import com.almasb.fxgl.audio.Music;
-import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
-import com.griffinryan.dungeonadventure.model.sprite.AnimationComponent;
+import com.almasb.fxgl.physics.CollisionHandler;
+import com.griffinryan.dungeonadventure.model.engine.AnimationComponent;
+import com.griffinryan.dungeonadventure.model.engine.EntityType;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.scene.*;
 
 import java.util.Map;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
-import com.griffinryan.dungeonadventure.DungeonMainMenu;
 
-import com.almasb.fxgl.app.scene.SimpleGameMenu;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.griffinryan.dungeonadventure.Config.*;
 import static com.almasb.fxgl.dsl.FXGL.getSettings;
 import static com.almasb.fxgl.dsl.FXGL.loopBGM;
@@ -26,7 +26,7 @@ import static com.almasb.fxgl.dsl.FXGL.loopBGM;
 
 public class BasicGameApp extends GameApplication {
 
-    private Entity player;
+    private Entity player, potion, enemy;
 
     public static void main(String[] args) {
         launch(args);
@@ -55,10 +55,29 @@ public class BasicGameApp extends GameApplication {
 
     @Override
     protected void initGame() {
-        player = FXGL.entityBuilder().at(300, 300)
-                .with(new AnimationComponent())
+
+        this.player = entityBuilder().type(EntityType.PLAYER)
+				.at(300, 300)
+				.with(new CollidableComponent(true), new AnimationComponent())
                 .buildAndAttach();
+
+		this.potion = entityBuilder().type(EntityType.POTION)
+				.at(500,200)
+				.viewWithBBox(new Circle(15,15,15,Color.DODGERBLUE))
+				.with(new CollidableComponent(true))
+				.buildAndAttach();
     }
+
+	@Override
+	protected void initPhysics() {
+		FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(player, potion) {
+			// order of types is the same as passed into the constructor
+			@Override
+			protected void onCollisionBegin(Entity player, Entity potion) {
+				potion.removeFromWorld();
+			}
+		});
+	}
 
     @Override
     protected void initInput() {
