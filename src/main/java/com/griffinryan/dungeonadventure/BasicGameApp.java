@@ -4,11 +4,14 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import com.griffinryan.dungeonadventure.engine.AdventureFactory;
 import com.griffinryan.dungeonadventure.engine.component.*;
 import com.griffinryan.dungeonadventure.engine.EntityType;
@@ -23,9 +26,12 @@ import java.util.Objects;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+import com.griffinryan.dungeonadventure.engine.collision.*;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
+import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
+import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
 
 public class BasicGameApp extends GameApplication {
@@ -60,7 +66,6 @@ public class BasicGameApp extends GameApplication {
 
     @Override
     protected void initGame() {
-
 		// add the AdventureFactory for entities.
 		getGameWorld().addEntityFactory(new AdventureFactory());
 		getGameScene().setBackgroundColor(Color.color(0, 0, 0.05, 1.0));
@@ -75,32 +80,43 @@ public class BasicGameApp extends GameApplication {
 		getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
 		// getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
 
-		/*
 		// Add a listener for player hp.
+		/*
 		getWorldProperties().<Integer>addListener("player_hp", (prev, now) -> {
 			if(!Objects.equals(prev, now)){
 				now = prev;
 			}
 		});	*/
 
-		/* Spawn enemies and potion entities
-		*  here based on the location in Dungeon. */
+		/* Spawn enemies and potion entities. */
 		if (!IS_NO_ENEMIES) {
 			enemy = spawn("Enemy");
 		}
 
-		// spawn("Potion");
     }
 
 	@Override
 	protected void initPhysics() {
-		FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(player, potion) {
-			// order of types is the same as passed into the constructor
+		PhysicsWorld physics = getPhysicsWorld();
+		/* TODO: 	- Add enemy/potion collisions.
+		*   		- Create LevelComponent class.
+		* 			- Generate random level.
+		* */
+
+		CollisionHandler enemyHandler = new CollisionHandler(ENEMY, PLAYER) {
 			@Override
-			protected void onCollisionBegin(Entity player, Entity potion) {
-				potion.removeFromWorld();
+			protected void onCollisionBegin(Entity enemy, Entity player) {
+
+				HealthIntComponent hp = enemy.getComponent(HealthIntComponent.class);
+				hp.setValue(hp.getValue() - 1);
+
+				if (hp.isZero()) {
+					enemy.removeFromWorld();
+				}
 			}
-		});
+		};
+		physics.addCollisionHandler(enemyHandler);
+		// physics.addCollisionHandler(new PlayerEnemyHandler());
 	}
 
     @Override
