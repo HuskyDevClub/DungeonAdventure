@@ -7,6 +7,7 @@ open module com.griffinryan.dungeonadventure {
     requires com.almasb.fxgl.all;
 
 	exports com.griffinryan.dungeonadventure;
+	exports com.griffinryan.dungeonadventure.engine;
     /*
     opens com.griffinryan.dungeonadventure to javafx.fxml;
     exports com.griffinryan.dungeonadventure;

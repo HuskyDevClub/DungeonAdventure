@@ -2,31 +2,36 @@ package com.griffinryan.dungeonadventure;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
-import com.griffinryan.dungeonadventure.model.engine.AnimationComponent;
-import com.griffinryan.dungeonadventure.model.engine.EntityType;
+import com.griffinryan.dungeonadventure.engine.AdventureFactory;
+import com.griffinryan.dungeonadventure.engine.component.*;
+import com.griffinryan.dungeonadventure.engine.EntityType;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import java.util.Map;
+import java.util.Objects;
+
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
-import static com.griffinryan.dungeonadventure.Config.*;
-import static com.almasb.fxgl.dsl.FXGL.getSettings;
-import static com.almasb.fxgl.dsl.FXGL.loopBGM;
+import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.*;
 
 
 public class BasicGameApp extends GameApplication {
 
     private Entity player, potion, enemy;
+	private AnimationComponent playerComponent;
 
     public static void main(String[] args) {
         launch(args);
@@ -56,16 +61,35 @@ public class BasicGameApp extends GameApplication {
     @Override
     protected void initGame() {
 
-        this.player = entityBuilder().type(EntityType.PLAYER)
-				.at(300, 300)
-				.with(new CollidableComponent(true), new AnimationComponent())
-                .buildAndAttach();
+		// add the AdventureFactory for entities.
+		getGameWorld().addEntityFactory(new AdventureFactory());
+		getGameScene().setBackgroundColor(Color.color(0, 0, 0.05, 1.0));
 
-		this.potion = entityBuilder().type(EntityType.POTION)
-				.at(500,200)
-				.viewWithBBox(new Circle(15,15,15,Color.DODGERBLUE))
-				.with(new CollidableComponent(true))
-				.buildAndAttach();
+		// spawn("Background"); // Spawn in various
+		player = spawn("Player");		// different entities.
+		playerComponent = player.getComponent(AnimationComponent.class);
+
+		int dist = OUTSIDE_DISTANCE;
+
+		// Set the bounds of player movement.
+		getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
+		// getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
+
+		/*
+		// Add a listener for player hp.
+		getWorldProperties().<Integer>addListener("player_hp", (prev, now) -> {
+			if(!Objects.equals(prev, now)){
+				now = prev;
+			}
+		});	*/
+
+		/* Spawn enemies and potion entities
+		*  here based on the location in Dungeon. */
+		if (!IS_NO_ENEMIES) {
+			enemy = spawn("Enemy");
+		}
+
+		// spawn("Potion");
     }
 
 	@Override
