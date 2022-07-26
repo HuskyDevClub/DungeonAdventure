@@ -70,6 +70,11 @@ public class BasicGameApp extends GameApplication {
 		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.8 : 0.0);
 	}
 
+	@Override
+	protected void initGameVars(Map<String, Object> vars) {
+		vars.put("pixelsMoved", 0);
+	}
+
     @Override
     protected void initGame() {
 		// add the AdventureFactory for entities.
@@ -155,11 +160,6 @@ public class BasicGameApp extends GameApplication {
 		}, KeyCode.W);
 
 	}
-
-    @Override
-    protected void initGameVars(Map<String, Object> vars) {
-        vars.put("pixelsMoved", 0);
-    }
 
     @Override
     protected void initUI() {
