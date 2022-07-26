@@ -39,6 +39,12 @@ public class BasicGameApp extends GameApplication {
     private Entity player, potion, enemy;
 	private AnimationComponent playerComponent;
 
+	/* TODO: 	- Add enemy/potion collisions.
+	 *			- Add HP listeners.
+	 *   		- Create LevelComponent class.
+	 * 			- Generate random level.
+	 * */
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -70,7 +76,7 @@ public class BasicGameApp extends GameApplication {
 		getGameWorld().addEntityFactory(new AdventureFactory());
 		getGameScene().setBackgroundColor(Color.color(0, 0, 0.05, 1.0));
 
-		// spawn("Background"); // Spawn in various
+		// spawn("Background"); 			// Spawn in various
 		player = spawn("Player");		// different entities.
 		playerComponent = player.getComponent(AnimationComponent.class);
 
@@ -98,10 +104,6 @@ public class BasicGameApp extends GameApplication {
 	@Override
 	protected void initPhysics() {
 		PhysicsWorld physics = getPhysicsWorld();
-		/* TODO: 	- Add enemy/potion collisions.
-		*   		- Create LevelComponent class.
-		* 			- Generate random level.
-		* */
 
 		CollisionHandler enemyHandler = new CollisionHandler(ENEMY, PLAYER) {
 			@Override
