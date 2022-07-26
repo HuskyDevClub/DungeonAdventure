@@ -39,8 +39,8 @@ public class BasicGameApp extends GameApplication {
     private Entity player, potion, enemy;
 	private AnimationComponent playerComponent;
 
-	/* TODO: 	- Add enemy/potion collisions.
-	 *			- Add HP listeners.
+	/* TODO: 	- Add potion collisions.
+	 *			- Add HP listeners/UI to show HP.
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
 	 * */
@@ -112,6 +112,8 @@ public class BasicGameApp extends GameApplication {
 				HealthIntComponent hp = enemy.getComponent(HealthIntComponent.class);
 				hp.setValue(hp.getValue() - 1);
 
+				enemy.removeFromWorld();
+				play("laser.wav");
 				if (hp.isZero()) {
 					enemy.removeFromWorld();
 				}

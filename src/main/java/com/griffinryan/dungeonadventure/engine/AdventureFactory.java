@@ -73,7 +73,7 @@ public class AdventureFactory implements EntityFactory {
 				.collidable()
 				.zIndex(1000)
 				.with(animatedPlayer)
-				.with(new CollidableComponent(true))
+				// .with(new CollidableComponent(true))
 				.build();
 	}
 
@@ -87,7 +87,7 @@ public class AdventureFactory implements EntityFactory {
 				4, 20, 30, Duration.seconds(0.4), 0, 3);
 		AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/eleft.png"),
 				4, 15, 30, Duration.seconds(0.4), 0, 3);
-		AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/edown.png"),
+		AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/eback.png"),
 				4, 15, 30, Duration.seconds(0.4), 0, 3);
 
 		EnemyComponent animatedEnemy = new EnemyComponent(moveSpeed, idle, walk, back, bound);
