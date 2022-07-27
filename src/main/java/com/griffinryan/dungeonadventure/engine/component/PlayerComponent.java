@@ -5,10 +5,7 @@ import javafx.util.Duration;
 
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.particle.ParticleComponent;
-import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
@@ -23,7 +20,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
-public class AnimationComponent extends Component {
+public class PlayerComponent extends Component {
 
 	private int speed = 0;
 	private int pspeed = PLAYER_MAX_SPEED;
@@ -34,12 +31,12 @@ public class AnimationComponent extends Component {
 	private AnimationChannel animIdle, animWalk, animWalkBack;
 
 	/**
-	 * AnimationComponent() is a constructor that takes different
+	 * PlayerComponent() is a constructor that takes different
 	 * AnimationChannel parameters to create an animated player Entity.
 	 *
 	 * @see AnimatedTexture
 	 */
-	public AnimationComponent(){
+	public PlayerComponent(){
 		int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
 		var bound = texture("sprite/front-1.png").brighter();
 
@@ -66,7 +63,7 @@ public class AnimationComponent extends Component {
 	 */
 	@Override
 	public void onAdded(){
-		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
+		// entity.getTransformComponent().setScaleOrigin(new Point2D(0,0));
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(animIdle);
 	}

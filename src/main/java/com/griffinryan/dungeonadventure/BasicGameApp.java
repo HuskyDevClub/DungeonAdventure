@@ -1,6 +1,8 @@
 package com.griffinryan.dungeonadventure;
 
 import java.util.Map;
+
+import com.almasb.fxgl.app.scene.Viewport;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -31,7 +33,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 public class BasicGameApp extends GameApplication {
 
     private Entity player, potion, enemy, background;
-	private AnimationComponent playerComponent;
+	private PlayerComponent playerComponent;
 
 	/* TODO:
 	 *			-
@@ -58,8 +60,8 @@ public class BasicGameApp extends GameApplication {
 	 */
 	@Override
     protected void initSettings(GameSettings settings) {
-        settings.setWidth(1280);
-        settings.setHeight(720);
+        settings.setWidth(VIEW_RESOLUTION_X);
+        settings.setHeight(VIEW_RESOLUTION_Y);
         settings.setTitle("Dungeon Adventure");
         settings.setVersion("0.2");
         settings.setMainMenuEnabled(true);
@@ -79,8 +81,8 @@ public class BasicGameApp extends GameApplication {
 	 * */
 	@Override
 	protected void onPreInit(){
-		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.3 : 0.0);
-		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.6 : 0.0);
+		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 1.0 : 0.0);
+		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 1.0 : 0.0);
 	}
 
 	/**
@@ -104,6 +106,8 @@ public class BasicGameApp extends GameApplication {
 		vars.put("enemyX", 0.0);
 		vars.put("enemyY", 0.0);
 		vars.put("potionHP", 100);
+
+
 	}
 
 	/**
@@ -118,15 +122,21 @@ public class BasicGameApp extends GameApplication {
 		/* 	Create the AdventureFactory object for entities.	*/
 		int dist = OUTSIDE_DISTANCE;
 		getGameWorld().addEntityFactory(new AdventureFactory());
-		getGameScene().setBackgroundColor(Color.color(0.8, 0.8, 0.8, 1.0));
-
-		/* 	Set the bounds of player movement.	*/
-		getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
+		getGameScene().setBackgroundColor(Color.color(0.2, 0.2, 0.2, 1.0));
 
 		/* 	Spawn all component entities except player.	*/
 		player = spawn("Player");
-		playerComponent = player.getComponent(AnimationComponent.class);
-		if(IS_BACKGROUND){
+		playerComponent = player.getComponent(PlayerComponent.class);
+
+		/* 	Set the bounds of camera.	*/
+		Viewport viewport = getGameScene().getViewport();
+		//viewport.setX(500);
+		//viewport.setY(500);
+		viewport.setZoom(1.20);
+		viewport.bindToEntity(player, 500, 500);
+		viewport.setBounds(0, 0, VIEW_RESOLUTION_X, VIEW_RESOLUTION_Y);
+
+		if(!IS_NO_BACKGROUND){
 			background = spawn("Background");
 		}
 		if (!IS_NO_ENEMIES) {
@@ -169,32 +179,32 @@ public class BasicGameApp extends GameApplication {
 		FXGL.getInput().addAction(new UserAction("Right") {
 			@Override
 			protected void onAction() {
-				player.getComponent(AnimationComponent.class).moveRight();
-				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).moveRight();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.D);
 
 		FXGL.getInput().addAction(new UserAction("Left") {
 			@Override
 			protected void onAction() {
-				player.getComponent(AnimationComponent.class).moveLeft();
-				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).moveLeft();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.A);
 
 		FXGL.getInput().addAction(new UserAction("Up") {
 			@Override
 			protected void onAction() {
-				player.getComponent(AnimationComponent.class).moveUp();
-				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).moveUp();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.S);
 
 		FXGL.getInput().addAction(new UserAction("Down") {
 			@Override
 			protected void onAction() {
-				player.getComponent(AnimationComponent.class).moveDown();
-				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).moveDown();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.W);
 

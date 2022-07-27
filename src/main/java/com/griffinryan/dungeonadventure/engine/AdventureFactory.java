@@ -10,14 +10,12 @@ import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.texture.*;
 import javafx.geometry.Point2D;
 
 import com.griffinryan.dungeonadventure.engine.component.*;
-import javafx.util.Duration;
 
-import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
 import static com.griffinryan.dungeonadventure.engine.EntityType.*;
 
@@ -42,31 +40,33 @@ public class AdventureFactory implements EntityFactory {
 	@Spawns("Background")
 	public Entity spawnBackground(SpawnData data){
 		return FXGL.entityBuilder(data)
-				.type(LEVEL)
-				.with(!IS_NO_BACKGROUND ? new BackgroundComponent() : new CollidableComponent(false))
-				.with(new LevelComponent())
+				.with(new BackgroundComponent())
+				.with(new CollidableComponent(false))
+				.zIndex(0)
+				// .with(new LevelComponent())
 				.build();
 	}
 
 	/**
 	 * spawnPlayer() returns an Entity
-	 * object appended with AnimationComponent().
+	 * object appended with PlayerComponent().
 	 *
 	 * @param data SpawnData object to use.
 	 * @return Entity
-	 * @see AnimationComponent
+	 * @see PlayerComponent
 	 */
 	@Spawns("Player")
 	public Entity spawnPlayer(SpawnData data){
 
 		/* Setup parameters to give to the CharacterComponent object. */
-		AnimationComponent animatedPlayer = new AnimationComponent();
+		PlayerComponent animatedPlayer = new PlayerComponent();
 
 		return FXGL.entityBuilder()
 				.type(PLAYER)
-				.bbox(new HitBox(new Point2D(14, 21), BoundingShape.box(30, 30)))
+				.at(640,360) // Set the spawn and boundary.
+				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(30, 30)))
 				.collidable()
-				.zIndex(1000)
+				.zIndex(3)
 				.with(animatedPlayer)
 				.build();
 	}
@@ -88,9 +88,10 @@ public class AdventureFactory implements EntityFactory {
 		var e = entityBuilder(data)
 				.type(ENEMY)
 				.at(getRandomSpawnPoint())
-				.bbox(new HitBox(new Point2D(14, 21), BoundingShape.box(80, 80)))
+				.bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(80, 80)))
 				.with(new HealthIntComponent(ENEMY_HP))
 				.with(new CollidableComponent(true))
+				.zIndex(1)
 				.with(animatedEnemy)
 				.build();
 		e.setReusable(true);
@@ -119,6 +120,7 @@ public class AdventureFactory implements EntityFactory {
 				.bbox(new HitBox(new Point2D(14, 21), BoundingShape.box(80, 80)))
 				.with(animatedPotion)
 				.with(new CollidableComponent(true))
+				.zIndex(2)
 				.build();
 	}
 
@@ -134,6 +136,7 @@ public class AdventureFactory implements EntityFactory {
 	/**
 	 * A collection of potential
 	 * spawnPoints in a Point2D[] array.
+	 * TO-DO: Sometimes it spawns a weird coordinate?
 	 */
 	private static final Point2D[] spawnPoints = new Point2D[] {
 			new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
