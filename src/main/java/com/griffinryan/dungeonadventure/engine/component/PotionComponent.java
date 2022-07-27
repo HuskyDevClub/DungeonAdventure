@@ -6,6 +6,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
+import javafx.util.Duration;
 
 /**
  *
@@ -23,10 +24,14 @@ public class PotionComponent extends Component {
 	/**
 	 * PotionComponent() is a constructor that takes different
 	 * AnimationChannel parameters to create an animated Entity.
-	 * @param idle Channel for idle animation.
-	 * @param bound Texture for boundary box.
+	 * @see AnimatedTexture
 	 */
-	public PotionComponent(AnimationChannel idle, Texture bound){
+	public PotionComponent(){
+
+		var bound = FXGL.texture("potion/potion.png");
+		AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
+				4, 17, 16, Duration.seconds(0.6), 0, 3);
+
 		this.idleChannel = idle;
 		this.boundTexture = bound;
 
@@ -45,5 +50,15 @@ public class PotionComponent extends Component {
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(idleChannel);
 		FXGL.getWorldProperties().setValue("potionHP", hpAmount);
+	}
+
+	/**
+	 * Retrieves the texture used for
+	 * boundary collision calculations.
+	 *
+	 * @see Texture
+	 * */
+	public Texture getBoundTexture() {
+		return boundTexture;
 	}
 }

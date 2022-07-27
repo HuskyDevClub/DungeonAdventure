@@ -1,13 +1,17 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
+import com.almasb.fxgl.dsl.FXGL;
 import javafx.geometry.Point2D;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
+import javafx.util.Duration;
 
-import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
+import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_MAX_SPEED;
+import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_MIN_SPEED;
 
 /**
  *
@@ -28,13 +32,18 @@ public class EnemyComponent extends Component {
 	 * EnemyComponent() is a constructor that takes different
 	 * AnimationChannel parameters to create an animated Entity.
 	 *
-	 * @param moveSpeed Integer value for Entity movement rate.
-	 * @param idle Channel for idle animation.
-	 * @param walk Channel for walking animation.
-	 * @param back Channel for walking backwards animation.
-	 * @param bound Texture for boundary box.
+	 * @see AnimatedTexture
 	 */
-	public EnemyComponent(int moveSpeed, AnimationChannel idle, AnimationChannel walk, AnimationChannel back, Texture bound){
+	public EnemyComponent() {
+		int moveSpeed = random(ENEMY_MIN_SPEED, ENEMY_MAX_SPEED);
+		var bound = texture("sprite/enemy.png", 60, 60).brighter();
+		AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/efront.png"),
+				4, 20, 30, Duration.seconds(0.4), 0, 3);
+		AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/eleft.png"),
+				4, 15, 30, Duration.seconds(0.4), 0, 3);
+		AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/eback.png"),
+				4, 15, 30, Duration.seconds(0.4), 0, 3);
+
 		this.idleChannel = idle;
 		this.walkChannel = walk;
 		this.backChannel = back;
@@ -51,7 +60,7 @@ public class EnemyComponent extends Component {
 	 * @see Component
 	 */
 	@Override
-	public void onAdded(){
+	public void onAdded() {
 		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(idleChannel);
@@ -149,4 +158,13 @@ public class EnemyComponent extends Component {
 		getEntity().setScaleY(-1);
 	}
 
+	/**
+	 * Retrieves the texture used for
+	 * boundary collision calculations.
+	 *
+	 * @see Texture
+	 * */
+	public Texture getBoundTexture() {
+		return boundTexture;
+	}
 }

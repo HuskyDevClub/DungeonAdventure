@@ -33,9 +33,8 @@ public class BasicGameApp extends GameApplication {
     private Entity player, potion, enemy, background;
 	private AnimationComponent playerComponent;
 
-	/* TODO: 	-
+	/* TODO:
 	 *			-
-	 *			- Fill out JavaDoc for project.
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
 	 * */
@@ -80,8 +79,8 @@ public class BasicGameApp extends GameApplication {
 	 * */
 	@Override
 	protected void onPreInit(){
-		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.4 : 0.0);
-		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.8 : 0.0);
+		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.3 : 0.0);
+		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.6 : 0.0);
 	}
 
 	/**
