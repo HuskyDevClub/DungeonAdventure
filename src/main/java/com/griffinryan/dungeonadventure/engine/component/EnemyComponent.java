@@ -1,11 +1,13 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
+import javafx.geometry.Point2D;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
-import javafx.geometry.Point2D;
+
+import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
 
 public class EnemyComponent extends Component {
 
@@ -31,6 +33,9 @@ public class EnemyComponent extends Component {
 		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(idleChannel);
+
+		getWorldProperties().setValue("enemyX", this.getEntity().getX());
+		getWorldProperties().setValue("enemyY", this.getEntity().getY());
 	}
 
 	@Override

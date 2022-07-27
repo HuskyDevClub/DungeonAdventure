@@ -1,37 +1,25 @@
 package com.griffinryan.dungeonadventure;
 
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.components.HealthIntComponent;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.PhysicsWorld;
-import com.griffinryan.dungeonadventure.engine.AdventureFactory;
-import com.griffinryan.dungeonadventure.engine.component.*;
-import com.griffinryan.dungeonadventure.engine.EntityType;
-import javafx.geometry.Rectangle2D;
+import java.util.Map;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-
-import java.util.Map;
-import java.util.Objects;
-
+import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
+
+import com.griffinryan.dungeonadventure.engine.AdventureFactory;
+import com.griffinryan.dungeonadventure.engine.component.*;
+import com.griffinryan.dungeonadventure.engine.utils.DungeonUtility;
 import com.griffinryan.dungeonadventure.engine.collision.*;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
-import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
-import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
 public class BasicGameApp extends GameApplication {
 
@@ -39,8 +27,8 @@ public class BasicGameApp extends GameApplication {
 	private AnimationComponent playerComponent;
 
 	/* TODO: 	-
+	 *			-
 	 *			- Add JavaDoc for the engine package.
-	 *			- Add HP listeners/UI to show HP. -> in the worldPropertyMap
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
 	 * */
@@ -72,22 +60,31 @@ public class BasicGameApp extends GameApplication {
 
 	@Override
 	protected void initGameVars(Map<String, Object> vars) {
-		vars.put("pixelsMoved", 0);
+
+		/* TODO: update with logic from model package
+		    and add values for LevelComponent. */
 		vars.put("playerHP", 100);
+		vars.put("enemyHP", 50);
+
+		vars.put("playerX", 0.0);
+		vars.put("playerY", 0.0);
+		vars.put("enemyX", 0.0);
+		vars.put("enemyY", 0.0);
+		vars.put("potionHP", 100);
 	}
 
     @Override
     protected void initGame() {
-		/* Create the AdventureFactory object for entities.
-		*  Set the AdventureFactory as getGameWorld()'s EntityFactory. */
+
+		/* 	Create the AdventureFactory object for entities.	*/
 		int dist = OUTSIDE_DISTANCE;
 		getGameWorld().addEntityFactory(new AdventureFactory());
-		getGameScene().setBackgroundColor(Color.color(0.3, 0.3, 0.3, 1.0));
+		getGameScene().setBackgroundColor(Color.color(0.8, 0.8, 0.8, 1.0));
 
-		/* Set the bounds of player movement.	*/
+		/* 	Set the bounds of player movement.	*/
 		getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
 
-		/* Spawn all component entities except player. */
+		/* 	Spawn all component entities except player.	*/
 		player = spawn("Player");
 		playerComponent = player.getComponent(AnimationComponent.class);
 		if(IS_BACKGROUND){
@@ -100,35 +97,14 @@ public class BasicGameApp extends GameApplication {
 			potion = spawn("Potion");
 		}
 
-		/* Add listeners for player/game values. */
-		getWorldProperties().<Integer>addListener("playerHP", (prev, now) -> {
-			if(!Objects.equals(prev, now)){
-				now = prev;
-			}
-		});
-
+		/* 	Add listeners for player/game values.	*/
+		DungeonUtility.addWorldPropertyListeners();
     }
 
 	@Override
 	protected void initPhysics() {
 		PhysicsWorld physics = getPhysicsWorld();
 
-		/*
-		CollisionHandler enemyHandler = new CollisionHandler(ENEMY, PLAYER) {
-			@Override
-			protected void onCollisionBegin(Entity enemy, Entity player) {
-
-				HealthIntComponent hp = enemy.getComponent(HealthIntComponent.class);
-				hp.setValue(hp.getValue() - 1);
-
-				enemy.removeFromWorld();
-				play("laser.wav");
-				if (hp.isZero()) {
-					enemy.removeFromWorld();
-				}
-			}
-		};
-		physics.addCollisionHandler(enemyHandler);	*/
 		physics.addCollisionHandler(new PlayerEnemyHandler());
 		physics.addCollisionHandler(new PlayerPotionHandler());
 	}
@@ -140,6 +116,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(AnimationComponent.class).moveRight();
+				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.D);
 
@@ -147,6 +124,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(AnimationComponent.class).moveLeft();
+				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.A);
 
@@ -154,6 +132,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(AnimationComponent.class).moveUp();
+				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.S);
 
@@ -161,6 +140,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(AnimationComponent.class).moveDown();
+				player.getComponent(AnimationComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.W);
 
@@ -181,4 +161,5 @@ public class BasicGameApp extends GameApplication {
         FXGL.getGameScene().addUINode(textPixels); // add to the scene graph
         FXGL.getGameScene().addUINode(closeUpTexture);
     }
+
 }

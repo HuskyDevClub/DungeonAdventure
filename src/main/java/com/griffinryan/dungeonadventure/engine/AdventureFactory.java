@@ -18,11 +18,7 @@ import com.almasb.fxgl.texture.*;
 import javafx.geometry.Point2D;
 
 import com.griffinryan.dungeonadventure.engine.component.*;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
-import java.util.stream.Collectors;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
@@ -30,8 +26,6 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 import static com.griffinryan.dungeonadventure.engine.EntityType.*;
 
 public class AdventureFactory implements EntityFactory {
-
-	private static final int SPAWN_DISTANCE = 100;
 
 	private static final Point2D[] spawnPoints = new Point2D[] {
 			new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
@@ -67,7 +61,6 @@ public class AdventureFactory implements EntityFactory {
 				.type(POTION)
 				.at(getRandomSpawnPoint())
 				.viewWithBBox(potionTexture) // boundary setting.
-				// .collidable()
 				.zIndex(1000)
 				.with(animatedPotion)
 				.with(new CollidableComponent(true))
@@ -116,7 +109,7 @@ public class AdventureFactory implements EntityFactory {
 		var e = entityBuilder(data)
 				.type(ENEMY)
 				.at(getRandomSpawnPoint())
-				.bbox(new HitBox(new Point2D(30, 30), BoundingShape.box(30, 30)))
+				.bbox(new HitBox(new Point2D(14, 21), BoundingShape.box(100, 100)))
 				.with(new HealthIntComponent(ENEMY_HP))
 				.with(new CollidableComponent(true))
 				.with(animatedEnemy)
@@ -126,52 +119,5 @@ public class AdventureFactory implements EntityFactory {
 
 		return e;
 	}
-
-	/*	For reference:
-	@Spawns("ParticleLayer")
-	public Entity spawnParticleLayer(SpawnData data){
-		return FXGL.entityBuilder(data)
-				.type(PARTICLE_LAYER)
-				.with(new ParticleCanvasComponent())
-				.zIndex(5000) // For parallax-scrolling effect.
-				.build();
-	}
-
-	@Spawns("Bullet")
-	public Entity spawnBullet(SpawnData data) {
-		// bullet texture is 54x13, hence 6.5
-
-		var expireClean = new ExpireCleanComponent(Duration.seconds(0.5)).animateOpacity();
-		expireClean.pause();
-
-		var t = ImagesKt.fromPixels(54, 13,
-				texture("Bullet.png")
-						.pixels()
-						.stream()
-						.map(p -> {
-							// texture is 54 in X axis
-							double alphaMod = p.getX() / 54.0;
-
-							return new Pixel(p.getX(), p.getY(), Color.color(p.getR(), p.getG(), p.getB(), p.getA() * alphaMod), p.getParent());
-						})
-						.collect(Collectors.toList())
-		);
-
-		var e = entityBuilder(data)
-				.at(data.getX(), data.getY() - 6.5)
-				.type(BULLET)
-				.viewWithBBox(new Texture(t))
-				.with(new CollidableComponent(true))
-				.with(new ProjectileComponent(data.get("direction"), BULLET_MOVE_SPEED))
-				.with(new BulletComponent())
-				.with(expireClean)
-				.rotationOrigin(0, 6.5)
-				.build();
-
-		// creating entities can be expensive on mobile, so pool bullets
-		e.setReusable(true);
-
-		return e;
-	}	*/
 
 }

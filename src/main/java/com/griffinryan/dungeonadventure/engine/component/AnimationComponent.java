@@ -1,5 +1,8 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
+import javafx.geometry.Point2D;
+import javafx.util.Duration;
+
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
@@ -9,10 +12,6 @@ import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
-import javafx.geometry.Point2D;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.paint.Color;
-import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGL.animationBuilder;
@@ -109,6 +108,11 @@ public class AnimationComponent extends Component {
 		speed = -250;
 		y = true;
 		getEntity().setScaleY(-1);
+	}
+
+	public void updatePlayerCoordinates() {
+		getWorldProperties().setValue("playerX", getEntity().getX());
+		getWorldProperties().setValue("playerY", getEntity().getY());
 	}
 
 	/* For reference:

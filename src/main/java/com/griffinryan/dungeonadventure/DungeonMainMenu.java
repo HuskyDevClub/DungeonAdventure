@@ -1,54 +1,31 @@
 package com.griffinryan.dungeonadventure;
 
-import com.almasb.fxgl.animation.Interpolators;
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.MenuType;
-import com.almasb.fxgl.audio.Music;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.input.view.KeyView;
-import com.almasb.fxgl.input.view.MouseButtonView;
-import com.almasb.fxgl.input.view.TriggerView;
-import com.almasb.fxgl.logging.Logger;
-import com.almasb.fxgl.scene.Scene;
-
 import javafx.beans.binding.Bindings;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.CacheHint;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.animation.FillTransition;
-import javafx.application.Application;
 import javafx.application.Platform;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
-
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.beans.binding.StringBinding;
-import javafx.scene.control.Button;
-import java.io.File;
+
+import com.almasb.fxgl.app.scene.FXGLMenu;
+import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.audio.Music;
+import com.almasb.fxgl.dsl.FXGL;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
 
 public class DungeonMainMenu extends FXGLMenu {
 

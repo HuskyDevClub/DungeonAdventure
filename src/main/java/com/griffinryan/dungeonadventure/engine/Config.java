@@ -33,6 +33,7 @@ public final class Config {
 	public static final int ENEMY_HP = 300;
 
 	public static final int OUTSIDE_DISTANCE = 1000;
+	public static final int SPAWN_DISTANCE = 100;
 
 	public static final String SAVE_NAME = "save.dat";
 }

@@ -15,10 +15,14 @@ public class PlayerPotionHandler extends CollisionHandler {
 
 	@Override
 	protected void onCollisionBegin(Entity player, Entity potion){
-		FXGL.getGameScene().getViewport().shakeTranslational(60);
+		FXGL.getGameScene().getViewport().shakeTranslational(30);
 
-		// enemy.getComponent(EnemyComponent.class).die();
-		// spawn("Death effect....")
+		/*	Do/store damage calculations here!	*/
+		int initialHP = FXGL.getWorldProperties().getInt("playerHP");
+		int potionHP = FXGL.getWorldProperties().getInt("potionHP");
+		int resultingHP = initialHP + potionHP;
+
+		FXGL.getWorldProperties().setValue("playerHP", resultingHP);
 		FXGL.play("coin.wav");
 		potion.removeFromWorld();
 	}
