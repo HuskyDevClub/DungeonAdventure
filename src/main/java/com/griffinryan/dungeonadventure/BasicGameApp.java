@@ -38,7 +38,7 @@ public class BasicGameApp extends GameApplication {
     private Entity player, potion, enemy;
 	private AnimationComponent playerComponent;
 
-	/* TODO: 	- Finish collisions (with removal animation)
+	/* TODO: 	-
 	 *			- Add HP listeners/UI to show HP.
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
@@ -78,7 +78,7 @@ public class BasicGameApp extends GameApplication {
     protected void initGame() {
 		// add the AdventureFactory for entities.
 		getGameWorld().addEntityFactory(new AdventureFactory());
-		getGameScene().setBackgroundColor(Color.color(0, 0, 0.05, 1.0));
+		getGameScene().setBackgroundColor(Color.color(0.6, 0.6, 0.6, 1.0));
 
 		// spawn("Background"); 			// Spawn in various
 		player = spawn("Player");		// different entities.

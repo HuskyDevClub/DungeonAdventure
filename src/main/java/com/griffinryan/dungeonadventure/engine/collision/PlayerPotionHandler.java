@@ -19,7 +19,7 @@ public class PlayerPotionHandler extends CollisionHandler {
 
 		// enemy.getComponent(EnemyComponent.class).die();
 		// spawn("Death effect....")
-		FXGL.play("chord.wav");
+		FXGL.play("coin.wav");
 		potion.removeFromWorld();
 	}
 }
