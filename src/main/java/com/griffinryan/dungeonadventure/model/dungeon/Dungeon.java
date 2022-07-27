@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  * @author Griffin Ryan (glryan@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
@@ -22,8 +21,9 @@ public class Dungeon {
     private int myHeroCurrentY;
 
     /**
-	 * 
-	 */
+     * @param width  the height of the Dungeon
+     * @param height the height of the Dungeon
+     */
     public Dungeon(final int width, final int height) {
         AbstractRoom[][] the2dMaze2dArrayTemp;
         final Random theRandom = new Random();
@@ -85,10 +85,9 @@ public class Dungeon {
         my2dMaze2dArray = the2dMaze2dArrayTemp;
     }
 
-    
-    /** 
-     * @param theDirection
-     * @return boolean
+    /**
+     * @param theDirection the direction you want to move
+     * @return whether you have moved or not
      */
     public boolean move(final Direction theDirection) {
         switch (theDirection) {
@@ -108,11 +107,10 @@ public class Dungeon {
         return false;
     }
 
-    
-    /** 
-     * @param theX
-     * @param theY
-     * @return boolean
+    /**
+     * @param theX the X of the room that you want to move to
+     * @param theY the Y of the room that you want to move to
+     * @return whether you have moved or not
      */
     private boolean moveTo(final int theX, final int theY) {
         // check the coordinate to ensure that the player can move
@@ -125,18 +123,16 @@ public class Dungeon {
         return false;
     }
 
-    
-    /** 
-     * @param theX
-     * @param theY
-     * @return boolean
+    /**
+     * @param theX the X of the room that you want to move to
+     * @param theY the Y of the room that you want to move to
+     * @return boolean whether you can move to that room or not
      */
     public boolean canMoveTo(final int theX, final int theY) {
         return 0 <= theY && theY < my2dMaze2dArray.length && 0 <= theX && theX < my2dMaze2dArray[theY].length && my2dMaze2dArray[theY][theX] != null;
     }
 
-    
-    /** 
+    /**
      * @return String
      */
     @Override
@@ -158,9 +154,9 @@ public class Dungeon {
         return theInfo.toString();
     }
 
-    
-    /** 
-     * @return String
+
+    /**
+     * @return the information regarding surrounding rooms
      */
     public String getSurroundingRooms() {
         final StringBuilder theInfo = new StringBuilder();
@@ -178,58 +174,50 @@ public class Dungeon {
         return theInfo.toString();
     }
 
-    
-    /** 
-     * @return Pillar[]
+    /**
+     * @return get the Pillars (do not call this method unless you know what you are doing!!)
      */
     public Pillar[] getPillars() {
         return myPillars;
     }
 
-
-    
-    /** 
-     * @return int
+    /**
+     * @return the current X of the player
      */
     public int getCurrentX() {
         return myHeroCurrentX;
     }
 
-    
-    /** 
-     * @return int
+    /**
+     * @return the current Y of the player
      */
     public int getCurrentY() {
         return myHeroCurrentY;
     }
 
-    
-    /** 
-     * @return AbstractRoom
+    /**
+     * @return the current room that the player is in
      */
     public AbstractRoom getCurrentRoom() {
         return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
     }
 
-    
-    /** 
-     * @return boolean
+    /**
+     * @return whether current room is a Pit
      */
     public boolean isCurrentRoomPit() {
         return getCurrentRoom() instanceof Pit;
     }
 
-    
-    /** 
-     * @return boolean
+    /**
+     * @return whether current room is an Exit
      */
     public boolean isCurrentRoomExit() {
         return getCurrentRoom() instanceof Exit;
     }
 
-    
-    /** 
-     * @return boolean
+    /**
+     * @return whether all pillars have been found
      */
     public boolean areAllPillarsFound() {
         for (final Pillar thePillar : myPillars) {
@@ -240,9 +228,8 @@ public class Dungeon {
         return true;
     }
 
-    
-    /** 
-     * @return int
+    /**
+     * @return the number of pillars that have been found
      */
     public int getNumOfPillarsFound() {
         int num = 0;
@@ -255,8 +242,8 @@ public class Dungeon {
     }
 
     /**
-	 * 
-	 */
+     * pick up all pillars immediately (do not call this method unless you know what you are doing!!)
+     */
     public void pickUpAllPillars() {
         for (final Pillar thePillar : myPillars) {
             thePillar.found();
