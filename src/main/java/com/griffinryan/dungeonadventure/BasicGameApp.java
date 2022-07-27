@@ -35,11 +35,12 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
 public class BasicGameApp extends GameApplication {
 
-    private Entity player, potion, enemy;
+    private Entity player, potion, enemy, background;
 	private AnimationComponent playerComponent;
 
 	/* TODO: 	-
-	 *			- Add HP listeners/UI to show HP.
+	 *			- Add JavaDoc for the engine package.
+	 *			- Add HP listeners/UI to show HP. -> in the worldPropertyMap
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
 	 * */
@@ -53,7 +54,7 @@ public class BasicGameApp extends GameApplication {
         settings.setWidth(1280);
         settings.setHeight(720);
         settings.setTitle("Dungeon Adventure");
-        settings.setVersion("0.1");
+        settings.setVersion("0.2");
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new SceneFactory() {
             @Override
@@ -72,38 +73,39 @@ public class BasicGameApp extends GameApplication {
 	@Override
 	protected void initGameVars(Map<String, Object> vars) {
 		vars.put("pixelsMoved", 0);
+		vars.put("playerHP", 100);
 	}
 
     @Override
     protected void initGame() {
-		// add the AdventureFactory for entities.
-		getGameWorld().addEntityFactory(new AdventureFactory());
-		getGameScene().setBackgroundColor(Color.color(0.6, 0.6, 0.6, 1.0));
-
-		// spawn("Background"); 			// Spawn in various
-		player = spawn("Player");		// different entities.
-		playerComponent = player.getComponent(AnimationComponent.class);
-
+		/* Create the AdventureFactory object for entities.
+		*  Set the AdventureFactory as getGameWorld()'s EntityFactory. */
 		int dist = OUTSIDE_DISTANCE;
+		getGameWorld().addEntityFactory(new AdventureFactory());
+		getGameScene().setBackgroundColor(Color.color(0.3, 0.3, 0.3, 1.0));
 
-		// Set the bounds of player movement.
+		/* Set the bounds of player movement.	*/
 		getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
-		// getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
 
-		// Add a listener for player hp.
-		/*
-		getWorldProperties().<Integer>addListener("player_hp", (prev, now) -> {
-			if(!Objects.equals(prev, now)){
-				now = prev;
-			}
-		});	*/
-
-		/* Spawn enemies and potion entities. */
+		/* Spawn all component entities except player. */
+		player = spawn("Player");
+		playerComponent = player.getComponent(AnimationComponent.class);
+		if(IS_BACKGROUND){
+			background = spawn("Background");
+		}
 		if (!IS_NO_ENEMIES) {
 			enemy = spawn("Enemy");
 		}
+		if (!IS_NO_POTIONS){
+			potion = spawn("Potion");
+		}
 
-		potion = spawn("Potion");
+		/* Add listeners for player/game values. */
+		getWorldProperties().<Integer>addListener("playerHP", (prev, now) -> {
+			if(!Objects.equals(prev, now)){
+				now = prev;
+			}
+		});
 
     }
 
@@ -174,7 +176,7 @@ public class BasicGameApp extends GameApplication {
         textPixels.setTranslateX(50); // x = 50
         textPixels.setTranslateY(100); // y = 100
 
-        textPixels.textProperty().bind(FXGL.getWorldProperties().intProperty("pixelsMoved").asString());
+        textPixels.textProperty().bind(FXGL.getWorldProperties().intProperty("playerHP").asString());
 
         FXGL.getGameScene().addUINode(textPixels); // add to the scene graph
         FXGL.getGameScene().addUINode(closeUpTexture);

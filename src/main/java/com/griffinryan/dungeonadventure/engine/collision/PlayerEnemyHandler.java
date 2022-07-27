@@ -18,8 +18,8 @@ public class PlayerEnemyHandler extends CollisionHandler {
 	protected void onCollisionBegin(Entity player, Entity enemy){
 		FXGL.getGameScene().getViewport().shakeTranslational(30);
 
-		// enemy.getComponent(EnemyComponent.class).die();
-		// spawn("Death effect....")
+		int initialHP = FXGL.getWorldProperties().getInt("playerHP");
+		// do damage here!!!!!!!!!!!!!!!!!!!!
 		FXGL.play("laser.wav");
 		enemy.removeFromWorld();
 	}

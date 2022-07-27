@@ -13,8 +13,8 @@ public final class Config {
 	// public static final boolean IS_MENU = true;
 
 	public static final boolean IS_NO_ENEMIES = false;
-
-	public static final boolean IS_BACKGROUND = true;
+	public static final boolean IS_NO_POTIONS = false;
+	public static final boolean IS_BACKGROUND = false;
 
 	public static final boolean IS_SOUND_ENABLED = true;
 
