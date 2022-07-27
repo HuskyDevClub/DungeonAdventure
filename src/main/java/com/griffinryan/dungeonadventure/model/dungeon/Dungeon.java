@@ -8,6 +8,12 @@ import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * 
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class Dungeon {
     private static final int myChanceToGenerateRoom = 85;
     private final AbstractRoom[][] my2dMaze2dArray;
@@ -15,6 +21,9 @@ public class Dungeon {
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
+    /**
+	 * 
+	 */
     public Dungeon(final int width, final int height) {
         AbstractRoom[][] the2dMaze2dArrayTemp;
         final Random theRandom = new Random();
@@ -76,6 +85,11 @@ public class Dungeon {
         my2dMaze2dArray = the2dMaze2dArrayTemp;
     }
 
+    
+    /** 
+     * @param theDirection
+     * @return boolean
+     */
     public boolean move(final Direction theDirection) {
         switch (theDirection) {
             case UP -> {
@@ -94,6 +108,12 @@ public class Dungeon {
         return false;
     }
 
+    
+    /** 
+     * @param theX
+     * @param theY
+     * @return boolean
+     */
     private boolean moveTo(final int theX, final int theY) {
         // check the coordinate to ensure that the player can move
         // which means no out of bound
@@ -105,10 +125,20 @@ public class Dungeon {
         return false;
     }
 
+    
+    /** 
+     * @param theX
+     * @param theY
+     * @return boolean
+     */
     public boolean canMoveTo(final int theX, final int theY) {
         return 0 <= theY && theY < my2dMaze2dArray.length && 0 <= theX && theX < my2dMaze2dArray[theY].length && my2dMaze2dArray[theY][theX] != null;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         final StringBuilder theInfo = new StringBuilder();
@@ -128,6 +158,10 @@ public class Dungeon {
         return theInfo.toString();
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getSurroundingRooms() {
         final StringBuilder theInfo = new StringBuilder();
         for (int y = Integer.max(myHeroCurrentY - 1, 0); y < Integer.min(myHeroCurrentY + 2, my2dMaze2dArray.length); y++) {
@@ -144,31 +178,59 @@ public class Dungeon {
         return theInfo.toString();
     }
 
+    
+    /** 
+     * @return Pillar[]
+     */
     public Pillar[] getPillars() {
         return myPillars;
     }
 
 
+    
+    /** 
+     * @return int
+     */
     public int getCurrentX() {
         return myHeroCurrentX;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getCurrentY() {
         return myHeroCurrentY;
     }
 
+    
+    /** 
+     * @return AbstractRoom
+     */
     public AbstractRoom getCurrentRoom() {
         return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isCurrentRoomPit() {
         return getCurrentRoom() instanceof Pit;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isCurrentRoomExit() {
         return getCurrentRoom() instanceof Exit;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean areAllPillarsFound() {
         for (final Pillar thePillar : myPillars) {
             if (!thePillar.hasBeenFound()) {
@@ -178,6 +240,10 @@ public class Dungeon {
         return true;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getNumOfPillarsFound() {
         int num = 0;
         for (final Pillar thePillar : myPillars) {
@@ -188,6 +254,9 @@ public class Dungeon {
         return num;
     }
 
+    /**
+	 * 
+	 */
     public void pickUpAllPillars() {
         for (final Pillar thePillar : myPillars) {
             thePillar.found();

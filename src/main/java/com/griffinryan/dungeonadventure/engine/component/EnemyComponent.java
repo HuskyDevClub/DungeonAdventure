@@ -9,6 +9,12 @@ import com.almasb.fxgl.texture.Texture;
 
 import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
 
+/**
+ * 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class EnemyComponent extends Component {
 
 	private int speed;
@@ -18,6 +24,14 @@ public class EnemyComponent extends Component {
 	private Texture boundTexture;
 	private AnimationChannel idleChannel, walkChannel, backChannel;
 
+	/**
+	 * 
+	 * @param moveSpeed
+	 * @param idle
+	 * @param walk
+	 * @param back
+	 * @param bound
+	 */
 	public EnemyComponent(int moveSpeed, AnimationChannel idle, AnimationChannel walk, AnimationChannel back, Texture bound){
 		this.idleChannel = idle;
 		this.walkChannel = walk;
@@ -28,6 +42,9 @@ public class EnemyComponent extends Component {
 		this.texture = new AnimatedTexture(idleChannel);
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void onAdded(){
 		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
@@ -38,6 +55,10 @@ public class EnemyComponent extends Component {
 		getWorldProperties().setValue("enemyY", this.getEntity().getY());
 	}
 
+	
+	/** 
+	 * @param tpf
+	 */
 	@Override
 	public void onUpdate(double tpf) {
 		/* update the position of the player. */
@@ -71,29 +92,40 @@ public class EnemyComponent extends Component {
 
 	}
 
+	/**
+	 * 
+	 */
 	public void moveRight() {
 		speed = 250;
 		y = false;
 		getEntity().setScaleX(1);
 	}
 
+	/**
+	 * 
+	 */
 	public void moveLeft() {
 		speed = -250;
 		y = false;
 		getEntity().setScaleX(-1);
 	}
 
+	/**
+	 * 
+	 */
 	public void moveUp() {
 		speed = 250;
 		y = true;
 		getEntity().setScaleY(1);
 	}
 
+	/**
+	 * 
+	 */
 	public void moveDown() {
 		speed = -250;
 		y = true;
 		getEntity().setScaleY(-1);
 	}
-
 
 }

@@ -21,6 +21,13 @@ import com.griffinryan.dungeonadventure.engine.collision.*;
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
 
+/**
+ * BasicGameApp is the main executable class.
+ * 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Elijah Amian (elijah25@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu) 
+ */
 public class BasicGameApp extends GameApplication {
 
     private Entity player, potion, enemy, background;
@@ -32,12 +39,17 @@ public class BasicGameApp extends GameApplication {
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
 	 * */
-
+	/** 
+	 * @param args
+	 */
     public static void main(String[] args) {
         launch(args);
     }
-
-    @Override
+    
+	/** 
+	 * @param settings
+	 */
+	@Override
     protected void initSettings(GameSettings settings) {
         settings.setWidth(1280);
         settings.setHeight(720);
@@ -58,6 +70,9 @@ public class BasicGameApp extends GameApplication {
 		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.8 : 0.0);
 	}
 
+	/** 
+	 * @param vars
+	 */
 	@Override
 	protected void initGameVars(Map<String, Object> vars) {
 
@@ -73,6 +88,9 @@ public class BasicGameApp extends GameApplication {
 		vars.put("potionHP", 100);
 	}
 
+	/**
+	 * 
+	 */
     @Override
     protected void initGame() {
 
@@ -101,6 +119,9 @@ public class BasicGameApp extends GameApplication {
 		DungeonUtility.addWorldPropertyListeners();
     }
 
+	/**
+	 * 
+	 */
 	@Override
 	protected void initPhysics() {
 		PhysicsWorld physics = getPhysicsWorld();
@@ -109,6 +130,9 @@ public class BasicGameApp extends GameApplication {
 		physics.addCollisionHandler(new PlayerPotionHandler());
 	}
 
+	/**
+	 * 
+	 */
     @Override
     protected void initInput() {
 
@@ -146,6 +170,9 @@ public class BasicGameApp extends GameApplication {
 
 	}
 
+	/**
+	 * 
+	 */
     @Override
     protected void initUI() {
         var closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");

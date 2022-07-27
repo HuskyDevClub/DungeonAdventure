@@ -3,9 +3,20 @@ package com.griffinryan.dungeonadventure.controller;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
 
+/**
+ * 
+ * @author Yudong Lin (ydlin@uw.edu)
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public final class DevelopmentTool {
     private static boolean invincible = false;
 
+    /** 
+     * @param cmd
+     * @param theDungeon
+     * @param theHero
+     */
     public static void execute(final String cmd, final Dungeon theDungeon, final Hero theHero) {
         switch (cmd) {
             // make the hero invincible or not
@@ -21,6 +32,9 @@ public final class DevelopmentTool {
         }
     }
 
+    /** 
+     * @return boolean
+     */
     public static boolean isInvincible() {
         return invincible;
     }

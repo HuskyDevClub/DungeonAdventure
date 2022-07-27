@@ -25,8 +25,17 @@ import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
 import static com.griffinryan.dungeonadventure.engine.EntityType.*;
 
+/**
+ * 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class AdventureFactory implements EntityFactory {
 
+	/**
+	 * 
+	 */
 	private static final Point2D[] spawnPoints = new Point2D[] {
 			new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
 			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, SPAWN_DISTANCE),
@@ -34,10 +43,17 @@ public class AdventureFactory implements EntityFactory {
 			new Point2D(SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE)
 	};
 
+	/** 
+	 * @return Point2D
+	 */
 	private static Point2D getRandomSpawnPoint(){
 		return spawnPoints[FXGLMath.random(0, 3)];
 	}
 
+	/** 
+	 * @param data
+	 * @return Entity
+	 */
 	@Spawns("Background")
 	public Entity spawnBackground(SpawnData data){
 		return FXGL.entityBuilder(data)
@@ -46,7 +62,11 @@ public class AdventureFactory implements EntityFactory {
 				.with(new LevelComponent())
 				.build();
 	}
-
+	
+	/** 
+	 * @param data
+	 * @return Entity
+	 */
 	@Spawns("Potion")
 	public Entity spawnPotion(SpawnData data){
 
@@ -67,6 +87,10 @@ public class AdventureFactory implements EntityFactory {
 				.build();
 	}
 
+	/** 
+	 * @param data
+	 * @return Entity
+	 */
 	@Spawns("Player")
 	public Entity spawnPlayer(SpawnData data){
 
@@ -91,6 +115,10 @@ public class AdventureFactory implements EntityFactory {
 				.build();
 	}
 
+	/** 
+	 * @param data
+	 * @return Entity
+	 */
 	@Spawns("Enemy")
 	public Entity spawnEnemy(SpawnData data) {
 

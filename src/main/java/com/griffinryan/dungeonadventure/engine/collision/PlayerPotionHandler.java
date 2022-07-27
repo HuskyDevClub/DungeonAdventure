@@ -7,12 +7,25 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 import static com.griffinryan.dungeonadventure.engine.EntityType.POTION;
 
+/**
+ * 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class PlayerPotionHandler extends CollisionHandler {
 
+	/**
+	 * 
+	 */
 	public PlayerPotionHandler(){
 		super(PLAYER, POTION);
 	}
 
+	/** 
+	 * @param player
+	 * @param potion
+	 */
 	@Override
 	protected void onCollisionBegin(Entity player, Entity potion){
 		FXGL.getGameScene().getViewport().shakeTranslational(30);
@@ -26,4 +39,5 @@ public class PlayerPotionHandler extends CollisionHandler {
 		FXGL.play("coin.wav");
 		potion.removeFromWorld();
 	}
+	
 }

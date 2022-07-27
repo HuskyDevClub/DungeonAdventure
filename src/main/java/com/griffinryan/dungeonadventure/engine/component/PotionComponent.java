@@ -7,6 +7,12 @@ import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
 
+/**
+ * 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class PotionComponent extends Component {
 
 	private AnimatedTexture texture;
@@ -14,6 +20,11 @@ public class PotionComponent extends Component {
 	private AnimationChannel idleChannel;
 	private int hpAmount = 100; // 100, 300, 500?
 
+	/**
+	 * 
+	 * @param idle
+	 * @param bound
+	 */
 	public PotionComponent(AnimationChannel idle, Texture bound){
 		this.idleChannel = idle;
 		this.boundTexture = bound;
@@ -21,6 +32,9 @@ public class PotionComponent extends Component {
 		this.texture = new AnimatedTexture(idleChannel);
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void onAdded(){
 		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));

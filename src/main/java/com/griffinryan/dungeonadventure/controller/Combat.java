@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * 
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
@@ -21,12 +27,18 @@ public final class Combat {
     private static Dungeon myDungeon;
     private static Hero myHero;
     private static boolean isPlaying;
-
+    
+    /** 
+     * @param args
+     */
     public static void main(final String[] args) {
         reset();
         start();
     }
 
+    /**
+     * 
+     */
     public static void reset() {
         // ask the player to choose hero by entering a number
         System.out.println("Please choose your hero:");
@@ -53,6 +65,9 @@ public final class Combat {
         myDungeon = new Dungeon(10, 10);
     }
 
+    /**
+     * 
+     */
     public static void start() {
         isPlaying = true;
         while (isPlaying) {
@@ -149,6 +164,10 @@ public final class Combat {
         System.out.println(theMessage);
     }
 
+    
+    /** 
+     * @param theDirection
+     */
     private static void move(final Direction theDirection) {
         // check whether the hero can move to certain direction, move if the hero can
         if (myDungeon.move(theDirection)) {
@@ -174,6 +193,11 @@ public final class Combat {
         }
     }
 
+    
+    /** 
+     * @param theAttacker
+     * @param theTarget
+     */
     private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
         theAttacker.attack(theTarget);
         log(
@@ -186,6 +210,9 @@ public final class Combat {
         );
     }
 
+    /**
+     * 
+     */
     public static void fightOne() {
         if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
             final Monster theTarget = myDungeon.getCurrentRoom().removeMonster(0);
@@ -206,6 +233,10 @@ public final class Combat {
         }
     }
 
+    /** 
+     * @param theHero
+     * @param theMonster
+     */
     public static void fight(final Hero theHero, final Monster theMonster) {
         if (theHero.getMyAttackSpeed() >= theMonster.getMyAttackSpeed()) {
             for (int i = 0; i < theHero.getMyAttackSpeed() / theMonster.getMyAttackSpeed(); i++) {

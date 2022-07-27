@@ -26,9 +26,19 @@ import com.almasb.fxgl.dsl.FXGL;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
-
+/**
+ * The DungeonMainMenu class defines the
+ * initial pane users are greeted with.
+ * 
+ * @author Elijah Amian (elijah25@uw.edu)
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu)
+ */
 public class DungeonMainMenu extends FXGLMenu {
 
+    /**
+	 * 
+	 */
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
 		if(IS_SOUND_ENABLED){
@@ -38,16 +48,27 @@ public class DungeonMainMenu extends FXGLMenu {
 
     }
 
+    /** 
+     * @param s
+     */
     private void playAudio(String s) {
 		Music m = FXGL.getAssetLoader().loadMusic(s);
 		FXGL.getAudioPlayer().loopMusic(m);
     }
 
-	private void stopAudio(String s){
+	
+    /** 
+     * @param s
+     */
+    private void stopAudio(String s){
 		Music m = FXGL.getAssetLoader().loadMusic(s);
 		FXGL.getAudioPlayer().stopMusic(m);
 	}
 
+    
+    /** 
+     * @param root
+     */
     private void createContent(Pane root) {
         root.setPrefSize(1280, 720);
 
@@ -84,6 +105,9 @@ public class DungeonMainMenu extends FXGLMenu {
         );
     }
 
+    /**
+	 * 
+	 */
     private static class MenuItem extends StackPane {
         MenuItem(String name, Runnable action) {
             LinearGradient gradient = new LinearGradient(

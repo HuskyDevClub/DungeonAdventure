@@ -8,12 +8,25 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
 
+/**
+ * 
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class PlayerEnemyHandler extends CollisionHandler {
 
+	/**
+	 * 
+	 */
 	public PlayerEnemyHandler(){
 		super(PLAYER, ENEMY);
 	}
 
+	/** 
+	 * @param player
+	 * @param enemy
+	 */
 	@Override
 	protected void onCollisionBegin(Entity player, Entity enemy){
 		FXGL.getGameScene().getViewport().shakeTranslational(100);
