@@ -17,9 +17,9 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGL.animationBuilder;
 
 /**
- * 
+ *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
 public class AnimationComponent extends Component {
@@ -32,11 +32,13 @@ public class AnimationComponent extends Component {
 	private AnimationChannel animIdle, animWalk, animWalkBack;
 
 	/**
-	 * 
-	 * @param idle
-	 * @param walk
-	 * @param back
-	 * @param bound
+	 * AnimationComponent() is a constructor that takes different
+	 * AnimationChannel parameters to create an animated player Entity.
+	 *
+	 * @param idle Channel for idle animation.
+	 * @param walk Channel for walking animation.
+	 * @param back Channel for walking backwards animation.
+	 * @param bound Texture for boundary box.
 	 */
 	public AnimationComponent(AnimationChannel idle, AnimationChannel walk, AnimationChannel back, Texture bound){
 		this.animIdle = idle;
@@ -48,22 +50,10 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
-	 */
-	public AnimationComponent(){
-		this.animIdle = new AnimationChannel(FXGL.image("spritesheet/front.png"),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-		this.animWalk = new AnimationChannel(FXGL.image("spritesheet/right.png"),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-		this.animWalkBack = new AnimationChannel(FXGL.image("spritesheet/down.png"),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-
-		this.texture = new AnimatedTexture(animIdle);
-
-	}
-
-	/**
-	 * 
+	 * onAdded() sets properties upon instantiation of
+	 * the Component object.
+	 *
+	 * @see Component
 	 */
 	@Override
 	public void onAdded(){
@@ -73,7 +63,10 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * onUpdate() sets properties upon updates of
+	 * the Component object.
+	 *
+	 * @see Component
 	 */
 	@Override
 	public void onUpdate(double tpf) {
@@ -109,7 +102,10 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * moveRight() handles the
+	 * Entity object movement.
+	 *
+	 * @see Component
 	 */
 	public void moveRight() {
 		speed = 250;
@@ -118,7 +114,10 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * moveLeft() handles the
+	 * Entity object movement.
+	 *
+	 * @see Component
 	 */
 	public void moveLeft() {
 		speed = -250;
@@ -127,7 +126,10 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * moveUp() handles the
+	 * Entity object movement.
+	 *
+	 * @see Component
 	 */
 	public void moveUp() {
 		speed = 250;
@@ -136,7 +138,10 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * moveDown() handles the
+	 * Entity object movement.
+	 *
+	 * @see Component
 	 */
 	public void moveDown() {
 		speed = -250;
@@ -145,7 +150,11 @@ public class AnimationComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * updatePlayerCoordinates() is a
+	 * helper method to store the Entity coordinates
+	 * in the world property map.
+	 *
+	 * @see com.almasb.fxgl.entity.GameWorld
 	 */
 	public void updatePlayerCoordinates() {
 		getWorldProperties().setValue("playerX", getEntity().getX());

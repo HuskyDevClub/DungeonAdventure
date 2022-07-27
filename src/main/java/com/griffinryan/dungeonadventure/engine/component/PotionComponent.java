@@ -8,9 +8,9 @@ import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
 
 /**
- * 
+ *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PotionComponent extends Component {
@@ -21,9 +21,10 @@ public class PotionComponent extends Component {
 	private int hpAmount = 100; // 100, 300, 500?
 
 	/**
-	 * 
-	 * @param idle
-	 * @param bound
+	 * PotionComponent() is a constructor that takes different
+	 * AnimationChannel parameters to create an animated Entity.
+	 * @param idle Channel for idle animation.
+	 * @param bound Texture for boundary box.
 	 */
 	public PotionComponent(AnimationChannel idle, Texture bound){
 		this.idleChannel = idle;
@@ -33,7 +34,10 @@ public class PotionComponent extends Component {
 	}
 
 	/**
-	 * 
+	 * onAdded() sets properties upon instantiation of
+	 * the Component object.
+	 *
+	 * @see Component
 	 */
 	@Override
 	public void onAdded(){

@@ -26,15 +26,18 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 import static com.griffinryan.dungeonadventure.engine.EntityType.*;
 
 /**
- * 
+ * AdventureFactory is a user-defined EntityFactory object
+ * to handle all entities in game engine.
+ *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
 public class AdventureFactory implements EntityFactory {
 
 	/**
-	 * 
+	 * A collection of potential
+	 * spawnPoints in a Point2D[] array.
 	 */
 	private static final Point2D[] spawnPoints = new Point2D[] {
 			new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
@@ -43,16 +46,22 @@ public class AdventureFactory implements EntityFactory {
 			new Point2D(SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE)
 	};
 
-	/** 
+	/**
+	 * Retrieves a random spawn point from array.
+	 *
 	 * @return Point2D
 	 */
 	private static Point2D getRandomSpawnPoint(){
 		return spawnPoints[FXGLMath.random(0, 3)];
 	}
 
-	/** 
-	 * @param data
+	/**
+	 * spawnBackground() returns an Entity
+	 * object appended with LevelComponent().
+	 *
+	 * @param data SpawnData object to use.
 	 * @return Entity
+	 * @see LevelComponent
 	 */
 	@Spawns("Background")
 	public Entity spawnBackground(SpawnData data){
@@ -62,10 +71,14 @@ public class AdventureFactory implements EntityFactory {
 				.with(new LevelComponent())
 				.build();
 	}
-	
-	/** 
-	 * @param data
+
+	/**
+	 * spawnPotion() returns an Entity
+	 * object appended with PotionComponent().
+	 *
+	 * @param data SpawnData object to use.
 	 * @return Entity
+	 * @see PotionComponent
 	 */
 	@Spawns("Potion")
 	public Entity spawnPotion(SpawnData data){
@@ -87,9 +100,13 @@ public class AdventureFactory implements EntityFactory {
 				.build();
 	}
 
-	/** 
-	 * @param data
+	/**
+	 * spawnPlayer() returns an Entity
+	 * object appended with AnimationComponent().
+	 *
+	 * @param data SpawnData object to use.
 	 * @return Entity
+	 * @see AnimationComponent
 	 */
 	@Spawns("Player")
 	public Entity spawnPlayer(SpawnData data){
@@ -115,9 +132,13 @@ public class AdventureFactory implements EntityFactory {
 				.build();
 	}
 
-	/** 
-	 * @param data
+	/**
+	 * spawnEnemy() returns an Entity
+	 * object appended with EnemyComponent().
+	 *
+	 * @param data SpawnData object to use.
 	 * @return Entity
+	 * @see EnemyComponent
 	 */
 	@Spawns("Enemy")
 	public Entity spawnEnemy(SpawnData data) {
