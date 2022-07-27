@@ -8,23 +8,29 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 import static com.griffinryan.dungeonadventure.engine.EntityType.POTION;
 
 /**
- * 
+ *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PlayerPotionHandler extends CollisionHandler {
 
 	/**
-	 * 
+	 * PlayerPotionHandler() is the constructor to create
+	 * a new CollisionHandler for player/potion collisions.
+	 *
+	 * @see CollisionHandler
 	 */
 	public PlayerPotionHandler(){
 		super(PLAYER, POTION);
 	}
 
-	/** 
-	 * @param player
-	 * @param potion
+	/**
+	 * onCollisionBegin() handles the game logic that happens
+	 * upon collision of the two Entity objects.
+	 *
+	 * @param player Entity for the player.
+	 * @param potion Entity for the potion.
 	 */
 	@Override
 	protected void onCollisionBegin(Entity player, Entity potion){
@@ -39,5 +45,5 @@ public class PlayerPotionHandler extends CollisionHandler {
 		FXGL.play("coin.wav");
 		potion.removeFromWorld();
 	}
-	
+
 }

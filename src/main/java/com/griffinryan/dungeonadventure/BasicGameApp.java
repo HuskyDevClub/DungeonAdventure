@@ -23,10 +23,10 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 
 /**
  * BasicGameApp is the main executable class.
- * 
+ *
  * @author Griffin Ryan (glryan@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public class BasicGameApp extends GameApplication {
 
@@ -35,19 +35,27 @@ public class BasicGameApp extends GameApplication {
 
 	/* TODO: 	-
 	 *			-
-	 *			- Add JavaDoc for the engine package.
+	 *			- Fill out JavaDoc for project.
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
 	 * */
-	/** 
-	 * @param args
+	/**
+	 * The main() method runs the launch() method
+	 * with args.
+	 *
+	 * @param args Passed arguments.
+	 * @see GameApplication in FXGL.
 	 */
     public static void main(String[] args) {
         launch(args);
     }
-    
-	/** 
-	 * @param settings
+
+	/**
+	 * initSettings() initializes the game settings like
+	 * window size and SceneFactory.
+	 *
+	 * @param settings FXGL GameSettings parameter to be passed.
+	 * @see GameSettings for settings.
 	 */
 	@Override
     protected void initSettings(GameSettings settings) {
@@ -64,14 +72,25 @@ public class BasicGameApp extends GameApplication {
         });
     }
 
+	/**
+	 * onPreInit() sets certain game settings before
+	 * the initSettings() call.
+	 *
+	 * @see GameSettings for settings.
+	 * */
 	@Override
 	protected void onPreInit(){
 		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 0.4 : 0.0);
 		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 0.8 : 0.0);
 	}
 
-	/** 
-	 * @param vars
+	/**
+	 * initGameVars() initializes the world's
+	 * property map. Used to store variables like
+	 * playerHP, enemyHP, locations, etc.
+	 *
+	 * @param vars Map<String, Object> for storing properties.
+	 * @see com.almasb.fxgl.entity.GameWorld for property map.
 	 */
 	@Override
 	protected void initGameVars(Map<String, Object> vars) {
@@ -89,7 +108,10 @@ public class BasicGameApp extends GameApplication {
 	}
 
 	/**
-	 * 
+	 * initGame() initializes the main game engine
+	 * and creates different Entity objects.
+	 *
+	 * @see Entity
 	 */
     @Override
     protected void initGame() {
@@ -120,7 +142,12 @@ public class BasicGameApp extends GameApplication {
     }
 
 	/**
-	 * 
+	 * initPhysics() creates the collision handler objects
+	 * used to determine collisions.
+	 *
+	 * @see PlayerEnemyHandler for Player/Enemy collisions.
+	 * @see PlayerPotionHandler for Player/Potion collisions.
+	 * @see PhysicsWorld for more.
 	 */
 	@Override
 	protected void initPhysics() {
@@ -131,7 +158,11 @@ public class BasicGameApp extends GameApplication {
 	}
 
 	/**
-	 * 
+	 * initInput() creates the action listeners
+	 * for user input. It handles the updated state
+	 * using the onAction() method.
+	 *
+	 * @see UserAction for more.
 	 */
     @Override
     protected void initInput() {
@@ -171,7 +202,9 @@ public class BasicGameApp extends GameApplication {
 	}
 
 	/**
-	 * 
+	 * initUI() handles creating the UI for the engine
+	 *
+	 * @see com.almasb.fxgl.app.scene.GameScene for more.
 	 */
     @Override
     protected void initUI() {

@@ -29,7 +29,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
 /**
  * The DungeonMainMenu class defines the
  * initial pane users are greeted with.
- * 
+ *
  * @author Elijah Amian (elijah25@uw.edu)
  * @author Griffin Ryan (glryan@uw.edu)
  * @author Yudong Lin (ydlin@uw.edu)
@@ -37,7 +37,10 @@ import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
 public class DungeonMainMenu extends FXGLMenu {
 
     /**
-	 * 
+	 * DungeonMainMenu() is a constructor
+	 * used to create a new FXGLMenu object.
+	 *
+	 * @see FXGLMenu for more.
 	 */
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
@@ -48,26 +51,35 @@ public class DungeonMainMenu extends FXGLMenu {
 
     }
 
-    /** 
-     * @param s
+    /**
+	 * playAudio() plays a .mp3 file located
+	 * in the assets/music path.
+	 *
+     * @param s Title of .mp3 file to play.
      */
     private void playAudio(String s) {
 		Music m = FXGL.getAssetLoader().loadMusic(s);
 		FXGL.getAudioPlayer().loopMusic(m);
     }
 
-	
-    /** 
-     * @param s
+
+    /**
+	 * stopAudio() stops a .mp3 file located
+	 * in the assets/music path.
+	 *
+     * @param s Title of .mp3 to stop.
      */
     private void stopAudio(String s){
 		Music m = FXGL.getAssetLoader().loadMusic(s);
 		FXGL.getAudioPlayer().stopMusic(m);
 	}
 
-    
-    /** 
-     * @param root
+
+    /**
+	 * createContent() is a helper method to create
+	 * the Pane object used in the main menu.
+	 *
+     * @param root The Pane object to build with.
      */
     private void createContent(Pane root) {
         root.setPrefSize(1280, 720);
@@ -106,7 +118,10 @@ public class DungeonMainMenu extends FXGLMenu {
     }
 
     /**
-	 * 
+	 * MenuItem() creates a new StackPane object
+	 * for the main menu.
+	 *
+	 * @see StackPane for more.
 	 */
     private static class MenuItem extends StackPane {
         MenuItem(String name, Runnable action) {

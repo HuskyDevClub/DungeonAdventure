@@ -9,23 +9,29 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
 
 /**
- * 
+ *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu) 
+ * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PlayerEnemyHandler extends CollisionHandler {
 
 	/**
-	 * 
+	 * PlayerEnemyHandler() is the constructor to create
+	 * a new CollisionHandler for player/enemy collisions.
+	 *
+	 * @see CollisionHandler
 	 */
 	public PlayerEnemyHandler(){
 		super(PLAYER, ENEMY);
 	}
 
-	/** 
-	 * @param player
-	 * @param enemy
+	/**
+	 * onCollisionBegin() handles the game logic that happens
+	 * upon collision of the two Entity objects.
+	 *
+	 * @param player Entity for the player.
+	 * @param enemy Entity for the enemy.
 	 */
 	@Override
 	protected void onCollisionBegin(Entity player, Entity enemy){
