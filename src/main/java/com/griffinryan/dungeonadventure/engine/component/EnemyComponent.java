@@ -9,28 +9,28 @@ import javafx.geometry.Point2D;
 
 public class EnemyComponent extends Component {
 
-	private int speed = 0;
+	private int speed;
 	private boolean y = true;
 
 	private AnimatedTexture texture;
 	private Texture boundTexture;
-	private AnimationChannel animIdle, animWalk, animWalkBack;
+	private AnimationChannel idleChannel, walkChannel, backChannel;
 
 	public EnemyComponent(int moveSpeed, AnimationChannel idle, AnimationChannel walk, AnimationChannel back, Texture bound){
-		this.animIdle = idle;
-		this.animWalk = walk;
-		this.animWalkBack = back;
+		this.idleChannel = idle;
+		this.walkChannel = walk;
+		this.backChannel = back;
 
 		this.speed = moveSpeed;
 		this.boundTexture = bound;
-		this.texture = new AnimatedTexture(animIdle);
+		this.texture = new AnimatedTexture(idleChannel);
 	}
 
 	@Override
 	public void onAdded(){
 		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
 		entity.getViewComponent().addChild(texture);
-		texture.loopAnimationChannel(animIdle);
+		texture.loopAnimationChannel(idleChannel);
 	}
 
 	@Override
@@ -39,26 +39,26 @@ public class EnemyComponent extends Component {
 		if(y != true){
 			entity.translateX(speed * tpf);
 			if (speed != 0) {
-				if (texture.getAnimationChannel() == animIdle) {
-					texture.loopAnimationChannel(animWalk);
+				if (texture.getAnimationChannel() == idleChannel) {
+					texture.loopAnimationChannel(walkChannel);
 				}
 				speed = (int) (speed * 0.9);
 				if (FXGLMath.abs(speed) < 1) {
 					speed = 0;
-					texture.loopAnimationChannel(animIdle);
+					texture.loopAnimationChannel(idleChannel);
 				}
 			}
 
 		} else {
 			entity.translateY(speed * tpf);
 			if (speed != 0) {
-				if (texture.getAnimationChannel() == animIdle) {
-					texture.loopAnimationChannel(animWalk);
+				if (texture.getAnimationChannel() == idleChannel) {
+					texture.loopAnimationChannel(walkChannel);
 				}
 				speed = (int) (speed * 0.9);
 				if (FXGLMath.abs(speed) < 1) {
 					speed = 0;
-					texture.loopAnimationChannel(animIdle);
+					texture.loopAnimationChannel(idleChannel);
 				}
 			}
 

@@ -3,7 +3,7 @@ package com.griffinryan.dungeonadventure.engine;
 public enum EntityType {
 	ENEMY, PLAYER, POTION,
 
-	EXPLOSION, BULLET,
+	// EXPLOSION, BULLET, PARTICLE_LAYER, GRID
 
-	LEVEL, PARTICLE_LAYER, GRID
+	LEVEL, BACKGROUND
 }

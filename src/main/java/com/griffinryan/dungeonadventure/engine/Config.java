@@ -16,7 +16,7 @@ public final class Config {
 
 	public static final boolean IS_BACKGROUND = true;
 
-	public static final boolean IS_SOUND_ENABLED = false;
+	public static final boolean IS_SOUND_ENABLED = true;
 
 	public static final int DISTANCE = 200;
 

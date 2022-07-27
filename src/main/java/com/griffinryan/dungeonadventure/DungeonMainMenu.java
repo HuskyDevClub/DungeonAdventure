@@ -41,6 +41,8 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
+
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -52,7 +54,9 @@ public class DungeonMainMenu extends FXGLMenu {
 
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
-        playAudio("drumloop.mp3");
+		if(IS_SOUND_ENABLED){
+			playAudio("drumloop.mp3");
+		}
         createContent(getContentRoot());
 
     }

@@ -16,7 +16,6 @@ import javafx.util.Duration;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.almasb.fxgl.dsl.FXGL.animationBuilder;
-import static com.griffinryan.dungeonadventure.engine.EntityType.GRID;
 
 public class AnimationComponent extends Component {
 

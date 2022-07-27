@@ -53,6 +53,27 @@ public class AdventureFactory implements EntityFactory {
 				.build();
 	}
 
+	@Spawns("Potion")
+	public Entity spawnPotion(SpawnData data){
+
+		/* Setup parameters to give to the CharacterComponent object. */
+		var potionTexture = FXGL.texture("potion/potion.png");
+		AnimationChannel idleChannel = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
+				4, 17, 16, Duration.seconds(0.6), 0, 3);
+
+		PotionComponent animatedPotion = new PotionComponent(idleChannel, potionTexture);
+
+		return FXGL.entityBuilder()
+				.type(POTION)
+				.at(getRandomSpawnPoint())
+				.viewWithBBox(potionTexture) // boundary setting.
+				// .collidable()
+				.zIndex(1000)
+				.with(animatedPotion)
+				.with(new CollidableComponent(true))
+				.build();
+	}
+
 	@Spawns("Player")
 	public Entity spawnPlayer(SpawnData data){
 

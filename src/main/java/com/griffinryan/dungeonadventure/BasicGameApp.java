@@ -33,13 +33,12 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
 import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
-
 public class BasicGameApp extends GameApplication {
 
     private Entity player, potion, enemy;
 	private AnimationComponent playerComponent;
 
-	/* TODO: 	- Add potion collisions.
+	/* TODO: 	- Finish collisions (with removal animation)
 	 *			- Add HP listeners/UI to show HP.
 	 *   		- Create LevelComponent class.
 	 * 			- Generate random level.
@@ -104,12 +103,15 @@ public class BasicGameApp extends GameApplication {
 			enemy = spawn("Enemy");
 		}
 
+		potion = spawn("Potion");
+
     }
 
 	@Override
 	protected void initPhysics() {
 		PhysicsWorld physics = getPhysicsWorld();
 
+		/*
 		CollisionHandler enemyHandler = new CollisionHandler(ENEMY, PLAYER) {
 			@Override
 			protected void onCollisionBegin(Entity enemy, Entity player) {
@@ -124,8 +126,9 @@ public class BasicGameApp extends GameApplication {
 				}
 			}
 		};
-		physics.addCollisionHandler(enemyHandler);
-		// physics.addCollisionHandler(new PlayerEnemyHandler());
+		physics.addCollisionHandler(enemyHandler);	*/
+		physics.addCollisionHandler(new PlayerEnemyHandler());
+		physics.addCollisionHandler(new PlayerPotionHandler());
 	}
 
     @Override
