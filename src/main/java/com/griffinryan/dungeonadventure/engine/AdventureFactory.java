@@ -2,15 +2,11 @@ package com.griffinryan.dungeonadventure.engine;
 
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.dsl.*;
-import com.almasb.fxgl.dsl.components.ExpireCleanComponent;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
-import com.almasb.fxgl.dsl.components.ProjectileComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
-import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
@@ -67,7 +63,7 @@ public class AdventureFactory implements EntityFactory {
 	public Entity spawnBackground(SpawnData data){
 		return FXGL.entityBuilder(data)
 				.type(LEVEL)
-				.with(IS_BACKGROUND ? new BackgroundLevelComponent() : new CollidableComponent(false))
+				.with(IS_BACKGROUND ? new BackgroundLevel() : new CollidableComponent(false))
 				.with(new LevelComponent())
 				.build();
 	}
