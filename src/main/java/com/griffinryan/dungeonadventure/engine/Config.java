@@ -50,5 +50,5 @@ public final class Config {
 	public static final int BG_DISTANCE = 10;
 	public static final Point2D BG_POINT = new Point2D(-3000,-3000);
 
-	public static final String SAVE_NAME = "da.dat";
+	public static final String SAVE_NAME = "adventure_save.db";
 }
