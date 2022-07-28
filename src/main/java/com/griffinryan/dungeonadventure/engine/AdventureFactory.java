@@ -10,6 +10,8 @@ import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.griffinryan.dungeonadventure.engine.utils.DungeonUtility;
+import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 
 import com.griffinryan.dungeonadventure.engine.component.*;
@@ -35,7 +37,7 @@ public class AdventureFactory implements EntityFactory {
 	 *
 	 * @param data SpawnData object to use.
 	 * @return Entity
-	 * @see LevelComponent
+	 * @see EntityFactory
 	 */
 	@Spawns("Background")
 	public Entity spawnBackground(SpawnData data){
@@ -122,6 +124,34 @@ public class AdventureFactory implements EntityFactory {
 				.with(new CollidableComponent(true))
 				.zIndex(2)
 				.build();
+	}
+
+	/**
+	 * spawnDoor() returns an Entity
+	 * object appended with DoorComponent.
+	 *
+	 * @param data SpawnData object to use.
+	 * @return Entity
+	 * @see DoorComponent
+	 * */
+	@Spawns("Door")
+	public Entity spawnDoor(SpawnData data){
+
+		DoorComponent door = new DoorComponent(data);
+		Point2D spawnPoint = new Point2D(data.getX(), data.getY());
+		double[] bounds = door.getDoorBoundaryBox(spawnPoint);
+
+		var d =FXGL.entityBuilder()
+				.type(DOOR)
+				.at(spawnPoint)
+				.bbox(new HitBox(spawnPoint, BoundingShape.box(bounds[0], bounds[1])))
+				.with(door)
+				.with(new CollidableComponent(true))
+				.zIndex(8)
+				.build();
+
+		d.setReusable(true);
+		return d;
 	}
 
 	/**

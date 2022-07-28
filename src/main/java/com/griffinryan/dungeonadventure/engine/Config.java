@@ -19,6 +19,7 @@ public final class Config {
 	// public static final boolean IS_MENU = true;
 	public static final boolean IS_NO_ENEMIES = false;
 	public static final boolean IS_NO_POTIONS = false;
+	public static final boolean IS_NO_DOORS = false;
 
 	// Quick enabling/disabling of game sound for testing.
 	public static final boolean IS_SOUND_ENABLED = true;
@@ -27,8 +28,8 @@ public final class Config {
 	public static final int VIEW_RESOLUTION_Y = 720; // Sets the screen resolution boundary.
 
 	/*	Game logic values. */
-	public static final int VIEW_DISTANCE_X = 852; // Sets view distance to 480p
-	public static final int VIEW_DISTANCE_Y = 480; // Sets view distance to 480p
+	// public static final int VIEW_DISTANCE_X = 852; // Sets view distance to 480p
+	// public static final int VIEW_DISTANCE_Y = 480; // Sets view distance to 480p
 
 	public static final int PLAYER_MAX_SPEED = 500;
 	public static final int PLAYER_MIN_SPEED = 200;

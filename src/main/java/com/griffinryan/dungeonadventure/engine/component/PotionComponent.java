@@ -24,7 +24,7 @@ public class PotionComponent extends Component {
 	/**
 	 * PotionComponent() is a constructor that takes different
 	 * AnimationChannel parameters to create an animated Entity.
-	 * @see AnimatedTexture
+	 * @see Component
 	 */
 	public PotionComponent(){
 

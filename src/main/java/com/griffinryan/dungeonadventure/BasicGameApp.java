@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure;
 import java.util.Map;
 
 import com.almasb.fxgl.app.scene.Viewport;
+import com.almasb.fxgl.entity.SpawnData;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -32,13 +33,15 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  */
 public class BasicGameApp extends GameApplication {
 
-    private Entity player, potion, enemy, background;
+    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS;
+	private SpawnData doorData;
 	private PlayerComponent playerComponent;
 
 	/* TODO:
 	 *			-
-	 *   		- Create DoorComponent
-	 * 			- Implement model.heroes package
+	 *   		- Add constructors for DoorComponent
+	 * 			- Implement model.heroes package....
+	 * 	..... Using the SpawnData object param already passed.
 	 * */
 	/**
 	 * The main() method runs the launch() method
@@ -62,6 +65,8 @@ public class BasicGameApp extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setWidth(VIEW_RESOLUTION_X);
         settings.setHeight(VIEW_RESOLUTION_Y);
+		settings.setAppIcon("sprite/potion.png");
+
         settings.setTitle("Dungeon Adventure");
         settings.setVersion("0.2");
         settings.setMainMenuEnabled(true);
@@ -107,7 +112,10 @@ public class BasicGameApp extends GameApplication {
 		vars.put("enemyY", 0.0);
 		vars.put("potionHP", 100);
 
-
+		vars.put("doorN", false);
+		vars.put("doorE", false);
+		vars.put("doorW", false);
+		vars.put("doorS", false);
 	}
 
 	/**
@@ -143,6 +151,12 @@ public class BasicGameApp extends GameApplication {
 		}
 		if (!IS_NO_POTIONS){
 			potion = spawn("Potion");
+		}
+		if(!IS_NO_DOORS){
+			doorN = spawn("Door", DungeonUtility.doorSpawnPoints[0]);
+			// doorE = spawn("Door", DungeonUtility.doorSpawnPoints[1]);
+			// doorW = spawn("Door", DungeonUtility.doorSpawnPoints[2]);
+			// doorS = spawn("Door", DungeonUtility.doorSpawnPoints[3]);
 		}
 
 		/* 	Add listeners for player/game values.	*/

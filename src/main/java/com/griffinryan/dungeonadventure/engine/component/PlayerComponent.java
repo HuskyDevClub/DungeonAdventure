@@ -35,6 +35,7 @@ public class PlayerComponent extends Component {
 	 * AnimationChannel parameters to create an animated player Entity.
 	 *
 	 * @see AnimatedTexture
+	 * @see Component
 	 */
 	public PlayerComponent(){
 		int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);

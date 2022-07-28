@@ -33,6 +33,7 @@ public class EnemyComponent extends Component {
 	 * AnimationChannel parameters to create an animated Entity.
 	 *
 	 * @see AnimatedTexture
+	 * @see Component
 	 */
 	public EnemyComponent() {
 		int moveSpeed = random(ENEMY_MIN_SPEED, ENEMY_MAX_SPEED);
