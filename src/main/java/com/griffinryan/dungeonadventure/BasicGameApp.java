@@ -22,6 +22,7 @@ import com.griffinryan.dungeonadventure.engine.collision.*;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
+import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
 /**
  * BasicGameApp is the main executable class.
@@ -68,6 +69,7 @@ public class BasicGameApp extends GameApplication {
 
         settings.setTitle("Dungeon Adventure");
         settings.setVersion("0.2");
+		settings.setDeveloperMenuEnabled(true);
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new SceneFactory() {
             @Override
@@ -192,7 +194,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveRight();
-				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.D);
 
@@ -200,7 +202,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveLeft();
-				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.A);
 
@@ -208,7 +210,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveUp();
-				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.S);
 
@@ -229,6 +231,16 @@ public class BasicGameApp extends GameApplication {
 	 */
     @Override
     protected void initUI() {
+
+		/*
+		if(getSettings().isDeveloperMenuEnabled()){
+			Text devCoords = new Text(); // x = 600
+			devCoords.setTranslateX(500);
+			devCoords.setTranslateY(500);
+			devCoords.textProperty().bind(getWorldProperties().getValue("playerX"));
+			devCoords.textProperty().bind(getWorldProperties().getValue("playerY"));
+		}	*/
+
         var closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");
         closeUpTexture.setTranslateX(50);
         closeUpTexture.setTranslateY(450);
