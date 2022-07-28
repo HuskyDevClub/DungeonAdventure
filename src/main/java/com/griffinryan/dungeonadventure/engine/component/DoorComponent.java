@@ -16,10 +16,41 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  */
 public class DoorComponent extends Component {
 
+	/**
+	 * Collection of centered door spawn
+	 * coordinates on the edge of the map.
+	 * doorSpawnPoints[0] = North.
+	 * doorSpawnPoints[1] = East.
+	 * doorSpawnPoints[2] = West.
+	 * doorSpawnPoints[3] = South.
+	 */
+	public static final Point2D[] doorSpawnPoints = new Point2D[] {
+			new Point2D(5*VIEW_RESOLUTION_X/12, 0),
+			new Point2D(11*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6),
+			new Point2D(VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6),
+			new Point2D(5*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6)
+	};
+
+	/**
+	 * Collection of centered door spawn
+	 * coordinates on the edge of the map.
+	 * doorSpawnPoints[0] = North.
+	 * doorSpawnPoints[1] = East.
+	 * doorSpawnPoints[2] = West.
+	 * doorSpawnPoints[3] = South.
+	 */
+	public static final double[] doorBoundaryBoxes = new double[] {
+			5*VIEW_RESOLUTION_X/12, 0,
+			11*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6,
+			VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6,
+			5*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6
+	};
+
 	// private AnimatedTexture texture;
 	// private AnimationChannel idleChannel;
 	private Texture boundTexture;
-	private SpawnData spawnPoint;
+	private SpawnData doorData;
+	private int index;
 
 	/**
 	 * DoorComponent is a constructor that creates
@@ -27,11 +58,10 @@ public class DoorComponent extends Component {
 	 * @see Component
 	 * */
 	public DoorComponent(SpawnData data) {
-		data.getX();
 		double x = data.getX();
 		double y = data.getY();
 
-		this.spawnPoint = data;
+		this.doorData = data;
 		this.boundTexture = FXGL.texture("brick.png", x, y); // north only
 	}
 
@@ -44,11 +74,27 @@ public class DoorComponent extends Component {
 	@Override
 	public void onAdded() {
 
-		Point2D anchor = new Point2D(spawnPoint.getX(), spawnPoint.getY());
+		Point2D anchor = new Point2D(doorData.getX(), doorData.getY());
 		entity.getTransformComponent().setAnchoredPosition(anchor);
 
 		entity.getViewComponent().addChild(boundTexture);
 		boundTexture.darker();
+	}
+
+	/**
+	 * @return index[] of door choice based
+	 * */
+	public int[] getDoorIndexes(Point2D theDoorAnchor){
+		int[] result_index = new int[2];
+
+		double x = theDoorAnchor.getX();
+		double y = theDoorAnchor.getY();
+
+		//TODO now check and return the spot in bounds.
+
+		
+
+		return result_index;
 	}
 
 	/**
@@ -67,11 +113,19 @@ public class DoorComponent extends Component {
 	public double[] getDoorBoundaryBox(Point2D thePoint){
 		double[] result = {5.0, 5.0};
 
-		double x = spawnPoint.getX();
-		double y = spawnPoint.getY();
+		double x = doorData.getX();
+		double y = doorData.getY();
 
 		result[0] = x;
 		result[1] = y;
 		return result;
+	}
+
+	public SpawnData getDoorData() {
+		return doorData;
+	}
+
+	public int getIndex() {
+		return index;
 	}
 }

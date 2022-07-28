@@ -135,16 +135,18 @@ public class AdventureFactory implements EntityFactory {
 	 * @see DoorComponent
 	 * */
 	@Spawns("Door")
-	public Entity spawnDoor(SpawnData data){
+	public Entity spawnDoor(SpawnData data, int theChoice){
 
 		DoorComponent door = new DoorComponent(data);
-		Point2D spawnPoint = new Point2D(data.getX(), data.getY());
-		double[] bounds = door.getDoorBoundaryBox(spawnPoint);
+		/* TODO: - get the door index for
+		*		 - to retrieve the doorBoundaryBoxes array*/
+		Point2D curDoorAnchor = new Point2D(data.getX(), data.getY());
+		int[] choice_index = door.getDoorIndexes(curDoorAnchor);
 
 		var d =FXGL.entityBuilder()
 				.type(DOOR)
-				.at(spawnPoint)
-				.bbox(new HitBox(spawnPoint, BoundingShape.box(bounds[0], bounds[1])))
+				.at(curDoorAnchor)
+				.bbox(new HitBox(curDoorAnchor, BoundingShape.box(DoorComponent.doorBoundaryBoxes[], bounds[1])))
 				.with(door)
 				.with(new CollidableComponent(true))
 				.zIndex(8)

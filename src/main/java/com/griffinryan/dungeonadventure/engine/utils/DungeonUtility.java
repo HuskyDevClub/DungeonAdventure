@@ -1,14 +1,8 @@
 package com.griffinryan.dungeonadventure.engine.utils;
 
-import com.almasb.fxgl.physics.BoundingShape;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Point2D;
-
 import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
-import static com.griffinryan.dungeonadventure.engine.Config.VIEW_RESOLUTION_X;
-import static com.griffinryan.dungeonadventure.engine.Config.VIEW_RESOLUTION_Y;
 
 /**
  *
@@ -79,19 +73,5 @@ public class DungeonUtility {
 		});
 	}
 
-	/**
-	 * Collection of centered door spawn
-	 * coordinates on the edge of the map.
-	 * doorSpawnPoints[0] = North.
-	 * doorSpawnPoints[1] = East.
-	 * doorSpawnPoints[2] = West.
-	 * doorSpawnPoints[3] = South.
-	 */
-	public static final Point2D[] doorSpawnPoints = new Point2D[] {
-			new Point2D(5*VIEW_RESOLUTION_X/12, 0),
-			new Point2D(11*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6),
-			new Point2D(VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6),
-			new Point2D(5*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6)
-	};
 
 }

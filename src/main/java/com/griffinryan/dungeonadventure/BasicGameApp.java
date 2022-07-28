@@ -2,7 +2,6 @@ package com.griffinryan.dungeonadventure;
 
 import java.util.Map;
 
-import com.almasb.fxgl.app.scene.Viewport;
 import com.almasb.fxgl.entity.SpawnData;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -153,10 +152,10 @@ public class BasicGameApp extends GameApplication {
 			potion = spawn("Potion");
 		}
 		if(!IS_NO_DOORS){
-			doorN = spawn("Door", DungeonUtility.doorSpawnPoints[0]);
-			// doorE = spawn("Door", DungeonUtility.doorSpawnPoints[1]);
-			// doorW = spawn("Door", DungeonUtility.doorSpawnPoints[2]);
-			// doorS = spawn("Door", DungeonUtility.doorSpawnPoints[3]);
+			doorN = spawn("Door", DoorComponent.doorSpawnPoints[0]);
+			doorE = spawn("Door", DoorComponent.doorSpawnPoints[1]);
+			doorW = spawn("Door", DoorComponent.doorSpawnPoints[2]);
+			doorS = spawn("Door", DoorComponent.doorSpawnPoints[3]);
 		}
 
 		/* 	Add listeners for player/game values.	*/
@@ -193,7 +192,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveRight();
-				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.D);
 
@@ -201,7 +200,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveLeft();
-				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.A);
 
@@ -209,7 +208,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveUp();
-				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.S);
 
@@ -217,7 +216,7 @@ public class BasicGameApp extends GameApplication {
 			@Override
 			protected void onAction() {
 				player.getComponent(PlayerComponent.class).moveDown();
-				player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
+				// player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
 			}
 		}, KeyCode.W);
 
