@@ -9,6 +9,7 @@ import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
 
 /**
  *
@@ -19,6 +20,32 @@ public class DoorComponent extends Component {
 	private Texture boundTexture;
 	private HitBox hitbox;
 	public String mapKey;
+	private double anchor_x;
+	private double anchor_y;
+
+	/**
+	 * DoorComponent is a constructor that creates
+	 * an Entity object for Door.
+	 * @see Component
+	 * */
+	public DoorComponent() {
+
+		/* Determine spawn point for Component and mapKey.	 */
+		mapKey = findMapKey();
+
+		anchor_x = findDoorXLocation();
+		anchor_y = findDoorYlocation();
+		Point2D tempPoint = new Point2D(anchor_x, anchor_y);
+		double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
+
+		hitbox = new HitBox(mapKey,
+				tempPoint, BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
+
+		/* After this point, reference only the hitbox for locations. */
+
+		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
+		getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
+	}
 
 	/**
 	 * DoorComponent is a constructor that creates
@@ -52,8 +79,9 @@ public class DoorComponent extends Component {
 	 */
 	@Override
 	public void onAdded() {
-		Point2D anchor = hitbox.getCenterWorld();
 
+		/* Setting Point2D to center of Entity. */
+		Point2D anchor = new Point2D(this.getAnchor_x(), this.getAnchor_y());
 		entity.getTransformComponent().setAnchoredPosition(anchor);
 
 		entity.getViewComponent().addChild(boundTexture);
@@ -62,21 +90,20 @@ public class DoorComponent extends Component {
 
 	/**
 	 * Utility method to calculate Door collision
-	 * boundary on the direction it is facing.
+	 * boundary on based on spawn point.
 	 *
-	 * Use the returned array for BoundingBox
-	 * parameters!
+	 * The size of the box is based on the spawn location!
 	 *
 	 * @param thePoint The HitBox's center point.
 	 *
-	 * @return (x,y) bounds of the HitBox
+	 * @return [width, length] bounds to be passed to HitBox.
 	 * */
 	private double[] getHitBoxBoundaryArray(Point2D thePoint){
 		double[] result = {0.0, 0.0};
 
 		if(mapKey.equalsIgnoreCase("doorN")) {
-			result[0] = getAppWidth() / 12.0;
-			result[1] = getAppHeight() / 6.0;
+			result[0] = getAppWidth() / 8.0;
+			result[1] = getAppHeight() / 24.0; // TODO: Check all this
 
 			return result;
 		} else if (mapKey.equalsIgnoreCase("doorS")) {
@@ -99,13 +126,22 @@ public class DoorComponent extends Component {
 		return result;
 	}
 
+	/*
+	private static final Point2D[] potionSpawnPoints = new Point2D[] {
+			new Point2D(get, SPAWN_DISTANCE),
+			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, SPAWN_DISTANCE),
+			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE),
+			new Point2D(SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE)
+	}; */
+
+
 	private double findDoorXLocation() {
 
 		return switch (this.mapKey) {
-			case "doorN" -> 5 * getAppWidth() / 2;
-			case "doorS" -> 5 * getAppWidth() / 12.0;
-			case "doorE" -> 11 * getAppWidth() / 12.0;
-			case "doorW" -> 0;
+			case "doorN" -> getAppWidth() / 2.0; // x = 640 at 720p.
+			case "doorS" -> getAppWidth() / 2.0; // x = 640 at 720p.
+			case "doorE" -> 15.0 * getAppWidth() / 16.0; // x = 1200 at 720p.
+			case "doorW" -> getAppWidth() / 16.0; // x = 80 at 720p.
 			default -> 0;
 		};
 	}
@@ -113,10 +149,10 @@ public class DoorComponent extends Component {
 	private double findDoorYlocation() {
 
 		return switch (this.mapKey) {
-			case "doorN" -> 0;
-			case "doorS" -> 11 * getAppWidth() / 12.0;
-			case "doorE" -> 5 * getAppHeight() / 6.0;
-			case "doorW" -> 5 * getAppHeight() / 6.0;
+			case "doorN" -> getAppHeight() / 12.0; // y = 60 at 720p.
+			case "doorS" -> 11 * getAppHeight() / 12.0; // y = 660 at 720p.
+			case "doorE" -> getAppHeight() / 2.0; // y = 360 at 720p.
+			case "doorW" -> getAppHeight() / 2.0; // y = 360 at 720p.
 			default -> 0;
 		};
 	}
@@ -144,5 +180,13 @@ public class DoorComponent extends Component {
 
 	public HitBox getHitBox() {
 		return hitbox;
+	}
+
+	public double getAnchor_x() {
+		return anchor_x;
+	}
+
+	public double getAnchor_y() {
+		return anchor_y;
 	}
 }
