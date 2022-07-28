@@ -22,7 +22,7 @@ public final class Config {
 	public static final boolean IS_NO_DOORS = false;
 
 	// Quick enabling/disabling of game sound for testing.
-	public static final boolean IS_SOUND_ENABLED = true;
+	public static final boolean IS_SOUND_ENABLED = false;
 
 	public static final int VIEW_RESOLUTION_X = 1280; // Sets the screen resolution boundary.
 	public static final int VIEW_RESOLUTION_Y = 720; // Sets the screen resolution boundary.
