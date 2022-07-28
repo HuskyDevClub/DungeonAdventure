@@ -152,10 +152,10 @@ public class BasicGameApp extends GameApplication {
 			potion = spawn("Potion");
 		}
 		if(!IS_NO_DOORS){
-			doorN = spawn("Door", DoorComponent.doorSpawnPoints[0]);
-			doorE = spawn("Door", DoorComponent.doorSpawnPoints[1]);
-			doorW = spawn("Door", DoorComponent.doorSpawnPoints[2]);
-			doorS = spawn("Door", DoorComponent.doorSpawnPoints[3]);
+			doorN = spawn("doorN");	/*	Different names */
+			doorE = spawn("doorE"); /*	for each door Entity. */
+			doorW = spawn("doorW");
+			doorS = spawn("doorS");
 		}
 
 		/* 	Add listeners for player/game values.	*/

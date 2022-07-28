@@ -13,40 +13,8 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class DoorComponent extends Component {
-
-	/**
-	 * Collection of centered door spawn
-	 * coordinates on the edge of the map.
-	 * doorSpawnPoints[0] = North.
-	 * doorSpawnPoints[1] = East.
-	 * doorSpawnPoints[2] = West.
-	 * doorSpawnPoints[3] = South.
-	 */
-	public static final Point2D[] doorSpawnPoints = new Point2D[] {
-			new Point2D(5*VIEW_RESOLUTION_X/12, 0),
-			new Point2D(11*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6),
-			new Point2D(VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6),
-			new Point2D(5*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6)
-	};
-
-	/**
-	 * Collection of centered door spawn
-	 * coordinates on the edge of the map.
-	 * doorSpawnPoints[0] = North.
-	 * doorSpawnPoints[1] = East.
-	 * doorSpawnPoints[2] = West.
-	 * doorSpawnPoints[3] = South.
-	 */
-	public static final double[] doorBoundaryBoxes = new double[] {
-			5*VIEW_RESOLUTION_X/12, 0,
-			11*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6,
-			VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6,
-			5*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6
-	};
 
 	private Texture boundTexture;
 	private HitBox hitbox;
@@ -60,7 +28,7 @@ public class DoorComponent extends Component {
 		double x = data.getX();
 		double y = data.getY();
 		Point2D originPoint = new Point2D(x, y);
-		double[] boundsArray = getDoorBoundaryArray(originPoint);
+		double[] boundsArray = getHitBoxBoundaryArray(originPoint);
 
 		hitbox = new HitBox("doorHitBox",
 				originPoint, BoundingShape.box(boundsArray[0], boundsArray[1]));
@@ -92,21 +60,35 @@ public class DoorComponent extends Component {
 	 * Use the returned array for BoundingBox
 	 * parameters!
 	 *
-	 * @param thePoint The door's direction and
-	 *                     PropertyMap key.
+	 * @param thePoint The HitBox's center point.
 	 *
-	 * @return (0,0,0,0) if theDirection does not
-	 * equal "doorN" "doorE" "doorW" or "doorS".
+	 * @return (x,y) bounds of the HitBox
 	 * */
-	public double[] getDoorBoundaryArray(Point2D thePoint){
-		double[] result = {5.0, 5.0};
+	private double[] getHitBoxBoundaryArray(Point2D thePoint){
+		double[] result = new double[2];
 
-		double x = doorData.getX();
-		double y = doorData.getY();
+		double x = thePoint.getX();
+		double y = thePoint.getY();
+
+		////////////////////////////////////////////
+		// REturn the size in 2D array! duh!
+		/*
+		public static final Point2D[] doorSpawnPoints = new Point2D[] {
+				new Point2D(5 * FXGL.getAppWidth() / 12, 0), // North
+				new Point2D(5 * FXGL.getAppWidth() / 12, 5 * FXGL.getAppHeight() / 12), // East
+				new Point2D(FXGL.getAppWidth() / 12, 5 * FXGL.getAppHeight() / 12), // West
+				new Point2D(5 * FXGL.getAppWidth() / 12, 5*FXGL.getAppWidth()/6) // South
+		};	*/
+
+
+
 
 		result[0] = x;
 		result[1] = y;
 		return result;
 	}
 
+	public HitBox getHitBox() {
+		return hitbox;
+	}
 }

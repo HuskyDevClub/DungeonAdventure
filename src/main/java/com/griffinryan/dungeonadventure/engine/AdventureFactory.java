@@ -16,18 +16,17 @@ import javafx.geometry.Point2D;
 
 import com.griffinryan.dungeonadventure.engine.component.*;
 
-import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
-import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.griffinryan.dungeonadventure.engine.Config.*;
+import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_HP;
+import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
 import static com.griffinryan.dungeonadventure.engine.EntityType.*;
+import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
 /**
  * AdventureFactory is a user-defined EntityFactory object
  * to handle all entities in game engine.
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class AdventureFactory implements EntityFactory {
 
@@ -64,7 +63,7 @@ public class AdventureFactory implements EntityFactory {
 		PlayerComponent animatedPlayer = new PlayerComponent();
 
 		return FXGL.entityBuilder()
-				.type(PLAYER)
+				.type(EntityType.PLAYER)
 				.at(640,360) // Set the spawn and boundary.
 				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(30, 30)))
 				.collidable()
@@ -88,7 +87,7 @@ public class AdventureFactory implements EntityFactory {
 		EnemyComponent animatedEnemy = new EnemyComponent();
 
 		var e = entityBuilder(data)
-				.type(ENEMY)
+				.type(EntityType.ENEMY)
 				.at(getRandomSpawnPoint())
 				.bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(80, 80)))
 				.with(new HealthIntComponent(ENEMY_HP))
@@ -117,7 +116,7 @@ public class AdventureFactory implements EntityFactory {
 		PotionComponent animatedPotion = new PotionComponent();
 
 		return FXGL.entityBuilder()
-				.type(POTION)
+				.type(EntityType.POTION)
 				.at(getRandomSpawnPoint())
 				.bbox(new HitBox(new Point2D(14, 21), BoundingShape.box(80, 80)))
 				.with(animatedPotion)
@@ -131,31 +130,107 @@ public class AdventureFactory implements EntityFactory {
 	 * object appended with DoorComponent.
 	 *
 	 * @param data SpawnData object to use.
-	 * @return Entity
+	 * @return Entity north side door
 	 * @see DoorComponent
 	 * */
-	@Spawns("Door")
-	public Entity spawnDoor(SpawnData data, int theChoice){
+	@Spawns("doorN")
+	public Entity spawnNorthDoor(SpawnData data){
+		getWorldProperties().setValue("doorN", true);
 
 		DoorComponent door = new DoorComponent(data);
 		/* TODO: - get the door index for
 		*		 - to retrieve the doorBoundaryBoxes array*/
-		Point2D curDoorAnchor = new Point2D(data.getX(), data.getY());
-		int[] choice_index = door.getDoorIndexes(curDoorAnchor);
-		HitBox h = new HitBox(BoundingShape.box(1,1));
-		h.get
+		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
 
-		var d =FXGL.entityBuilder()
-				.type(DOOR)
+		return FXGL.entityBuilder()
+				.type(EntityType.DOOR)
 				.at(curDoorAnchor)
-				.bbox(new HitBox(curDoorAnchor, BoundingShape.box(DoorComponent.doorBoundaryBoxes[], bounds[1])))
+				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
 				.with(door)
 				.with(new CollidableComponent(true))
 				.zIndex(8)
 				.build();
+	}
 
-		d.setReusable(true);
-		return d;
+	/**
+	 * spawnDoor() returns an Entity
+	 * object appended with DoorComponent.
+	 *
+	 * @param data SpawnData object to use.
+	 * @return Entity north side door
+	 * @see DoorComponent
+	 * */
+	@Spawns("doorS")
+	public Entity spawnSouthDoor(SpawnData data){
+		getWorldProperties().setValue("doorS", true);
+
+		DoorComponent door = new DoorComponent(data);
+		/* TODO: - get the door index for
+		 *		 - to retrieve the doorBoundaryBoxes array*/
+		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
+
+		return FXGL.entityBuilder()
+				.type(EntityType.DOOR)
+				.at(curDoorAnchor)
+				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.with(door)
+				.with(new CollidableComponent(true))
+				.zIndex(8)
+				.build();
+	}
+
+	/**
+	 * spawnDoor() returns an Entity
+	 * object appended with DoorComponent.
+	 *
+	 * @param data SpawnData object to use.
+	 * @return Entity north side door
+	 * @see DoorComponent
+	 * */
+	@Spawns("doorE")
+	public Entity spawnEastDoor(SpawnData data){
+		getWorldProperties().setValue("doorE", true);
+
+		DoorComponent door = new DoorComponent(data);
+		/* TODO: - get the door index for
+		 *		 - to retrieve the doorBoundaryBoxes array*/
+		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
+
+		return FXGL.entityBuilder()
+				.type(EntityType.DOOR)
+				.at(curDoorAnchor)
+				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.with(door)
+				.with(new CollidableComponent(true))
+				.zIndex(8)
+				.build();
+	}
+
+	/**
+	 * spawnDoor() returns an Entity
+	 * object appended with DoorComponent.
+	 *
+	 * @param data SpawnData object to use.
+	 * @return Entity north side door
+	 * @see DoorComponent
+	 * */
+	@Spawns("doorW")
+	public Entity spawnWestDoor(SpawnData data){
+		getWorldProperties().setValue("doorW", true);
+
+		DoorComponent door = new DoorComponent(data);
+		/* TODO: - get the door index for
+		 *		 - to retrieve the doorBoundaryBoxes array*/
+		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
+
+		return FXGL.entityBuilder()
+				.type(EntityType.DOOR)
+				.at(curDoorAnchor)
+				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.with(door)
+				.with(new CollidableComponent(true))
+				.zIndex(8)
+				.build();
 	}
 
 	/**
@@ -169,8 +244,8 @@ public class AdventureFactory implements EntityFactory {
 
 	/**
 	 * A collection of potential
-	 * spawnPoints in a Point2D[] array.
-	 * TO-DO: Sometimes it spawns a weird coordinate?
+	 * spawnPoints in a quick Point2D[] array.
+	 *
 	 */
 	private static final Point2D[] spawnPoints = new Point2D[] {
 			new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
