@@ -37,8 +37,8 @@ public class BasicGameApp extends GameApplication {
 
 	/* TODO:
 	 *			-
-	 *   		- Create LevelComponent class.
-	 * 			- Generate random level.
+	 *   		- Create DoorComponent
+	 * 			- Implement model.heroes package
 	 * */
 	/**
 	 * The main() method runs the launch() method
@@ -120,9 +120,8 @@ public class BasicGameApp extends GameApplication {
     protected void initGame() {
 
 		/* 	Create the AdventureFactory object for entities.	*/
-		int dist = OUTSIDE_DISTANCE;
 		getGameWorld().addEntityFactory(new AdventureFactory());
-		getGameScene().setBackgroundColor(Color.color(0.2, 0.2, 0.2, 1.0));
+		getGameScene().setBackgroundColor(Color.color(0.2, 0.2, 0.3, 1.0));
 
 		/* 	Spawn all component entities except player.	*/
 		player = spawn("Player");
@@ -131,8 +130,6 @@ public class BasicGameApp extends GameApplication {
 		/* 	Set the bounds of camera.	*/
 		/*
 		 Viewport viewport = getGameScene().getViewport();
-		 viewport.setX(500);
-		 viewport.setY(500);
 		 viewport.setZoom(1.20);
 		 viewport.bindToEntity(player, 500, 500);
 		 viewport.setBounds(0, 0, VIEW_RESOLUTION_X, VIEW_RESOLUTION_Y);
