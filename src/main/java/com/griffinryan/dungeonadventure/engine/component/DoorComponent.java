@@ -3,6 +3,8 @@ package com.griffinryan.dungeonadventure.engine.component;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 
@@ -46,11 +48,8 @@ public class DoorComponent extends Component {
 			5*VIEW_RESOLUTION_X/12, 5*VIEW_RESOLUTION_Y/6
 	};
 
-	// private AnimatedTexture texture;
-	// private AnimationChannel idleChannel;
 	private Texture boundTexture;
-	private SpawnData doorData;
-	private int index;
+	private HitBox hitbox;
 
 	/**
 	 * DoorComponent is a constructor that creates
@@ -60,9 +59,15 @@ public class DoorComponent extends Component {
 	public DoorComponent(SpawnData data) {
 		double x = data.getX();
 		double y = data.getY();
+		Point2D originPoint = new Point2D(x, y);
+		double[] boundsArray = getDoorBoundaryArray(originPoint);
 
-		this.doorData = data;
-		this.boundTexture = FXGL.texture("brick.png", x, y); // north only
+		hitbox = new HitBox("doorHitBox",
+				originPoint, BoundingShape.box(boundsArray[0], boundsArray[1]));
+
+		/* TODO -> x and y scales depending on which point
+		*   -> getDoorBoundaryArray() needs work for first!	*/
+		boundTexture = FXGL.texture("brick.png", x, y);
 	}
 
 	/**
@@ -73,28 +78,11 @@ public class DoorComponent extends Component {
 	 */
 	@Override
 	public void onAdded() {
-
-		Point2D anchor = new Point2D(doorData.getX(), doorData.getY());
+		Point2D anchor = hitbox.getCenterWorld();
 		entity.getTransformComponent().setAnchoredPosition(anchor);
 
 		entity.getViewComponent().addChild(boundTexture);
 		boundTexture.darker();
-	}
-
-	/**
-	 * @return index[] of door choice based
-	 * */
-	public int[] getDoorIndexes(Point2D theDoorAnchor){
-		int[] result_index = new int[2];
-
-		double x = theDoorAnchor.getX();
-		double y = theDoorAnchor.getY();
-
-		//TODO now check and return the spot in bounds.
-
-		
-
-		return result_index;
 	}
 
 	/**
@@ -110,7 +98,7 @@ public class DoorComponent extends Component {
 	 * @return (0,0,0,0) if theDirection does not
 	 * equal "doorN" "doorE" "doorW" or "doorS".
 	 * */
-	public double[] getDoorBoundaryBox(Point2D thePoint){
+	public double[] getDoorBoundaryArray(Point2D thePoint){
 		double[] result = {5.0, 5.0};
 
 		double x = doorData.getX();
@@ -121,11 +109,4 @@ public class DoorComponent extends Component {
 		return result;
 	}
 
-	public SpawnData getDoorData() {
-		return doorData;
-	}
-
-	public int getIndex() {
-		return index;
-	}
 }

@@ -142,6 +142,8 @@ public class AdventureFactory implements EntityFactory {
 		*		 - to retrieve the doorBoundaryBoxes array*/
 		Point2D curDoorAnchor = new Point2D(data.getX(), data.getY());
 		int[] choice_index = door.getDoorIndexes(curDoorAnchor);
+		HitBox h = new HitBox(BoundingShape.box(1,1));
+		h.get
 
 		var d =FXGL.entityBuilder()
 				.type(DOOR)
