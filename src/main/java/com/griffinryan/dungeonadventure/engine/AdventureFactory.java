@@ -135,11 +135,9 @@ public class AdventureFactory implements EntityFactory {
 	 * */
 	@Spawns("doorN")
 	public Entity spawnNorthDoor(SpawnData data){
-		getWorldProperties().setValue("doorN", true);
 
+		getWorldProperties().setValue("doorN", true);
 		DoorComponent door = new DoorComponent(data);
-		/* TODO: - get the door index for
-		*		 - to retrieve the doorBoundaryBoxes array*/
 		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
 
 		return FXGL.entityBuilder()
@@ -165,8 +163,6 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorS", true);
 
 		DoorComponent door = new DoorComponent(data);
-		/* TODO: - get the door index for
-		 *		 - to retrieve the doorBoundaryBoxes array*/
 		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
 
 		return FXGL.entityBuilder()
@@ -192,8 +188,6 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorE", true);
 
 		DoorComponent door = new DoorComponent(data);
-		/* TODO: - get the door index for
-		 *		 - to retrieve the doorBoundaryBoxes array*/
 		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
 
 		return FXGL.entityBuilder()
@@ -219,8 +213,6 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorW", true);
 
 		DoorComponent door = new DoorComponent(data);
-		/* TODO: - get the door index for
-		 *		 - to retrieve the doorBoundaryBoxes array*/
 		Point2D curDoorAnchor = door.getHitBox().getCenterWorld();
 
 		return FXGL.entityBuilder()

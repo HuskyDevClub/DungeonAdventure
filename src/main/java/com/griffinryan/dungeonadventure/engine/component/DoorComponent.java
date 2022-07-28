@@ -8,7 +8,7 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 
-import static com.griffinryan.dungeonadventure.engine.Config.*;
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 /**
  *
@@ -18,6 +18,7 @@ public class DoorComponent extends Component {
 
 	private Texture boundTexture;
 	private HitBox hitbox;
+	public String mapKey;
 
 	/**
 	 * DoorComponent is a constructor that creates
@@ -25,17 +26,22 @@ public class DoorComponent extends Component {
 	 * @see Component
 	 * */
 	public DoorComponent(SpawnData data) {
-		double x = data.getX();
-		double y = data.getY();
-		Point2D originPoint = new Point2D(x, y);
-		double[] boundsArray = getHitBoxBoundaryArray(originPoint);
 
-		hitbox = new HitBox("doorHitBox",
-				originPoint, BoundingShape.box(boundsArray[0], boundsArray[1]));
+		/* Determine spawn point for Component and mapKey.	 */
+		mapKey = findMapKey();
 
-		/* TODO -> x and y scales depending on which point
-		*   -> getDoorBoundaryArray() needs work for first!	*/
-		boundTexture = FXGL.texture("brick.png", x, y);
+		double x = findDoorXLocation();
+		double y = findDoorYlocation();
+		Point2D tempPoint = new Point2D(x, y);
+		double[] boundsArray = getHitBoxBoundaryArray(tempPoint);
+
+		hitbox = new HitBox(mapKey,
+				tempPoint, BoundingShape.box(boundsArray[0], boundsArray[1]));
+
+		/* After this point, reference only the hitbox for locations. */
+
+		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
+		getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
 	}
 
 	/**
@@ -47,6 +53,7 @@ public class DoorComponent extends Component {
 	@Override
 	public void onAdded() {
 		Point2D anchor = hitbox.getCenterWorld();
+
 		entity.getTransformComponent().setAnchoredPosition(anchor);
 
 		entity.getViewComponent().addChild(boundTexture);
@@ -65,26 +72,73 @@ public class DoorComponent extends Component {
 	 * @return (x,y) bounds of the HitBox
 	 * */
 	private double[] getHitBoxBoundaryArray(Point2D thePoint){
-		double[] result = new double[2];
+		double[] result = {0.0, 0.0};
 
-		double x = thePoint.getX();
-		double y = thePoint.getY();
+		if(mapKey.equalsIgnoreCase("doorN")) {
+			result[0] = getAppWidth() / 12.0;
+			result[1] = getAppHeight() / 6.0;
 
-		////////////////////////////////////////////
-		// REturn the size in 2D array! duh!
-		/*
-		public static final Point2D[] doorSpawnPoints = new Point2D[] {
-				new Point2D(5 * FXGL.getAppWidth() / 12, 0), // North
-				new Point2D(5 * FXGL.getAppWidth() / 12, 5 * FXGL.getAppHeight() / 12), // East
-				new Point2D(FXGL.getAppWidth() / 12, 5 * FXGL.getAppHeight() / 12), // West
-				new Point2D(5 * FXGL.getAppWidth() / 12, 5*FXGL.getAppWidth()/6) // South
-		};	*/
+			return result;
+		} else if (mapKey.equalsIgnoreCase("doorS")) {
+			result[0] = getAppWidth() / 12.0;
+			result[1] = getAppHeight() / 6.0;
+
+			return result;
+		} else if (mapKey.equalsIgnoreCase("doorE")) {
+			result[0] = getAppWidth() / 6.0;
+			result[1] = getAppHeight() / 12.0;
+
+			return result;
+		} else if (mapKey.equalsIgnoreCase("doorW")) {
+			result[0] = getAppWidth() / 6.0;
+			result[1] = getAppHeight() / 12.0;
+
+			return result;
+		}
+
+		return result;
+	}
+
+	private double findDoorXLocation() {
+
+		return switch (this.mapKey) {
+			case "doorN" -> 5 * getAppWidth() / 2;
+			case "doorS" -> 5 * getAppWidth() / 12.0;
+			case "doorE" -> 11 * getAppWidth() / 12.0;
+			case "doorW" -> 0;
+			default -> 0;
+		};
+	}
+
+	private double findDoorYlocation() {
+
+		return switch (this.mapKey) {
+			case "doorN" -> 0;
+			case "doorS" -> 11 * getAppWidth() / 12.0;
+			case "doorE" -> 5 * getAppHeight() / 6.0;
+			case "doorW" -> 5 * getAppHeight() / 6.0;
+			default -> 0;
+		};
+	}
+
+	private String findMapKey() {
+		String result = "";
+
+		for (int i = 0; i < getWorldProperties().toMap().size(); i++) {
+
+			if(getWorldProperties().getBoolean("doorN")){
+				return "doorN";
+			} else if(getWorldProperties().getBoolean("doorS")){
+				return "doorS";
+			} else if(getWorldProperties().getBoolean("doorE")){
+				return "doorE";
+			} else if(getWorldProperties().getBoolean("doorW")){
+				return "doorW";
+			}
+
+		}
 
 
-
-
-		result[0] = x;
-		result[1] = y;
 		return result;
 	}
 
