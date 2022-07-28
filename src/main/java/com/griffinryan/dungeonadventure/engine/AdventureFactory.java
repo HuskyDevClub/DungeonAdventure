@@ -135,7 +135,7 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorN", true);
 		DoorComponent door = new DoorComponent();
 
-		Point2D curDoorAnchor = new Point2D(door.getAnchor_x(), door.getAnchor_y());
+		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 		data = new SpawnData(curDoorAnchor);
 
 		return FXGL.entityBuilder()
@@ -161,7 +161,7 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorS", true);
 
 		DoorComponent door = new DoorComponent();
-		Point2D curDoorAnchor = new Point2D(door.getAnchor_x(), door.getAnchor_y());
+		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)
@@ -186,7 +186,7 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorE", true);
 
 		DoorComponent door = new DoorComponent();
-		Point2D curDoorAnchor = new Point2D(door.getAnchor_x(), door.getAnchor_y());
+		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)
@@ -211,7 +211,7 @@ public class AdventureFactory implements EntityFactory {
 		getWorldProperties().setValue("doorW", true);
 
 		DoorComponent door = new DoorComponent();
-		Point2D curDoorAnchor = new Point2D(door.getAnchor_x(), door.getAnchor_y());
+		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)

@@ -1,7 +1,6 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
@@ -9,7 +8,6 @@ import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
 
 /**
  *
@@ -20,8 +18,8 @@ public class DoorComponent extends Component {
 	private Texture boundTexture;
 	private HitBox hitbox;
 	public String mapKey;
-	private double anchor_x;
-	private double anchor_y;
+	private double anchorX;
+	private double anchorY;
 
 	/**
 	 * DoorComponent is a constructor that creates
@@ -33,9 +31,11 @@ public class DoorComponent extends Component {
 		/* Determine spawn point for Component and mapKey.	 */
 		mapKey = findMapKey();
 
-		anchor_x = findDoorXLocation();
-		anchor_y = findDoorYlocation();
-		Point2D tempPoint = new Point2D(anchor_x, anchor_y);
+		/* set the corner of the component. */
+		anchorX = setAnchorXLocation();
+		anchorY = setAnchorYLocation();
+		Point2D tempPoint = new Point2D(anchorX, anchorY);
+
 		double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
 
 		hitbox = new HitBox(mapKey,
@@ -47,29 +47,24 @@ public class DoorComponent extends Component {
 		getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
 	}
 
-	/**
-	 * DoorComponent is a constructor that creates
-	 * an Entity object for Door.
-	 * @see Component
-	 * */
+	/*
 	public DoorComponent(SpawnData data) {
 
-		/* Determine spawn point for Component and mapKey.	 */
+
 		mapKey = findMapKey();
 
-		double x = findDoorXLocation();
-		double y = findDoorYlocation();
+		double x = setDoorXLocation();
+		double y = setDoorYlocation();
 		Point2D tempPoint = new Point2D(x, y);
 		double[] boundsArray = getHitBoxBoundaryArray(tempPoint);
 
 		hitbox = new HitBox(mapKey,
 				tempPoint, BoundingShape.box(boundsArray[0], boundsArray[1]));
 
-		/* After this point, reference only the hitbox for locations. */
 
 		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
-		getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
-	}
+		getWorldProperties().setValue(mapKey, false);
+	}*/
 
 	/**
 	 * onAdded() sets properties upon instantiation of
@@ -80,8 +75,8 @@ public class DoorComponent extends Component {
 	@Override
 	public void onAdded() {
 
-		/* Setting Point2D to center of Entity. */
-		Point2D anchor = new Point2D(this.getAnchor_x(), this.getAnchor_y());
+		/* Setting Point2D to corner of Entity. TODO: Maybe with HitBox reference? */
+		Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
 		entity.getTransformComponent().setAnchoredPosition(anchor);
 
 		entity.getViewComponent().addChild(boundTexture);
@@ -126,33 +121,57 @@ public class DoorComponent extends Component {
 		return result;
 	}
 
-	/*
-	private static final Point2D[] potionSpawnPoints = new Point2D[] {
-			new Point2D(get, SPAWN_DISTANCE),
-			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, SPAWN_DISTANCE),
-			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE),
-			new Point2D(SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE)
-	}; */
-
-
-	private double findDoorXLocation() {
+	/**
+	 * Calculates the Component's bottom corner X coordinate
+	 * to be stored in a field double called anchor_x.
+	 * The fields are used in a (x, y) coordinate in the constructor
+	 * method for the Component to set the HitBox Object.
+	 * N: x = 600 - texture_size at 720p.
+	 * 		getAppWidth() / 2.0 - getAppWidth() / 32.0
+	 * S: x = 600 - texture_size at 720p.
+	 * 		getAppWidth() / 2.0 - getAppWidth() / 32.0
+	 * E: x = 1200 + texture_size at 720p. (x = 1220)
+	 * 		15.0 * getAppWidth() / 16.0 + getAppWidth() / 64.0
+	 * W: x = 0 at 720p.
+	 * TODO:- Create a AdventureComp interface
+	 * 		- that calculates the 16:9 math to
+	 * 		- store in the propertyMap during load phase.
+	 * @see HitBox
+	 * */
+	private double setAnchorXLocation() {
+		/*		*/
 
 		return switch (this.mapKey) {
-			case "doorN" -> getAppWidth() / 2.0; // x = 640 at 720p.
-			case "doorS" -> getAppWidth() / 2.0; // x = 640 at 720p.
-			case "doorE" -> 15.0 * getAppWidth() / 16.0; // x = 1200 at 720p.
-			case "doorW" -> getAppWidth() / 16.0; // x = 80 at 720p.
+			case "doorN" -> 600.0;
+			case "doorS" -> 600.0;
+			case "doorE" -> 1220.0;
+			case "doorW" -> 0.0;
 			default -> 0;
 		};
 	}
 
-	private double findDoorYlocation() {
+	/**
+	 * Calculates the Component's bottom corner Y coordinate
+	 * to be stored in a field double called anchor_y.
+	 * The fields are used in a (x, y) coordinate in the constructor
+	 * method for the Component to set the HitBox Object.
+	 * N: y = 0 at 720p.
+	 * S: y = 660 - texture_size at 720p.
+	 * 		11 * getAppHeight() / 12.0 - getAppHeight() / 54.0
+	 * E: y = 360 - texture_size at 720p.
+	 * 		getAppHeight() / 2.0 - getAppHeight() / 12.0
+	 * W: y = 360 - texture_size at 720p.
+	 * 		getAppHeight() / 2.0 - getAppHeight() / 12.0
+	 * TODO: Create a AdventureComp interface
+	 * @see HitBox
+	 * */
+	private double setAnchorYLocation() {
 
 		return switch (this.mapKey) {
-			case "doorN" -> getAppHeight() / 12.0; // y = 60 at 720p.
-			case "doorS" -> 11 * getAppHeight() / 12.0; // y = 660 at 720p.
-			case "doorE" -> getAppHeight() / 2.0; // y = 360 at 720p.
-			case "doorW" -> getAppHeight() / 2.0; // y = 360 at 720p.
+			case "doorN" -> 0.0;
+			case "doorS" -> 647.0;
+			case "doorE" -> 330.0;
+			case "doorW" -> 330.0;
 			default -> 0;
 		};
 	}
@@ -182,11 +201,11 @@ public class DoorComponent extends Component {
 		return hitbox;
 	}
 
-	public double getAnchor_x() {
-		return anchor_x;
+	public double getAnchorX() {
+		return anchorX;
 	}
 
-	public double getAnchor_y() {
-		return anchor_y;
+	public double getAnchorY() {
+		return anchorY;
 	}
 }
