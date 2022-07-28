@@ -1,10 +1,11 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * PathFinder determines the
+ * path of a given dungeon maze
+ * and whether it is reachable or not.
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 class PathFinder {
 
@@ -16,7 +17,7 @@ class PathFinder {
     private int myTargetY;
 
     /**
-	 * 
+	 *
 	 */
     PathFinder(final AbstractRoom[][] theMaze, final int theEntranceX, final int theEntranceY) {
         this.myEntranceX = theEntranceX;
@@ -24,8 +25,8 @@ class PathFinder {
         this.myMaze = theMaze;
     }
 
-    
-    /** 
+
+    /**
      * @param theTargetX
      * @param theTargetY
      * @return boolean
@@ -37,8 +38,8 @@ class PathFinder {
         return this.check(myEntranceX, myEntranceY);
     }
 
-    
-    /** 
+
+    /**
      * @param theX
      * @param theY
      * @return boolean

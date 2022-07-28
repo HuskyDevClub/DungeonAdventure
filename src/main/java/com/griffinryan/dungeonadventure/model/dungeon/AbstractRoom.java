@@ -5,10 +5,10 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import java.util.ArrayList;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * AbstractRoom is the parent object
+ * extended by model.dungeon objects.
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public abstract class AbstractRoom {
     private final ArrayList<Monster> myMonsters;
@@ -17,7 +17,7 @@ public abstract class AbstractRoom {
     private int myNumberOfVisionPotions;
 
     /**
-	 * 
+	 *
 	 */
     protected AbstractRoom(final ArrayList<Monster> theMonsters, final int theNumberOfHealingPotions, final int theNumberOfVisionPotions) {
         this.myMonsters = theMonsters;
@@ -25,8 +25,8 @@ public abstract class AbstractRoom {
         this.myNumberOfVisionPotions = theNumberOfVisionPotions;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int pickUpHealingPotions() {
@@ -35,8 +35,8 @@ public abstract class AbstractRoom {
         return num;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int pickUpVisionPotions() {
@@ -45,8 +45,8 @@ public abstract class AbstractRoom {
         return num;
     }
 
-    
-    /** 
+
+    /**
      * @return String
      */
     public String pickUpPillar() {
@@ -56,40 +56,40 @@ public abstract class AbstractRoom {
         return thePillarName;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int getNumberOfHealingPotions() {
         return myNumberOfHealingPotions;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int getNumberOfVisionPotions() {
         return myNumberOfVisionPotions;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int getNumberOfMonsters() {
         return myMonsters != null ? myMonsters.size() : 0;
     }
 
-    
-    /** 
+
+    /**
      * @return boolean
      */
     public boolean hasPillar() {
         return myPillar != null;
     }
 
-    
-    /** 
+
+    /**
      * @param index
      * @return Monster
      */
@@ -97,8 +97,8 @@ public abstract class AbstractRoom {
         return myMonsters.remove(index);
     }
 
-    
-    /** 
+
+    /**
      * @return String
      */
     @Override
@@ -116,8 +116,8 @@ public abstract class AbstractRoom {
         }
     }
 
-    
-    /** 
+
+    /**
      * @return char
      */
     char getFlag() {

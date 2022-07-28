@@ -1,16 +1,14 @@
 package com.griffinryan.dungeonadventure.model;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 abstract class Random {
 
     private static final java.util.Random rand = new java.util.Random();
-    
-    /** 
+
+    /**
      * @param theChance
      * @return boolean
      */
@@ -21,8 +19,8 @@ abstract class Random {
         return rand.nextInt(100) < theChance;
     }
 
-    
-    /** 
+
+    /**
      * @param _min
      * @param _max
      * @return int

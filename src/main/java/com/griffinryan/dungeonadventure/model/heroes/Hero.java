@@ -5,10 +5,12 @@ import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Hero is the parent object
+ * that abstracts in the model.heroes
+ * and model.monsters packages.
+ *
+ * @see DungeonCharacter
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public abstract class Hero extends DungeonCharacter {
 
@@ -47,7 +49,7 @@ public abstract class Hero extends DungeonCharacter {
         this.myChanceToBlock = theChanceToBlock;
     }
 
-    /** 
+    /**
      * @param value
      */
     public void injury(final int value) {
@@ -61,14 +63,14 @@ public abstract class Hero extends DungeonCharacter {
 
     public abstract void skill(final Monster theTarget);
 
-    /** 
+    /**
      * @param theNum
      */
     public void obtainHealingPotions(final int theNum) {
         this.myNumberOfHealingPotions += theNum;
     }
 
-    /** 
+    /**
      * @return boolean
      */
     public boolean useHealingPotion() {
@@ -80,14 +82,14 @@ public abstract class Hero extends DungeonCharacter {
         return false;
     }
 
-    /** 
+    /**
      * @param theNum
      */
     public void obtainVisionPotions(final int theNum) {
         this.myNumberOfVisionPotions += theNum;
     }
-    
-    /** 
+
+    /**
      * @return boolean
      */
     public boolean useVisionPotion() {
@@ -98,7 +100,7 @@ public abstract class Hero extends DungeonCharacter {
         return false;
     }
 
-    /** 
+    /**
      * @return String
      */
     @Override

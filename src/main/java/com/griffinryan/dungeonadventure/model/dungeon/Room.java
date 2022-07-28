@@ -4,15 +4,18 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import java.util.ArrayList;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Room is a child object that
+ * takes arguments ArrayList<Monster> and
+ * integers for number of potions
+ * to create a room object.
+ *
+ * @see AbstractRoom
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 final class Room extends AbstractRoom {
 
     /**
-     * 
+     *
      * @param theMonsters
      * @param theNumberOfHealingPotions
      * @param theNumberOfVisionPotions

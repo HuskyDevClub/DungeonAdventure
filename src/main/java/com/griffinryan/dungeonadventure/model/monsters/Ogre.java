@@ -1,10 +1,11 @@
 package com.griffinryan.dungeonadventure.model.monsters;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Ogre is a child object that
+ * is abstracted by Monster.
+ *
+ * @see Monster
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public class Ogre extends Monster {
 

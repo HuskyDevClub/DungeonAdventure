@@ -16,8 +16,6 @@ import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_MIN_SPEED;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class EnemyComponent extends Component {
 

@@ -10,7 +10,8 @@ import javafx.geometry.Point2D;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 /**
- *
+ * The DoorComponent object is a child class
+ * of AdventureComponent.
  * @author Griffin Ryan (glryan@uw.edu)
  */
 public class DoorComponent extends Component {

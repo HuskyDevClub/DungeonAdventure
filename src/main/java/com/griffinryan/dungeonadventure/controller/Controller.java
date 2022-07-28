@@ -8,8 +8,6 @@ import javafx.scene.layout.BorderPane;
 /**
  *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class Controller {
 

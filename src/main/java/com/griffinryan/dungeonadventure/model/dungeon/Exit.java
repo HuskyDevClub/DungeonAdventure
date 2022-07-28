@@ -1,20 +1,22 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Exit is a class abstracted by
+ * AbstractRoom that constructs
+ * an Exit object.
+ *
+ * @see AbstractRoom
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 final class Exit extends AbstractRoom {
     /**
-	 * 
+	 *
 	 */
     Exit() {
         super(null, 0, 0);
     }
-    
-    /** 
+
+    /**
      * @return char
      */
     @Override

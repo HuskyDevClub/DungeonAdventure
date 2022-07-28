@@ -1,10 +1,13 @@
 package com.griffinryan.dungeonadventure.model;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * DungeonCharacter is the parent class
+ * extended by the model. heroes
+ * model.monsters packages.
+ *
+ * @see com.griffinryan.dungeonadventure.model.heroes.Hero
+ * @see com.griffinryan.dungeonadventure.model.Random
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public abstract class DungeonCharacter extends Random {
     private final String myName;
@@ -61,14 +64,14 @@ public abstract class DungeonCharacter extends Random {
         this.myMaxHealing = 0;
     }
 
-    /** 
+    /**
      * @param value
      */
     public void injury(final int value) {
         this.myHealth = Integer.max(this.myHealth - value, 0);
     }
 
-    /** 
+    /**
      * @param value
      */
     public void heal(final int value) {
@@ -81,7 +84,7 @@ public abstract class DungeonCharacter extends Random {
         }
     }
 
-    /** 
+    /**
      * @param theTarget
      */
     public void attack(final DungeonCharacter theTarget) {
@@ -93,28 +96,28 @@ public abstract class DungeonCharacter extends Random {
         }
     }
 
-    /** 
+    /**
      * @return int
      */
     public int getMyHealth() {
         return myHealth;
     }
 
-    /** 
+    /**
      * @return int
      */
     public int getMyAttackSpeed() {
         return myAttackSpeed;
     }
 
-    /** 
+    /**
      * @return int
      */
     public int getMyLastDamageDone() {
         return myLastDamageDone;
     }
 
-    /** 
+    /**
      * @return String
      */
     public String getMyName() {

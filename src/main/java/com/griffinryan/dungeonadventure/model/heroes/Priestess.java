@@ -1,12 +1,14 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.model.dungeon.AbstractRoom;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Priestess is a child object that
+ * is abstracted by Hero.
+ *
+ * @see Hero
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public class Priestess extends Hero {
 

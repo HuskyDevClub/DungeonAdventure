@@ -11,8 +11,6 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class BackgroundComponent extends Component {
 	private static final double TOP_SPEED = 0.06;

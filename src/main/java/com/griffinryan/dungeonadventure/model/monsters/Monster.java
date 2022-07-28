@@ -3,10 +3,12 @@ package com.griffinryan.dungeonadventure.model.monsters;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Monster is the parent object
+ * that abstracts in the model.heroes
+ * and model.monsters packages.
+ *
+ * @see DungeonCharacter
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public abstract class Monster extends DungeonCharacter {
 

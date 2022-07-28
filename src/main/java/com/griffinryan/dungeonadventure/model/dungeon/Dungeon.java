@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * The Dungeon class instantiates
+ * the AbstractRoom and Pillar objects
+ * and determines the layout of the
+ * dungeon's maze.
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public class Dungeon {
     private static final int myChanceToGenerateRoom = 85;
@@ -22,7 +24,7 @@ public class Dungeon {
     private int myHeroCurrentY;
 
     /**
-	 * 
+	 *
 	 */
     public Dungeon(final int width, final int height) {
         AbstractRoom[][] the2dMaze2dArrayTemp;
@@ -85,8 +87,8 @@ public class Dungeon {
         my2dMaze2dArray = the2dMaze2dArrayTemp;
     }
 
-    
-    /** 
+
+    /**
      * @param theDirection
      * @return boolean
      */
@@ -108,8 +110,8 @@ public class Dungeon {
         return false;
     }
 
-    
-    /** 
+
+    /**
      * @param theX
      * @param theY
      * @return boolean
@@ -125,8 +127,8 @@ public class Dungeon {
         return false;
     }
 
-    
-    /** 
+
+    /**
      * @param theX
      * @param theY
      * @return boolean
@@ -135,8 +137,8 @@ public class Dungeon {
         return 0 <= theY && theY < my2dMaze2dArray.length && 0 <= theX && theX < my2dMaze2dArray[theY].length && my2dMaze2dArray[theY][theX] != null;
     }
 
-    
-    /** 
+
+    /**
      * @return String
      */
     @Override
@@ -158,8 +160,8 @@ public class Dungeon {
         return theInfo.toString();
     }
 
-    
-    /** 
+
+    /**
      * @return String
      */
     public String getSurroundingRooms() {
@@ -178,8 +180,8 @@ public class Dungeon {
         return theInfo.toString();
     }
 
-    
-    /** 
+
+    /**
      * @return Pillar[]
      */
     public Pillar[] getPillars() {
@@ -187,48 +189,48 @@ public class Dungeon {
     }
 
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int getCurrentX() {
         return myHeroCurrentX;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int getCurrentY() {
         return myHeroCurrentY;
     }
 
-    
-    /** 
+
+    /**
      * @return AbstractRoom
      */
     public AbstractRoom getCurrentRoom() {
         return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
     }
 
-    
-    /** 
+
+    /**
      * @return boolean
      */
     public boolean isCurrentRoomPit() {
         return getCurrentRoom() instanceof Pit;
     }
 
-    
-    /** 
+
+    /**
      * @return boolean
      */
     public boolean isCurrentRoomExit() {
         return getCurrentRoom() instanceof Exit;
     }
 
-    
-    /** 
+
+    /**
      * @return boolean
      */
     public boolean areAllPillarsFound() {
@@ -240,8 +242,8 @@ public class Dungeon {
         return true;
     }
 
-    
-    /** 
+
+    /**
      * @return int
      */
     public int getNumOfPillarsFound() {
@@ -255,7 +257,7 @@ public class Dungeon {
     }
 
     /**
-	 * 
+	 *
 	 */
     public void pickUpAllPillars() {
         for (final Pillar thePillar : myPillars) {

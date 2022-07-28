@@ -1,10 +1,13 @@
 package com.griffinryan.dungeonadventure.model.monsters;
 
+import com.griffinryan.dungeonadventure.model.dungeon.AbstractRoom;
+
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Skeleton is a child object that
+ * is abstracted by Monster.
+ *
+ * @see Monster
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public class Skeleton extends Monster {
 

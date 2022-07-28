@@ -9,8 +9,6 @@ import static javafx.util.Duration.*;
  * Defines global constants that can be tweaked for fine-tuning gameplay.
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public final class Config {
 

@@ -1,10 +1,10 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
- * 
- * @author Yudong Lin (ydlin@uw.edu) 
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * Pillar is an object for
+ * maze "Pillars of OO."
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
  */
 public final class Pillar {
     private final String myName;
@@ -13,7 +13,7 @@ public final class Pillar {
     private int myY;
 
     /**
-     * 
+     *
      * @param myName
      */
     public Pillar(final String myName) {
@@ -21,7 +21,7 @@ public final class Pillar {
         this.myHasBeenFound = false;
     }
 
-    /** 
+    /**
      * @return String
      */
     @Override
@@ -33,21 +33,21 @@ public final class Pillar {
         this.myHasBeenFound = true;
     }
 
-    /** 
+    /**
      * @return boolean
      */
     public boolean hasBeenFound() {
         return myHasBeenFound;
     }
 
-    /** 
+    /**
      * @return int[]
      */
     int[] getPos() {
         return new int[]{myX, myY};
     }
-    
-    /** 
+
+    /**
      * @param theX
      * @param theY
      */
@@ -56,7 +56,7 @@ public final class Pillar {
         myY = theY;
     }
 
-    /** 
+    /**
      * @return char
      */
     char getFlag() {

@@ -17,8 +17,6 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PlayerComponent extends Component {
 

@@ -22,14 +22,21 @@ import com.griffinryan.dungeonadventure.engine.collision.*;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
-import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 
 /**
- * BasicGameApp is the main executable class.
+ * BasicGameApp is the main executable class for
+ * the DungeonAdventure game engine built
+ * on the JavaFX game library FXGL (https://github.com/AlmasB/FXGL).
+ *
+ * The back-end of the game is handled by the
+ * packages found in dungeonadventure.model.
+ *
+ * The front-end of the application is handled by the packages
+ * found in dungeonadventure.controller and dungeonadventure.engine.
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  * @author Yudong Lin (ydlin@uw.edu)
+ * @author Elijah Amian (elijah25@uw.edu)
  */
 public class BasicGameApp extends GameApplication {
 
