@@ -129,12 +129,14 @@ public class BasicGameApp extends GameApplication {
 		playerComponent = player.getComponent(PlayerComponent.class);
 
 		/* 	Set the bounds of camera.	*/
-		Viewport viewport = getGameScene().getViewport();
-		//viewport.setX(500);
-		//viewport.setY(500);
-		viewport.setZoom(1.20);
-		viewport.bindToEntity(player, 500, 500);
-		viewport.setBounds(0, 0, VIEW_RESOLUTION_X, VIEW_RESOLUTION_Y);
+		/*
+		 Viewport viewport = getGameScene().getViewport();
+		 viewport.setX(500);
+		 viewport.setY(500);
+		 viewport.setZoom(1.20);
+		 viewport.bindToEntity(player, 500, 500);
+		 viewport.setBounds(0, 0, VIEW_RESOLUTION_X, VIEW_RESOLUTION_Y);
+		*/
 
 		if(!IS_NO_BACKGROUND){
 			background = spawn("Background");

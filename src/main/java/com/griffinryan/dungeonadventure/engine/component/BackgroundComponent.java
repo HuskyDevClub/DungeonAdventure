@@ -16,9 +16,9 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
  */
 public class BackgroundComponent extends Component {
 	private static final double TOP_SPEED = 0.06;
-	private static final double MIDDLE_SPEED = 0.04;
+	private static final double MIDDLE_SPEED = 0.02;
 	private static final double BOTTOM_SPEED = 0.02;
-	private static final double LIGHT_SPEED = 0.05;
+	private static final double LIGHT_SPEED = 0.025;
 
 	private Texture topLayer;
 	private Texture middleLayer;
@@ -33,19 +33,20 @@ public class BackgroundComponent extends Component {
 	 * */
 	@Override
 	public void onAdded() {
-		double w = VIEW_RESOLUTION_X*2; // Size of the .png
+		double w = VIEW_RESOLUTION_X*2; // Size of the layers.png
 		double h = VIEW_RESOLUTION_Y*2; // 384 x 162
 
 		topLayer = texture("background/toplayer.png", w, h);
 		middleLayer = texture("background/middlelayer.png", w, h);
-		bottomLayer = texture("background/bottomlayer.png", w, h);
+		bottomLayer = texture("background/bottomlayer.png", w, 3*h/4);
 		skyLayer = texture("background/sky.png", w, h);
-		lightLayer = texture("background/light.png", w, h);
+		lightLayer = texture("background/light.png", w/2, 3*h/4);
 
-		entity.getViewComponent().addChild(lightLayer);
+
 		entity.getViewComponent().addChild(topLayer);
 		entity.getViewComponent().addChild(middleLayer);
 		entity.getViewComponent().addChild(bottomLayer);
+		entity.getViewComponent().addChild(lightLayer);
 		entity.getTransformComponent().setScaleOrigin(BG_POINT);
 
 		entity.setX(0);
@@ -67,10 +68,10 @@ public class BackgroundComponent extends Component {
 		topLayer.setTranslateY(-BG_DISTANCE * TOP_SPEED * player.getY());
 
 		middleLayer.setTranslateX(-BG_DISTANCE * MIDDLE_SPEED * player.getX());
-		middleLayer.setTranslateY(-BG_DISTANCE * MIDDLE_SPEED * player.getY());
+		//middleLayer.setTranslateY(-BG_DISTANCE * MIDDLE_SPEED * player.getY());
 
-		bottomLayer.setTranslateX(-BG_DISTANCE * BOTTOM_SPEED * player.getX());
-		bottomLayer.setTranslateY(-BG_DISTANCE * BOTTOM_SPEED * player.getY());
+		// bottomLayer.setTranslateX(-BG_DISTANCE * BOTTOM_SPEED * player.getX());
+		// bottomLayer.setTranslateY(-BG_DISTANCE * BOTTOM_SPEED * player.getY());
 
 		lightLayer.setTranslateX(-BG_DISTANCE * LIGHT_SPEED * player.getX());
 		lightLayer.setTranslateY(-BG_DISTANCE * LIGHT_SPEED * player.getY());
