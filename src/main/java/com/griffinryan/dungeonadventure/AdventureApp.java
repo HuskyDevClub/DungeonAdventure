@@ -40,7 +40,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  */
 public class AdventureApp extends GameApplication {
 
-    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS;
+    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS, dungeon;
 	private SpawnData doorData;
 	private PlayerComponent playerComponent;
 

@@ -7,7 +7,7 @@ import com.griffinryan.dungeonadventure.model.rooms.Room;
 
 /**
  * The DungeonComponent class instantiates
- * the AbstractRoom and Pillar objects
+ * the
  * and determines the layout of the
  * dungeon's maze.
  *
@@ -18,13 +18,20 @@ import com.griffinryan.dungeonadventure.model.rooms.Room;
  */
 public class DungeonComponent extends AbstractComponent {
 
-	private Dungeon;
-	private Ogre;
-	private Warrior;
+	private Dungeon dungeon;
+	private Ogre ogre;
+	private Warrior warrior;
 
-	private DoorComponent;
-	private EnemyComponent;
-	private PlayerComponent;
+	/* TODO: 	- Make a RoomComponent
+	*  			- Store these in a HashMap in the
+	*			- constructor for this.obj
+	* 			-
+	* 			- Retrieve from the
+	* 			- Dungeon object.
+	*  */
+	private DoorComponent doorComponent;
+	private EnemyComponent enemyComponent;
+	private PlayerComponent playerComponent;
 
 
 }
