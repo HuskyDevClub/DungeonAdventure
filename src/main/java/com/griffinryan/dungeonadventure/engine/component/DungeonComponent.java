@@ -35,7 +35,6 @@ public class DungeonComponent extends AbstractComponent {
 	private Texture boundTexture;
 	private AnimationChannel idleChannel;
 
-
 	private MinimapView minimapView;
 	private HashMap<String, RoomComponent> dungeonMap;
 	/* TODO: 	- Make a RoomComponent
@@ -60,6 +59,6 @@ public class DungeonComponent extends AbstractComponent {
 		this.idleChannel = idle;
 		this.texture = new AnimatedTexture(idleChannel);
 
-		minimapView = new MinimapView();
+		//minimapView = new MinimapView();
 	}
 }
