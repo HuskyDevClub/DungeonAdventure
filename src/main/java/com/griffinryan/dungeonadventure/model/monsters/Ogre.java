@@ -10,24 +10,24 @@ package com.griffinryan.dungeonadventure.model.monsters;
 public class Ogre extends Monster {
 
     /**
-     * @param theName
-     * @param theHealth
-     * @param theMinDamage
-     * @param theMaxDamage
-     * @param theAttackSpeed
-     * @param theChanceToHit
-     * @param theChanceToHeal
-     * @param theMinHealing
-     * @param theMaxHealing
+     * @param theName         the name of the Ogre
+     * @param theHealth       the health/hit point of the Ogre
+     * @param theMinDamage    the minimum damage that the Ogre will do
+     * @param theMaxDamage    the maximum damage that the Ogre will do
+     * @param theAttackSpeed  the attack speed of the Ogre
+     * @param theChanceToHit  the chance that Ogre will hit
+     * @param theChanceToHeal the chance that Ogre will heal himself/herself
+     * @param theMinHealing   the minimum healing that the Ogre will do
+     * @param theMaxHealing   the minimum healing that the Ogre will do
      */
-    public Ogre(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToHeal, final int theMinHealing, final int theMaxHealing) {
+    public Ogre(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing);
     }
 
     /**
-     * @param theName
+     * @param theName the name of the Ogre
      */
     public Ogre(final String theName) {
-        super(theName, 200, 30, 60, 2, (byte) 60, (byte) 10, 30, 60);
+        this(theName, 200, 30, 60, 2, 60, 10, 30, 60);
     }
 }

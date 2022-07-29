@@ -13,32 +13,33 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 public class Priestess extends Hero {
 
     /**
-     * @param theName
-     * @param theHealth
-     * @param theMinDamage
-     * @param theMaxDamage
-     * @param theAttackSpeed
-     * @param theChanceToHit
-     * @param theChanceToHeal
-     * @param theMinHealing
-     * @param theMaxHealing
-     * @param theChanceToBlock
+     * @param theName          the name of the Priestess
+     * @param theHealth        the health/hit point of the Priestess
+     * @param theMinDamage     the minimum damage that the Priestess will do
+     * @param theMaxDamage     the maximum damage that the Priestess will do
+     * @param theAttackSpeed   the attack speed of the Priestess
+     * @param theChanceToHit   the chance that Priestess will hit
+     * @param theChanceToHeal  the chance that Priestess will heal himself/herself
+     * @param theMinHealing    the minimum healing that the Priestess will do
+     * @param theMaxHealing    the minimum healing that the Priestess will do
+     * @param theChanceToBlock the chance that hero will block the damage
      */
-    public Priestess(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToHeal, final int theMinHealing, final int theMaxHealing, final byte theChanceToBlock) {
+    public Priestess(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing, final int theChanceToBlock) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing, theChanceToBlock);
     }
 
     /**
-     * @param theName
+     * @param theName the name of the Priestess
      */
     public Priestess(final String theName) {
-        super(theName, 75, 25, 45, 5, (byte) 70, (byte) 100, 10, 20, (byte) 30);
+        this(theName, 75, 25, 45, 5, 70, 100, 10, 20, 30);
     }
 
     /**
-     * @param theTarget
+     * the skill of the Priestess
+     *
+     * @param theTarget the target
      */
-    @Override
     public void skill(final Monster theTarget) {
         super.selfHeal();
     }

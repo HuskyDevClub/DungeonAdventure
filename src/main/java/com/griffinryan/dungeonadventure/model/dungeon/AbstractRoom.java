@@ -17,17 +17,20 @@ public abstract class AbstractRoom {
     private int myNumberOfVisionPotions;
 
     /**
-	 *
-	 */
+     * @param theMonsters               the monsters in this room
+     * @param theNumberOfHealingPotions the number of healing potion(s) in this room
+     * @param theNumberOfVisionPotions  the number of vision potion(s) in this room
+     */
     protected AbstractRoom(final ArrayList<Monster> theMonsters, final int theNumberOfHealingPotions, final int theNumberOfVisionPotions) {
         this.myMonsters = theMonsters;
         this.myNumberOfHealingPotions = theNumberOfHealingPotions;
         this.myNumberOfVisionPotions = theNumberOfVisionPotions;
     }
 
-
     /**
-     * @return int
+     * pick up all healing potion(s) in this room
+     *
+     * @return the number of healing potion(s) were picked up
      */
     public int pickUpHealingPotions() {
         final int num = myNumberOfHealingPotions;
@@ -35,9 +38,10 @@ public abstract class AbstractRoom {
         return num;
     }
 
-
     /**
-     * @return int
+     * pick up all vision potion(s) in this room
+     *
+     * @return the number of vision potion(s) were picked up
      */
     public int pickUpVisionPotions() {
         final int num = myNumberOfVisionPotions;
@@ -45,58 +49,60 @@ public abstract class AbstractRoom {
         return num;
     }
 
-
     /**
-     * @return String
+     * pick up the pillar that has been placed inside this room
+     *
+     * @return the name of the pillar
      */
     public String pickUpPillar() {
+        // ensure there is pillar inside this room
+        if (myPillar == null) {
+            throw new NullPointerException("There is no pillar in this room for the player to pick up");
+        }
         final String thePillarName = myPillar.toString();
+        // change the Pillar status
         myPillar.found();
+        // remove the reference
         myPillar = null;
+        // return the name
         return thePillarName;
     }
 
-
     /**
-     * @return int
+     * @return the current number of healing potion(s) in this room
      */
     public int getNumberOfHealingPotions() {
         return myNumberOfHealingPotions;
     }
 
-
     /**
-     * @return int
+     * @return the current number of vision potion(s) in this room
      */
     public int getNumberOfVisionPotions() {
         return myNumberOfVisionPotions;
     }
 
-
     /**
-     * @return int
+     * @return the current number of monster(s) in this room
      */
     public int getNumberOfMonsters() {
         return myMonsters != null ? myMonsters.size() : 0;
     }
 
-
     /**
-     * @return boolean
+     * @return whether this room has a pillar
      */
     public boolean hasPillar() {
         return myPillar != null;
     }
 
-
     /**
-     * @param index
+     * @param index the index of monster that you want to remove and return from the monsters list
      * @return Monster
      */
     public Monster removeMonster(final int index) {
         return myMonsters.remove(index);
     }
-
 
     /**
      * @return String
@@ -116,9 +122,8 @@ public abstract class AbstractRoom {
         }
     }
 
-
     /**
-     * @return char
+     * @return the char flag that represent the room type and info
      */
     char getFlag() {
         if (!this.hasPillar()) {

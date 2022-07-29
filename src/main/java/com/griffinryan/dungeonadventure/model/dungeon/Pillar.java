@@ -13,8 +13,7 @@ public final class Pillar {
     private int myY;
 
     /**
-     *
-     * @param myName
+     * @param myName the name of the Pillar
      */
     public Pillar(final String myName) {
         this.myName = myName;
@@ -29,6 +28,9 @@ public final class Pillar {
         return myName;
     }
 
+    /**
+     * mark the pillar as found
+     */
     public void found() {
         this.myHasBeenFound = true;
     }
@@ -41,15 +43,17 @@ public final class Pillar {
     }
 
     /**
-     * @return int[]
+     * @return the position of the room that this pillar was placed
      */
     int[] getPos() {
         return new int[]{myX, myY};
     }
 
     /**
-     * @param theX
-     * @param theY
+     * set the position of the room that this pillar was placed
+     *
+     * @param theX the X of the room
+     * @param theY the Y of the room
      */
     void setPos(final int theX, final int theY) {
         myX = theX;
@@ -57,7 +61,7 @@ public final class Pillar {
     }
 
     /**
-     * @return char
+     * @return the char flag that represent the Pillar (the Capital letter)
      */
     char getFlag() {
         return myName.charAt(0);

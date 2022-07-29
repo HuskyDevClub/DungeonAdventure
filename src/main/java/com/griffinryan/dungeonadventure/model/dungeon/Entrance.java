@@ -10,15 +10,12 @@ package com.griffinryan.dungeonadventure.model.dungeon;
  */
 final class Entrance extends AbstractRoom {
 
-    /**
-	 *
-	 */
     Entrance() {
         super(null, 0, 0);
     }
 
     /**
-     * @return char
+     * @return the char flag that represent the room type and info
      */
     @Override
     public char getFlag() {

@@ -17,7 +17,7 @@ final class Pit extends AbstractRoom {
     }
 
     /**
-     * @return flag
+     * @return the char flag that represent the room type and info
      */
     @Override
     public char getFlag() {
