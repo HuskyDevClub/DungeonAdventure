@@ -18,8 +18,8 @@ repositories {
 
 task fatJar(type: Jar) {
 	manifest {
-		attributes 'Implementation-Title': 'Doter Editor',
-				'Main-Class': 'com.griffinryan.dungeonadventure.BasicGameApp'
+		attributes 'Implementation-Title': 'Dungeon Adventure',
+				'Main-Class': 'com.griffinryan.dungeonadventure.AdventureApp'
 	}
 	with jar
 }
@@ -37,7 +37,7 @@ tasks.withType(JavaCompile) {
 
 application {
 	mainModule = 'com.griffinryan.dungeonadventure'
-	mainClass = 'com.griffinryan.dungeonadventure.BasicGameApp'
+	mainClass = 'com.griffinryan.dungeonadventure.AdventureApp'
 }
 
 javafx {
