@@ -18,6 +18,8 @@ import java.util.Random;
  * dungeon's maze.
  *
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see Room
+ * @see Ogre
  */
 public class Dungeon implements Serializable {
     private static final int myChanceToGenerateRoom = 85;

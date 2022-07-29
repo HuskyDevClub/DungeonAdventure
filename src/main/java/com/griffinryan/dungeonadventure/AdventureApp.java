@@ -40,7 +40,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  */
 public class AdventureApp extends GameApplication {
 
-    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS;
+    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS, dungeon;
 	private SpawnData doorData;
 	private PlayerComponent playerComponent;
 
@@ -68,13 +68,18 @@ public class AdventureApp extends GameApplication {
 	 */
 	@Override
     protected void initSettings(GameSettings settings) {
-        settings.setWidth(VIEW_RESOLUTION_X);
-        settings.setHeight(VIEW_RESOLUTION_Y);
+        settings.setWidth(1280);
+        settings.setHeight(720);
+		/*TODO 	Cannot Set this to a double in initSettings
+        /* TODO as is specified the game library and to get rid of Config.java
+         /*TODO	----------------------------------------------------------
+         /*TODO				360 x 360 should work
+         /*TODO				and be set here.	*/
 		settings.setAppIcon("sprite/potion.png");
 
+		settings.setVersion("0.3");
         settings.setTitle("Dungeon Adventure");
-        settings.setVersion("0.2");
-		settings.setDeveloperMenuEnabled(true);
+		settings.setDeveloperMenuEnabled(true); /* press 1 */
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new SceneFactory() {
             @Override
@@ -92,8 +97,8 @@ public class AdventureApp extends GameApplication {
 	 * */
 	@Override
 	protected void onPreInit(){
-		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 1.0 : 0.0);
-		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 1.0 : 0.0);
+		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 2.0 : 0.0);
+		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 2.0 : 0.0);
 	}
 
 	/**
@@ -146,6 +151,9 @@ public class AdventureApp extends GameApplication {
 		/* 	Spawn all component entities except player.	*/
 		player = spawn("Player");
 		playerComponent = player.getComponent(PlayerComponent.class);
+
+		/* Generate DungeonComponent */
+		dungeon = spawn("Dungeon");
 
 		/*
 		 Viewport viewport = getGameScene().getViewport();

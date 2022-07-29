@@ -18,7 +18,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  *
  * @author Griffin Ryan (glryan@uw.edu)
  */
-public class PlayerComponent extends Component {
+public class PlayerComponent extends AbstractComponent {
 
 	private int speed = 0;
 	private int pspeed = PLAYER_MAX_SPEED;
