@@ -1,9 +1,13 @@
 package com.griffinryan.dungeonadventure.model;
 
 /**
+ * DungeonCharacter is the parent class
+ * extended by the model. heroes
+ * model.monsters packages.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * @see com.griffinryan.dungeonadventure.model.heroes.Hero
+ * @see com.griffinryan.dungeonadventure.model.Random
  */
 public abstract class DungeonCharacter extends Random {
     private final String myName;

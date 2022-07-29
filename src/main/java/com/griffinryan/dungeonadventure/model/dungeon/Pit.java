@@ -1,9 +1,11 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
+ * Pit is a class abstracted by
+ * AbstractRoom that constructs a Pit object.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * @see AbstractRoom
  */
 final class Pit extends AbstractRoom {
     Pit() {
@@ -14,7 +16,7 @@ final class Pit extends AbstractRoom {
      * @return the char flag that represent the room type and info
      */
     @Override
-    public char getFlag() {
+    char getFlag() {
         return 'X';
     }
 }

@@ -1,9 +1,10 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
+ * Pillar is an object for
+ * maze "Pillars of OO."
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public final class Pillar {
     private final String myName;

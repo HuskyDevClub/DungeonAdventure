@@ -28,11 +28,10 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
 /**
  * The DungeonMainMenu class defines the
- * initial pane users are greeted with.
+ * initial Pane users are greeted with
+ * and the pause/main menu Panes.
  *
  * @author Elijah Amian (elijah25@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
  */
 public class DungeonMainMenu extends FXGLMenu {
 

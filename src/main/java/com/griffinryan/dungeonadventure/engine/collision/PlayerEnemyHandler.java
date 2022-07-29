@@ -11,8 +11,6 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PlayerEnemyHandler extends CollisionHandler {
 

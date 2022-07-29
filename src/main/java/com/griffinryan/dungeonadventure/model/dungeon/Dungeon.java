@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * The Dungeon class instantiates
+ * the AbstractRoom and Pillar objects
+ * and determines the layout of the
+ * dungeon's maze.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class Dungeon {
     private static final int myChanceToGenerateRoom = 85;

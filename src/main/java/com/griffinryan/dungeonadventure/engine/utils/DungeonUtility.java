@@ -7,8 +7,6 @@ import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class DungeonUtility {
 
@@ -50,6 +48,28 @@ public class DungeonUtility {
 				now = prev;
 			}
 		});
+
+		getWorldProperties().<Double>addListener("doorN", (prev, now) -> {
+			if(!Objects.equals(prev, now)){
+				now = prev;
+			}
+		});
+		getWorldProperties().<Double>addListener("doorE", (prev, now) -> {
+			if(!Objects.equals(prev, now)){
+				now = prev;
+			}
+		});
+		getWorldProperties().<Double>addListener("doorW", (prev, now) -> {
+			if(!Objects.equals(prev, now)){
+				now = prev;
+			}
+		});
+		getWorldProperties().<Double>addListener("doorS", (prev, now) -> {
+			if(!Objects.equals(prev, now)){
+				now = prev;
+			}
+		});
 	}
+
 
 }

@@ -1,9 +1,11 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
+ * PathFinder determines the
+ * path of a given dungeon maze
+ * and whether it is reachable or not.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 class PathFinder {
     private final AbstractRoom[][] myMaze;

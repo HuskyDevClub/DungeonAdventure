@@ -5,9 +5,10 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import java.util.ArrayList;
 
 /**
+ * AbstractRoom is the parent object
+ * extended by model.dungeon objects.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public abstract class AbstractRoom {
     private final ArrayList<Monster> myMonsters;

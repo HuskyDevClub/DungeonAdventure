@@ -1,11 +1,15 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
+ * Entrance is a class abstracted by
+ * AbstractRoom that constructs an
+ * Entrance object used for the doors.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * @see AbstractRoom
  */
 final class Entrance extends AbstractRoom {
+
     Entrance() {
         super(null, 0, 0);
     }
@@ -14,7 +18,7 @@ final class Entrance extends AbstractRoom {
      * @return the char flag that represent the room type and info
      */
     @Override
-    public char getFlag() {
+    char getFlag() {
         return 'i';
     }
 }

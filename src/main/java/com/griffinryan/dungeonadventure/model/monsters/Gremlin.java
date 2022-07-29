@@ -1,9 +1,11 @@
 package com.griffinryan.dungeonadventure.model.monsters;
 
 /**
+ * Gremlin is a child object that
+ * is abstracted by Monster.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * @see Monster
  */
 public class Gremlin extends Monster {
 

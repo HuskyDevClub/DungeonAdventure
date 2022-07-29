@@ -1,9 +1,12 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
+ * Exit is a class abstracted by
+ * AbstractRoom that constructs
+ * an Exit object.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * @see AbstractRoom
  */
 final class Exit extends AbstractRoom {
     Exit() {
@@ -14,7 +17,7 @@ final class Exit extends AbstractRoom {
      * @return the char flag that represent the room type and info
      */
     @Override
-    public char getFlag() {
+    char getFlag() {
         return 'O';
     }
 }

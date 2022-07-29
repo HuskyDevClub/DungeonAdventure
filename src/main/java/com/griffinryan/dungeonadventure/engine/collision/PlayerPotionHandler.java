@@ -10,8 +10,6 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.POTION;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PlayerPotionHandler extends CollisionHandler {
 

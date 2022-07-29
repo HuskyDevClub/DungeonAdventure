@@ -17,8 +17,6 @@ import java.util.Scanner;
 /**
  *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
  */
 public final class Combat {
 

@@ -5,9 +5,12 @@ import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
+ * Hero is the parent object
+ * that abstracts in the model.heroes
+ * and model.monsters packages.
+ *
  * @author Yudong Lin (ydlin@uw.edu)
- * @author Griffin Ryan (glryan@uw.edu)
- * @author Elijah Amian (elijah25@uw.edu)
+ * @see DungeonCharacter
  */
 public abstract class Hero extends DungeonCharacter {
 

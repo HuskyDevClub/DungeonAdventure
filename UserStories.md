@@ -1,3 +1,19 @@
+- [ ] As the Engine package for Dungeon Adventure, I will include
+  - [ ] GameComponent classes that extend Component 
+    - [X] Include a PlayerComponent for players
+    - [X] Include an EnemyComponent for enemies
+    - [ ] Include a BackgroundComponent for backgrounds
+    - [X] Include a PotionComponent for potions
+    - [ ] Include a LevelComponent for the room generation
+    - [ ] Include a RoomComponent for storing rooms 
+    - [ ] Include a DoorComponent to enter rooms 
+    - [ ] Include a ParticleComponent for particle effects
+  - [X] Utils package for helper utility methods
+    - [ ] DungeonUtility.java includes property map helpers
+  - [ ] Collision classes that extend CollisionHandler
+    - [X] PlayerEnemyHandler
+    - [X] PlayerPotionHandler
+    - [ ] PlayerDoorHandler
 - [ ] As a player for Dungeon Adventure, I hope that
   - [X] in the main menu, I can
     - [ ] see my latest progress
