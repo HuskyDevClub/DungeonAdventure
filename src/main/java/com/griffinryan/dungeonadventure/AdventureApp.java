@@ -46,9 +46,7 @@ public class AdventureApp extends GameApplication {
 
 	/* TODO:
 	 *			-
-	 *   		- Add constructors for DoorComponent
 	 * 			- Implement model.heroes package....
-	 * 	..... Using the SpawnData object param already passed.
 	 * */
 	/**
 	 * The main() method runs the launch() method
