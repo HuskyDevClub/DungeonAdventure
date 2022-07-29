@@ -1,13 +1,11 @@
 package com.griffinryan.dungeonadventure.model.monsters;
 
-import com.griffinryan.dungeonadventure.model.heroes.Hero;
-
 /**
  * Gremlin is a child object that
  * is abstracted by Monster.
  *
- * @see Monster
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see Monster
  */
 public class Gremlin extends Monster {
 

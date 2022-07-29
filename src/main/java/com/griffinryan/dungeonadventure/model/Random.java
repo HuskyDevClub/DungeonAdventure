@@ -1,7 +1,6 @@
 package com.griffinryan.dungeonadventure.model;
 
 /**
- *
  * @author Yudong Lin (ydlin@uw.edu)
  */
 abstract class Random {

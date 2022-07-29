@@ -7,8 +7,8 @@ import com.griffinryan.dungeonadventure.model.DungeonCharacter;
  * that abstracts in the model.heroes
  * and model.monsters packages.
  *
- * @see DungeonCharacter
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see DungeonCharacter
  */
 public abstract class Monster extends DungeonCharacter {
     /**

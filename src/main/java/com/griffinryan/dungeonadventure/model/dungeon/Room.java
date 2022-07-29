@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * integers for number of potions
  * to create a room object.
  *
- * @see AbstractRoom
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see AbstractRoom
  */
 final class Room extends AbstractRoom {
     /**

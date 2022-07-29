@@ -9,8 +9,8 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * that abstracts in the model.heroes
  * and model.monsters packages.
  *
- * @see DungeonCharacter
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see DungeonCharacter
  */
 public abstract class Hero extends DungeonCharacter {
 
@@ -70,8 +70,6 @@ public abstract class Hero extends DungeonCharacter {
             System.out.println("the hero block the damage");
         }
     }
-
-    public abstract void skill(final Monster theTarget);
 
     /**
      * gain health positions

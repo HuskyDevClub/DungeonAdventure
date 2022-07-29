@@ -5,9 +5,9 @@ package com.griffinryan.dungeonadventure.model;
  * extended by the model. heroes
  * model.monsters packages.
  *
+ * @author Yudong Lin (ydlin@uw.edu)
  * @see com.griffinryan.dungeonadventure.model.heroes.Hero
  * @see com.griffinryan.dungeonadventure.model.Random
- * @author Yudong Lin (ydlin@uw.edu)
  */
 public abstract class DungeonCharacter extends Random {
     private final String myName;

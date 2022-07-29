@@ -1,14 +1,13 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
-import com.griffinryan.dungeonadventure.model.dungeon.AbstractRoom;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
  * Warrior is a child object that
  * is abstracted by Hero.
  *
- * @see Hero
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see Hero
  */
 public class Warrior extends Hero {
 

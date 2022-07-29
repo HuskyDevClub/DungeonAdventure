@@ -7,8 +7,8 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * Thief is a child object that
  * is abstracted by Hero.
  *
- * @see Hero
  * @author Yudong Lin (ydlin@uw.edu)
+ * @see Hero
  */
 public class Thief extends Hero {
 
