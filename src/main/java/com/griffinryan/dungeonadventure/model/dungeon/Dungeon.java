@@ -4,6 +4,7 @@ import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import com.griffinryan.dungeonadventure.model.monsters.Ogre;
 import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
+import com.griffinryan.dungeonadventure.model.rooms.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,7 +28,7 @@ public class Dungeon {
      * @param width  the height of the Dungeon
      * @param height the height of the Dungeon
      */
-    public Dungeon(final int width, final int height) {
+    public Dungeon(final int width, final int height) throws IllegalAccessException {
         AbstractRoom[][] the2dMaze2dArrayTemp;
         final Random theRandom = new Random();
         while (true) {
@@ -67,9 +68,9 @@ public class Dungeon {
                     final int thePillarY = theRandom.nextInt(height);
                     boolean placed = false;
                     for (int i = 0; i < 5; i++) {
-                        if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && the2dMaze2dArrayTemp[thePillarY][thePillarX].myPillar == null && theFinder.isReachable(thePillarX, thePillarY)) {
+                        if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && !the2dMaze2dArrayTemp[thePillarY][thePillarX].hasPillar() && theFinder.isReachable(thePillarX, thePillarY)) {
                             thePillar.setPos(thePillarX, thePillarY);
-                            the2dMaze2dArrayTemp[thePillarY][thePillarX].myPillar = thePillar;
+                            the2dMaze2dArrayTemp[thePillarY][thePillarX].newPillar(thePillar);
                             placed = true;
                             break;
                         }
@@ -251,7 +252,7 @@ public class Dungeon {
         for (final Pillar thePillar : myPillars) {
             thePillar.found();
             final int[] thePos = thePillar.getPos();
-            my2dMaze2dArray[thePos[0]][thePos[1]].myPillar = null;
+            my2dMaze2dArray[thePos[0]][thePos[1]].pickUpPillar();
         }
     }
 }

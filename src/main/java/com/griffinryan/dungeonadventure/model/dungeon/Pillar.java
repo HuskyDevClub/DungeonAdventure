@@ -63,7 +63,7 @@ public final class Pillar {
     /**
      * @return the char flag that represent the Pillar (the Capital letter)
      */
-    char getFlag() {
+    public char getFlag() {
         return myName.charAt(0);
     }
 }
