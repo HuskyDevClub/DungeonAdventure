@@ -9,12 +9,8 @@ import com.griffinryan.dungeonadventure.model.heroes.Priestess;
 import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
-import org.sqlite.SQLiteDataSource;
 
-import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -27,7 +23,6 @@ public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final String myDatabasePath = "jdbc:sqlite:save.sqlite";
     private static Dungeon myDungeon;
     private static boolean isPlaying;
 
@@ -41,7 +36,8 @@ public final class Combat {
         System.out.println("new || load:");
         if ("load".equals(SCANNER.nextLine())) {
             System.out.println("please enter save id:");
-            load(SCANNER.nextInt());
+            // load the progress (the myDungeon object to be specific) from the database with given id
+            myDungeon = (Dungeon) SqlInterface.load("dungeons", SCANNER.nextInt());
         } else {
             newGame();
         }
@@ -59,14 +55,14 @@ public final class Combat {
         System.out.println("1 - Priestess");
         System.out.println("2 - Thief");
         System.out.println("3 - Warrior");
-        final int heroIndex = SCANNER.nextInt();
+        final int heroIndex = Integer.parseInt(SCANNER.nextLine());
         final Hero theHero;
         // ask the player to enter the name of the hero
         while (true) {
             System.out.println("Please enter a name for your hero:");
             final String theName = SCANNER.nextLine();
             // ensure that the name is not empty
-            if (theName.length() > 0) {
+            if (!theName.isEmpty()) {
                 switch (heroIndex) {
                     case 1 -> theHero = new Priestess(theName);
                     case 2 -> theHero = new Thief(theName);
@@ -163,7 +159,8 @@ public final class Combat {
                             System.out.println(theMsg);
                         }
                     }
-                    case "save" -> System.out.printf("Progress has been saved! %d\n", save());
+                    case "save" -> //save the current progress (the myDungeon object to be specific) into the database
+                            System.out.printf("Progress has been saved! %d\n", SqlInterface.save("dungeons", myDungeon));
                     case "quit" -> isPlaying = false;
                 }
             } else {
@@ -280,74 +277,5 @@ public final class Combat {
         }
     }
 
-    /**
-     * try to make connection to the database
-     *
-     * @return the Connection reference to the database
-     */
-    private static Connection connectDatabase() throws SQLException {
-        //establish connection (creates db file if it does not exist :-)
-        final SQLiteDataSource ds = new SQLiteDataSource();
-        try {
-            ds.setUrl(myDatabasePath);
-        } catch (final Exception e) {
-            e.printStackTrace();
-            throw new SQLException("Fail to connect to the database.");
-        }
-        return ds.getConnection();
-    }
 
-    /**
-     * save the current progress (the myDungeon object to be specific) into the database
-     *
-     * @return the index of the save
-     */
-    private static int save() throws SQLException, IOException {
-        //establish connection
-        final Connection theConnection = connectDatabase();
-        //create a table if it does not exist
-        theConnection.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS dungeons ( ID INTEGER PRIMARY KEY AUTOINCREMENT, DATA BYTES NOT NULL)");
-        /*
-         * insert the value into the database
-         * the basic idea is, convert the object into byte array, and then save the byte array into the database
-         */
-        final PreparedStatement thePreparedStatement = theConnection.prepareStatement("INSERT INTO dungeons ( DATA ) VALUES ( ? )");
-        // prepare for the conversion;
-        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        final ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(myDungeon);
-        out.flush();
-        // convert the myDungeon object into ByteArray and save it under the DATA colum
-        thePreparedStatement.setBytes(1, bos.toByteArray());
-        // obtain the id of the save
-        final int rv = thePreparedStatement.executeUpdate();
-        // close the connections
-        out.close();
-        bos.close();
-        thePreparedStatement.close();
-        theConnection.close();
-        // return the id
-        return rv;
-    }
-
-    /**
-     * load the progress (the myDungeon object to be specific) from the database with given id
-     *
-     * @param theId the id of the saved progress
-     */
-    private static void load(final int theId) throws SQLException, IOException, ClassNotFoundException {
-        //establish connection
-        final Connection theConnection = connectDatabase();
-        //find the progress
-        final PreparedStatement thePreparedStatement = theConnection.prepareStatement("SELECT DATA FROM dungeons WHERE ID = ?");
-        thePreparedStatement.setInt(1, theId);
-        final ResultSet rs = thePreparedStatement.executeQuery();
-        rs.next();
-        // load the progress
-        myDungeon = (Dungeon) (new ObjectInputStream(new ByteArrayInputStream(rs.getBytes(1)))).readObject();
-        // it is always a good practice to close all the connection at the end
-        rs.close();
-        thePreparedStatement.close();
-        theConnection.close();
-    }
 }
