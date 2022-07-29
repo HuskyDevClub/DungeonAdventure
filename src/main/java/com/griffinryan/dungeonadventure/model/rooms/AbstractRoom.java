@@ -1,5 +1,6 @@
-package com.griffinryan.dungeonadventure.model.dungeon;
+package com.griffinryan.dungeonadventure.model.rooms;
 
+import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class AbstractRoom {
     private final ArrayList<Monster> myMonsters;
-    Pillar myPillar = null;
+    private Pillar myPillar = null;
     private int myNumberOfHealingPotions;
     private int myNumberOfVisionPotions;
 
@@ -47,6 +48,20 @@ public abstract class AbstractRoom {
         final int num = myNumberOfVisionPotions;
         myNumberOfVisionPotions = 0;
         return num;
+    }
+
+    /**
+     * if the room has no pillar in it, the give one
+     * this method should be used only during the initialization
+     *
+     * @param thePillar the pillar to set
+     */
+    public void newPillar(final Pillar thePillar) throws IllegalAccessException {
+        if (this.myPillar == null) {
+            this.myPillar = thePillar;
+        } else {
+            throw new IllegalAccessException("The Pillar cannot be modified after been set.");
+        }
     }
 
     /**
@@ -125,7 +140,7 @@ public abstract class AbstractRoom {
     /**
      * @return the char flag that represent the room type and info
      */
-    char getFlag() {
+    public char getFlag() {
         if (!this.hasPillar()) {
             if (myNumberOfHealingPotions > 0 && myNumberOfVisionPotions > 0) {
                 return 'M';

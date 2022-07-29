@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.model.dungeon;
+package com.griffinryan.dungeonadventure.model.rooms;
 
 /**
  * Exit is a class abstracted by
@@ -8,8 +8,8 @@ package com.griffinryan.dungeonadventure.model.dungeon;
  * @author Yudong Lin (ydlin@uw.edu)
  * @see AbstractRoom
  */
-final class Exit extends AbstractRoom {
-    Exit() {
+public final class Exit extends AbstractRoom {
+    public Exit() {
         super(null, 0, 0);
     }
 
@@ -17,7 +17,7 @@ final class Exit extends AbstractRoom {
      * @return the char flag that represent the room type and info
      */
     @Override
-    char getFlag() {
+    public char getFlag() {
         return 'O';
     }
 }

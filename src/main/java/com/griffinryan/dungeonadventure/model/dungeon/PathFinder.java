@@ -1,5 +1,7 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
+import com.griffinryan.dungeonadventure.model.rooms.AbstractRoom;
+
 /**
  * PathFinder determines the
  * path of a given dungeon maze

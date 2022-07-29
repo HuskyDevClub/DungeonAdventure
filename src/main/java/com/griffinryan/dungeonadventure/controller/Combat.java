@@ -32,7 +32,7 @@ public final class Combat {
 	 *
      * @param args Command line arguments.
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IllegalAccessException {
         reset();
         start();
     }
@@ -42,7 +42,7 @@ public final class Combat {
 	 *
 	 * @see Dungeon
      */
-    public static void reset() {
+    public static void reset() throws IllegalAccessException {
         // ask the player to choose hero by entering a number
         System.out.println("Please choose your hero:");
         System.out.println("1 - Priestess");
