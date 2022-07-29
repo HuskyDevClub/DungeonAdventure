@@ -12,6 +12,7 @@ import java.util.ArrayList;
  *
  * @author Yudong Lin (ydlin@uw.edu)
  * @see AbstractRoom
+ * @see com.griffinryan.dungeonadventure.model.monsters.Ogre
  */
 public final class Room extends AbstractRoom {
     /**

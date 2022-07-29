@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure.engine.component;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
+import com.griffinryan.dungeonadventure.model.rooms.AbstractRoom;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.*;
@@ -12,7 +13,7 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
  *
  * @author Griffin Ryan (glryan@uw.edu)
  */
-public class BackgroundComponent extends Component {
+public class BackgroundComponent extends AbstractComponent {
 
 	private static final double TOP_SPEED = 0.06;
 	private static final double MIDDLE_SPEED = 0.02;

@@ -20,7 +20,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
  * of AdventureComponent.
  * @author Griffin Ryan (glryan@uw.edu)
  */
-public class DoorComponent extends Component {
+public class DoorComponent extends AbstractComponent {
 
 	private AnimatedTexture texture;
 	private Texture boundTexture;

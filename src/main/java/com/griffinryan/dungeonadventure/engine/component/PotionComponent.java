@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
+import com.griffinryan.dungeonadventure.model.rooms.AbstractRoom;
 import javafx.geometry.Point2D;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
@@ -12,7 +13,7 @@ import javafx.util.Duration;
  *
  * @author Griffin Ryan (glryan@uw.edu)
  */
-public class PotionComponent extends Component {
+public class PotionComponent extends AbstractComponent {
 
 	private AnimatedTexture texture;
 	private Texture boundTexture;
