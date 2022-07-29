@@ -13,6 +13,7 @@ import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
  * @author Griffin Ryan (glryan@uw.edu)
  */
 public class BackgroundComponent extends Component {
+
 	private static final double TOP_SPEED = 0.06;
 	private static final double MIDDLE_SPEED = 0.02;
 	private static final double BOTTOM_SPEED = 0.02;
@@ -40,7 +41,6 @@ public class BackgroundComponent extends Component {
 		skyLayer = texture("background/sky.png", w, h);
 		lightLayer = texture("background/light.png", w/2, 3*h/4);
 
-
 		entity.getViewComponent().addChild(topLayer);
 		entity.getViewComponent().addChild(middleLayer);
 		entity.getViewComponent().addChild(bottomLayer);
@@ -60,7 +60,6 @@ public class BackgroundComponent extends Component {
 	public void onUpdate(double tpf){
 
 		Entity player = getGameScene().getGameWorld().getEntitiesByType(PLAYER).get(0);
-		// var viewport = getGameScene().getViewport();
 
 		topLayer.setTranslateX(-BG_DISTANCE * TOP_SPEED * player.getX());
 		topLayer.setTranslateY(-BG_DISTANCE * TOP_SPEED * player.getY());

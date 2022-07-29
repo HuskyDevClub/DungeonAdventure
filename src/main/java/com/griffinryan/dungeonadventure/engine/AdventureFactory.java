@@ -15,7 +15,6 @@ import javafx.geometry.Point2D;
 import com.griffinryan.dungeonadventure.engine.component.*;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_HP;
 import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
 
 /**
@@ -86,7 +85,7 @@ public class AdventureFactory implements EntityFactory {
 				.type(EntityType.ENEMY)
 				.at(getRandomSpawnPoint("enemy"))
 				.bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(80, 80)))
-				.with(new HealthIntComponent(ENEMY_HP))
+				.with(new HealthIntComponent(getWorldProperties().getInt("enemyHP")))
 				.with(new CollidableComponent(true))
 				.zIndex(1)
 				.with(animatedEnemy)
@@ -114,7 +113,7 @@ public class AdventureFactory implements EntityFactory {
 		return FXGL.entityBuilder()
 				.type(EntityType.POTION)
 				.at(getRandomSpawnPoint("potion"))
-				.bbox(new HitBox(new Point2D(14, 21), BoundingShape.box(80, 80)))
+				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(80, 80)))
 				.with(animatedPotion)
 				.with(new CollidableComponent(true))
 				.zIndex(2)
@@ -141,10 +140,10 @@ public class AdventureFactory implements EntityFactory {
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)
 				.at(curDoorAnchor)
-				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
 				.with(door)
-				.with(new CollidableComponent(true))
-				.zIndex(8)
+				.collidable()
+				.zIndex(8) // same as player
 				.build();
 	}
 
@@ -166,7 +165,7 @@ public class AdventureFactory implements EntityFactory {
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)
 				.at(curDoorAnchor)
-				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
 				.with(door)
 				.with(new CollidableComponent(true))
 				.zIndex(8)
@@ -187,11 +186,12 @@ public class AdventureFactory implements EntityFactory {
 
 		DoorComponent door = new DoorComponent();
 		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+		HitBox h = door.getHitBox();
 
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)
 				.at(curDoorAnchor)
-				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
 				.with(door)
 				.with(new CollidableComponent(true))
 				.zIndex(8)
@@ -212,11 +212,12 @@ public class AdventureFactory implements EntityFactory {
 
 		DoorComponent door = new DoorComponent();
 		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+		HitBox h = door.getHitBox();
 
 		return FXGL.entityBuilder()
 				.type(EntityType.DOOR)
 				.at(curDoorAnchor)
-				.bbox(door.getHitBox()) /* Retrieve the HitBox. */
+				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
 				.with(door)
 				.with(new CollidableComponent(true))
 				.zIndex(8)

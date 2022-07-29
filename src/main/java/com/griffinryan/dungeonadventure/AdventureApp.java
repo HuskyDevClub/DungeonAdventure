@@ -38,7 +38,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  * @author Yudong Lin (ydlin@uw.edu)
  * @author Elijah Amian (elijah25@uw.edu)
  */
-public class BasicGameApp extends GameApplication {
+public class AdventureApp extends GameApplication {
 
     private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS;
 	private SpawnData doorData;
@@ -124,6 +124,12 @@ public class BasicGameApp extends GameApplication {
 		vars.put("doorE", false);
 		vars.put("doorW", false);
 		vars.put("doorS", false);
+
+		/* AbstractComponent mapped spawn points.*/
+		vars.put("north", false);
+		vars.put("east", false);
+		vars.put("west", false);
+		vars.put("south", false);
 	}
 
 	/**
@@ -143,12 +149,9 @@ public class BasicGameApp extends GameApplication {
 		player = spawn("Player");
 		playerComponent = player.getComponent(PlayerComponent.class);
 
-		/* 	Set the bounds of camera.	*/
 		/*
 		 Viewport viewport = getGameScene().getViewport();
-		 viewport.setZoom(1.20);
-		 viewport.bindToEntity(player, 500, 500);
-		 viewport.setBounds(0, 0, VIEW_RESOLUTION_X, VIEW_RESOLUTION_Y);
+		 viewport.setZoom(1.20);  ..etc
 		*/
 
 		if(!IS_NO_BACKGROUND){
@@ -185,6 +188,7 @@ public class BasicGameApp extends GameApplication {
 
 		physics.addCollisionHandler(new PlayerEnemyHandler());
 		physics.addCollisionHandler(new PlayerPotionHandler());
+		physics.addCollisionHandler(new PlayerDoorHandler());
 	}
 
 	/**

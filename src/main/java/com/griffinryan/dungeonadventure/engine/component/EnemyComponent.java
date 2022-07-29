@@ -17,7 +17,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_MIN_SPEED;
  *
  * @author Griffin Ryan (glryan@uw.edu)
  */
-public class EnemyComponent extends Component {
+public class EnemyComponent extends Component{
 
 	private int speed;
 	private boolean y = true;

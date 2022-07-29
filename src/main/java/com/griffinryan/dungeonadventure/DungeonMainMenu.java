@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure;
 
+import com.almasb.fxgl.app.FXGLApplication;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;

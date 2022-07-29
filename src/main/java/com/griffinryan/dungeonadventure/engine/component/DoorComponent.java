@@ -3,9 +3,15 @@ package com.griffinryan.dungeonadventure.engine.component;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.texture.AnimatedTexture;
+import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
+import javafx.util.Duration;
+
+import java.util.Objects;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -16,11 +22,13 @@ import static com.almasb.fxgl.dsl.FXGL.*;
  */
 public class DoorComponent extends Component {
 
+	private AnimatedTexture texture;
 	private Texture boundTexture;
 	private HitBox hitbox;
 	public String mapKey;
 	private double anchorX;
 	private double anchorY;
+	private AnimationChannel idleChannel;
 
 	/**
 	 * DoorComponent is a constructor that creates
@@ -30,7 +38,7 @@ public class DoorComponent extends Component {
 	public DoorComponent() {
 
 		/* Determine spawn point for Component and mapKey.	 */
-		mapKey = findMapKey();
+		mapKey = setMapKey();
 
 		/* set the corner of the component. */
 		anchorX = setAnchorXLocation();
@@ -39,33 +47,29 @@ public class DoorComponent extends Component {
 
 		double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
 
-		hitbox = new HitBox(mapKey,
-				tempPoint, BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
+		if(Objects.equals(mapKey, "doorS")){
+			hitbox = new HitBox(
+					new Point2D(0.0,-widthLengthArray[1]),
+					BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
+
+		} else {
+			hitbox = new HitBox(
+					new Point2D(0.0,0.0),
+					BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
+		}
+
 
 		/* After this point, reference only the hitbox for locations. */
 
 		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
 		getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
+
+		AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
+				4, 17, 16, Duration.seconds(0.6), 0, 3);
+
+		this.idleChannel = idle;
+		this.texture = new AnimatedTexture(idleChannel);
 	}
-
-	/*
-	public DoorComponent(SpawnData data) {
-
-
-		mapKey = findMapKey();
-
-		double x = setDoorXLocation();
-		double y = setDoorYlocation();
-		Point2D tempPoint = new Point2D(x, y);
-		double[] boundsArray = getHitBoxBoundaryArray(tempPoint);
-
-		hitbox = new HitBox(mapKey,
-				tempPoint, BoundingShape.box(boundsArray[0], boundsArray[1]));
-
-
-		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
-		getWorldProperties().setValue(mapKey, false);
-	}*/
 
 	/**
 	 * onAdded() sets properties upon instantiation of
@@ -78,10 +82,10 @@ public class DoorComponent extends Component {
 
 		/* Setting Point2D to corner of Entity. TODO: Maybe with HitBox reference? */
 		Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
-		entity.getTransformComponent().setAnchoredPosition(anchor);
-
+		entity.getTransformComponent().setScaleOrigin(anchor);
 		entity.getViewComponent().addChild(boundTexture);
-		boundTexture.darker();
+		// entity.getViewComponent().addChild(texture);
+		// texture.loopAnimationChannel(idleChannel);
 	}
 
 	/**
@@ -94,12 +98,14 @@ public class DoorComponent extends Component {
 	 *
 	 * @return [width, length] bounds to be passed to HitBox.
 	 * */
-	private double[] getHitBoxBoundaryArray(Point2D thePoint){
-		double[] result = {0.0, 0.0};
+	public double[] getHitBoxBoundaryArray(Point2D thePoint){
+		double[] result = {500.0, 500.0};
+		return result;
 
+		/*
 		if(mapKey.equalsIgnoreCase("doorN")) {
 			result[0] = getAppWidth() / 8.0;
-			result[1] = getAppHeight() / 24.0; // TODO: Check all this
+			result[1] = getAppHeight() / 24.0;
 
 			return result;
 		} else if (mapKey.equalsIgnoreCase("doorS")) {
@@ -119,65 +125,13 @@ public class DoorComponent extends Component {
 			return result;
 		}
 
-		return result;
+		return result;	*/
 	}
 
 	/**
-	 * Calculates the Component's bottom corner X coordinate
-	 * to be stored in a field double called anchor_x.
-	 * The fields are used in a (x, y) coordinate in the constructor
-	 * method for the Component to set the HitBox Object.
-	 * N: x = 600 - texture_size at 720p.
-	 * 		getAppWidth() / 2.0 - getAppWidth() / 32.0
-	 * S: x = 600 - texture_size at 720p.
-	 * 		getAppWidth() / 2.0 - getAppWidth() / 32.0
-	 * E: x = 1200 + texture_size at 720p. (x = 1220)
-	 * 		15.0 * getAppWidth() / 16.0 + getAppWidth() / 64.0
-	 * W: x = 0 at 720p.
-	 * TODO:- Create a AdventureComp interface
-	 * 		- that calculates the 16:9 math to
-	 * 		- store in the propertyMap during load phase.
-	 * @see HitBox
+	 * Sets the Component mapKey String value
 	 * */
-	private double setAnchorXLocation() {
-		/*		*/
-
-		return switch (this.mapKey) {
-			case "doorN" -> 600.0;
-			case "doorS" -> 600.0;
-			case "doorE" -> 1220.0;
-			case "doorW" -> 0.0;
-			default -> 0;
-		};
-	}
-
-	/**
-	 * Calculates the Component's bottom corner Y coordinate
-	 * to be stored in a field double called anchor_y.
-	 * The fields are used in a (x, y) coordinate in the constructor
-	 * method for the Component to set the HitBox Object.
-	 * N: y = 0 at 720p.
-	 * S: y = 660 - texture_size at 720p.
-	 * 		11 * getAppHeight() / 12.0 - getAppHeight() / 54.0
-	 * E: y = 360 - texture_size at 720p.
-	 * 		getAppHeight() / 2.0 - getAppHeight() / 12.0
-	 * W: y = 360 - texture_size at 720p.
-	 * 		getAppHeight() / 2.0 - getAppHeight() / 12.0
-	 * TODO: Create a AdventureComp interface
-	 * @see HitBox
-	 * */
-	private double setAnchorYLocation() {
-
-		return switch (this.mapKey) {
-			case "doorN" -> 0.0;
-			case "doorS" -> 647.0;
-			case "doorE" -> 330.0;
-			case "doorW" -> 330.0;
-			default -> 0;
-		};
-	}
-
-	private String findMapKey() {
+	private String setMapKey() {
 		String result = "";
 
 		for (int i = 0; i < getWorldProperties().toMap().size(); i++) {
@@ -198,14 +152,76 @@ public class DoorComponent extends Component {
 		return result;
 	}
 
+	/**
+	 * Calculates the Component's bottom corner X coordinate
+	 * to be stored in a field double called anchor_x.
+	 * The fields are used in a (x, y) coordinate in the constructor
+	 * method for the Component to set the HitBox Object.
+	 * N: x = getAppWidth() / 2.0 - getAppWidth() / 32.0
+	 * S: x = getAppWidth() / 2.0 - getAppWidth() / 32.0
+	 * E: x = 15.0 * getAppWidth() / 16.0 + getAppWidth() / 64.0
+	 * W: x = 0 at 720p.
+	 * @see HitBox
+	 * */
+	private double setAnchorXLocation() {
+
+		return switch (this.mapKey) {
+			case "doorN" -> 600.0;
+			case "doorS" -> 600.0;
+			case "doorE" -> 1220.0;
+			case "doorW" -> 0.0;
+			default -> 0;
+		};
+	}
+
+	/**
+	 * Calculates the Component's bottom corner Y coordinate
+	 * to be stored in a field double called anchor_y.
+	 * The fields are used in a (x, y) coordinate in the constructor
+	 * method for the Component to set the HitBox Object.
+	 * N: y = 0 at 720p.
+	 * S: y = 660 - texture_size at 720p.
+	 * E: y = 360 - texture_size at 720p.
+	 * W: y = 360 - texture_size at 720p.
+	 * @see HitBox
+	 * */
+	private double setAnchorYLocation() {
+
+		return switch (this.mapKey) {
+			case "doorN" -> 0.0;
+			case "doorS" -> 660.0;
+			case "doorE" -> 330.0;
+			case "doorW" -> 330.0;
+			default -> 0;
+		};
+	}
+
+	/**
+	 * Retrieves the Component's
+	 * HitBox object.
+	 *
+	 * @return HitBox
+	 * */
 	public HitBox getHitBox() {
 		return hitbox;
 	}
 
+	/**
+	 * Retrieves the Component's
+	 * anchorX coordinate.
+	 *
+	 * @return double
+	 * */
 	public double getAnchorX() {
 		return anchorX;
 	}
 
+	/**
+	 * Retrieves the Component's
+	 * anchorY coordinate.
+	 *
+	 * @return double
+	 * */
 	public double getAnchorY() {
 		return anchorY;
 	}

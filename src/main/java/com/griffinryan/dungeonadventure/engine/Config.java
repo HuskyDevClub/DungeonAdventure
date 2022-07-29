@@ -35,12 +35,6 @@ public final class Config {
 	public static final int ENEMY_MAX_SPEED = 200;
 	public static final int ENEMY_MIN_SPEED = 100;
 
-	public static final int PLAYER_HP = 500;
-	public static final int PLAYER_ATTK = 500;
-
-	public static final int ENEMY_HP = 300;
-	public static final int ENEMY_ATTK = 300;
-
 	// public static final Duration INTERVAL = seconds(1.5);
 	public static final int OUTSIDE_DISTANCE = 50;
 	public static final int SPAWN_DISTANCE = 500;
