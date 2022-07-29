@@ -70,10 +70,15 @@ public class AdventureApp extends GameApplication {
     protected void initSettings(GameSettings settings) {
         settings.setWidth(VIEW_RESOLUTION_X);
         settings.setHeight(VIEW_RESOLUTION_Y);
+		/*TODO 	Cannot Set this to a double in initSettings
+        /* TODO as is specified the game library and to get rid of Config.java
+         /*TODO	----------------------------------------------------------
+         /*TODO				360 x 360 should work
+         /*TODO				and be set here.	*/
 		settings.setAppIcon("sprite/potion.png");
 
+		settings.setVersion("0.3");
         settings.setTitle("Dungeon Adventure");
-        settings.setVersion("0.2");
 		settings.setDeveloperMenuEnabled(true);
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new SceneFactory() {
