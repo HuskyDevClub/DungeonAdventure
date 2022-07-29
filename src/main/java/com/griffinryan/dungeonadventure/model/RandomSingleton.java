@@ -1,9 +1,11 @@
 package com.griffinryan.dungeonadventure.model;
 
+import java.io.Serializable;
+
 /**
  * @author Yudong Lin (ydlin@uw.edu)
  */
-abstract class Random {
+abstract class RandomSingleton implements Serializable {
 
     private static final java.util.Random myRANDOM = new java.util.Random();
 

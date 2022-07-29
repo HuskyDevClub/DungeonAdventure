@@ -9,46 +9,58 @@ import com.griffinryan.dungeonadventure.model.heroes.Priestess;
 import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
+import org.sqlite.SQLiteDataSource;
 
+import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 /**
- *
  * @author Yudong Lin (ydlin@uw.edu)
  */
 public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final String myDatabasePath = "jdbc:sqlite:save.sqlite";
     private static Dungeon myDungeon;
-    private static Hero myHero;
     private static boolean isPlaying;
 
     /**
-	 * main() is the executable method for the
-	 * Combat class.
-	 *
+     * main() is the executable method for the Combat class.
+     * can be used to play the game in command prompt
+     *
      * @param args Command line arguments.
      */
-    public static void main(final String[] args) throws IllegalAccessException {
-        reset();
+    public static void main(final String[] args) throws IllegalAccessException, SQLException, IOException, ClassNotFoundException {
+        System.out.println("new || load:");
+        if ("load".equals(SCANNER.nextLine())) {
+            System.out.println("please enter save id:");
+            load(SCANNER.nextInt());
+        } else {
+            newGame();
+        }
         start();
     }
 
     /**
-     * reset() resets the game state.
-	 *
-	 * @see Dungeon
+     * start a new game.
+     *
+     * @see Dungeon
      */
-    public static void reset() throws IllegalAccessException {
+    public static void newGame() throws IllegalAccessException {
         // ask the player to choose hero by entering a number
         System.out.println("Please choose your hero:");
         System.out.println("1 - Priestess");
         System.out.println("2 - Thief");
         System.out.println("3 - Warrior");
         final int heroIndex = SCANNER.nextInt();
+        final Hero theHero;
         // ask the player to enter the name of the hero
         while (true) {
             System.out.println("Please enter a name for your hero:");
@@ -56,31 +68,31 @@ public final class Combat {
             // ensure that the name is not empty
             if (theName.length() > 0) {
                 switch (heroIndex) {
-                    case 1 -> myHero = new Priestess(theName);
-                    case 2 -> myHero = new Thief(theName);
-                    default -> myHero = new Warrior(theName);
+                    case 1 -> theHero = new Priestess(theName);
+                    case 2 -> theHero = new Thief(theName);
+                    default -> theHero = new Warrior(theName);
                 }
                 break;
             }
             System.out.println("The name cannot be empty, please try again!");
         }
         // generate a new dungeon
-        myDungeon = new Dungeon(10, 10);
+        myDungeon = new Dungeon(10, 10, "test1", theHero);
     }
 
     /**
      * start() begins the game state.
-	 *
-	 * @see Dungeon
+     *
+     * @see Dungeon
      */
-    public static void start() {
+    public static void start() throws SQLException, IOException {
         isPlaying = true;
         while (isPlaying) {
             // print out current status
             log("Current room:");
             log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
             log(myDungeon.getCurrentRoom().toString());
-            log(myHero.toString());
+            log(myDungeon.getHero().toString());
             // list out all the Pillar(s) that player found (if any)
             if (myDungeon.getNumOfPillarsFound() > 0) {
                 log("Pillars Found:[");
@@ -103,44 +115,44 @@ public final class Combat {
                     // picks up healing potions
                     case "php" -> {
                         if (myDungeon.getCurrentRoom().getNumberOfHealingPotions() > 0) {
-                            log(String.format("%s picks up %d healing potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfHealingPotions()));
-                            myHero.obtainHealingPotions(myDungeon.getCurrentRoom().pickUpHealingPotions());
+                            log(String.format("%s picks up %d healing potions", myDungeon.getHero().getName(), myDungeon.getCurrentRoom().getNumberOfHealingPotions()));
+                            myDungeon.getHero().obtainHealingPotions(myDungeon.getCurrentRoom().pickUpHealingPotions());
                         } else {
                             log("There is no healing potion to pick up.");
                         }
                     }
                     // use healing potions
                     case "uhp" -> {
-                        if (myHero.useHealingPotion()) {
-                            log(String.format("%s used one healing potion and feel much better.", myHero.getMyName()));
+                        if (myDungeon.getHero().useHealingPotion()) {
+                            log(String.format("%s used one healing potion and feel much better.", myDungeon.getHero().getName()));
                         } else {
-                            log(String.format("%s does not have any healing potion.", myHero.getMyName()));
+                            log(String.format("%s does not have any healing potion.", myDungeon.getHero().getName()));
                         }
                     }
                     // picks up vision potions
                     case "pvp" -> {
                         if (myDungeon.getCurrentRoom().getNumberOfVisionPotions() > 0) {
-                            log(String.format("%s picks up %d vision potions", myHero.getMyName(), myDungeon.getCurrentRoom().getNumberOfVisionPotions()));
-                            myHero.obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
+                            log(String.format("%s picks up %d vision potions", myDungeon.getHero().getName(), myDungeon.getCurrentRoom().getNumberOfVisionPotions()));
+                            myDungeon.getHero().obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
                         } else {
                             log("There is no healing vision to pick up.");
                         }
                     }
                     // use vision potions
                     case "uvp" -> {
-                        if (myHero.useVisionPotion()) {
-                            log(String.format("%s used one vision potion and saw:", myHero.getMyName()));
+                        if (myDungeon.getHero().useVisionPotion()) {
+                            log(String.format("%s used one vision potion and saw:", myDungeon.getHero().getName()));
                             log(myDungeon.getSurroundingRooms());
 
                         } else {
-                            log(String.format("%s does not have any vision potion.", myHero.getMyName()));
+                            log(String.format("%s does not have any vision potion.", myDungeon.getHero().getName()));
                         }
                     }
                     // pick up pillar
                     case "pp" -> {
                         if (myDungeon.getCurrentRoom().hasPillar()) {
-                            log(String.format("%s picks up pillar [%s]", myHero.getMyName(), myDungeon.getCurrentRoom().pickUpPillar()));
-                            myHero.obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
+                            log(String.format("%s picks up pillar [%s]", myDungeon.getHero().getName(), myDungeon.getCurrentRoom().pickUpPillar()));
+                            myDungeon.getHero().obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
                         } else {
                             log("There is no pillar to pick up.");
                         }
@@ -151,10 +163,11 @@ public final class Combat {
                             System.out.println(theMsg);
                         }
                     }
+                    case "save" -> System.out.printf("Progress has been saved! %d\n", save());
                     case "quit" -> isPlaying = false;
                 }
             } else {
-                DevelopmentTool.execute(theInput, myDungeon, myHero);
+                DevelopmentTool.execute(theInput, myDungeon, myDungeon.getHero());
             }
         }
     }
@@ -171,10 +184,10 @@ public final class Combat {
 
 
     /**
-	 * move() moves the player given a direction enum.
-	 *
+     * move() moves the player given a direction enum.
+     *
      * @param theDirection Direction in which to move.
-	 * @see Direction
+     * @see Direction
      */
     private static void move(final Direction theDirection) {
         // check whether the hero can move to certain direction, move if the hero can
@@ -184,7 +197,7 @@ public final class Combat {
             if (myDungeon.isCurrentRoomPit()) {
                 final int theDamage = new Random().nextInt(1, 20);
                 log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
-                myHero.injury(theDamage);
+                myDungeon.getHero().injury(theDamage);
             }
             // if current room is the Exit, the player win
             else if (myDungeon.isCurrentRoomExit()) {
@@ -203,42 +216,42 @@ public final class Combat {
 
 
     /**
-	 * oneAttackAnother() calculates damage.
-	 *
+     * oneAttackAnother() calculates damage.
+     *
      * @param theAttacker The DungeonCharacter attacking.
-     * @param theTarget The DungeonCharacter being attacked.
-	 * @see DungeonCharacter
+     * @param theTarget   The DungeonCharacter being attacked.
+     * @see DungeonCharacter
      */
     private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
         theAttacker.attack(theTarget);
         log(
-                theAttacker.getMyLastDamageDone() > 0 ? String.format(
+                theAttacker.getLastDamageDone() > 0 ? String.format(
                         "The %s %s successfully attacked the %s %s and did %d damage!",
-                        theAttacker.getClass().getSimpleName(), theAttacker.getMyName(), theTarget.getClass().getSimpleName(), theTarget.getMyName(), theAttacker.getMyLastDamageDone()
+                        theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName(), theAttacker.getLastDamageDone()
                 ) : String.format(
-                        "The %s %s fail to do any damage to the %s %s", theAttacker.getClass().getSimpleName(), theAttacker.getMyName(), theTarget.getClass().getSimpleName(), theTarget.getMyName()
+                        "The %s %s fail to do any damage to the %s %s", theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName()
                 )
         );
     }
 
     /**
      * fightOne() is a method to handle fight calculations.
-	 *
-	 * @see Dungeon
+     *
+     * @see Dungeon
      */
     public static void fightOne() {
         if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
             final Monster theTarget = myDungeon.getCurrentRoom().removeMonster(0);
             while (true) {
-                if (myHero.getMyHealth() <= 0) {
+                if (myDungeon.getHero().getHealth() <= 0) {
                     log("Mission fail, your hero is killed by the monster.");
                     isPlaying = false;
                     break;
-                } else if (theTarget.getMyHealth() <= 0) {
+                } else if (theTarget.getHealth() <= 0) {
                     log("You successfully kill the monster.");
                     break;
                 } else {
-                    fight(myHero, theTarget);
+                    fight(myDungeon.getHero(), theTarget);
                 }
             }
         } else {
@@ -247,23 +260,94 @@ public final class Combat {
     }
 
     /**
-	 * fight() is a method to handle fight calculations.
-	 *
-     * @param theHero Hero objects for player.
+     * fight() is a method to handle fight calculations.
+     *
+     * @param theHero    Hero objects for player.
      * @param theMonster Monster objects for enemy.
-	 * @see DungeonCharacter
+     * @see DungeonCharacter
      */
     public static void fight(final Hero theHero, final Monster theMonster) {
-        if (theHero.getMyAttackSpeed() >= theMonster.getMyAttackSpeed()) {
-            for (int i = 0; i < theHero.getMyAttackSpeed() / theMonster.getMyAttackSpeed(); i++) {
+        if (theHero.getAttackSpeed() >= theMonster.getAttackSpeed()) {
+            for (int i = 0; i < theHero.getAttackSpeed() / theMonster.getAttackSpeed(); i++) {
                 oneAttackAnother(theHero, theMonster);
             }
             oneAttackAnother(theMonster, theHero);
         } else {
-            for (int i = 0; i < theMonster.getMyAttackSpeed() / theHero.getMyAttackSpeed(); i++) {
+            for (int i = 0; i < theMonster.getAttackSpeed() / theHero.getAttackSpeed(); i++) {
                 oneAttackAnother(theMonster, theHero);
             }
             oneAttackAnother(theHero, theMonster);
         }
+    }
+
+    /**
+     * try to make connection to the database
+     *
+     * @return the Connection reference to the database
+     */
+    private static Connection connectDatabase() throws SQLException {
+        //establish connection (creates db file if it does not exist :-)
+        final SQLiteDataSource ds = new SQLiteDataSource();
+        try {
+            ds.setUrl(myDatabasePath);
+        } catch (final Exception e) {
+            e.printStackTrace();
+            throw new SQLException("Fail to connect to the database.");
+        }
+        return ds.getConnection();
+    }
+
+    /**
+     * save the current progress (the myDungeon object to be specific) into the database
+     *
+     * @return the index of the save
+     */
+    private static int save() throws SQLException, IOException {
+        //establish connection
+        final Connection theConnection = connectDatabase();
+        //create a table if it does not exist
+        theConnection.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS dungeons ( ID INTEGER PRIMARY KEY AUTOINCREMENT, DATA BYTES NOT NULL)");
+        /*
+         * insert the value into the database
+         * the basic idea is, convert the object into byte array, and then save the byte array into the database
+         */
+        final PreparedStatement thePreparedStatement = theConnection.prepareStatement("INSERT INTO dungeons ( DATA ) VALUES ( ? )");
+        // prepare for the conversion;
+        final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        final ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(myDungeon);
+        out.flush();
+        // convert the myDungeon object into ByteArray and save it under the DATA colum
+        thePreparedStatement.setBytes(1, bos.toByteArray());
+        // obtain the id of the save
+        final int rv = thePreparedStatement.executeUpdate();
+        // close the connections
+        out.close();
+        bos.close();
+        thePreparedStatement.close();
+        theConnection.close();
+        // return the id
+        return rv;
+    }
+
+    /**
+     * load the progress (the myDungeon object to be specific) from the database with given id
+     *
+     * @param theId the id of the saved progress
+     */
+    private static void load(final int theId) throws SQLException, IOException, ClassNotFoundException {
+        //establish connection
+        final Connection theConnection = connectDatabase();
+        //find the progress
+        final PreparedStatement thePreparedStatement = theConnection.prepareStatement("SELECT DATA FROM dungeons WHERE ID = ?");
+        thePreparedStatement.setInt(1, theId);
+        final ResultSet rs = thePreparedStatement.executeQuery();
+        rs.next();
+        // load the progress
+        myDungeon = (Dungeon) (new ObjectInputStream(new ByteArrayInputStream(rs.getBytes(1)))).readObject();
+        // it is always a good practice to close all the connection at the end
+        rs.close();
+        thePreparedStatement.close();
+        theConnection.close();
     }
 }
