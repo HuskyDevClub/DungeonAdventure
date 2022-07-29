@@ -2,20 +2,42 @@ package com.griffinryan.dungeonadventure.model.heroes;
 
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
+/**
+ * Warrior is a child object that
+ * is abstracted by Hero.
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
+ * @see Hero
+ */
 public class Warrior extends Hero {
 
-    public Warrior(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final byte theChanceToHit, final byte theChanceToBlock) {
+    /**
+     * @param theName          the name of the Warrior
+     * @param theHealth        the health/hit point of the Warrior
+     * @param theMinDamage     the minimum damage that the Warrior will do
+     * @param theMaxDamage     the maximum damage that the Warrior will do
+     * @param theAttackSpeed   the attack speed of the Warrior
+     * @param theChanceToHit   the chance that Warrior will hit
+     * @param theChanceToBlock the chance that hero will block the damage
+     */
+    public Warrior(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToBlock) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToBlock);
     }
 
+    /**
+     * @param theName the name of the Warrior
+     */
     public Warrior(final String theName) {
-        super(theName, 125, 35, 60, 4, (byte) 80, (byte) 20);
+        this(theName, 125, 35, 60, 4, 80, 20);
     }
 
-    @Override
+    /**
+     * the skill of the Warrior
+     *
+     * @param theTarget the target
+     */
     public void skill(final Monster theTarget) {
-        final byte theChance = 40;
-        if (isLuckyToAct(theChance)) {
+        if (isLuckyToAct(40)) {
             theTarget.injury(generateRandomValue(75, 175));
         }
     }

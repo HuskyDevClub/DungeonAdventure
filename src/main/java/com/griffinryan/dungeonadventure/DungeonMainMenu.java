@@ -1,65 +1,86 @@
 package com.griffinryan.dungeonadventure;
 
-import com.almasb.fxgl.animation.Interpolators;
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.MenuType;
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.input.view.KeyView;
-import com.almasb.fxgl.input.view.MouseButtonView;
-import com.almasb.fxgl.input.view.TriggerView;
-import com.almasb.fxgl.logging.Logger;
-import com.almasb.fxgl.scene.Scene;
-
+import com.almasb.fxgl.app.FXGLApplication;
 import javafx.beans.binding.Bindings;
-import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.CacheHint;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.animation.FillTransition;
-import javafx.application.Application;
 import javafx.application.Platform;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import static com.almasb.fxgl.dsl.FXGL.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.beans.binding.StringBinding;
-import javafx.scene.control.Button;
-import java.io.File;
 
+import com.almasb.fxgl.app.scene.FXGLMenu;
+import com.almasb.fxgl.app.scene.MenuType;
+import com.almasb.fxgl.audio.Music;
+import com.almasb.fxgl.dsl.FXGL;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
+/**
+ * The DungeonMainMenu class defines the
+ * initial Pane users are greeted with
+ * and the pause/main menu Panes.
+ *
+ * @author Elijah Amian (elijah25@uw.edu)
+ */
 public class DungeonMainMenu extends FXGLMenu {
 
+    /**
+	 * DungeonMainMenu() is a constructor
+	 * used to create a new FXGLMenu object.
+	 *
+	 * @see FXGLMenu for more.
+	 */
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
-        loopBGM("bg.mp3");
+		if(IS_SOUND_ENABLED){
+			playAudio("drumloop.mp3");
+		}
         createContent(getContentRoot());
 
     }
 
-    private void playAudio() {
-
+    /**
+	 * playAudio() plays a .mp3 file located
+	 * in the assets/music path.
+	 *
+     * @param s Title of .mp3 file to play.
+     */
+    private void playAudio(String s) {
+		Music m = FXGL.getAssetLoader().loadMusic(s);
+		FXGL.getAudioPlayer().loopMusic(m);
     }
 
+
+    /**
+	 * stopAudio() stops a .mp3 file located
+	 * in the assets/music path.
+	 *
+     * @param s Title of .mp3 to stop.
+     */
+    private void stopAudio(String s){
+		Music m = FXGL.getAssetLoader().loadMusic(s);
+		FXGL.getAudioPlayer().stopMusic(m);
+	}
+
+
+    /**
+	 * createContent() is a helper method to create
+	 * the Pane object used in the main menu.
+	 *
+     * @param root The Pane object to build with.
+     */
     private void createContent(Pane root) {
         root.setPrefSize(1280, 720);
 
@@ -71,7 +92,10 @@ public class DungeonMainMenu extends FXGLMenu {
         VBox box = new VBox(
                 5,
                 new MenuItem("START GAME", () -> {
+					stopAudio("drumloop.mp3"); // Stops current background music.
                     play("menuSelect.mp3");
+					playAudio("chordloop.mp3"); // Starts new background music.
+					//playAudio("bg.mp3"); // Starts new background music.
                     fireNewGame();
                 }),
                 new MenuItem("SETTINGS", () -> {
@@ -93,6 +117,12 @@ public class DungeonMainMenu extends FXGLMenu {
         );
     }
 
+    /**
+	 * MenuItem() creates a new StackPane object
+	 * for the main menu.
+	 *
+	 * @see StackPane for more.
+	 */
     private static class MenuItem extends StackPane {
         MenuItem(String name, Runnable action) {
             LinearGradient gradient = new LinearGradient(

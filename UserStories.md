@@ -1,11 +1,27 @@
+- [ ] As the Engine package for Dungeon Adventure, I will include
+  - [ ] GameComponent classes that extend Component 
+    - [X] Include a PlayerComponent for players
+    - [X] Include an EnemyComponent for enemies
+    - [ ] Include a BackgroundComponent for backgrounds
+    - [X] Include a PotionComponent for potions
+    - [ ] Include a LevelComponent for the room generation
+    - [ ] Include a RoomComponent for storing rooms 
+    - [ ] Include a DoorComponent to enter rooms 
+    - [ ] Include a ParticleComponent for particle effects
+  - [X] Utils package for helper utility methods
+    - [ ] DungeonUtility.java includes property map helpers
+  - [ ] Collision classes that extend CollisionHandler
+    - [X] PlayerEnemyHandler
+    - [X] PlayerPotionHandler
+    - [ ] PlayerDoorHandler
 - [ ] As a player for Dungeon Adventure, I hope that
-  - [ ] in the main menu, I can
+  - [X] in the main menu, I can
     - [ ] see my latest progress
     - [ ] change sound volume
     - [ ] see developers information
-    - [ ] quite the game
+    - [X] quit the game
   - [ ] when I decide to start the game, I can
-    - [ ] Start a new game
+    - [X] Start a new game
     - [ ] Load my previous progress
     - [ ] (If possible) save multiple progress and load specific progress
     - [ ] (If possible) create a custom name for my save file
@@ -16,17 +32,17 @@
     - [ ] (If possible) select difficulty levels
   - [ ] during the game, I can
     - [ ] save my current progress
-    - [ ] go back to main menu
+    - [X] go back to main menu
     - [ ] quit the game immediately without going back to main menu
     - [ ] see the current room based on the Adventurer's current location
-    - [ ] using button or command to control my character
+    - [X] using button or command to control my character
     - [ ] see "victory" or "defeat" message
     - [ ] see details regarding my character
     - [ ] see details regarding enemies
     - [ ] see message regarding current combat status
-    - [ ] hear music
+    - [X] hear music
   - [ ] once game is over, I can
-    - [ ] start a new game immediately
+    - [X] start a new game immediately
     - [ ] go back to main menu
     - [ ] rage-quit, I hate my life!
     - [ ] start from a previous saved game

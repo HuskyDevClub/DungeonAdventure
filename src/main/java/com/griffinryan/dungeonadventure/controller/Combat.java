@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ *
+ * @author Yudong Lin (ydlin@uw.edu)
+ */
 public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
@@ -22,12 +26,23 @@ public final class Combat {
     private static Hero myHero;
     private static boolean isPlaying;
 
-    public static void main(final String[] args) {
+    /**
+	 * main() is the executable method for the
+	 * Combat class.
+	 *
+     * @param args Command line arguments.
+     */
+    public static void main(final String[] args) throws IllegalAccessException {
         reset();
         start();
     }
 
-    public static void reset() {
+    /**
+     * reset() resets the game state.
+	 *
+	 * @see Dungeon
+     */
+    public static void reset() throws IllegalAccessException {
         // ask the player to choose hero by entering a number
         System.out.println("Please choose your hero:");
         System.out.println("1 - Priestess");
@@ -53,6 +68,11 @@ public final class Combat {
         myDungeon = new Dungeon(10, 10);
     }
 
+    /**
+     * start() begins the game state.
+	 *
+	 * @see Dungeon
+     */
     public static void start() {
         isPlaying = true;
         while (isPlaying) {
@@ -142,13 +162,20 @@ public final class Combat {
     /**
      * now is only print message to the console, wait for the functionality to print stuff to GUI
      *
-     * @param theMessage the message that needs to be print to the console or screen
+     * @param theMessage The message that needs to be print to the console or screen
      */
     private static void log(final String theMessage) {
         messageHistory.add(theMessage);
         System.out.println(theMessage);
     }
 
+
+    /**
+	 * move() moves the player given a direction enum.
+	 *
+     * @param theDirection Direction in which to move.
+	 * @see Direction
+     */
     private static void move(final Direction theDirection) {
         // check whether the hero can move to certain direction, move if the hero can
         if (myDungeon.move(theDirection)) {
@@ -174,6 +201,14 @@ public final class Combat {
         }
     }
 
+
+    /**
+	 * oneAttackAnother() calculates damage.
+	 *
+     * @param theAttacker The DungeonCharacter attacking.
+     * @param theTarget The DungeonCharacter being attacked.
+	 * @see DungeonCharacter
+     */
     private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
         theAttacker.attack(theTarget);
         log(
@@ -186,6 +221,11 @@ public final class Combat {
         );
     }
 
+    /**
+     * fightOne() is a method to handle fight calculations.
+	 *
+	 * @see Dungeon
+     */
     public static void fightOne() {
         if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
             final Monster theTarget = myDungeon.getCurrentRoom().removeMonster(0);
@@ -206,6 +246,13 @@ public final class Combat {
         }
     }
 
+    /**
+	 * fight() is a method to handle fight calculations.
+	 *
+     * @param theHero Hero objects for player.
+     * @param theMonster Monster objects for enemy.
+	 * @see DungeonCharacter
+     */
     public static void fight(final Hero theHero, final Monster theMonster) {
         if (theHero.getMyAttackSpeed() >= theMonster.getMyAttackSpeed()) {
             for (int i = 0; i < theHero.getMyAttackSpeed() / theMonster.getMyAttackSpeed(); i++) {
