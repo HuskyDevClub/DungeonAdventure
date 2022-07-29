@@ -3,10 +3,13 @@ package com.griffinryan.dungeonadventure.engine;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
+import com.almasb.fxgl.dsl.components.ManaIntComponent;
+import com.almasb.fxgl.dsl.components.view.TextViewComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.entity.component.ComponentListener;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
@@ -22,8 +25,36 @@ import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
  * to handle all entities in game engine.
  *
  * @author Griffin Ryan (glryan@uw.edu)
+ * @see Entity
  */
 public class AdventureFactory implements EntityFactory {
+
+	/**
+	 * spawnDungeon() returns an Entity
+	 * object appended with LevelComponent().
+	 *
+	 * @param data SpawnData object to use.
+	 * @return Entity
+	 * @see EntityFactory
+	 */
+	@Spawns("Dungeon")
+	public Entity spawnDungeon(SpawnData data) {
+
+		DungeonComponent dungeon = new DungeonComponent();
+		/* TODO .with()
+		    Retrieve from Property Map */
+		return FXGL.entityBuilder(data)
+				.with()
+				.with(new CollidableComponent(false))
+				.zIndex(0)
+				.with() // TODO Retrieve from Property Map
+				.with()
+				.with(new TextViewComponent(40, 40, "HP: "))
+				.with(new HealthIntComponent())
+				.with(new ManaIntComponent(200))
+				.with(dungeon)
+				.build();
+	}
 
 	/**
 	 * spawnBackground() returns an Entity
