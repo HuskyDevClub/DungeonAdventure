@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure;
 import java.util.Map;
 
 import com.almasb.fxgl.entity.SpawnData;
+import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -66,6 +67,7 @@ public class AdventureApp extends GameApplication {
 	 * @param settings FXGL GameSettings parameter to be passed.
 	 * @see GameSettings for settings.
 	 */
+
 	@Override
     protected void initSettings(GameSettings settings) {
         settings.setWidth(1280);
@@ -88,7 +90,8 @@ public class AdventureApp extends GameApplication {
             }
         });
     }
-
+	
+	
 	/**
 	 * onPreInit() sets certain game settings before
 	 * the initSettings() call.
