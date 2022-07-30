@@ -1,0 +1,11 @@
+Model Information:
+* title:	Roland SH-101 synthesizer keyboard
+* source:	https://sketchfab.com/3d-models/roland-sh-101-synthesizer-keyboard-d7f9721e0f304cb3913aa55ef7cf9dac
+* author:	e240 (https://sketchfab.com/e240)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Roland SH-101 synthesizer keyboard" (https://sketchfab.com/3d-models/roland-sh-101-synthesizer-keyboard-d7f9721e0f304cb3913aa55ef7cf9dac) by e240 (https://sketchfab.com/e240) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
