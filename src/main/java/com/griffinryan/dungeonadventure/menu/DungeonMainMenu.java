@@ -1,6 +1,6 @@
-package com.griffinryan.dungeonadventure;
+package com.griffinryan.dungeonadventure.menu;
 
-import com.almasb.fxgl.app.FXGLApplication;
+import com.google.gson.Gson;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
@@ -19,14 +19,18 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.dsl.FXGL;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
+
 /**
  * The DungeonMainMenu class defines the
  * initial Pane users are greeted with
@@ -36,6 +40,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.IS_SOUND_ENABLED;
  */
 public class DungeonMainMenu extends FXGLMenu {
 
+    VBox menuBox;
     /**
 	 * DungeonMainMenu() is a constructor
 	 * used to create a new FXGLMenu object.
@@ -48,7 +53,7 @@ public class DungeonMainMenu extends FXGLMenu {
 			playAudio("drumloop.mp3");
 		}
         createContent(getContentRoot());
-
+       // new GSON();
     }
 
     /**
@@ -83,20 +88,18 @@ public class DungeonMainMenu extends FXGLMenu {
      */
     private void createContent(Pane root) {
         root.setPrefSize(1280, 720);
+        //DungeonMainMenu.class.getResource("dungeonadventure.jpg").toString()
+        Image bgImage = FXGL.image("background/dungeonadventure.jpg", 1280, 720);
 
-        Image bgImage = new Image(DungeonMainMenu.class.getResource("dungeonadventure.jpg").toString(),
-                1280, 720,
-                false, true
-        );
-
-        VBox box = new VBox(
+        menuBox = new VBox(
                 5,
                 new MenuItem("START GAME", () -> {
 					stopAudio("drumloop.mp3"); // Stops current background music.
                     play("menuSelect.mp3");
 					playAudio("chordloop.mp3"); // Starts new background music.
 					//playAudio("bg.mp3"); // Starts new background music.
-                    fireNewGame();
+                    //fireNewGame();
+                    chooseHero();
                 }),
                 new MenuItem("SETTINGS", () -> {
                 }),
@@ -105,79 +108,64 @@ public class DungeonMainMenu extends FXGLMenu {
                 new MenuItem("QUIT", () -> Platform.exit())
         );
 
-        box.setBackground(new Background(
+        menuBox.setBackground(new Background(
                 new BackgroundFill(Color.web("black", 0.6), null, null)
         ));
-        box.setTranslateX(250);
-        box.setTranslateY(400);
+        menuBox.setTranslateX(220);
+        menuBox.setTranslateY(400);
 
         root.getChildren().addAll(
                 new ImageView(bgImage),
-                box
+                menuBox
         );
     }
 
-    /**
-	 * MenuItem() creates a new StackPane object
-	 * for the main menu.
-	 *
-	 * @see StackPane for more.
-	 */
-    private static class MenuItem extends StackPane {
-        MenuItem(String name, Runnable action) {
-            LinearGradient gradient = new LinearGradient(
-                    0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE,
-                    new Stop(0.1, Color.web("black", 0.75)),
-                    new Stop(1.0, Color.web("black", 0.15))
-            );
-            Rectangle bg0 = new Rectangle(250, 30, gradient);
-            Rectangle bg1 = new Rectangle(250, 30, Color.web("black", 0.2));
+    private void chooseHero(){
+        Pane root = getContentRoot();
+        root.getChildren().remove(menuBox);
+        PlayerInfo playerInfo = new PlayerInfo();
+        try {
+            FileWriter fw = new FileWriter("system/PlayerInfo.json");
+            PrintWriter out = new PrintWriter(fw, true);
+            Gson gson = new Gson();
 
-            FillTransition ft = new FillTransition(Duration.seconds(0.6),
-                    bg1, Color.web("black", 0.2), Color.web("white", 0.3));
-
-            ft.setAutoReverse(true);
-            ft.setCycleCount(Integer.MAX_VALUE);
-
-            hoverProperty().addListener((o, oldValue, isHovering) -> {
-                play("menuHover.wav");
-                if (isHovering) {
-                    ft.playFromStart();
-                } else {
-                    ft.stop();
-                    bg1.setFill(Color.web("black", 0.2));
-                }
-            });
-
-            Rectangle line = new Rectangle(5, 30);
-            line.widthProperty().bind(
-                    Bindings.when(hoverProperty())
-                            .then(8).otherwise(5)
-            );
-            line.fillProperty().bind(
-                    Bindings.when(hoverProperty())
-                            .then(Color.RED).otherwise(Color.GRAY)
+            HBox heroSelect = new HBox(20,
+                    new HeroSelect(HeroType.WARRIOR, () -> {
+                        playerInfo.chosenHero = HeroType.WARRIOR;
+                        String jsonString = gson.toJson(playerInfo);
+                        out.write(jsonString);
+                        fireNewGame();
+                    }),
+                    new HeroSelect(HeroType.THIEF, () -> {
+                        playerInfo.chosenHero = HeroType.THIEF;
+                        String jsonString = gson.toJson(playerInfo);
+                        out.write(jsonString);
+                        fireNewGame();
+                    }),
+                    new HeroSelect(HeroType.PRIEST, () -> {
+                        playerInfo.chosenHero = HeroType.PRIEST;
+                        String jsonString = gson.toJson(playerInfo);
+                        out.write(jsonString);
+                        out.close();
+                        fireNewGame();
+                    })
             );
 
-            Text text = new Text(name);
-            text.setFont(Font.font(22.0));
-            text.fillProperty().bind(
-                    Bindings.when(hoverProperty())
-                            .then(Color.WHITE).otherwise(Color.GRAY)
+            heroSelect.setTranslateX(250);
+            heroSelect.setTranslateY(400);
+
+            root.getChildren().addAll(
+                heroSelect
             );
 
-            setOnMouseClicked(e -> action.run());
-
-            setOnMousePressed(e -> bg0.setFill(Color.LIGHTBLUE));
-
-            setOnMouseReleased(e -> bg0.setFill(gradient));
-
-            setAlignment(Pos.CENTER_LEFT);
-
-            HBox box = new HBox(15, line, text);
-            box.setAlignment(Pos.CENTER_LEFT);
-
-            getChildren().addAll(bg0, bg1, box);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+
+    }
+
+    class PlayerInfo{
+        public HeroType chosenHero;
     }
 }
