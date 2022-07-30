@@ -30,28 +30,29 @@ final class SqlInterface {
 
     /**
      * save an object into the database
-     *
      * @param tableName the table of the database
-     * @param Data      the object data to save
+     * @param theName
+     * @param theData the object data to save
      * @return the id location of the object in that table
      */
-    static int save(final String tableName, final Object Data) throws SQLException, IOException {
+    static int save(final String tableName, final String theName, final Object theData) throws SQLException, IOException {
         //establish connection
         final Connection theConnection = connectDatabase();
         //create a table if it does not exist
-        theConnection.createStatement().executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %s ( ID INTEGER PRIMARY KEY AUTOINCREMENT, DATA BYTES NOT NULL)", tableName));
+        theConnection.createStatement().executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %s ( ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT NOT NULL, DATA BYTES NOT NULL)", tableName));
         /*
          * insert the value into the database
          * the basic idea is, convert the object into byte array, and then save the byte array into the database
          */
-        final PreparedStatement thePreparedStatement = theConnection.prepareStatement("INSERT INTO dungeons ( DATA ) VALUES ( ? )");
+        final PreparedStatement thePreparedStatement = theConnection.prepareStatement(String.format("INSERT INTO %s ( NAME, DATA ) VALUES ( ?, ? )", tableName));
+        thePreparedStatement.setString(1, theName);
         // prepare for the conversion;
         final ByteArrayOutputStream bos = new ByteArrayOutputStream();
         final ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(Data);
+        out.writeObject(theData);
         out.flush();
         // convert the object into ByteArray and save it under the DATA colum
-        thePreparedStatement.setBytes(1, bos.toByteArray());
+        thePreparedStatement.setBytes(2, bos.toByteArray());
         // obtain the id of the save
         final int rv = thePreparedStatement.executeUpdate();
         // close the connections

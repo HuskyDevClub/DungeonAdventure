@@ -73,7 +73,7 @@ public final class Combat {
             System.out.println("The name cannot be empty, please try again!");
         }
         // generate a new dungeon
-        myDungeon = new Dungeon(10, 10, "test1", theHero);
+        myDungeon = new Dungeon(10, 10, theHero);
     }
 
     /**
@@ -101,7 +101,7 @@ public final class Combat {
             }
             // ask the player to input an action
             System.out.println("PLease enter action:");
-            final String theInput = SCANNER.next();
+            final String theInput = SCANNER.nextLine();
             if (!theInput.startsWith("!")) {
                 switch (theInput) {
                     case "up" -> move(Direction.UP);
@@ -159,8 +159,18 @@ public final class Combat {
                             System.out.println(theMsg);
                         }
                     }
-                    case "save" -> //save the current progress (the myDungeon object to be specific) into the database
-                            System.out.printf("Progress has been saved! %d\n", SqlInterface.save("dungeons", myDungeon));
+                    case "save" ->{
+                        while (true) {
+                            System.out.println("Enter a name for the save");
+                            final String theSaveName = SCANNER.nextLine();
+                            if (!theSaveName.isEmpty()) {
+                                //save the current progress (the myDungeon object to be specific) into the database
+                                System.out.printf("Progress has been saved! %d\n", SqlInterface.save("dungeons", theSaveName, myDungeon));
+                                break;
+                            }
+                            System.out.println("The name cannot be empty! Please try again.");
+                        }
+                    }
                     case "quit" -> isPlaying = false;
                 }
             } else {

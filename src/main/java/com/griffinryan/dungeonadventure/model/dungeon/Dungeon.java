@@ -25,7 +25,6 @@ public class Dungeon implements Serializable {
     private static final int myChanceToGenerateRoom = 85;
     private final AbstractRoom[][] my2dMaze2dArray;
     private final Pillar[] myPillars = {new Pillar("Abstract"), new Pillar("Encapsulation"), new Pillar("Inheritance"), new Pillar("Polymorphism")};
-    private final String myName;
     private final Hero myHero;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
@@ -34,9 +33,8 @@ public class Dungeon implements Serializable {
      * @param theWidth  the height of the Dungeon
      * @param theHeight the height of the Dungeon
      */
-    public Dungeon(final int theWidth, final int theHeight, final String theName, final Hero theHero) throws IllegalAccessException {
+    public Dungeon(final int theWidth, final int theHeight, final Hero theHero) throws IllegalAccessException {
         AbstractRoom[][] the2dMaze2dArrayTemp;
-        myName = theName;
         myHero = theHero;
         final Random theRandom = new Random();
         while (true) {
@@ -262,10 +260,6 @@ public class Dungeon implements Serializable {
             final int[] thePos = thePillar.getPos();
             my2dMaze2dArray[thePos[0]][thePos[1]].pickUpPillar();
         }
-    }
-
-    public String getName() {
-        return myName;
     }
 
     public Hero getHero() {
