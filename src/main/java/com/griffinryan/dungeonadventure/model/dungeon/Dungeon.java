@@ -1,11 +1,13 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
+import com.griffinryan.dungeonadventure.model.heroes.Hero;
 import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import com.griffinryan.dungeonadventure.model.monsters.Ogre;
 import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 import com.griffinryan.dungeonadventure.model.rooms.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,22 +21,26 @@ import java.util.Random;
  * @see Room
  * @see Ogre
  */
-public class Dungeon {
+public class Dungeon implements Serializable {
     private static final int myChanceToGenerateRoom = 85;
     private final AbstractRoom[][] my2dMaze2dArray;
     private final Pillar[] myPillars = {new Pillar("Abstract"), new Pillar("Encapsulation"), new Pillar("Inheritance"), new Pillar("Polymorphism")};
+    private final String myName;
+    private final Hero myHero;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
     /**
-     * @param width  the height of the Dungeon
-     * @param height the height of the Dungeon
+     * @param theWidth  the height of the Dungeon
+     * @param theHeight the height of the Dungeon
      */
-    public Dungeon(final int width, final int height) throws IllegalAccessException {
+    public Dungeon(final int theWidth, final int theHeight, final String theName, final Hero theHero) throws IllegalAccessException {
         AbstractRoom[][] the2dMaze2dArrayTemp;
+        myName = theName;
+        myHero = theHero;
         final Random theRandom = new Random();
         while (true) {
-            the2dMaze2dArrayTemp = new AbstractRoom[height][width];
+            the2dMaze2dArrayTemp = new AbstractRoom[theHeight][theWidth];
             for (int y = 0; y < the2dMaze2dArrayTemp.length; y++) {
                 for (int x = 0; x < the2dMaze2dArrayTemp[y].length; x++) {
                     if (theRandom.nextInt(100) < myChanceToGenerateRoom) {
@@ -55,19 +61,19 @@ public class Dungeon {
                     }
                 }
             }
-            final int theExitX = theRandom.nextInt(width);
-            final int theExitY = theRandom.nextInt(height);
+            final int theExitX = theRandom.nextInt(theWidth);
+            final int theExitY = theRandom.nextInt(theHeight);
             the2dMaze2dArrayTemp[theExitY][theExitX] = new Exit();
-            myHeroCurrentX = width / 2;
-            myHeroCurrentY = height / 2;
+            myHeroCurrentX = theWidth / 2;
+            myHeroCurrentY = theHeight / 2;
             the2dMaze2dArrayTemp[myHeroCurrentY][myHeroCurrentX] = new Entrance();
             final PathFinder theFinder = new PathFinder(the2dMaze2dArrayTemp, myHeroCurrentX, myHeroCurrentY);
             // check whether the player can reach the
             if (!theFinder.isReachable(theExitX, theExitY)) {
                 int pillarPlaced = 0;
                 for (final Pillar thePillar : myPillars) {
-                    final int thePillarX = theRandom.nextInt(width);
-                    final int thePillarY = theRandom.nextInt(height);
+                    final int thePillarX = theRandom.nextInt(theWidth);
+                    final int thePillarY = theRandom.nextInt(theHeight);
                     boolean placed = false;
                     for (int i = 0; i < 5; i++) {
                         if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && !the2dMaze2dArrayTemp[thePillarY][thePillarX].hasPillar() && theFinder.isReachable(thePillarX, thePillarY)) {
@@ -256,5 +262,13 @@ public class Dungeon {
             final int[] thePos = thePillar.getPos();
             my2dMaze2dArray[thePos[0]][thePos[1]].pickUpPillar();
         }
+    }
+
+    public String getName() {
+        return myName;
+    }
+
+    public Hero getHero() {
+        return myHero;
     }
 }

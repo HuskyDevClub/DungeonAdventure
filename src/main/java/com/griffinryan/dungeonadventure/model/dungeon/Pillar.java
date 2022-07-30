@@ -1,12 +1,14 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
+import java.io.Serializable;
+
 /**
  * Pillar is an object for
  * maze "Pillars of OO."
  *
  * @author Yudong Lin (ydlin@uw.edu)
  */
-public final class Pillar {
+public final class Pillar implements Serializable {
     private final String myName;
     private boolean myHasBeenFound;
     private int myX;

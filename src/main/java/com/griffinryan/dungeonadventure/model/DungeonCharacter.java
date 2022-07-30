@@ -7,9 +7,9 @@ package com.griffinryan.dungeonadventure.model;
  *
  * @author Yudong Lin (ydlin@uw.edu)
  * @see com.griffinryan.dungeonadventure.model.heroes.Hero
- * @see com.griffinryan.dungeonadventure.model.Random
+ * @see RandomSingleton
  */
-public abstract class DungeonCharacter extends Random {
+public abstract class DungeonCharacter extends RandomSingleton {
     private final String myName;
     private final int myMinDamage;
     private final int myMaxDamage;
@@ -98,7 +98,7 @@ public abstract class DungeonCharacter extends Random {
      *
      * @return int
      */
-    public int getMyHealth() {
+    public int getHealth() {
         return myHealth;
     }
 
@@ -107,7 +107,7 @@ public abstract class DungeonCharacter extends Random {
      *
      * @return int
      */
-    public int getMyAttackSpeed() {
+    public int getAttackSpeed() {
         return myAttackSpeed;
     }
 
@@ -116,7 +116,7 @@ public abstract class DungeonCharacter extends Random {
      *
      * @return int
      */
-    public int getMyLastDamageDone() {
+    public int getLastDamageDone() {
         return myLastDamageDone;
     }
 
@@ -125,7 +125,7 @@ public abstract class DungeonCharacter extends Random {
      *
      * @return String
      */
-    public String getMyName() {
+    public String getName() {
         return myName;
     }
 }

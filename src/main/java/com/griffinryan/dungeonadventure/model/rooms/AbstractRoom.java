@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure.model.rooms;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Yudong Lin (ydlin@uw.edu)
  */
-public abstract class AbstractRoom {
+public abstract class AbstractRoom implements Serializable {
     private final ArrayList<Monster> myMonsters;
     private Pillar myPillar = null;
     private int myNumberOfHealingPotions;
