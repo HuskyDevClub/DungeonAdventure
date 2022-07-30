@@ -17,6 +17,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 /**
  *
  * @author Griffin Ryan (glryan@uw.edu)
+ * @author Elijah Amian (elijah25@uw.edu)
  */
 public class PlayerComponent extends AbstractComponent {
 
@@ -44,6 +45,25 @@ public class PlayerComponent extends AbstractComponent {
 		AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/right.png"),
 				4, 15, 30, Duration.seconds(0.4), 0, 3);
 		AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/down.png"),
+				4, 15, 30, Duration.seconds(0.4), 0, 3);
+
+		this.animIdle = idle;
+		this.animWalk = walk;
+		this.animWalkBack = back;
+
+		this.boundTexture = bound;
+		this.texture = new AnimatedTexture(animIdle);
+	}
+
+	public PlayerComponent(int playerMinSpeed, int playerMaxSpeed, String textureBound, String textureFront, String spriteFront, String spriteBound, String spriteRight, String spriteDown){
+		int moveSpeed = random(playerMinSpeed, playerMaxSpeed);
+		var bound = texture(spriteBound).brighter();
+
+		AnimationChannel idle = new AnimationChannel(FXGL.image(spriteFront),
+				4, 15, 30, Duration.seconds(0.4), 0, 3);
+		AnimationChannel walk = new AnimationChannel(FXGL.image(spriteRight),
+				4, 15, 30, Duration.seconds(0.4), 0, 3);
+		AnimationChannel back = new AnimationChannel(FXGL.image(spriteDown),
 				4, 15, 30, Duration.seconds(0.4), 0, 3);
 
 		this.animIdle = idle;

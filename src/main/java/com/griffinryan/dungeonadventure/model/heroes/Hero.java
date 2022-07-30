@@ -123,7 +123,7 @@ public abstract class Hero extends DungeonCharacter {
     public String toString() {
         return String.format(
                 "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d",
-                this.getMyName(), this.getMyHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions
+                this.getName(), this.getHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions
         );
     }
 }

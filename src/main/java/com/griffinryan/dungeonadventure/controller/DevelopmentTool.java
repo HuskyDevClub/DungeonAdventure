@@ -4,19 +4,18 @@ import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
 
 /**
- *
  * @author Yudong Lin (ydlin@uw.edu)
  */
 public final class DevelopmentTool {
     private static boolean invincible = false;
 
     /**
-	 * execute() is the driver method for the
-	 * DevelopmentTool class.
-	 *
-     * @param cmd Commands passed as String.
+     * execute() is the driver method for the
+     * DevelopmentTool class.
+     *
+     * @param cmd        Commands passed as String.
      * @param theDungeon Object for Dungeon.
-     * @param theHero Object for Hero.
+     * @param theHero    Object for Hero.
      */
     public static void execute(final String cmd, final Dungeon theDungeon, final Hero theHero) {
         switch (cmd) {
@@ -34,8 +33,8 @@ public final class DevelopmentTool {
     }
 
     /**
-	 * Returns whether the player is invincible.
-	 *
+     * Returns whether the player is invincible.
+     *
      * @return boolean returns true if invincible.
      */
     public static boolean isInvincible() {

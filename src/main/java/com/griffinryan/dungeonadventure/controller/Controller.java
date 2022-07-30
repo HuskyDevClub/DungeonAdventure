@@ -6,7 +6,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
 
 /**
- *
  * @author Yudong Lin (ydlin@uw.edu)
  */
 public class Controller {
@@ -18,9 +17,9 @@ public class Controller {
 
     /**
      * Controller() is a constructor method
-	 * to build the Controller object.
-	 *
-	 * @see Scene for more.
+     * to build the Controller object.
+     *
+     * @see Scene for more.
      */
     public Controller() {
         this.root = new BorderPane();
@@ -33,8 +32,8 @@ public class Controller {
 
 
     /**
-	 * Getter method to get BorderPane used.
-	 *
+     * Getter method to get BorderPane used.
+     *
      * @return BorderPane object that is root.
      */
     public BorderPane getRoot() {
@@ -43,8 +42,8 @@ public class Controller {
 
 
     /**
-	 * Getter method to get Scene used.
-	 *
+     * Getter method to get Scene used.
+     *
      * @return Scene object that is root.
      */
     public Scene getScene() {
