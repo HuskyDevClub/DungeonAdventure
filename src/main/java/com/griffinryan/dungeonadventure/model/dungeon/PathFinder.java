@@ -52,7 +52,7 @@ class PathFinder {
         this.myTravelMark[theY][theX] = true;
         if (this.myMaze[theY][theX] == null) {
             return false;
-        } else if (theX == this.myTargetX && theX == this.myTargetY) {
+        } else if (theX == this.myTargetX && theY == this.myTargetY) {
             return true;
         }
         return check(theX - 1, theY) || check(theX + 1, theY) || check(theX, theY - 1) || check(theX, theY + 1);

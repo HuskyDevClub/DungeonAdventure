@@ -68,10 +68,11 @@ public class Dungeon implements Serializable {
             if (theFinder.isReachable(theExitX, theExitY)) {
                 int pillarPlaced = 0;
                 for (final Pillar thePillar : myPillars) {
-                    final int thePillarX = theRandom.nextInt(theWidth);
-                    final int thePillarY = theRandom.nextInt(theHeight);
                     boolean placed = false;
-                    for (int i = 0; i < 5; i++) {
+                    // the system will try to place the Pillar several times before regenerating a new Dungeon
+                    for (int i = 0; i < (theWidth + theHeight) / 2; i++) {
+                        final int thePillarX = theRandom.nextInt(theWidth);
+                        final int thePillarY = theRandom.nextInt(theHeight);
                         if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && !the2dMaze2dArrayTemp[thePillarY][thePillarX].hasPillar() && theFinder.isReachable(thePillarX, thePillarY)) {
                             thePillar.setPos(thePillarX, thePillarY);
                             the2dMaze2dArrayTemp[thePillarY][thePillarX].newPillar(thePillar);
@@ -79,11 +80,10 @@ public class Dungeon implements Serializable {
                             break;
                         }
                     }
-                    if (placed) {
-                        pillarPlaced++;
-                    } else {
+                    if (!placed) {
                         break;
                     }
+                    pillarPlaced++;
                 }
                 if (pillarPlaced == this.myPillars.length) {
                     break;

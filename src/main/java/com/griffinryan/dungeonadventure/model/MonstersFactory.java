@@ -14,6 +14,24 @@ import java.sql.SQLException;
  */
 public final class MonstersFactory {
 
+    /*
+     * try to cache all the data before the game loading phase
+     */
+
+    static final int[] OGRE_DEFAULT_INFO_ARRAY;
+    static final int[] GREMLIN_DEFAULT_INFO_ARRAY;
+    static final int[] SKELETON_DEFAULT_INFO_ARRAY;
+
+    static {
+        try {
+            OGRE_DEFAULT_INFO_ARRAY = MonsterSqliteInterface.load(Ogre.class.getSimpleName());
+            GREMLIN_DEFAULT_INFO_ARRAY = MonsterSqliteInterface.load(Gremlin.class.getSimpleName());
+            SKELETON_DEFAULT_INFO_ARRAY = MonsterSqliteInterface.load(Skeleton.class.getSimpleName());
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * create a new monster using default parameters loaded form a sqlite database
      *
@@ -25,24 +43,24 @@ public final class MonstersFactory {
         final int[] defaultInfoArray;
         switch (theType) {
             case "Ogre" -> {
-                defaultInfoArray = MonsterSqliteInterface.load(Ogre.class.getSimpleName());
                 return new Ogre(
-                        theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
-                        defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7]
+                        theName, OGRE_DEFAULT_INFO_ARRAY[0], OGRE_DEFAULT_INFO_ARRAY[1],
+                        OGRE_DEFAULT_INFO_ARRAY[2], OGRE_DEFAULT_INFO_ARRAY[3], OGRE_DEFAULT_INFO_ARRAY[4],
+                        OGRE_DEFAULT_INFO_ARRAY[5], OGRE_DEFAULT_INFO_ARRAY[6], OGRE_DEFAULT_INFO_ARRAY[7]
                 );
             }
             case "Gremlin" -> {
-                defaultInfoArray = MonsterSqliteInterface.load(Gremlin.class.getSimpleName());
                 return new Gremlin(
-                        theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
-                        defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7]
+                        theName, GREMLIN_DEFAULT_INFO_ARRAY[0], GREMLIN_DEFAULT_INFO_ARRAY[1],
+                        GREMLIN_DEFAULT_INFO_ARRAY[2], GREMLIN_DEFAULT_INFO_ARRAY[3], GREMLIN_DEFAULT_INFO_ARRAY[4],
+                        GREMLIN_DEFAULT_INFO_ARRAY[5], GREMLIN_DEFAULT_INFO_ARRAY[6], GREMLIN_DEFAULT_INFO_ARRAY[7]
                 );
             }
             case "Skeleton" -> {
-                defaultInfoArray = MonsterSqliteInterface.load(Skeleton.class.getSimpleName());
                 return new Skeleton(
-                        theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
-                        defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7]
+                        theName, SKELETON_DEFAULT_INFO_ARRAY[0], SKELETON_DEFAULT_INFO_ARRAY[1],
+                        SKELETON_DEFAULT_INFO_ARRAY[2], SKELETON_DEFAULT_INFO_ARRAY[3], SKELETON_DEFAULT_INFO_ARRAY[4],
+                        SKELETON_DEFAULT_INFO_ARRAY[5], SKELETON_DEFAULT_INFO_ARRAY[6], SKELETON_DEFAULT_INFO_ARRAY[7]
                 );
             }
             default ->
