@@ -10,7 +10,7 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * @author Yudong Lin (ydlin@uw.edu)
  * @see Hero
  */
-public class Thief extends Hero {
+public final class Thief extends Hero {
 
     /**
      * @param theName          the name of the Thief
@@ -19,17 +19,13 @@ public class Thief extends Hero {
      * @param theMaxDamage     the maximum damage that the Thief will do
      * @param theAttackSpeed   the attack speed of the Thief
      * @param theChanceToHit   the chance that Thief will hit
-     * @param theChanceToBlock the chance that hero will block the damage
+     * @param theChanceToHeal  the chance that Thief will heal himself/herself
+     * @param theMinHealing    the minimum healing that the Thief will do
+     * @param theMaxHealing    the minimum healing that the Thief will do
+     * @param theChanceToBlock the chance that Thief will block the damage
      */
-    public Thief(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToBlock) {
-        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToBlock);
-    }
-
-    /**
-     * @param theName the name of the Thief
-     */
-    public Thief(final String theName) {
-        this(theName, 75, 20, 40, 6, 80, 40);
+    public Thief(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing, final int theChanceToBlock) {
+        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing, theChanceToBlock);
     }
 
     /**

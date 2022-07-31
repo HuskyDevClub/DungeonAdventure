@@ -18,6 +18,7 @@ public abstract class DungeonCharacter extends RandomSingleton {
     private final int myChanceToHeal;
     private final int myMinHealing;
     private final int myMaxHealing;
+    private final int myChanceToBlock;
     private int myHealth;
     private int myLastDamageDone = 0;
 
@@ -32,7 +33,7 @@ public abstract class DungeonCharacter extends RandomSingleton {
      * @param theMinHealing   the minimum healing that the Dungeon Character will do
      * @param theMaxHealing   the minimum healing that the Dungeon Character will do
      */
-    protected DungeonCharacter(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing) {
+    protected DungeonCharacter(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing, final int theChanceToBlock) {
         this.myName = theName;
         this.myHealth = theHealth;
         this.myMinDamage = theMinDamage;
@@ -42,18 +43,7 @@ public abstract class DungeonCharacter extends RandomSingleton {
         this.myChanceToHeal = theChanceToHeal;
         this.myMinHealing = theMinHealing;
         this.myMaxHealing = theMaxHealing;
-    }
-
-    /**
-     * @param theName        the name of the Dungeon Character
-     * @param theHealth      the health/hit point of the Dungeon Character
-     * @param theMinDamage   the minimum damage that the Dungeon Character will do
-     * @param theMaxDamage   the maximum damage that the Dungeon Character will do
-     * @param theAttackSpeed the attack speed of the Dungeon Character
-     * @param theChanceToHit the chance that Dungeon Character will hit
-     */
-    protected DungeonCharacter(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit) {
-        this(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, 0, 0, 0);
+        this.myChanceToBlock = theChanceToBlock;
     }
 
     /**
@@ -127,5 +117,33 @@ public abstract class DungeonCharacter extends RandomSingleton {
      */
     public String getName() {
         return myName;
+    }
+
+    public int getMinDamage() {
+        return myMinDamage;
+    }
+
+    public int getMaxDamage() {
+        return myMaxDamage;
+    }
+
+    public int getChanceToHit() {
+        return myChanceToHit;
+    }
+
+    public int getChanceToHeal() {
+        return myChanceToHeal;
+    }
+
+    public int getMinHealing() {
+        return myMinHealing;
+    }
+
+    public int getMaxHealing() {
+        return myMaxHealing;
+    }
+
+    public int getChanceToBlock() {
+        return myChanceToBlock;
     }
 }

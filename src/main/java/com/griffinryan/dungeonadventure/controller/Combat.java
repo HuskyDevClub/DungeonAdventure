@@ -1,14 +1,13 @@
 package com.griffinryan.dungeonadventure.controller;
 
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
+import com.griffinryan.dungeonadventure.model.HeroesFactory;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
-import com.griffinryan.dungeonadventure.model.heroes.Priestess;
-import com.griffinryan.dungeonadventure.model.heroes.Thief;
-import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
+import com.griffinryan.dungeonadventure.model.sql.DungeonSqliteInterface;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,6 +22,7 @@ public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final String myDatabasePath = "jdbc:sqlite:save.sqlite";
     private static Dungeon myDungeon;
     private static boolean isPlaying;
 
@@ -37,7 +37,7 @@ public final class Combat {
         if ("load".equals(SCANNER.nextLine())) {
             System.out.println("please enter save id:");
             // load the progress (the myDungeon object to be specific) from the database with given id
-            myDungeon = (Dungeon) SqlInterface.load("dungeons", SCANNER.nextInt());
+            myDungeon = DungeonSqliteInterface.load(myDatabasePath, SCANNER.nextInt());
         } else {
             newGame();
         }
@@ -49,7 +49,7 @@ public final class Combat {
      *
      * @see Dungeon
      */
-    public static void newGame() throws IllegalAccessException {
+    public static void newGame() throws IllegalAccessException, SQLException {
         // ask the player to choose hero by entering a number
         System.out.println("Please choose your hero:");
         System.out.println("1 - Priestess");
@@ -64,16 +64,16 @@ public final class Combat {
             // ensure that the name is not empty
             if (!theName.isEmpty()) {
                 switch (heroIndex) {
-                    case 1 -> theHero = new Priestess(theName);
-                    case 2 -> theHero = new Thief(theName);
-                    default -> theHero = new Warrior(theName);
+                    case 1 -> theHero = HeroesFactory.spawn("Priestess", theName);
+                    case 2 -> theHero = HeroesFactory.spawn("Thief", theName);
+                    default -> theHero = HeroesFactory.spawn("Warrior", theName);
                 }
                 break;
             }
             System.out.println("The name cannot be empty, please try again!");
         }
         // generate a new dungeon
-        myDungeon = new Dungeon(10, 10, theHero);
+        myDungeon = new Dungeon(20, 20, theHero);
     }
 
     /**
@@ -100,7 +100,7 @@ public final class Combat {
                 log("]");
             }
             // ask the player to input an action
-            System.out.println("PLease enter action:");
+            System.out.println("Please enter action:");
             final String theInput = SCANNER.nextLine();
             if (!theInput.startsWith("!")) {
                 switch (theInput) {
@@ -159,13 +159,13 @@ public final class Combat {
                             System.out.println(theMsg);
                         }
                     }
-                    case "save" ->{
+                    case "save" -> {
                         while (true) {
                             System.out.println("Enter a name for the save");
                             final String theSaveName = SCANNER.nextLine();
                             if (!theSaveName.isEmpty()) {
                                 //save the current progress (the myDungeon object to be specific) into the database
-                                System.out.printf("Progress has been saved! %d\n", SqlInterface.save("dungeons", theSaveName, myDungeon));
+                                System.out.printf("Progress has been saved! %d\n", DungeonSqliteInterface.save(myDatabasePath, theSaveName, myDungeon));
                                 break;
                             }
                             System.out.println("The name cannot be empty! Please try again.");

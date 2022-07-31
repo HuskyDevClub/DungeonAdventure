@@ -13,8 +13,6 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * @see DungeonCharacter
  */
 public abstract class Hero extends DungeonCharacter {
-
-    private final int myChanceToBlock;
     private int myNumberOfHealingPotions = 0;
     private int myNumberOfVisionPotions = 0;
 
@@ -31,22 +29,7 @@ public abstract class Hero extends DungeonCharacter {
      * @param theChanceToBlock the chance that hero will block the damage
      */
     protected Hero(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing, final int theChanceToBlock) {
-        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing);
-        this.myChanceToBlock = theChanceToBlock;
-    }
-
-    /**
-     * @param theName          the name of the Hero
-     * @param theHealth        the health/hit point of the Hero
-     * @param theMinDamage     the minimum damage that the Hero will do
-     * @param theMaxDamage     the maximum damage that the Hero will do
-     * @param theAttackSpeed   the attack speed of the Hero
-     * @param theChanceToHit   the chance that Hero will hit
-     * @param theChanceToBlock the chance that hero will block the damage
-     */
-    protected Hero(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToBlock) {
-        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit);
-        this.myChanceToBlock = theChanceToBlock;
+        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing, theChanceToBlock);
     }
 
     /**
@@ -63,7 +46,7 @@ public abstract class Hero extends DungeonCharacter {
      */
     @Override
     public void injury(final int value) {
-        if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.myChanceToBlock)) {
+        if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.getChanceToBlock())) {
             super.injury(value);
             System.out.println("the hero does not block");
         } else {

@@ -7,8 +7,7 @@ package com.griffinryan.dungeonadventure.model.monsters;
  * @author Yudong Lin (ydlin@uw.edu)
  * @see Monster
  */
-public class Skeleton extends Monster {
-
+public final class Skeleton extends Monster {
     /**
      * @param theName         the name of the Skeleton
      * @param theHealth       the health/hit point of the Skeleton
@@ -22,12 +21,5 @@ public class Skeleton extends Monster {
      */
     public Skeleton(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing);
-    }
-
-    /**
-     * @param theName the name of the Skeleton
-     */
-    public Skeleton(final String theName) {
-        this(theName, 100, 30, 50, 3, 80, 30, 30, 50);
     }
 }
