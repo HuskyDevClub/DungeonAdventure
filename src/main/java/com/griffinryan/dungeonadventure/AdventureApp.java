@@ -27,7 +27,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
 /**
  * BasicGameApp is the main executable class for
  * the DungeonAdventure game engine built
- * on the JavaFX game library FXGL (https://github.com/AlmasB/FXGL).
+ * on the JavaFX game library FXGL (<a href="https://github.com/AlmasB/FXGL">...</a>).
  *
  * The back-end of the game is handled by the
  * packages found in dungeonadventure.model.

@@ -1,13 +1,12 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
+import com.griffinryan.dungeonadventure.model.MonstersFactory;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
-import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
-import com.griffinryan.dungeonadventure.model.monsters.Ogre;
-import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 import com.griffinryan.dungeonadventure.model.rooms.*;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,13 +18,11 @@ import java.util.Random;
  *
  * @author Yudong Lin (ydlin@uw.edu)
  * @see Room
- * @see Ogre
  */
 public class Dungeon implements Serializable {
     private static final int myChanceToGenerateRoom = 85;
     private final AbstractRoom[][] my2dMaze2dArray;
     private final Pillar[] myPillars = {new Pillar("Abstract"), new Pillar("Encapsulation"), new Pillar("Inheritance"), new Pillar("Polymorphism")};
-    private final String myName;
     private final Hero myHero;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
@@ -34,9 +31,8 @@ public class Dungeon implements Serializable {
      * @param theWidth  the height of the Dungeon
      * @param theHeight the height of the Dungeon
      */
-    public Dungeon(final int theWidth, final int theHeight, final String theName, final Hero theHero) throws IllegalAccessException {
+    public Dungeon(final int theWidth, final int theHeight, final Hero theHero) throws IllegalAccessException, SQLException {
         AbstractRoom[][] the2dMaze2dArrayTemp;
-        myName = theName;
         myHero = theHero;
         final Random theRandom = new Random();
         while (true) {
@@ -49,9 +45,9 @@ public class Dungeon implements Serializable {
                             final ArrayList<Monster> theMonsters = new ArrayList<>(theNumOfMonsters);
                             for (int i = 0; i < theNumOfMonsters; i++) {
                                 switch (theRandom.nextInt(0, 2)) {
-                                    case 0 -> theMonsters.add(new Gremlin("G1"));
-                                    case 1 -> theMonsters.add(new Ogre("O1"));
-                                    default -> theMonsters.add(new Skeleton("S1"));
+                                    case 0 -> theMonsters.add(MonstersFactory.spawn("Gremlin", "G1"));
+                                    case 1 -> theMonsters.add(MonstersFactory.spawn("Ogre", "G1"));
+                                    default -> theMonsters.add(MonstersFactory.spawn("Skeleton", "S1"));
                                 }
                             }
                             the2dMaze2dArrayTemp[y][x] = new Room(theMonsters, theRandom.nextInt(0, 3), theRandom.nextInt(0, 2));
@@ -69,13 +65,14 @@ public class Dungeon implements Serializable {
             the2dMaze2dArrayTemp[myHeroCurrentY][myHeroCurrentX] = new Entrance();
             final PathFinder theFinder = new PathFinder(the2dMaze2dArrayTemp, myHeroCurrentX, myHeroCurrentY);
             // check whether the player can reach the
-            if (!theFinder.isReachable(theExitX, theExitY)) {
+            if (theFinder.isReachable(theExitX, theExitY)) {
                 int pillarPlaced = 0;
                 for (final Pillar thePillar : myPillars) {
-                    final int thePillarX = theRandom.nextInt(theWidth);
-                    final int thePillarY = theRandom.nextInt(theHeight);
                     boolean placed = false;
-                    for (int i = 0; i < 5; i++) {
+                    // the system will try to place the Pillar several times before regenerating a new Dungeon
+                    for (int i = 0; i < (theWidth + theHeight) / 2; i++) {
+                        final int thePillarX = theRandom.nextInt(theWidth);
+                        final int thePillarY = theRandom.nextInt(theHeight);
                         if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && !the2dMaze2dArrayTemp[thePillarY][thePillarX].hasPillar() && theFinder.isReachable(thePillarX, thePillarY)) {
                             thePillar.setPos(thePillarX, thePillarY);
                             the2dMaze2dArrayTemp[thePillarY][thePillarX].newPillar(thePillar);
@@ -83,11 +80,10 @@ public class Dungeon implements Serializable {
                             break;
                         }
                     }
-                    if (placed) {
-                        pillarPlaced++;
-                    } else {
+                    if (!placed) {
                         break;
                     }
+                    pillarPlaced++;
                 }
                 if (pillarPlaced == this.myPillars.length) {
                     break;
@@ -262,10 +258,6 @@ public class Dungeon implements Serializable {
             final int[] thePos = thePillar.getPos();
             my2dMaze2dArray[thePos[0]][thePos[1]].pickUpPillar();
         }
-    }
-
-    public String getName() {
-        return myName;
     }
 
     public Hero getHero() {

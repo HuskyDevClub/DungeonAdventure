@@ -9,7 +9,7 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * @author Yudong Lin (ydlin@uw.edu)
  * @see Hero
  */
-public class Priestess extends Hero {
+public final class Priestess extends Hero {
 
     /**
      * @param theName          the name of the Priestess
@@ -21,17 +21,10 @@ public class Priestess extends Hero {
      * @param theChanceToHeal  the chance that Priestess will heal himself/herself
      * @param theMinHealing    the minimum healing that the Priestess will do
      * @param theMaxHealing    the minimum healing that the Priestess will do
-     * @param theChanceToBlock the chance that hero will block the damage
+     * @param theChanceToBlock the chance that Priestess will block the damage
      */
     public Priestess(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing, final int theChanceToBlock) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing, theChanceToBlock);
-    }
-
-    /**
-     * @param theName the name of the Priestess
-     */
-    public Priestess(final String theName) {
-        this(theName, 75, 25, 45, 5, 70, 100, 10, 20, 30);
     }
 
     /**

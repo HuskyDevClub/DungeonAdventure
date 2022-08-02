@@ -22,8 +22,8 @@ public final class Config {
 	// Quick enabling/disabling of game sound for testing.
 	public static final boolean IS_SOUND_ENABLED = true;
 
-	public static final int VIEW_RESOLUTION_X = 1280; // Sets the screen resolution boundary.
-	public static final int VIEW_RESOLUTION_Y = 720; // Sets the screen resolution boundary.
+	public static final int VIEW_RESOLUTION_X = 1920; // Sets the screen resolution boundary.
+	public static final int VIEW_RESOLUTION_Y = 1080; // Sets the screen resolution boundary.
 
 	/*	Game logic values. */
 	// public static final int VIEW_DISTANCE_X = 852; // Sets view distance to 480p

@@ -9,7 +9,7 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * @author Yudong Lin (ydlin@uw.edu)
  * @see Hero
  */
-public class Warrior extends Hero {
+public final class Warrior extends Hero {
 
     /**
      * @param theName          the name of the Warrior
@@ -18,17 +18,13 @@ public class Warrior extends Hero {
      * @param theMaxDamage     the maximum damage that the Warrior will do
      * @param theAttackSpeed   the attack speed of the Warrior
      * @param theChanceToHit   the chance that Warrior will hit
-     * @param theChanceToBlock the chance that hero will block the damage
+     * @param theChanceToHeal  the chance that Warrior will heal himself/herself
+     * @param theMinHealing    the minimum healing that the Warrior will do
+     * @param theMaxHealing    the minimum healing that the Warrior will do
+     * @param theChanceToBlock the chance that Warrior will block the damage
      */
-    public Warrior(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToBlock) {
-        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToBlock);
-    }
-
-    /**
-     * @param theName the name of the Warrior
-     */
-    public Warrior(final String theName) {
-        this(theName, 125, 35, 60, 4, 80, 20);
+    public Warrior(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing, final int theChanceToBlock) {
+        super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing, theChanceToBlock);
     }
 
     /**

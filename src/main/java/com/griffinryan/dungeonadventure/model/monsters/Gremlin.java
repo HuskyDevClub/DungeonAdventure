@@ -7,7 +7,7 @@ package com.griffinryan.dungeonadventure.model.monsters;
  * @author Yudong Lin (ydlin@uw.edu)
  * @see Monster
  */
-public class Gremlin extends Monster {
+public final class Gremlin extends Monster {
 
     /**
      * @param theName         the name of the Gremlin
@@ -22,13 +22,6 @@ public class Gremlin extends Monster {
      */
     public Gremlin(final String theName, final int theHealth, final int theMinDamage, final int theMaxDamage, final int theAttackSpeed, final int theChanceToHit, final int theChanceToHeal, final int theMinHealing, final int theMaxHealing) {
         super(theName, theHealth, theMinDamage, theMaxDamage, theAttackSpeed, theChanceToHit, theChanceToHeal, theMinHealing, theMaxHealing);
-    }
-
-    /**
-     * @param theName the name of the Gremlin
-     */
-    public Gremlin(final String theName) {
-        this(theName, 70, 15, 30, 5, 80, 40, 20, 40);
     }
 
 }
