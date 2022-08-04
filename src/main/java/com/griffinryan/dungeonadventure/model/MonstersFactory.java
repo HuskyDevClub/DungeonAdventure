@@ -6,7 +6,6 @@ import com.griffinryan.dungeonadventure.model.monsters.Ogre;
 import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 import com.griffinryan.dungeonadventure.model.sql.MonsterSqliteInterface;
 
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
 
 /**
@@ -40,7 +39,6 @@ public final class MonstersFactory {
      * @return a Monster
      */
     public static Monster spawn(final String theType, final String theName) throws SQLException {
-        final int[] defaultInfoArray;
         switch (theType) {
             case "Ogre" -> {
                 return new Ogre(
@@ -63,8 +61,7 @@ public final class MonstersFactory {
                         SKELETON_DEFAULT_INFO_ARRAY[5], SKELETON_DEFAULT_INFO_ARRAY[6], SKELETON_DEFAULT_INFO_ARRAY[7]
                 );
             }
-            default ->
-                    throw new InvalidParameterException(String.format("The monster does not have type '%s'", theType));
+            default -> throw new SQLException(String.format("The monster does not have type '%s'", theType));
         }
     }
 }

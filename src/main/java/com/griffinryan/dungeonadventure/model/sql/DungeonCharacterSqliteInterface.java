@@ -64,7 +64,7 @@ final class DungeonCharacterSqliteInterface {
         // store the data into an array
         final int[] result = new int[9];
         for (int i = 2; i <= 10; i++) {
-            result[i - 2] = rs.getInt(i);
+            result[i - 2] = rs.getInt(i + 1);
         }
         // it is always a good practice to close all the connection at the end
         rs.close();
