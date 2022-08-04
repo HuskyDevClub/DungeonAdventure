@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-final public class TestMonsters {
+final public class TestMonstersFactory {
 
     private final static String myMonsterDummyName = "dummy";
 
