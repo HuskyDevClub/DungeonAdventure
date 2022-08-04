@@ -55,6 +55,25 @@ public class PlayerComponent extends AbstractComponent {
 		this.texture = new AnimatedTexture(animIdle);
 	}
 
+	public PlayerComponent(String bounding, String front, String right, String down){
+		int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
+		var bound = texture(bounding).brighter();
+
+		AnimationChannel idle = new AnimationChannel(FXGL.image(front),
+				4, 16, 28, Duration.seconds(0.4), 0, 3);
+		AnimationChannel walk = new AnimationChannel(FXGL.image(right),
+				4, 16, 28, Duration.seconds(0.4), 0, 3);
+		AnimationChannel back = new AnimationChannel(FXGL.image(down),
+				4, 16, 28, Duration.seconds(0.4), 0, 3);
+
+		this.animIdle = idle;
+		this.animWalk = walk;
+		this.animWalkBack = back;
+
+		this.boundTexture = bound;
+		this.texture = new AnimatedTexture(animIdle);
+	}
+
 	public PlayerComponent(int playerMinSpeed, int playerMaxSpeed, String textureBound, String textureFront, String spriteFront, String spriteBound, String spriteRight, String spriteDown){
 		int moveSpeed = random(playerMinSpeed, playerMaxSpeed);
 		var bound = texture(spriteBound).brighter();
