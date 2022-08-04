@@ -34,31 +34,65 @@ public final class Combat {
      * @param args Command line arguments.
      */
     public static void main(final String[] args) throws IllegalAccessException, SQLException, IOException, ClassNotFoundException {
-        System.out.println("new || load:");
-        if ("load".equals(SCANNER.nextLine())) {
-            final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
-            if (theNamesOfExistingSaves.size() > 0) {
-                theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
-                while (true) {
-                    // ask the user to select a save by entering the id
-                    System.out.println("please enter save id:");
-                    // don forget the id is string!
-                    final String index = SCANNER.nextLine();
-                    // ensure the id exists
-                    if (theNamesOfExistingSaves.containsKey(index)) {
-                        // load the progress (the myDungeon object to be specific) from the database with given id
-                        myDungeon = DungeonSqliteInterface.load(myDatabasePath, index);
-                        break;
+        System.out.println("new || load || delete:");
+        // process the initialization phase according to user's choice
+        switch (SCANNER.nextLine()) {
+            case "load" -> {
+                final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves(myDatabasePath);
+                if (theNamesOfExistingSaves.size() > 0) {
+                    theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
+                    while (true) {
+                        // ask the user to select a save by entering the id
+                        System.out.println("please enter save id:");
+                        // don forget the id is string!
+                        final String index = SCANNER.nextLine();
+                        // ensure the id exists
+                        if (theNamesOfExistingSaves.containsKey(index)) {
+                            // load the progress (the myDungeon object to be specific) from the database with given id
+                            myDungeon = DungeonSqliteInterface.load(myDatabasePath, index);
+                            break;
+                        }
+                        // if id does not exist, the ask the player to try again
+                        System.out.println("The id does not exist! Please try again.");
                     }
-                    // if id does not exist, the ask the player to try again
-                    System.out.println("The id does not exist! Please try again.");
+                } else {
+                    System.out.println("There is no valid existing save to load from!");
+                    newGame();
                 }
-            } else {
-                System.out.println("There is no valid existing save!");
-                newGame();
             }
-        } else {
-            newGame();
+            case "delete" -> {
+                HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves(myDatabasePath);
+                if (theNamesOfExistingSaves.size() > 0) {
+                    while (true) {
+                        theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
+                        // ask the user to select a save by entering the id
+                        System.out.println("please enter save id:");
+                        // don forget the id is string!
+                        final String index = SCANNER.nextLine();
+                        // ensure the id exists
+                        if (theNamesOfExistingSaves.containsKey(index)) {
+                            // load the progress (the myDungeon object to be specific) from the database with given id
+                            DungeonSqliteInterface.delete(myDatabasePath, index);
+                            theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves(myDatabasePath);
+                            if (theNamesOfExistingSaves.size() == 0) {
+                                newGame();
+                                break;
+                            }
+                            System.out.println("Continue? (y/n):");
+                            if (SCANNER.nextLine().equals("n")) {
+                                newGame();
+                                break;
+                            }
+                        }
+                        // if id does not exist, the ask the player to try again
+                        System.out.println("The id does not exist! Please try again.");
+                    }
+                } else {
+                    System.out.println("There is no valid existing save to delete!");
+                    newGame();
+                }
+            }
+            default -> newGame();
         }
         start();
     }
@@ -184,7 +218,7 @@ public final class Combat {
                             final String theSaveName = SCANNER.nextLine();
                             if (!theSaveName.isEmpty()) {
                                 //save the current progress (the myDungeon object to be specific) into the database
-                                System.out.printf("Progress has been saved! %d\n", DungeonSqliteInterface.save(myDatabasePath, theSaveName, myDungeon));
+                                System.out.printf("Progress has been saved with id = '%d'!\n", DungeonSqliteInterface.save(myDatabasePath, theSaveName, myDungeon));
                                 break;
                             }
                             System.out.println("The name cannot be empty! Please try again.");

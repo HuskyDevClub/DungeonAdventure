@@ -5,7 +5,10 @@ import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 
@@ -67,7 +70,13 @@ public final class DungeonSqliteInterface {
         return resultObject;
     }
 
-    public static HashMap<String, String[]> getNamesOfExistingSaves() {
+    /**
+     * @param theDatabasePath the path of the database
+     * @return a HashMap that stores information regarding exiting saves,
+     * key is id, value[0] is the name of the save, and value[1] is a string represent when the save is created
+     * value[1] can be converted into Data if needed
+     */
+    public static HashMap<String, String[]> getNamesOfExistingSaves(final String theDatabasePath) {
         /*
          * The key is the id, the value is the name of the save
          * The reason of using string id is that the save can be deleted
@@ -76,7 +85,7 @@ public final class DungeonSqliteInterface {
         final HashMap<String, String[]> existSaves = new HashMap<>();
         try {
             // try to establish connection
-            final Connection theConnection = SqliteInterface.connectDatabase("jdbc:sqlite:save.sqlite");
+            final Connection theConnection = SqliteInterface.connectDatabase(theDatabasePath);
             //find the object based on give table
             final PreparedStatement thePreparedStatement = theConnection.prepareStatement(String.format("SELECT * FROM %s", TABLE_NAME));
             final ResultSet rs = thePreparedStatement.executeQuery();
@@ -87,5 +96,19 @@ public final class DungeonSqliteInterface {
             // assume something must be going wrong I guess
         }
         return existSaves;
+    }
+
+    /**
+     * delete a save record from the database
+     *
+     * @param theDatabasePath the path of the database
+     * @param theId           the id of the save
+     */
+    public static void delete(final String theDatabasePath, final String theId) throws SQLException {
+        // try to establish connection
+        final Connection theConnection = SqliteInterface.connectDatabase(theDatabasePath);
+        final PreparedStatement thePreparedStatement = theConnection.prepareStatement(String.format("DELETE FROM %s WHERE ID = ?", TABLE_NAME));
+        thePreparedStatement.setString(1, theId);
+        thePreparedStatement.executeUpdate();
     }
 }
