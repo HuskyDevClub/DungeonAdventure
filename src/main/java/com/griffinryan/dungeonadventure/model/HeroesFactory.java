@@ -6,7 +6,6 @@ import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.sql.HeroSqliteInterface;
 
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
 
 public class HeroesFactory {

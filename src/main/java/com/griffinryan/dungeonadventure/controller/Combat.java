@@ -36,9 +36,9 @@ public final class Combat {
     public static void main(final String[] args) throws IllegalAccessException, SQLException, IOException, ClassNotFoundException {
         System.out.println("new || load:");
         if ("load".equals(SCANNER.nextLine())) {
-            final HashMap<String, String> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
+            final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
             if (theNamesOfExistingSaves.size() > 0) {
-                theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - %s\n", key, value));
+                theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
                 while (true) {
                     // ask the user to select a save by entering the id
                     System.out.println("please enter save id:");

@@ -6,12 +6,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public final class DungeonSqliteInterface {
 
     private static final String TABLE_NAME = Dungeon.class.getSimpleName();
-    private static final String[][] INSTANCES_TYPE = {{"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}};
+    private static final String[][] INSTANCES_TYPE = {
+            {"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}, {"CREATED_AT", SqliteInterface.TEXT}
+    };
 
     /**
      * @param theDatabasePath the path of the database
@@ -32,6 +35,7 @@ public final class DungeonSqliteInterface {
         thePreparedStatement.setString(1, theName);
         // convert the object into ByteArray and save it under the DATA colum
         thePreparedStatement.setBytes(2, SqliteInterface.objectToByteArray(theDungeon));
+        thePreparedStatement.setString(3, LocalDateTime.now().toString());
         // obtain the id of the save
         final int rv = thePreparedStatement.executeUpdate();
         // close the connections
@@ -63,21 +67,21 @@ public final class DungeonSqliteInterface {
         return resultObject;
     }
 
-    public static HashMap<String, String> getNamesOfExistingSaves(){
+    public static HashMap<String, String[]> getNamesOfExistingSaves() {
         /*
-        * The key is the id, the value is the name of the save
-        * The reason of using string id is that the save can be deleted
-        * In that case, using array will only cause more problem
-        */
-        final HashMap<String, String> existSaves = new HashMap<>();
-        try{
+         * The key is the id, the value is the name of the save
+         * The reason of using string id is that the save can be deleted
+         * In that case, using array will only cause more problem
+         */
+        final HashMap<String, String[]> existSaves = new HashMap<>();
+        try {
             // try to establish connection
             final Connection theConnection = SqliteInterface.connectDatabase("jdbc:sqlite:save.sqlite");
             //find the object based on give table
             final PreparedStatement thePreparedStatement = theConnection.prepareStatement(String.format("SELECT * FROM %s", TABLE_NAME));
             final ResultSet rs = thePreparedStatement.executeQuery();
             while (rs.next()) {
-                existSaves.put(rs.getString(1), rs.getString(2));
+                existSaves.put(rs.getString(1), new String[]{rs.getString(2), rs.getString(4)});
             }
         } catch (SQLException e) {
             // assume something must be going wrong I guess
