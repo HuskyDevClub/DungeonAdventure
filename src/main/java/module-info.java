@@ -9,6 +9,7 @@ open module com.griffinryan.dungeonadventure {
     requires org.xerial.sqlitejdbc;
 
     requires com.google.gson;
+    requires org.junit.jupiter.api;
 
     exports com.griffinryan.dungeonadventure;
     exports com.griffinryan.dungeonadventure.engine;

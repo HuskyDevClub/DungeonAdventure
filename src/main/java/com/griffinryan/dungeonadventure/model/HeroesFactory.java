@@ -6,7 +6,6 @@ import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.sql.HeroSqliteInterface;
 
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
 
 public class HeroesFactory {
@@ -42,7 +41,7 @@ public class HeroesFactory {
                         defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
                 );
             }
-            default -> throw new InvalidParameterException(String.format("The hero does not have type '%s'", theType));
+            default -> throw new SQLException(String.format("The hero does not have type '%s'", theType));
         }
     }
 }
