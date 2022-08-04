@@ -49,10 +49,14 @@ public abstract class DungeonCharacter extends RandomSingleton {
     /**
      * take away health point from the Dungeon Character
      *
-     * @param value the amount of health Dungeon Character lost
+     * @param damage the amount of health Dungeon Character lost
      */
-    public void injury(final int value) {
-        this.myHealth = Integer.max(this.myHealth - value, 0);
+    public void injury(final int damage) {
+        // ensure the damage is not negative
+        if (damage < 0) {
+            throw new IllegalArgumentException("The damage cannot be negative!");
+        }
+        this.myHealth = Integer.max(this.myHealth - damage, 0);
     }
 
     /**
@@ -61,6 +65,10 @@ public abstract class DungeonCharacter extends RandomSingleton {
      * @param value the amount of health Dungeon Character heal
      */
     public void heal(final int value) {
+        // ensure the value is not negative
+        if (value < 0) {
+            throw new IllegalArgumentException("You cannot heal a negative number!");
+        }
         this.myHealth = this.myHealth + value;
     }
 

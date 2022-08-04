@@ -64,7 +64,7 @@ public final class MonstersFactory {
                 );
             }
             default ->
-                    throw new InvalidParameterException(String.format("The monster does not have type '%s'", theType));
+                    throw new SQLException(String.format("The monster does not have type '%s'", theType));
         }
     }
 }

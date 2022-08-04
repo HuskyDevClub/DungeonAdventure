@@ -12,6 +12,7 @@ import com.griffinryan.dungeonadventure.model.sql.DungeonSqliteInterface;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -35,9 +36,27 @@ public final class Combat {
     public static void main(final String[] args) throws IllegalAccessException, SQLException, IOException, ClassNotFoundException {
         System.out.println("new || load:");
         if ("load".equals(SCANNER.nextLine())) {
-            System.out.println("please enter save id:");
-            // load the progress (the myDungeon object to be specific) from the database with given id
-            myDungeon = DungeonSqliteInterface.load(myDatabasePath, SCANNER.nextInt());
+            final HashMap<String, String> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
+            if (theNamesOfExistingSaves.size() > 0) {
+                theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - %s\n", key, value));
+                while (true) {
+                    // ask the user to select a save by entering the id
+                    System.out.println("please enter save id:");
+                    // don forget the id is string!
+                    final String index = SCANNER.nextLine();
+                    // ensure the id exists
+                    if (theNamesOfExistingSaves.containsKey(index)) {
+                        // load the progress (the myDungeon object to be specific) from the database with given id
+                        myDungeon = DungeonSqliteInterface.load(myDatabasePath, index);
+                        break;
+                    }
+                    // if id does not exist, the ask the player to try again
+                    System.out.println("The id does not exist! Please try again.");
+                }
+            } else {
+                System.out.println("There is no valid existing save!");
+                newGame();
+            }
         } else {
             newGame();
         }

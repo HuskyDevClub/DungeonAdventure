@@ -42,7 +42,7 @@ public class HeroesFactory {
                         defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
                 );
             }
-            default -> throw new InvalidParameterException(String.format("The hero does not have type '%s'", theType));
+            default -> throw new SQLException(String.format("The hero does not have type '%s'", theType));
         }
     }
 }
