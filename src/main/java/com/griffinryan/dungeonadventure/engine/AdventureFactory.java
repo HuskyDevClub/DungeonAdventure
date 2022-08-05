@@ -13,9 +13,16 @@ import com.almasb.fxgl.entity.component.ComponentListener;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.google.gson.Gson;
+import com.griffinryan.dungeonadventure.menu.HeroType;
+import com.griffinryan.dungeonadventure.menu.PlayerInfo;
 import javafx.geometry.Point2D;
 
 import com.griffinryan.dungeonadventure.engine.component.*;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
@@ -83,10 +90,40 @@ public class AdventureFactory implements EntityFactory {
 	 * @see PlayerComponent
 	 */
 	@Spawns("Player")
-	public Entity spawnPlayer(SpawnData data){
+	public Entity spawnPlayer(SpawnData data)  {
 
-		/* Setup parameters to give to the CharacterComponent object. */
-		PlayerComponent animatedPlayer = new PlayerComponent();
+		Gson gson = new Gson();
+
+		BufferedReader br = null;
+
+		PlayerInfo playerObj;
+		try {
+			br = new BufferedReader(
+					new FileReader("system/PlayerInfo.json"));
+			playerObj = gson.fromJson(br, PlayerInfo.class);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+
+		//convert the json string back to object
+		HeroType type = playerObj.chosenHero;
+
+
+		PlayerComponent animatedPlayer;
+
+		if (type == HeroType.PRIEST) {
+			animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/wizzard_f_idle_anim_f0.png",
+					"spritesheet/dungeon/game/wizzard_f_idle_anim_f.png",
+					"spritesheet/dungeon/game/wizzard_f_run_anim_f.png");
+		} else if (type == HeroType.THIEF) {
+			animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/elft_m_idle_anim_f0.png",
+					"spritesheet/dungeon/game/elf_m_idle_anim_f.png",
+					"spritesheet/dungeon/game/elf_m_run_anim_f.png");
+		} else {
+			animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/knight_m_idle_anim_f0.png",
+					"spritesheet/dungeon/game/knight_m_idle_anim_f.png",
+					"spritesheet/dungeon/game/knight_m_run_anim_f.png");
+		}
 
 		return FXGL.entityBuilder()
 				.type(EntityType.PLAYER)

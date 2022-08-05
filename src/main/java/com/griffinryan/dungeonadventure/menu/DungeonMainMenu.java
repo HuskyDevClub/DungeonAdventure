@@ -15,6 +15,7 @@ import com.almasb.fxgl.audio.Music;
 import com.almasb.fxgl.dsl.FXGL;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -145,19 +146,46 @@ public class DungeonMainMenu extends FXGLMenu {
                         playerInfo.chosenHero = HeroType.WARRIOR;
                         String jsonString = gson.toJson(playerInfo);
                         out.write(jsonString);
+
+                        try {
+                            out.flush();
+                            fw.flush();
+                            out.close();
+                            fw.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
                         fireNewGame();
                     }),
                     new HeroSelect(HeroType.THIEF, () -> {
                         playerInfo.chosenHero = HeroType.THIEF;
                         String jsonString = gson.toJson(playerInfo);
                         out.write(jsonString);
+
+                        try {
+                            out.flush();
+                            fw.flush();
+                            out.close();
+                            fw.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         fireNewGame();
                     }),
                     new HeroSelect(HeroType.PRIEST, () -> {
                         playerInfo.chosenHero = HeroType.PRIEST;
                         String jsonString = gson.toJson(playerInfo);
                         out.write(jsonString);
-                        out.close();
+
+                        try {
+                            out.flush();
+                            fw.flush();
+                            out.close();
+                            fw.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         fireNewGame();
                     })
             );
@@ -216,9 +244,5 @@ public class DungeonMainMenu extends FXGLMenu {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    class PlayerInfo{
-        public HeroType chosenHero;
     }
 }

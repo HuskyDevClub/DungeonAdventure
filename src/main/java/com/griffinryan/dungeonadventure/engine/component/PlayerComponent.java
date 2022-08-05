@@ -55,16 +55,17 @@ public class PlayerComponent extends AbstractComponent {
 		this.texture = new AnimatedTexture(animIdle);
 	}
 
-	public PlayerComponent(String bounding, String front, String right, String down){
+	public PlayerComponent(String bounding, String front, String right){
 		int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
 		var bound = texture(bounding).brighter();
 
 		AnimationChannel idle = new AnimationChannel(FXGL.image(front),
-				4, 16, 28, Duration.seconds(0.4), 0, 3);
+				4, 16, 28, Duration.seconds(.7), 0, 3);
+
 		AnimationChannel walk = new AnimationChannel(FXGL.image(right),
-				4, 16, 28, Duration.seconds(0.4), 0, 3);
-		AnimationChannel back = new AnimationChannel(FXGL.image(down),
-				4, 16, 28, Duration.seconds(0.4), 0, 3);
+				4, 16, 28, Duration.seconds(.7), 0, 3);
+		AnimationChannel back = new AnimationChannel(FXGL.image(right),
+				4, 16, 28, Duration.seconds(.7), 0, 3);
 
 		this.animIdle = idle;
 		this.animWalk = walk;
@@ -74,24 +75,6 @@ public class PlayerComponent extends AbstractComponent {
 		this.texture = new AnimatedTexture(animIdle);
 	}
 
-	public PlayerComponent(int playerMinSpeed, int playerMaxSpeed, String textureBound, String textureFront, String spriteFront, String spriteBound, String spriteRight, String spriteDown){
-		int moveSpeed = random(playerMinSpeed, playerMaxSpeed);
-		var bound = texture(spriteBound).brighter();
-
-		AnimationChannel idle = new AnimationChannel(FXGL.image(spriteFront),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-		AnimationChannel walk = new AnimationChannel(FXGL.image(spriteRight),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-		AnimationChannel back = new AnimationChannel(FXGL.image(spriteDown),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-
-		this.animIdle = idle;
-		this.animWalk = walk;
-		this.animWalkBack = back;
-
-		this.boundTexture = bound;
-		this.texture = new AnimatedTexture(animIdle);
-	}
 
 	/**
 	 * onAdded() sets properties upon instantiation of
@@ -102,6 +85,8 @@ public class PlayerComponent extends AbstractComponent {
 	@Override
 	public void onAdded(){
 		// entity.getTransformComponent().setScaleOrigin(new Point2D(0,0));
+		entity.setScaleX(2);
+		entity.setScaleY(2);
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(animIdle);
 	}
@@ -154,7 +139,7 @@ public class PlayerComponent extends AbstractComponent {
 	public void moveRight() {
 		speed = pspeed;
 		y = false;
-		getEntity().setScaleX(1);
+		getEntity().setScaleX(2);
 	}
 
 	/**
@@ -166,7 +151,7 @@ public class PlayerComponent extends AbstractComponent {
 	public void moveLeft() {
 		speed = -pspeed;
 		y = false;
-		getEntity().setScaleX(-1);
+		getEntity().setScaleX(-2);
 	}
 
 	/**
@@ -178,7 +163,6 @@ public class PlayerComponent extends AbstractComponent {
 	public void moveUp() {
 		speed = pspeed;
 		y = true;
-		getEntity().setScaleY(1);
 	}
 
 	/**
@@ -190,7 +174,6 @@ public class PlayerComponent extends AbstractComponent {
 	public void moveDown() {
 		speed = -pspeed;
 		y = true;
-		getEntity().setScaleY(-1);
 	}
 
 	/**
