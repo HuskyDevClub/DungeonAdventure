@@ -32,6 +32,9 @@ abstract class RandomSingleton implements Serializable {
      * @return int
      */
     protected static int generateRandomValue(final int theMin, final int theMax) {
+        if (theMin == theMax) {
+            return theMin;
+        }
         return myRANDOM.nextInt(theMin, theMax);
     }
 }

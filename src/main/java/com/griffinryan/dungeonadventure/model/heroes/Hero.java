@@ -1,6 +1,5 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
-import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
@@ -38,21 +37,6 @@ public abstract class Hero extends DungeonCharacter {
      * @param theTarget the target
      */
     public abstract void skill(final Monster theTarget);
-
-    /**
-     * take away health point from the hero
-     *
-     * @param value the amount of health hero lost
-     */
-    @Override
-    public void injury(final int value) {
-        if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.getChanceToBlock())) {
-            super.injury(value);
-            System.out.println("the hero does not block");
-        } else {
-            System.out.println("the hero block the damage");
-        }
-    }
 
     /**
      * gain health positions

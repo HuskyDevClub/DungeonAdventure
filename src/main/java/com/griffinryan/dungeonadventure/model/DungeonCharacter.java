@@ -1,5 +1,7 @@
 package com.griffinryan.dungeonadventure.model;
 
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
+
 /**
  * DungeonCharacter is the parent class
  * extended by the model. heroes
@@ -19,8 +21,10 @@ public abstract class DungeonCharacter extends RandomSingleton {
     private final int myMinHealing;
     private final int myMaxHealing;
     private final int myChanceToBlock;
+    private final int myOriginalHealth;
     private int myHealth;
     private int myLastDamageDone = 0;
+    private boolean myIsLastAttackBlocked = false;
 
     /**
      * @param theName         the name of the Dungeon Character
@@ -44,6 +48,20 @@ public abstract class DungeonCharacter extends RandomSingleton {
         this.myMinHealing = theMinHealing;
         this.myMaxHealing = theMaxHealing;
         this.myChanceToBlock = theChanceToBlock;
+
+        // ensure maximum is greater than minimum
+        if (this.myMinDamage > this.myMaxDamage) {
+            throw new IllegalArgumentException("The minimum damage cannot be greater than the maximum damage.");
+        } else if (this.myMinHealing > this.myMaxHealing) {
+            throw new IllegalArgumentException("The minimum healing cannot be greater than the maximum healing.");
+        } else if (this.myAttackSpeed < 1) {
+            throw new IllegalArgumentException("The attack speed has to be greater than 1.");
+        } else if (this.myHealth < 0) {
+            throw new IllegalArgumentException("The health has to be positive!");
+        }
+
+        // store the original health
+        myOriginalHealth = myHealth;
     }
 
     /**
@@ -56,7 +74,10 @@ public abstract class DungeonCharacter extends RandomSingleton {
         if (damage < 0) {
             throw new IllegalArgumentException("The damage cannot be negative!");
         }
-        this.myHealth = Integer.max(this.myHealth - damage, 0);
+        this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || isLuckyToAct(this.getChanceToBlock());
+        if (!this.myIsLastAttackBlocked) {
+            this.myHealth = Integer.max(this.myHealth - damage, 0);
+        }
     }
 
     /**
@@ -69,7 +90,7 @@ public abstract class DungeonCharacter extends RandomSingleton {
         if (value < 0) {
             throw new IllegalArgumentException("You cannot heal a negative number!");
         }
-        this.myHealth = this.myHealth + value;
+        this.myHealth = (int) Long.min((long) this.myHealth + value, Integer.MAX_VALUE);
     }
 
     /**
@@ -89,6 +110,31 @@ public abstract class DungeonCharacter extends RandomSingleton {
     public void attack(final DungeonCharacter theTarget) {
         this.myLastDamageDone = isLuckyToAct(this.myChanceToHit) ? generateRandomValue(this.myMinDamage, this.myMaxDamage) : 0;
         theTarget.injury(this.myLastDamageDone);
+    }
+
+    /**
+     * @return whether the character is alive (heath > 0)
+     */
+    public boolean isAlive() {
+        return myHealth > 0;
+    }
+
+    /**
+     * @return whether the character is dead (heath <= 0)
+     */
+    public boolean isDead() {
+        return myHealth <= 0;
+    }
+
+    /**
+     * revive a dead character by resting its health to its original health
+     */
+    public void revive() {
+        if (this.isAlive()) {
+            throw new IllegalStateException("You cannot revive a still alive character!");
+        } else {
+            myHealth = myOriginalHealth;
+        }
     }
 
     /**
@@ -127,31 +173,73 @@ public abstract class DungeonCharacter extends RandomSingleton {
         return myName;
     }
 
+    /**
+     * get the Dungeon Character's minimum damage
+     *
+     * @return int
+     */
     public int getMinDamage() {
         return myMinDamage;
     }
 
+    /**
+     * get the Dungeon Character's maximum damage
+     *
+     * @return int
+     */
     public int getMaxDamage() {
         return myMaxDamage;
     }
 
+    /**
+     * get the Dungeon Character's chance to successfully do the damage
+     *
+     * @return int
+     */
     public int getChanceToHit() {
         return myChanceToHit;
     }
 
+    /**
+     * get the Dungeon Character's chance to heal him/herself
+     *
+     * @return int
+     */
     public int getChanceToHeal() {
         return myChanceToHeal;
     }
 
+    /**
+     * get the Dungeon Character's minimum healing
+     *
+     * @return int
+     */
     public int getMinHealing() {
         return myMinHealing;
     }
 
+    /**
+     * get the Dungeon Character's maximum healing
+     *
+     * @return int
+     */
     public int getMaxHealing() {
         return myMaxHealing;
     }
 
+    /**
+     * get the Dungeon Character's chance to block incoming damage
+     *
+     * @return int
+     */
     public int getChanceToBlock() {
         return myChanceToBlock;
+    }
+
+    /**
+     * @return whether the character block the damage that was last done to him/her
+     */
+    public boolean isLastAttackBlocked() {
+        return myIsLastAttackBlocked;
     }
 }

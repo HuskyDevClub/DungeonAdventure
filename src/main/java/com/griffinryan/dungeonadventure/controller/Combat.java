@@ -285,7 +285,7 @@ public final class Combat {
     private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
         theAttacker.attack(theTarget);
         log(
-                theAttacker.getLastDamageDone() > 0 ? String.format(
+                theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked()? String.format(
                         "The %s %s successfully attacked the %s %s and did %d damage!",
                         theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName(), theAttacker.getLastDamageDone()
                 ) : String.format(
