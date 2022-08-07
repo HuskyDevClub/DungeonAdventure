@@ -100,7 +100,7 @@ public class PlayerComponent extends AbstractComponent {
 	@Override
 	public void onUpdate(double tpf) {
 		/* update the position of the player. */
-		if(y != true){
+		if(!y){
 			entity.translateX(speed * tpf);
 			if (speed != 0) {
 				if (texture.getAnimationChannel() == animIdle) {
