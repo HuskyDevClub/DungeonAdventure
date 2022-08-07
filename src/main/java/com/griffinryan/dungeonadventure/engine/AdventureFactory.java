@@ -47,7 +47,7 @@ public class AdventureFactory implements EntityFactory {
 	@Spawns("Dungeon")
 	public Entity spawnDungeon(SpawnData data) {
 
-		DungeonComponent dungeon = new DungeonComponent();
+		DungeonComponent dungeon = new DungeonComponent(16);
 		/* TODO .with()
 		    Retrieve from Property Map */
 		return FXGL.entityBuilder(data)

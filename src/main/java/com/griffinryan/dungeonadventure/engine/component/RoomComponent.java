@@ -1,6 +1,8 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.views.MinimapView;
+import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
@@ -24,12 +26,12 @@ public class RoomComponent extends AbstractComponent {
 	private Ogre ogre;
 	private Warrior warrior;
 
-	private DoorComponent[] doorComponentGroup;
+	private HashMap<String, DoorComponent> doorComponentMap;
 	private PotionComponent potionComponent;
 	private EnemyComponent enemyComponent;
 	private PlayerComponent playerComponent;
 
-	private HashMap<String, AbstractComponent> roomMap;
+	private HashMap<String, Component> roomMap;
 
 	/**
 	 * RoomComponent stores information about each
@@ -40,21 +42,38 @@ public class RoomComponent extends AbstractComponent {
 	 * */
 	public RoomComponent() {
 
+		if(getDoorNBoolean()) {
+			doorComponentMap.put("doorN", new DoorComponent());
+		}
+		if(getDoorSBoolean()) {
+			doorComponentMap.put("doorS", new DoorComponent());
+		}
+		if(getDoorEBoolean()) {
+			doorComponentMap.put("doorE", new DoorComponent());
+		}
+		if (getDoorWBoolean()) {
+			doorComponentMap.put("doorW", new DoorComponent());
+		}
+
 	}
 
-	/**
-	 * RoomComponent stores information about each
-	 * of the game components present in the current room.
-	 * All the RoomComponents are stored in the DungeonComponent.
-	 *
-	 * @param n True if doorComponentN should spawn.
-	 * @param s True if doorComponentS should spawn.
-	 * @param e True if doorComponentE should spawn.
-	 * @param w True if doorComponentW should spawn.
-	 * @param enemy True if enemyComponent should spawn.
-	 * @see DungeonComponent
-	 * */
-	public RoomComponent(boolean n, boolean s, boolean e, boolean w, boolean enemy) {
+	public HashMap<String, DoorComponent> getDoorComponentMap() {
+		return doorComponentMap;
+	}
 
+	private boolean getDoorNBoolean() {
+		return FXGL.getWorldProperties().getBoolean("doorN");
+	}
+
+	private boolean getDoorSBoolean() {
+		return FXGL.getWorldProperties().getBoolean("doorS");
+	}
+
+	private boolean getDoorEBoolean() {
+		return FXGL.getWorldProperties().getBoolean("doorE");
+	}
+
+	private boolean getDoorWBoolean() {
+		return FXGL.getWorldProperties().getBoolean("doorW");
 	}
 }
