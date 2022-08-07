@@ -79,7 +79,7 @@ public class AdventureApp extends GameApplication {
          /*TODO				and be set here.	*/
 		settings.setAppIcon("sprite/potion.png");
 
-		settings.setVersion("0.3");
+		settings.setVersion("0.4");
         settings.setTitle("Dungeon Adventure");
 		settings.setDeveloperMenuEnabled(true); /* press 1 */
         settings.setMainMenuEnabled(true);
@@ -90,8 +90,8 @@ public class AdventureApp extends GameApplication {
             }
         });
     }
-	
-	
+
+
 	/**
 	 * onPreInit() sets certain game settings before
 	 * the initSettings() call.

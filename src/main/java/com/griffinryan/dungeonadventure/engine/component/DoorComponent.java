@@ -58,7 +58,6 @@ public class DoorComponent extends AbstractComponent {
 					BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
 		}
 
-
 		/* After this point, reference only the hitbox for locations. */
 
 		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
@@ -101,31 +100,6 @@ public class DoorComponent extends AbstractComponent {
 	public double[] getHitBoxBoundaryArray(Point2D thePoint){
 		double[] result = {500.0, 500.0};
 		return result;
-
-		/*
-		if(mapKey.equalsIgnoreCase("doorN")) {
-			result[0] = getAppWidth() / 8.0;
-			result[1] = getAppHeight() / 24.0;
-
-			return result;
-		} else if (mapKey.equalsIgnoreCase("doorS")) {
-			result[0] = getAppWidth() / 12.0;
-			result[1] = getAppHeight() / 6.0;
-
-			return result;
-		} else if (mapKey.equalsIgnoreCase("doorE")) {
-			result[0] = getAppWidth() / 6.0;
-			result[1] = getAppHeight() / 12.0;
-
-			return result;
-		} else if (mapKey.equalsIgnoreCase("doorW")) {
-			result[0] = getAppWidth() / 6.0;
-			result[1] = getAppHeight() / 12.0;
-
-			return result;
-		}
-
-		return result;	*/
 	}
 
 	/**
@@ -145,9 +119,7 @@ public class DoorComponent extends AbstractComponent {
 			} else if(getWorldProperties().getBoolean("doorW")){
 				return "doorW";
 			}
-
 		}
-
 
 		return result;
 	}

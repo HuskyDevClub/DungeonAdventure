@@ -27,23 +27,13 @@ import java.util.HashMap;
  */
 public class DungeonComponent extends AbstractComponent {
 
-	private Dungeon dungeon;
-	private Ogre ogre;
-	private Warrior warrior;
-
-	private AnimatedTexture texture;
-	private Texture boundTexture;
-	private AnimationChannel idleChannel;
-
 	private MinimapView minimapView;
 	private HashMap<String, RoomComponent> dungeonMap;
-	/* TODO: 	- Make a RoomComponent
-	*  			- Store these in a HashMap in the
-	*			- constructor for this.obj
-	* 			-
-	* 			- Retrieve from the
-	* 			- Dungeon object.
-	*  */
+	/* TODO:
+	    - Make a RoomComponent
+	*  	- Store these in a HashMap in the
+	*	  constructor for this.obj
+	**/
 	private DoorComponent[] doorComponent;
 	private EnemyComponent[] enemyComponent;
 	private PlayerComponent[] playerComponent;
@@ -54,10 +44,6 @@ public class DungeonComponent extends AbstractComponent {
 	 * @see Component
 	 */
 	public DungeonComponent(){
-		AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
-				4, 17, 16, Duration.seconds(0.6), 0, 3);
-		this.idleChannel = idle;
-		this.texture = new AnimatedTexture(idleChannel);
 
 		//minimapView = new MinimapView();
 	}

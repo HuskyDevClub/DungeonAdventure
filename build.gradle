@@ -2,11 +2,11 @@ plugins {
 	id 'java'
 	id 'application'
 	id 'org.openjfx.javafxplugin' version '0.0.13'
-	id 'org.beryx.jlink' version '2.24.1'
+	id 'org.beryx.jlink' version '2.25.0'
 }
 
 group 'com.griffinryan'
-version '0.0.3'
+version '0.0.4'
 
 repositories {
 	mavenCentral()
@@ -25,7 +25,7 @@ task fatJar(type: Jar) {
 }
 
 ext {
-	junitVersion = '5.4.2'
+	junitVersion = '5.9.0'
 }
 
 // sourceCompatibility = '16'
@@ -41,7 +41,7 @@ application {
 }
 
 javafx {
-	version = '17.0,1'
+	version = '18.0.2'
 	modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.media']
 }
 
