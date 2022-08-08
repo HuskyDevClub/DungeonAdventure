@@ -2,6 +2,7 @@ package com.griffinryan.dungeonadventure.controller;
 
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.HeroesFactory;
+import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
@@ -13,7 +14,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -255,7 +255,7 @@ public final class Combat {
             log("Moved!");
             // if current room is a Pit, then subtract hp from the hero
             if (myDungeon.isCurrentRoomPit()) {
-                final int theDamage = new Random().nextInt(1, 20);
+                final int theDamage = RandomSingleton.nextInt(1, 20);
                 log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
                 myDungeon.getHero().injury(theDamage);
             }
@@ -285,7 +285,7 @@ public final class Combat {
     private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
         theAttacker.attack(theTarget);
         log(
-                theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked()? String.format(
+                theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked() ? String.format(
                         "The %s %s successfully attacked the %s %s and did %d damage!",
                         theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName(), theAttacker.getLastDamageDone()
                 ) : String.format(

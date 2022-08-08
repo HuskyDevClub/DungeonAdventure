@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.model.test;
+package com.griffinryan.dungeonadventure.model.tests;
 
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("DuplicatedCode")
 public class TestMonsters {
     private final static String myMonsterDummyName = "dummy";
 

@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.model.test;
+package com.griffinryan.dungeonadventure.model.tests;
 
 import com.griffinryan.dungeonadventure.model.HeroesFactory;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;

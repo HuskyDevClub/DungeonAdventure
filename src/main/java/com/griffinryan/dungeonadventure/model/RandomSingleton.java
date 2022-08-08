@@ -1,11 +1,9 @@
 package com.griffinryan.dungeonadventure.model;
 
-import java.io.Serializable;
-
 /**
  * @author Yudong Lin (ydlin@uw.edu)
  */
-abstract class RandomSingleton implements Serializable {
+public final class RandomSingleton {
 
     private static final java.util.Random myRANDOM = new java.util.Random();
 
@@ -15,7 +13,7 @@ abstract class RandomSingleton implements Serializable {
      * @param theChance the chance, for 80%, your input should be 80, not 0.8
      * @return boolean
      */
-    protected static boolean isLuckyToAct(final int theChance) {
+    public static boolean isSuccessful(final int theChance) {
         // ensure not out of bound
         if (0 > theChance || theChance > 100) {
             throw new IndexOutOfBoundsException("Chance has to be 0>= and <= 100");
@@ -31,10 +29,20 @@ abstract class RandomSingleton implements Serializable {
      * @param theMax the maximum
      * @return int
      */
-    protected static int generateRandomValue(final int theMin, final int theMax) {
+    public static int nextInt(final int theMin, final int theMax) {
         if (theMin == theMax) {
             return theMin;
         }
         return myRANDOM.nextInt(theMin, theMax);
+    }
+
+    /**
+     * generate a random number between the 0 and max
+     *
+     * @param theMax the maximum
+     * @return int
+     */
+    public static int nextInt(final int theMax) {
+        return myRANDOM.nextInt(theMax);
     }
 }

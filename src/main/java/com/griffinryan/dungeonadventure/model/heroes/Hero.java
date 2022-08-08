@@ -1,6 +1,7 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
+import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
@@ -55,7 +56,7 @@ public abstract class Hero extends DungeonCharacter {
     public boolean useHealingPotion() {
         if (this.myNumberOfHealingPotions > 0) {
             this.myNumberOfHealingPotions--;
-            this.heal(generateRandomValue(5, 15));
+            this.heal(RandomSingleton.nextInt(5, 15));
             return true;
         }
         return false;

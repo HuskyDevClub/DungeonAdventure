@@ -2,6 +2,8 @@ package com.griffinryan.dungeonadventure.model;
 
 import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 
+import java.io.Serializable;
+
 /**
  * DungeonCharacter is the parent class
  * extended by the model. heroes
@@ -11,7 +13,7 @@ import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
  * @see com.griffinryan.dungeonadventure.model.heroes.Hero
  * @see RandomSingleton
  */
-public abstract class DungeonCharacter extends RandomSingleton {
+public abstract class DungeonCharacter implements Serializable {
     private final String myName;
     private final int myMinDamage;
     private final int myMaxDamage;
@@ -74,7 +76,7 @@ public abstract class DungeonCharacter extends RandomSingleton {
         if (damage < 0) {
             throw new IllegalArgumentException("The damage cannot be negative!");
         }
-        this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || isLuckyToAct(this.getChanceToBlock());
+        this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || RandomSingleton.isSuccessful(this.getChanceToBlock());
         if (!this.myIsLastAttackBlocked) {
             this.myHealth = Integer.max(this.myHealth - damage, 0);
         }
@@ -97,8 +99,8 @@ public abstract class DungeonCharacter extends RandomSingleton {
      * if the Dungeon Character has chance to heal himself/herself, then try to do so
      */
     public void selfHeal() {
-        if (isLuckyToAct(this.myChanceToHeal)) {
-            this.heal(generateRandomValue(this.myMinHealing, this.myMaxHealing));
+        if (RandomSingleton.isSuccessful(this.myChanceToHeal)) {
+            this.heal(RandomSingleton.nextInt(this.myMinHealing, this.myMaxHealing));
         }
     }
 
@@ -108,7 +110,7 @@ public abstract class DungeonCharacter extends RandomSingleton {
      * @param theTarget the Dungeon Character to attack
      */
     public void attack(final DungeonCharacter theTarget) {
-        this.myLastDamageDone = isLuckyToAct(this.myChanceToHit) ? generateRandomValue(this.myMinDamage, this.myMaxDamage) : 0;
+        this.myLastDamageDone = RandomSingleton.isSuccessful(this.myChanceToHit) ? RandomSingleton.nextInt(this.myMinDamage, this.myMaxDamage) : 0;
         theTarget.injury(this.myLastDamageDone);
     }
 
