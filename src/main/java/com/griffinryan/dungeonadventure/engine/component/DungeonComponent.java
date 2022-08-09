@@ -13,13 +13,11 @@ import com.griffinryan.dungeonadventure.model.rooms.Room;
 import javafx.util.Duration;
 
 import java.util.HashMap;
-
 /**
  * The DungeonComponent class instantiates and
  * determines the layout of the dungeon maze.
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
  * @see RoomComponent
  */
 public class DungeonComponent extends AbstractComponent {
@@ -81,5 +79,9 @@ public class DungeonComponent extends AbstractComponent {
 
 	public MinimapView getMinimapView() {
 		return minimapView;
+	}
+
+	private class Room {
+
 	}
 }

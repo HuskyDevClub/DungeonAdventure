@@ -13,23 +13,18 @@ import com.griffinryan.dungeonadventure.model.rooms.Room;
 
 import java.util.HashMap;
 
+/**
+ * The RoomComponent class instantiates and
+ * determines a single room in DungeonComponent.
+ *
+ * @author Griffin Ryan (glryan@uw.edu)
+ * @see DungeonComponent
+ */
 public class RoomComponent extends AbstractComponent {
-
-	/* TODO:
-	 *  		- Store these in a HashMap in the
-	 *			  constructor for this.obj
-	 * 			*
-	 * 			- Retrieve from the
-	 * 			  Dungeon object.
-	 *  */
-	private Dungeon dungeon;
-	private Ogre ogre;
-	private Warrior warrior;
 
 	private HashMap<String, DoorComponent> doorComponentMap;
 	private PotionComponent potionComponent;
 	private EnemyComponent enemyComponent;
-	private PlayerComponent playerComponent;
 
 	private HashMap<String, Component> roomMap;
 
@@ -41,6 +36,7 @@ public class RoomComponent extends AbstractComponent {
 	 * @see DungeonComponent
 	 * */
 	public RoomComponent() {
+		doorComponentMap = new HashMap<>(4);
 
 		if(getDoorNBoolean()) {
 			doorComponentMap.put("doorN", new DoorComponent());

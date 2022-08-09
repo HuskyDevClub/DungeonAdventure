@@ -166,6 +166,7 @@ public class AdventureApp extends GameApplication {
 		if(!IS_NO_BACKGROUND){
 			background = spawn("Background");
 		}
+		/*
 		if (!IS_NO_ENEMIES) {
 			enemy = spawn("Enemy");
 		}
@@ -173,11 +174,11 @@ public class AdventureApp extends GameApplication {
 			potion = spawn("Potion");
 		}
 		if(!IS_NO_DOORS){
-			doorN = spawn("doorN");	/*	Different names */
-			doorE = spawn("doorE"); /*	for each door Entity. */
+			doorN = spawn("doorN");
+			doorE = spawn("doorE");
 			doorW = spawn("doorW");
 			doorS = spawn("doorS");
-		}
+		} */
 
 		/* 	Add listeners for player/game values.	*/
 		DungeonUtility.addWorldPropertyListeners();
