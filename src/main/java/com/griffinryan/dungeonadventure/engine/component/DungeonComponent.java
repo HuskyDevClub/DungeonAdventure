@@ -54,6 +54,7 @@ public class DungeonComponent extends AbstractComponent {
 	private HashMap<Integer, RoomComponent> createDungeonMap() {
 
 		HashMap<Integer, RoomComponent> result = new HashMap<>(size);
+		HashMap<String, DoorComponent> doorComponentMap;
 
 		/* TODO: Generate all rooms/doors connecting
 		*   the rooms randomly here!
@@ -61,11 +62,19 @@ public class DungeonComponent extends AbstractComponent {
 		*  TODO: Add a helper method to connect the
 		*   random number of generated doors
 		*   to randomly selected rooms.
+		*
+		* 	 	13				 	3
+		* 	  	|				 	|
+		*  15--12--11---8--0--1-----2--4
+		* 	  	| 	  	|     |	    |
+		* 	   14 	10--9     6--7  5
+		*
 		**********************************************/
+
 		int count = 0;
 		while(count < size) {
 
-			/* TODO: The stuff above right here!!!!!!!! */
+
 			result.put(count, new RoomComponent());
 			count++;
 		}

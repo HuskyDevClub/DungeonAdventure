@@ -35,6 +35,18 @@ public class RoomComponent extends AbstractComponent {
 	 *
 	 * @see DungeonComponent
 	 * */
+	public RoomComponent(HashMap<String, DoorComponent> theDoorMap) {
+		doorComponentMap = theDoorMap;
+
+	}
+
+	/**
+	 * RoomComponent stores information about each
+	 * of the game components present in the current room.
+	 * All the RoomComponents are stored in the DungeonComponent.
+	 *
+	 * @see DungeonComponent
+	 * */
 	public RoomComponent() {
 		doorComponentMap = new HashMap<>(4);
 
