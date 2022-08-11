@@ -140,6 +140,9 @@ public class AdventureApp extends GameApplication {
 		vars.put("east", false);
 		vars.put("west", false);
 		vars.put("south", false);
+
+		vars.put("row", 0);
+		vars.put("column", 0);
 	}
 
 	/**
@@ -163,6 +166,8 @@ public class AdventureApp extends GameApplication {
 		dungeon = spawn("Dungeon");
 		dungeonComponent = dungeon.getComponent(DungeonComponent.class);
 		roomComponent = dungeonComponent.getMaze();
+
+		getWorldProperties().setValue("rooms", roomComponent);
 		HashMap<String, DoorComponent> tempMap = roomComponent[0][0].getDoorComponentMap();
 
 		for(int i = 0; i < tempMap.size(); i++) {
