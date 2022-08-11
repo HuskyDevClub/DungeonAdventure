@@ -28,8 +28,41 @@ public class RoomComponent extends AbstractComponent {
 	private void setDoors() {
 		if(x == 0) {
 			if(y == 0) {
-
+				doorComponentMap = new HashMap<>(2);
+				doorComponentMap.put("doorS", new DoorComponent("south"));
+				doorComponentMap.put("doorE", new DoorComponent("east"));
+			} else if (y == 3) {
+				doorComponentMap = new HashMap<>(2);
+				doorComponentMap.put("doorN", new DoorComponent("north"));
+				doorComponentMap.put("doorE", new DoorComponent("east"));
+			} else {
+				doorComponentMap = new HashMap<>(3);
+				doorComponentMap.put("doorN", new DoorComponent("north"));
+				doorComponentMap.put("doorS", new DoorComponent("south"));
+				doorComponentMap.put("doorE", new DoorComponent("east"));
 			}
+		} else if (x == 3) {
+			if(y == 0) {
+				doorComponentMap = new HashMap<>(2);
+				doorComponentMap.put("doorS", new DoorComponent("south"));
+				doorComponentMap.put("doorW", new DoorComponent("west"));
+			} else if (y == 3) {
+				doorComponentMap = new HashMap<>(2);
+				doorComponentMap.put("doorN", new DoorComponent("north"));
+				doorComponentMap.put("doorW", new DoorComponent("west"));
+			} else {
+				doorComponentMap = new HashMap<>(3);
+				doorComponentMap.put("doorN", new DoorComponent("north"));
+				doorComponentMap.put("doorS", new DoorComponent("south"));
+				doorComponentMap.put("doorW", new DoorComponent("west"));
+			}
+
+		} else {
+			doorComponentMap = new HashMap<>(4);
+			doorComponentMap.put("doorN", new DoorComponent("north"));
+			doorComponentMap.put("doorS", new DoorComponent("south"));
+			doorComponentMap.put("doorE", new DoorComponent("east"));
+			doorComponentMap.put("doorW", new DoorComponent("west"));
 		}
 	}
 

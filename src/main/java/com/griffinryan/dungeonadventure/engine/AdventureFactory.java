@@ -196,6 +196,32 @@ public class AdventureFactory implements EntityFactory {
 	 * @return Entity north side door
 	 * @see DoorComponent
 	 * */
+	@Spawns("door")
+	public Entity spawnDoor(SpawnData data){
+
+		DoorComponent door = new DoorComponent();
+
+		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+		data = new SpawnData(curDoorAnchor);
+
+		return FXGL.entityBuilder()
+				.type(EntityType.DOOR)
+				.at(curDoorAnchor)
+				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
+				.with(door)
+				.collidable()
+				.zIndex(8) // same as player
+				.build();
+	}
+
+	/**
+	 * spawnDoor() returns an Entity
+	 * object appended with DoorComponent.
+	 *
+	 * @param data SpawnData object to use.
+	 * @return Entity north side door
+	 * @see DoorComponent
+	 * */
 	@Spawns("doorN")
 	public Entity spawnNorthDoor(SpawnData data){
 

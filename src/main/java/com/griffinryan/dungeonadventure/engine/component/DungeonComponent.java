@@ -44,16 +44,12 @@ public class DungeonComponent extends AbstractComponent {
 	 * @return RoomComponent[][]
 	 * */
 	private RoomComponent[][] createMaze() {
-
 		maze = new RoomComponent[size/4][size/4];
-
 		for(int i = 0; i < maze.length; i++) {
 			for(int j = 0; j < maze.length; j++) {
-
 				maze[i][j] = new RoomComponent(size, i, j);
 			}
 		}
-
 		return maze;
 	}
 

@@ -35,6 +35,46 @@ public class DoorComponent extends AbstractComponent {
 	 * an Entity object for Door.
 	 * @see Component
 	 * */
+	public DoorComponent(String position) {
+
+		/* Determine spawn point for Component and mapKey.	 */
+		mapKey = setMapKey(position);
+
+		/* set the corner of the component. */
+		anchorX = setAnchorXLocation();
+		anchorY = setAnchorYLocation();
+		Point2D tempPoint = new Point2D(anchorX, anchorY);
+
+		double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
+
+		if(Objects.equals(mapKey, "doorS")){
+			hitbox = new HitBox(
+					new Point2D(0.0,-widthLengthArray[1]),
+					BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
+
+		} else {
+			hitbox = new HitBox(
+					new Point2D(0.0,0.0),
+					BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
+		}
+
+		/* After this point, reference only the hitbox for locations. */
+
+		boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
+		getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
+
+		AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
+				4, 17, 16, Duration.seconds(0.6), 0, 3);
+
+		this.idleChannel = idle;
+		this.texture = new AnimatedTexture(idleChannel);
+	}
+
+	/**
+	 * DoorComponent is a constructor that creates
+	 * an Entity object for Door.
+	 * @see Component
+	 * */
 	public DoorComponent() {
 
 		/* Determine spawn point for Component and mapKey.	 */
@@ -99,6 +139,25 @@ public class DoorComponent extends AbstractComponent {
 	 * */
 	public double[] getHitBoxBoundaryArray(Point2D thePoint){
 		double[] result = {500.0, 500.0};
+		return result;
+	}
+
+	/**
+	 * Sets the Component mapKey String value
+	 * */
+	private String setMapKey(String s) {
+		String result = "";
+
+		if(s.equalsIgnoreCase("north")) {
+			return "doorN";
+		} else if (s.equalsIgnoreCase("east")) {
+			return "doorE";
+		} else if (s.equalsIgnoreCase("south")) {
+			return "doorS";
+		} else if (s.equalsIgnoreCase("west")) {
+			return "doorW";
+		}
+
 		return result;
 	}
 
