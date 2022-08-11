@@ -29,21 +29,47 @@ public class Dungeon implements Serializable {
     // if a room needs to be generated, chance that it is a normal room instead of a pit
     private static final int CHANCE_TO_BE_ROOM = 80;
 
-    private final AbstractRoom[][] my2dMaze2dArray;
+    private final AbstractRoom[][] myMazeArray;
+    private final int myMazeWidth;
+    private final int myMazeHeight;
     private final Pillar[] myPillars = {new Pillar(Pillar.Abstraction), new Pillar(Pillar.Encapsulation), new Pillar(Pillar.Inheritance), new Pillar(Pillar.Polymorphism)};
     private final Hero myHero;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
     /**
-     * @param theWidth  the height of the Dungeon
+     * construct a Dungeon with default entrance point
+     *
+     * @param theHero   the hero of the Dungeon
+     * @param theWidth  the width of the Dungeon
      * @param theHeight the height of the Dungeon
      */
-    public Dungeon(final int theWidth, final int theHeight, final Hero theHero) throws IllegalAccessException, SQLException {
+    public Dungeon(final Hero theHero, final int theWidth, final int theHeight) throws SQLException, IllegalAccessException {
+        this(theHero, theWidth, theHeight, theWidth / 2, theHeight / 2);
+    }
+
+    /**
+     * @param theHero   the hero of the Dungeon
+     * @param theWidth  the width of the Dungeon
+     * @param theHeight the height of the Dungeon
+     * @param theHeroX  the x coordinate of the hero
+     * @param theHeroY  the y coordinate of the hero
+     */
+    public Dungeon(final Hero theHero, final int theWidth, final int theHeight, final int theHeroX, final int theHeroY) throws IllegalAccessException, SQLException {
+        if (theWidth < 3 || theHeight < 3) {
+            throw new IllegalArgumentException("The size of the Dungeon cannot be less than 3!");
+        }
         AbstractRoom[][] the2dMaze2dArrayTemp;
         myHero = theHero;
+        myMazeWidth = theWidth;
+        myMazeHeight = theHeight;
+        if (0 > theHeroY || theHeroY >= theHeight || 0 > theHeroX || theHeroX >= theWidth) {
+            throw new IllegalArgumentException("Invalid Hero coordinate as it is out of range!");
+        }
+        myHeroCurrentX = theHeroX;
+        myHeroCurrentY = theHeroY;
         while (true) {
-            the2dMaze2dArrayTemp = new AbstractRoom[theHeight][theWidth];
+            the2dMaze2dArrayTemp = new AbstractRoom[myMazeHeight][myMazeWidth];
             for (int y = 0; y < the2dMaze2dArrayTemp.length; y++) {
                 for (int x = 0; x < the2dMaze2dArrayTemp[y].length; x++) {
                     if (RandomSingleton.isSuccessful(CHANCE_TO_GENERATE_ROOM)) {
@@ -66,9 +92,8 @@ public class Dungeon implements Serializable {
             }
             final int theExitX = RandomSingleton.nextInt(theWidth);
             final int theExitY = RandomSingleton.nextInt(theHeight);
+            // set Exit and Entrance
             the2dMaze2dArrayTemp[theExitY][theExitX] = new Exit();
-            myHeroCurrentX = theWidth / 2;
-            myHeroCurrentY = theHeight / 2;
             the2dMaze2dArrayTemp[myHeroCurrentY][myHeroCurrentX] = new Entrance();
             final PathFinder theFinder = new PathFinder(the2dMaze2dArrayTemp, myHeroCurrentX, myHeroCurrentY);
             // check whether the player can reach the
@@ -97,7 +122,7 @@ public class Dungeon implements Serializable {
                 }
             }
         }
-        my2dMaze2dArray = the2dMaze2dArrayTemp;
+        myMazeArray = the2dMaze2dArrayTemp;
     }
 
     /**
@@ -127,7 +152,7 @@ public class Dungeon implements Serializable {
      * @param theY the Y of the room that you want to move to
      * @return whether you have moved or not
      */
-    private boolean moveTo(final int theX, final int theY) {
+    public boolean moveTo(final int theX, final int theY) {
         // check the coordinate to ensure that the player can move
         // which means no out of bound
         if (this.canMoveTo(theX, theY)) {
@@ -144,7 +169,7 @@ public class Dungeon implements Serializable {
      * @return boolean whether you can move to that room or not
      */
     public boolean canMoveTo(final int theX, final int theY) {
-        return 0 <= theY && theY < my2dMaze2dArray.length && 0 <= theX && theX < my2dMaze2dArray[theY].length && my2dMaze2dArray[theY][theX] != null;
+        return 0 <= theY && theY < myMazeArray.length && 0 <= theX && theX < myMazeArray[theY].length && myMazeArray[theY][theX] != null;
     }
 
     /**
@@ -153,13 +178,13 @@ public class Dungeon implements Serializable {
     @Override
     public String toString() {
         final StringBuilder theInfo = new StringBuilder();
-        for (int y = 0; y < my2dMaze2dArray.length; y++) {
+        for (int y = 0; y < myMazeArray.length; y++) {
             theInfo.append("[");
-            for (int x = 0; x < my2dMaze2dArray[y].length; x++) {
+            for (int x = 0; x < myMazeArray[y].length; x++) {
                 if (y == myHeroCurrentY && x == myHeroCurrentX) {
                     theInfo.append("U");
-                } else if (my2dMaze2dArray[y][x] != null) {
-                    theInfo.append(my2dMaze2dArray[y][x].getFlag());
+                } else if (myMazeArray[y][x] != null) {
+                    theInfo.append(myMazeArray[y][x].getFlag());
                 } else {
                     theInfo.append("|");
                 }
@@ -175,11 +200,11 @@ public class Dungeon implements Serializable {
      */
     public String getSurroundingRooms() {
         final StringBuilder theInfo = new StringBuilder();
-        for (int y = Integer.max(myHeroCurrentY - 1, 0); y < Integer.min(myHeroCurrentY + 2, my2dMaze2dArray.length); y++) {
+        for (int y = Integer.max(myHeroCurrentY - 1, 0); y < Integer.min(myHeroCurrentY + 2, myMazeArray.length); y++) {
             theInfo.append("[");
-            for (int x = Integer.max(myHeroCurrentX - 1, 0); x < Integer.min(myHeroCurrentX + 2, my2dMaze2dArray[y].length); x++) {
-                if (my2dMaze2dArray[y][x] != null) {
-                    theInfo.append(my2dMaze2dArray[y][x].getFlag());
+            for (int x = Integer.max(myHeroCurrentX - 1, 0); x < Integer.min(myHeroCurrentX + 2, myMazeArray[y].length); x++) {
+                if (myMazeArray[y][x] != null) {
+                    theInfo.append(myMazeArray[y][x].getFlag());
                 } else {
                     theInfo.append("|");
                 }
@@ -190,10 +215,16 @@ public class Dungeon implements Serializable {
     }
 
     /**
-     * @return get the Pillars (do not call this method unless you know what you are doing!!)
+     * @return get the names of Pillars that has been found
      */
-    public Pillar[] getPillars() {
-        return myPillars;
+    public ArrayList<String> getPillarsFound() {
+        final ArrayList<String> thePillarsFound = new ArrayList<>(4);
+        for (final Pillar thePillar : myPillars) {
+            if (thePillar.hasBeenFound()) {
+                thePillarsFound.add(thePillar.toString());
+            }
+        }
+        return thePillarsFound;
     }
 
     /**
@@ -221,7 +252,7 @@ public class Dungeon implements Serializable {
      * @return the current room that the player is in
      */
     public AbstractRoom getCurrentRoom() {
-        return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
+        return myMazeArray[myHeroCurrentY][myHeroCurrentX];
     }
 
     /**
@@ -244,30 +275,27 @@ public class Dungeon implements Serializable {
     }
 
     /**
-     * @return the number of pillars that have been found
-     */
-    public int getNumOfPillarsFound() {
-        int num = 0;
-        for (final Pillar thePillar : myPillars) {
-            if (thePillar.hasBeenFound()) {
-                num++;
-            }
-        }
-        return num;
-    }
-
-    /**
      * pick up all pillars immediately (do not call this method unless you know what you are doing!!)
      */
     public void pickUpAllPillars() {
         for (final Pillar thePillar : myPillars) {
-            thePillar.found();
-            final int[] thePos = thePillar.getPos();
-            my2dMaze2dArray[thePos[0]][thePos[1]].pickUpPillar();
+            if (!thePillar.hasBeenFound()) {
+                thePillar.found();
+                final int[] thePos = thePillar.getPos();
+                myMazeArray[thePos[1]][thePos[0]].pickUpPillar();
+            }
         }
     }
 
     public Hero getHero() {
         return myHero;
+    }
+
+    public int getMazeWidth() {
+        return myMazeWidth;
+    }
+
+    public int getMazeHeight() {
+        return myMazeHeight;
     }
 }

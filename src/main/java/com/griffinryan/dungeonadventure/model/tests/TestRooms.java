@@ -121,7 +121,7 @@ public class TestRooms {
 
     @Test
     public void testRoomWithMonstersOnly() {
-        final ArrayList<Monster> monstersArr = new ArrayList<Monster>(3);
+        final ArrayList<Monster> monstersArr = new ArrayList<>(3);
 
         assertDoesNotThrow(() -> monstersArr.add(MonstersFactory.spawn("skeleton", "minecraft_skeleton")));
         assertDoesNotThrow(() -> monstersArr.add(MonstersFactory.spawn("gremlin", "gremlin_the_third")));
@@ -148,7 +148,7 @@ public class TestRooms {
 
     @Test
     public void testRoomWithEverything() {
-        final ArrayList<Monster> monstersArr = new ArrayList<Monster>(3);
+        final ArrayList<Monster> monstersArr = new ArrayList<>(3);
         assertDoesNotThrow(() -> monstersArr.add(MonstersFactory.spawn("skeleton", "minecraft_skeleton")));
         assertDoesNotThrow(() -> monstersArr.add(MonstersFactory.spawn("gremlin", "gremlin_the_third")));
 

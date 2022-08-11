@@ -5,7 +5,6 @@ import com.griffinryan.dungeonadventure.model.HeroesFactory;
 import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
-import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import com.griffinryan.dungeonadventure.model.sql.DungeonSqliteInterface;
@@ -126,7 +125,7 @@ public final class Combat {
             System.out.println("The name cannot be empty, please try again!");
         }
         // generate a new dungeon
-        myDungeon = new Dungeon(20, 20, theHero);
+        myDungeon = new Dungeon(theHero, 20, 20);
     }
 
     /**
@@ -143,12 +142,11 @@ public final class Combat {
             log(myDungeon.getCurrentRoom().toString());
             log(myDungeon.getHero().toString());
             // list out all the Pillar(s) that player found (if any)
-            if (myDungeon.getNumOfPillarsFound() > 0) {
+            final ArrayList<String> thePillarsFound = myDungeon.getPillarsFound();
+            if (thePillarsFound.size() > 0) {
                 log("Pillars Found:[");
-                for (final Pillar thePillar : myDungeon.getPillars()) {
-                    if (thePillar.hasBeenFound()) {
-                        log(thePillar.toString());
-                    }
+                for (final String thePillar : thePillarsFound) {
+                    log(thePillar);
                 }
                 log("]");
             }
@@ -201,7 +199,6 @@ public final class Combat {
                     case "pp" -> {
                         if (myDungeon.getCurrentRoom().hasPillar()) {
                             log(String.format("%s picks up pillar [%s]", myDungeon.getHero().getName(), myDungeon.getCurrentRoom().pickUpPillar()));
-                            myDungeon.getHero().obtainHealingPotions(myDungeon.getCurrentRoom().pickUpVisionPotions());
                         } else {
                             log("There is no pillar to pick up.");
                         }
@@ -274,26 +271,6 @@ public final class Combat {
         }
     }
 
-
-    /**
-     * oneAttackAnother() calculates damage.
-     *
-     * @param theAttacker The DungeonCharacter attacking.
-     * @param theTarget   The DungeonCharacter being attacked.
-     * @see DungeonCharacter
-     */
-    private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
-        theAttacker.attack(theTarget);
-        log(
-                theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked() ? String.format(
-                        "The %s %s successfully attacked the %s %s and did %d damage!",
-                        theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName(), theAttacker.getLastDamageDone()
-                ) : String.format(
-                        "The %s %s fail to do any damage to the %s %s", theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName()
-                )
-        );
-    }
-
     /**
      * fightOne() is a method to handle fight calculations.
      *
@@ -338,6 +315,25 @@ public final class Combat {
             }
             oneAttackAnother(theHero, theMonster);
         }
+    }
+
+    /**
+     * oneAttackAnother() calculates damage.
+     *
+     * @param theAttacker The DungeonCharacter attacking.
+     * @param theTarget   The DungeonCharacter being attacked.
+     * @see DungeonCharacter
+     */
+    private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
+        theAttacker.attack(theTarget);
+        log(
+                theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked() ? String.format(
+                        "The %s %s successfully attacked the %s %s and did %d damage!",
+                        theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName(), theAttacker.getLastDamageDone()
+                ) : String.format(
+                        "The %s %s fail to do any damage to the %s %s", theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName()
+                )
+        );
     }
 
 
