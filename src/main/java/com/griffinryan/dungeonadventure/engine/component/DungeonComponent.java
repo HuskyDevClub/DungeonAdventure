@@ -2,17 +2,10 @@ package com.griffinryan.dungeonadventure.engine.component;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.views.MinimapView;
-import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.texture.AnimatedTexture;
-import com.almasb.fxgl.texture.AnimationChannel;
-import com.almasb.fxgl.texture.Texture;
-import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
-import com.griffinryan.dungeonadventure.model.heroes.Warrior;
-import com.griffinryan.dungeonadventure.model.monsters.Ogre;
-import com.griffinryan.dungeonadventure.model.rooms.Room;
-import javafx.util.Duration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 /**
  * The DungeonComponent class instantiates and
  * determines the layout of the dungeon maze.
@@ -25,6 +18,7 @@ public class DungeonComponent extends AbstractComponent {
 	private MinimapView minimapView;
 	private HashMap<Integer, RoomComponent> dungeonMap;
 	private int size;
+	private RoomComponent[][] maze;
 
 	/**
 	 * DungeonComponent() is a constructor that takes different
@@ -41,45 +35,26 @@ public class DungeonComponent extends AbstractComponent {
 				FXGL.getAppWidth(), 600, 600);
 
 		/* Creates the dungeon/room HashMap */
-		dungeonMap = createDungeonMap();
+		maze = createMaze();
 	}
 
 	/**
-	 * Creates the initial Dungeon HashMap<int, RoomComponent> with
-	 * randomly generated rooms, enemies, doors, and randomly selected
-	 * rooms to connect with the pre-determined number of doors.
+	 * Creates the initial maze using a 2D array.
 	 *
-	 * @return dungeonMap HashMap to store RoomComponents with.
+	 * @return RoomComponent[][]
 	 * */
-	private HashMap<Integer, RoomComponent> createDungeonMap() {
+	private RoomComponent[][] createMaze() {
 
-		HashMap<Integer, RoomComponent> result = new HashMap<>(size);
-		HashMap<String, DoorComponent> doorComponentMap;
+		maze = new RoomComponent[size/4][size/4];
 
-		/* TODO: Generate all rooms/doors connecting
-		*   the rooms randomly here!
-		*
-		*  TODO: Add a helper method to connect the
-		*   random number of generated doors
-		*   to randomly selected rooms.
-		*
-		* 	 	13				 	3
-		* 	  	|				 	|
-		*  15--12--11---8--0--1-----2--4
-		* 	  	| 	  	|     |	    |
-		* 	   14 	10--9     6--7  5
-		*
-		**********************************************/
+		for(int i = 0; i < maze.length; i++) {
+			for(int j = 0; j < maze.length; j++) {
 
-		int count = 0;
-		while(count < size) {
-
-
-			result.put(count, new RoomComponent());
-			count++;
+				maze[i][j] = new RoomComponent(size, i, j);
+			}
 		}
 
-		return result;
+		return maze;
 	}
 
 	public HashMap<Integer, RoomComponent> getDungeonMap() {
@@ -90,7 +65,4 @@ public class DungeonComponent extends AbstractComponent {
 		return minimapView;
 	}
 
-	private class Room {
-
-	}
 }
