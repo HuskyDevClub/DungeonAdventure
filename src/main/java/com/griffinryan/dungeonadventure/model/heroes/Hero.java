@@ -1,7 +1,7 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
-import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
+import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
@@ -40,21 +40,6 @@ public abstract class Hero extends DungeonCharacter {
     public abstract void skill(final Monster theTarget);
 
     /**
-     * take away health point from the hero
-     *
-     * @param value the amount of health hero lost
-     */
-    @Override
-    public void injury(final int value) {
-        if (!DevelopmentTool.isInvincible() && isLuckyToAct(this.getChanceToBlock())) {
-            super.injury(value);
-            System.out.println("the hero does not block");
-        } else {
-            System.out.println("the hero block the damage");
-        }
-    }
-
-    /**
      * gain health positions
      *
      * @param theNum the amount of health positions that hero gets
@@ -71,7 +56,7 @@ public abstract class Hero extends DungeonCharacter {
     public boolean useHealingPotion() {
         if (this.myNumberOfHealingPotions > 0) {
             this.myNumberOfHealingPotions--;
-            this.heal(generateRandomValue(5, 15));
+            this.heal(RandomSingleton.nextInt(5, 15));
             return true;
         }
         return false;

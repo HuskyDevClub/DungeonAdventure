@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.model.test;
+package com.griffinryan.dungeonadventure.model.tests;
 
 import com.griffinryan.dungeonadventure.model.HeroesFactory;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
@@ -48,10 +48,10 @@ public class TestHeroesFactory {
         assertEquals(thePriestess.getChanceToHit(), 70);
         assertEquals(thePriestess.getMinDamage(), 25);
         assertEquals(thePriestess.getMaxDamage(), 45);
-        assertEquals(thePriestess.getChanceToBlock(), 20);
-        assertEquals(thePriestess.getChanceToHeal(), 0);
-        assertEquals(thePriestess.getMinHealing(), 0);
-        assertEquals(thePriestess.getMaxHealing(), 0);
+        assertEquals(thePriestess.getChanceToBlock(), 30);
+        assertEquals(thePriestess.getChanceToHeal(), 100);
+        assertEquals(thePriestess.getMinHealing(), 10);
+        assertEquals(thePriestess.getMaxHealing(), 20);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class TestHeroesFactory {
         assertEquals(theThief.getChanceToHit(), 80);
         assertEquals(theThief.getMinDamage(), 20);
         assertEquals(theThief.getMaxDamage(), 40);
-        assertEquals(theThief.getChanceToHeal(), 40);
+        assertEquals(theThief.getChanceToBlock(), 40);
         assertEquals(theThief.getChanceToHeal(), 0);
         assertEquals(theThief.getMinHealing(), 0);
         assertEquals(theThief.getMaxHealing(), 0);
