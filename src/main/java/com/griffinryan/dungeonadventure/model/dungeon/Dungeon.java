@@ -30,7 +30,7 @@ public class Dungeon implements Serializable {
     private static final int CHANCE_TO_BE_ROOM = 80;
 
     private final AbstractRoom[][] my2dMaze2dArray;
-    private final Pillar[] myPillars = {new Pillar("Abstract"), new Pillar("Encapsulation"), new Pillar("Inheritance"), new Pillar("Polymorphism")};
+    private final Pillar[] myPillars = {new Pillar(Pillar.Abstraction), new Pillar(Pillar.Encapsulation), new Pillar(Pillar.Inheritance), new Pillar(Pillar.Polymorphism)};
     private final Hero myHero;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
@@ -82,7 +82,7 @@ public class Dungeon implements Serializable {
                         final int thePillarY = RandomSingleton.nextInt(theHeight);
                         if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && !the2dMaze2dArrayTemp[thePillarY][thePillarX].hasPillar() && theFinder.isReachable(thePillarX, thePillarY)) {
                             thePillar.setPos(thePillarX, thePillarY);
-                            the2dMaze2dArrayTemp[thePillarY][thePillarX].newPillar(thePillar);
+                            the2dMaze2dArrayTemp[thePillarY][thePillarX].placePillar(thePillar);
                             placed = true;
                             break;
                         }
@@ -211,17 +211,17 @@ public class Dungeon implements Serializable {
     }
 
     /**
-     * @return the current room that the player is in
-     */
-    public AbstractRoom getCurrentRoom() {
-        return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
-    }
-
-    /**
      * @return whether current room is a Pit
      */
     public boolean isCurrentRoomPit() {
         return getCurrentRoom() instanceof Pit;
+    }
+
+    /**
+     * @return the current room that the player is in
+     */
+    public AbstractRoom getCurrentRoom() {
+        return my2dMaze2dArray[myHeroCurrentY][myHeroCurrentX];
     }
 
     /**

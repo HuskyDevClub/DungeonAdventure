@@ -25,6 +25,9 @@ public abstract class AbstractRoom implements Serializable {
      */
     protected AbstractRoom(final ArrayList<Monster> theMonsters, final int theNumberOfHealingPotions, final int theNumberOfVisionPotions) {
         this.myMonsters = theMonsters;
+        if (theNumberOfHealingPotions < 0 || theNumberOfVisionPotions < 0) {
+            throw new IllegalArgumentException(" The number of potion(s) cannot be negative!");
+        }
         this.myNumberOfHealingPotions = theNumberOfHealingPotions;
         this.myNumberOfVisionPotions = theNumberOfVisionPotions;
     }
@@ -57,12 +60,18 @@ public abstract class AbstractRoom implements Serializable {
      *
      * @param thePillar the pillar to set
      */
-    public void newPillar(final Pillar thePillar) throws IllegalAccessException {
-        if (this.myPillar == null) {
-            this.myPillar = thePillar;
-        } else {
+    public void placePillar(final Pillar thePillar) throws IllegalAccessException {
+        if (this.hasPillar()) {
             throw new IllegalAccessException("The Pillar cannot be modified after been set.");
         }
+        this.myPillar = thePillar;
+    }
+
+    /**
+     * @return whether this room has a pillar
+     */
+    public boolean hasPillar() {
+        return myPillar != null;
     }
 
     /**
@@ -82,34 +91,6 @@ public abstract class AbstractRoom implements Serializable {
         myPillar = null;
         // return the name
         return thePillarName;
-    }
-
-    /**
-     * @return the current number of healing potion(s) in this room
-     */
-    public int getNumberOfHealingPotions() {
-        return myNumberOfHealingPotions;
-    }
-
-    /**
-     * @return the current number of vision potion(s) in this room
-     */
-    public int getNumberOfVisionPotions() {
-        return myNumberOfVisionPotions;
-    }
-
-    /**
-     * @return the current number of monster(s) in this room
-     */
-    public int getNumberOfMonsters() {
-        return myMonsters != null ? myMonsters.size() : 0;
-    }
-
-    /**
-     * @return whether this room has a pillar
-     */
-    public boolean hasPillar() {
-        return myPillar != null;
     }
 
     /**
@@ -139,6 +120,27 @@ public abstract class AbstractRoom implements Serializable {
     }
 
     /**
+     * @return the current number of monster(s) in this room
+     */
+    public int getNumberOfMonsters() {
+        return myMonsters != null ? myMonsters.size() : 0;
+    }
+
+    /**
+     * @return the current number of healing potion(s) in this room
+     */
+    public int getNumberOfHealingPotions() {
+        return myNumberOfHealingPotions;
+    }
+
+    /**
+     * @return the current number of vision potion(s) in this room
+     */
+    public int getNumberOfVisionPotions() {
+        return myNumberOfVisionPotions;
+    }
+
+    /**
      * @return the char flag that represent the room type and info
      */
     public char getFlag() {
@@ -150,7 +152,7 @@ public abstract class AbstractRoom implements Serializable {
             } else if (myNumberOfVisionPotions > 0) {
                 return 'V';
             }
-            return '*';
+            return ' ';
         }
         return this.myPillar.getFlag();
     }

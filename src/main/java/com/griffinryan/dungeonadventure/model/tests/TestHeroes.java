@@ -42,14 +42,16 @@ public class TestHeroes {
             100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
-    private static void checkConstantInstanceField(Hero theHero) {
-        assertEquals(defaultMinDamage, theHero.getMinDamage());
-        assertEquals(defaultMaxDamage, theHero.getMaxDamage());
-        assertEquals(defaultAttackSpeed, theHero.getAttackSpeed());
-        assertEquals(defaultChanceToHit, theHero.getChanceToHit());
-        assertEquals(defaultChanceToHeal, theHero.getChanceToHeal());
-        assertEquals(defaultMinHealing, theHero.getMinHealing());
-        assertEquals(defaultMaxHealing, theHero.getMaxHealing());
+    @Test
+    void testOgre() {
+        testTheHeroThatCannotBlock(new Priestess(
+                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
+        ));
+        testTheHeroThatCanAlwaysBlock(new Priestess(
+                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
+        ));
     }
 
     private static void testTheHeroThatCannotBlock(final Hero theHero) {
@@ -173,16 +175,14 @@ public class TestHeroes {
         assertEquals(100, theHero.getChanceToBlock());
     }
 
-    @Test
-    void testOgre() {
-        testTheHeroThatCannotBlock(new Priestess(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
-        ));
-        testTheHeroThatCanAlwaysBlock(new Priestess(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
-        ));
+    private static void checkConstantInstanceField(Hero theHero) {
+        assertEquals(defaultMinDamage, theHero.getMinDamage());
+        assertEquals(defaultMaxDamage, theHero.getMaxDamage());
+        assertEquals(defaultAttackSpeed, theHero.getAttackSpeed());
+        assertEquals(defaultChanceToHit, theHero.getChanceToHit());
+        assertEquals(defaultChanceToHeal, theHero.getChanceToHeal());
+        assertEquals(defaultMinHealing, theHero.getMinHealing());
+        assertEquals(defaultMaxHealing, theHero.getMaxHealing());
     }
 
     @Test

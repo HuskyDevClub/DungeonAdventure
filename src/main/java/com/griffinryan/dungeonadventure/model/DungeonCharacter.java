@@ -67,18 +67,11 @@ public abstract class DungeonCharacter implements Serializable {
     }
 
     /**
-     * take away health point from the Dungeon Character
-     *
-     * @param damage the amount of health Dungeon Character lost
+     * if the Dungeon Character has chance to heal himself/herself, then try to do so
      */
-    public void injury(final int damage) {
-        // ensure the damage is not negative
-        if (damage < 0) {
-            throw new IllegalArgumentException("The damage cannot be negative!");
-        }
-        this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || RandomSingleton.isSuccessful(this.getChanceToBlock());
-        if (!this.myIsLastAttackBlocked) {
-            this.myHealth = Integer.max(this.myHealth - damage, 0);
+    public void selfHeal() {
+        if (RandomSingleton.isSuccessful(this.myChanceToHeal)) {
+            this.heal(RandomSingleton.nextInt(this.myMinHealing, this.myMaxHealing));
         }
     }
 
@@ -96,15 +89,6 @@ public abstract class DungeonCharacter implements Serializable {
     }
 
     /**
-     * if the Dungeon Character has chance to heal himself/herself, then try to do so
-     */
-    public void selfHeal() {
-        if (RandomSingleton.isSuccessful(this.myChanceToHeal)) {
-            this.heal(RandomSingleton.nextInt(this.myMinHealing, this.myMaxHealing));
-        }
-    }
-
-    /**
      * try to attack another Dungeon Character
      *
      * @param theTarget the Dungeon Character to attack
@@ -115,10 +99,28 @@ public abstract class DungeonCharacter implements Serializable {
     }
 
     /**
-     * @return whether the character is alive (heath > 0)
+     * take away health point from the Dungeon Character
+     *
+     * @param damage the amount of health Dungeon Character lost
      */
-    public boolean isAlive() {
-        return myHealth > 0;
+    public void injury(final int damage) {
+        // ensure the damage is not negative
+        if (damage < 0) {
+            throw new IllegalArgumentException("The damage cannot be negative!");
+        }
+        this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || RandomSingleton.isSuccessful(this.getChanceToBlock());
+        if (!this.myIsLastAttackBlocked) {
+            this.myHealth = Integer.max(this.myHealth - damage, 0);
+        }
+    }
+
+    /**
+     * get the Dungeon Character's chance to block incoming damage
+     *
+     * @return int
+     */
+    public int getChanceToBlock() {
+        return myChanceToBlock;
     }
 
     /**
@@ -137,6 +139,13 @@ public abstract class DungeonCharacter implements Serializable {
         } else {
             myHealth = myOriginalHealth;
         }
+    }
+
+    /**
+     * @return whether the character is alive (heath > 0)
+     */
+    public boolean isAlive() {
+        return myHealth > 0;
     }
 
     /**
@@ -227,15 +236,6 @@ public abstract class DungeonCharacter implements Serializable {
      */
     public int getMaxHealing() {
         return myMaxHealing;
-    }
-
-    /**
-     * get the Dungeon Character's chance to block incoming damage
-     *
-     * @return int
-     */
-    public int getChanceToBlock() {
-        return myChanceToBlock;
     }
 
     /**

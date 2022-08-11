@@ -1,5 +1,7 @@
 package com.griffinryan.dungeonadventure.model.rooms;
 
+import java.util.ArrayList;
+
 /**
  * Entrance is a class abstracted by
  * AbstractRoom that constructs an
@@ -11,7 +13,7 @@ package com.griffinryan.dungeonadventure.model.rooms;
 public final class Entrance extends AbstractRoom {
 
     public Entrance() {
-        super(null, 0, 0);
+        super(new ArrayList<>(), 0, 0);
     }
 
     /**

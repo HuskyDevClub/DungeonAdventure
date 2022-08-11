@@ -1,5 +1,7 @@
 package com.griffinryan.dungeonadventure.model.rooms;
 
+import java.util.ArrayList;
+
 /**
  * Pit is a class abstracted by
  * AbstractRoom that constructs a Pit object.
@@ -9,7 +11,7 @@ package com.griffinryan.dungeonadventure.model.rooms;
  */
 public final class Pit extends AbstractRoom {
     public Pit() {
-        super(null, 0, 0);
+        super(new ArrayList<>(), 0, 0);
     }
 
     /**

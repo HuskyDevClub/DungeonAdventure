@@ -33,27 +33,6 @@ final class SqliteInterface {
     }
 
     /**
-     * generate a sql command that will create a table (if not exist) if is executed
-     *
-     * @param tableName        the name of the table
-     * @param theInstancesType the instances of the model and their SQL types in string
-     * @return the sql command
-     */
-    private static String getCommandForTableCreation(final String tableName, final String[][] theInstancesType) {
-        final StringBuilder theCommand = new StringBuilder();
-        theCommand.append(String.format("CREATE TABLE IF NOT EXISTS %s ( ID INTEGER PRIMARY KEY AUTOINCREMENT, ", tableName));
-        for (final String[] pairs : theInstancesType) {
-            theCommand.append(pairs[0]);
-            theCommand.append(' ');
-            theCommand.append(pairs[1]);
-            theCommand.append(" NOT NULL, ");
-        }
-        theCommand.deleteCharAt(theCommand.length() - 2);
-        theCommand.append(')');
-        return theCommand.toString();
-    }
-
-    /**
      * generate a sql command template that will insert data into database if is executed
      *
      * @param tableName        the name of the table
@@ -104,5 +83,26 @@ final class SqliteInterface {
      */
     static void ensureTableExist(final Connection theConnection, final String tableName, final String[][] theInstancesType) throws SQLException {
         theConnection.prepareStatement(getCommandForTableCreation(tableName, theInstancesType)).executeUpdate();
+    }
+
+    /**
+     * generate a sql command that will create a table (if not exist) if is executed
+     *
+     * @param tableName        the name of the table
+     * @param theInstancesType the instances of the model and their SQL types in string
+     * @return the sql command
+     */
+    private static String getCommandForTableCreation(final String tableName, final String[][] theInstancesType) {
+        final StringBuilder theCommand = new StringBuilder();
+        theCommand.append(String.format("CREATE TABLE IF NOT EXISTS %s ( ID INTEGER PRIMARY KEY AUTOINCREMENT, ", tableName));
+        for (final String[] pairs : theInstancesType) {
+            theCommand.append(pairs[0]);
+            theCommand.append(' ');
+            theCommand.append(pairs[1]);
+            theCommand.append(" NOT NULL, ");
+        }
+        theCommand.deleteCharAt(theCommand.length() - 2);
+        theCommand.append(')');
+        return theCommand.toString();
     }
 }
