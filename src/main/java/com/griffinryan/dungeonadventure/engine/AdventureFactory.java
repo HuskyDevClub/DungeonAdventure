@@ -54,8 +54,6 @@ public class AdventureFactory implements EntityFactory {
 				.with()
 				.with(new CollidableComponent(false))
 				.zIndex(0)
-				.with() // TODO Retrieve from Property Map
-				.with()
 				.with(new TextViewComponent(40, 40, "HP: "))
 				.with(new HealthIntComponent())
 				.with(new ManaIntComponent(200))

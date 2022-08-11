@@ -53,12 +53,7 @@ public class DungeonComponent extends AbstractComponent {
 		return maze;
 	}
 
-	public HashMap<Integer, RoomComponent> getDungeonMap() {
-		return dungeonMap;
+	public RoomComponent[][] getMaze() {
+		return maze;
 	}
-
-	public MinimapView getMinimapView() {
-		return minimapView;
-	}
-
 }
