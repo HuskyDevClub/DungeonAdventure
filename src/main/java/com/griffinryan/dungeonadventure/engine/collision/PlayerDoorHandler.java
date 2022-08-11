@@ -1,9 +1,11 @@
 package com.griffinryan.dungeonadventure.engine.collision;
 
+import com.almasb.fxgl.app.scene.GameView;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.griffinryan.dungeonadventure.engine.AdventureFactory;
+import com.griffinryan.dungeonadventure.engine.component.AbstractComponent;
 import com.griffinryan.dungeonadventure.engine.component.DoorComponent;
 import com.griffinryan.dungeonadventure.engine.component.RoomComponent;
 import javafx.geometry.Point2D;
@@ -11,6 +13,7 @@ import javafx.geometry.Point2D;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
 import static com.griffinryan.dungeonadventure.engine.EntityType.*;
 
@@ -59,8 +62,10 @@ public class PlayerDoorHandler extends CollisionHandler {
 		FXGL.getWorldProperties().setValue("row", row);
 		FXGL.getWorldProperties().setValue("column", column);
 
-		door.removeFromWorld();
 		player.setPosition(new Point2D(FXGL.getAppWidth() - 800, FXGL.getAppHeight() - 500));
-		FXGL.getGameWorld().spawn("Enemy");
+
+		/* Remove entities and respawn for next room.. */
+		door.setReusable(true);
+		door.removeFromWorld();
 	}
 }

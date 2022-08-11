@@ -80,7 +80,7 @@ public abstract class AbstractComponent extends Component {
 	 * */
 	public void onUpdate(double tpf){
 
-		Entity player = getGameScene().getGameWorld().getEntitiesByType(PLAYER).get(0);
+		// Entity player = getGameScene().getGameWorld().getEntitiesByType(PLAYER).get(0);
 
 		/* topLayer.setTranslateX(-BG_DISTANCE * TOP_SPEED * player.getX());
 		 * topLayer.setTranslateY(-BG_DISTANCE * TOP_SPEED * player.getY()); */

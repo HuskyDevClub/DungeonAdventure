@@ -202,7 +202,7 @@ public class AdventureFactory implements EntityFactory {
 		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 		data = new SpawnData(curDoorAnchor);
 
-		return FXGL.entityBuilder()
+		var d = FXGL.entityBuilder()
 				.type(EntityType.DOOR)
 				.at(curDoorAnchor)
 				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
@@ -210,6 +210,9 @@ public class AdventureFactory implements EntityFactory {
 				.collidable()
 				.zIndex(8) // same as player
 				.build();
+		d.setReusable(true);
+
+		return d;
 	}
 
 	/**
