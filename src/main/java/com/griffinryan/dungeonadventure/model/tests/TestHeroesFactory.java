@@ -25,7 +25,7 @@ public class TestHeroesFactory {
         assertEquals(theWarrior.getName(), myHeroDummyName);
         // check if the default information has been assigned
         assertEquals(theWarrior.getHealth(), 125);
-        assertEquals(theWarrior.getAttackSpeed(), 4);
+        assertEquals(theWarrior.getMaxAttackSpeed(), 4);
         assertEquals(theWarrior.getChanceToHit(), 80);
         assertEquals(theWarrior.getMinDamage(), 35);
         assertEquals(theWarrior.getMaxDamage(), 60);
@@ -44,7 +44,7 @@ public class TestHeroesFactory {
         assertEquals(thePriestess.getName(), myHeroDummyName);
         // check if the default information has been assigned
         assertEquals(thePriestess.getHealth(), 75);
-        assertEquals(thePriestess.getAttackSpeed(), 5);
+        assertEquals(thePriestess.getMaxAttackSpeed(), 5);
         assertEquals(thePriestess.getChanceToHit(), 70);
         assertEquals(thePriestess.getMinDamage(), 25);
         assertEquals(thePriestess.getMaxDamage(), 45);
@@ -63,7 +63,7 @@ public class TestHeroesFactory {
         assertEquals(theThief.getName(), myHeroDummyName);
         // check if the default information has been assigned
         assertEquals(theThief.getHealth(), 75);
-        assertEquals(theThief.getAttackSpeed(), 6);
+        assertEquals(theThief.getMaxAttackSpeed(), 6);
         assertEquals(theThief.getChanceToHit(), 80);
         assertEquals(theThief.getMinDamage(), 20);
         assertEquals(theThief.getMaxDamage(), 40);

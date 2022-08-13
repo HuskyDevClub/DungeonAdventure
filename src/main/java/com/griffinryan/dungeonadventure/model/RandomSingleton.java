@@ -18,31 +18,31 @@ public final class RandomSingleton {
         if (0 > theChance || theChance > 100) {
             throw new IndexOutOfBoundsException("Chance has to be 0>= and <= 100");
         }
-        return myRANDOM.nextInt(100) < theChance;
+        return myRANDOM.nextInt(101) <= theChance;
     }
 
 
     /**
      * generate a random number between the min and max
      *
-     * @param theMin the minimum
-     * @param theMax the maximum
+     * @param theMin the minimum (inclusive)
+     * @param theMax the maximum (inclusive)
      * @return int
      */
     public static int nextInt(final int theMin, final int theMax) {
         if (theMin == theMax) {
             return theMin;
         }
-        return myRANDOM.nextInt(theMin, theMax);
+        return myRANDOM.nextInt(theMin, theMax + 1);
     }
 
     /**
      * generate a random number between the 0 and max
      *
-     * @param theMax the maximum
+     * @param theMax the maximum (inclusive)
      * @return int
      */
     public static int nextInt(final int theMax) {
-        return myRANDOM.nextInt(theMax);
+        return myRANDOM.nextInt(theMax + 1);
     }
 }

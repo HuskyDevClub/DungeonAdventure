@@ -14,18 +14,28 @@ import java.util.HashMap;
 
 public final class DungeonSqliteInterface {
 
+    public static final String DATABASE_PATH = "jdbc:sqlite:save.sqlite";
     private static final String TABLE_NAME = Dungeon.class.getSimpleName();
     private static final String[][] INSTANCES_TYPE = {
             {"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}, {"CREATED_AT", SqliteInterface.TEXT}
     };
 
     /**
-     * @param theDatabasePath the path of the database
-     * @param theName         the name of the Dungeon
-     * @param theDungeon      the Dungeon object that needs to be saved
+     * @param theName    the name of the Dungeon
+     * @param theDungeon the Dungeon object that needs to be saved
      * @return the id location of the object in that table
      */
-    public static int save(final String theDatabasePath, final String theName, final Dungeon theDungeon) throws SQLException, IOException {
+    public static String save(final String theName, final Dungeon theDungeon) throws SQLException, IOException {
+        return save(theName, theDungeon, DATABASE_PATH);
+    }
+
+    /**
+     * @param theName         the name of the Dungeon
+     * @param theDungeon      the Dungeon object that needs to be saved
+     * @param theDatabasePath the custom path of the database
+     * @return the id location of the object in that table
+     */
+    public static String save(final String theName, final Dungeon theDungeon, final String theDatabasePath) throws SQLException, IOException {
         //establish connection
         final Connection theConnection = SqliteInterface.connectDatabase(theDatabasePath);
         //create a table if it does not exist
@@ -39,21 +49,33 @@ public final class DungeonSqliteInterface {
         // convert the object into ByteArray and save it under the DATA colum
         thePreparedStatement.setBytes(2, SqliteInterface.objectToByteArray(theDungeon));
         thePreparedStatement.setString(3, LocalDateTime.now().toString());
+        // save the data
+        thePreparedStatement.executeUpdate();
         // obtain the id of the save
-        final int rv = thePreparedStatement.executeUpdate();
+        ResultSet rs = thePreparedStatement.getGeneratedKeys();
+        final String itemId = rs.next() ? rs.getString(1) : "-1";
         // close the connections
+        rs.close();
         thePreparedStatement.close();
         theConnection.close();
         // return the id
-        return rv;
+        return itemId;
     }
 
     /**
-     * @param theDatabasePath the path of the database
-     * @param theId           the id of the Dungeon in that database
+     * @param theId the id of the Dungeon in that database
      * @return the Dungeon loaded from the database according to given id
      */
-    public static Dungeon load(final String theDatabasePath, final String theId) throws SQLException, IOException, ClassNotFoundException {
+    public static Dungeon load(final String theId) throws SQLException, IOException, ClassNotFoundException {
+        return load(theId, DATABASE_PATH);
+    }
+
+    /**
+     * @param theId           the id of the Dungeon in that database
+     * @param theDatabasePath the path of the database
+     * @return the Dungeon loaded from the database according to given id
+     */
+    public static Dungeon load(final String theId, final String theDatabasePath) throws SQLException, IOException, ClassNotFoundException {
         //establish connection
         final Connection theConnection = SqliteInterface.connectDatabase(theDatabasePath);
         //find the object based on give table
@@ -68,6 +90,15 @@ public final class DungeonSqliteInterface {
         thePreparedStatement.close();
         theConnection.close();
         return resultObject;
+    }
+
+    /**
+     * @return a HashMap that stores information regarding exiting saves,
+     * key is id, value[0] is the name of the save, and value[1] is a string represent when the save is created
+     * value[1] can be converted into Data if needed
+     */
+    public static HashMap<String, String[]> getNamesOfExistingSaves() {
+        return getNamesOfExistingSaves(DATABASE_PATH);
     }
 
     /**
@@ -101,10 +132,19 @@ public final class DungeonSqliteInterface {
     /**
      * delete a save record from the database
      *
+     * @param theId the id of the save
+     */
+    public static void delete(final String theId) throws SQLException {
+        delete(theId, DATABASE_PATH);
+    }
+
+    /**
+     * delete a save record from the database
+     *
      * @param theDatabasePath the path of the database
      * @param theId           the id of the save
      */
-    public static void delete(final String theDatabasePath, final String theId) throws SQLException {
+    public static void delete(final String theId, final String theDatabasePath) throws SQLException {
         // try to establish connection
         final Connection theConnection = SqliteInterface.connectDatabase(theDatabasePath);
         final PreparedStatement thePreparedStatement = theConnection.prepareStatement(String.format("DELETE FROM %s WHERE ID = ?", TABLE_NAME));

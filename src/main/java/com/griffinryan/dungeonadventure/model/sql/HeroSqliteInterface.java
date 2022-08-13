@@ -24,10 +24,9 @@ public class HeroSqliteInterface {
      * save a hero into the sqlite database
      *
      * @param theHero the name to save into the sqlite database
-     * @return the index of that hero
      */
-    public static int save(final Hero theHero) throws SQLException {
-        return DungeonCharacterSqliteInterface.save(theHero, TABLE_NAME);
+    public static void save(final Hero theHero) throws SQLException {
+        DungeonCharacterSqliteInterface.save(theHero, TABLE_NAME);
     }
 
     /**

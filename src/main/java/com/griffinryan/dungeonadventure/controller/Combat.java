@@ -22,7 +22,7 @@ public final class Combat {
 
     private static final ArrayList<String> messageHistory = new ArrayList<>();
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final String myDatabasePath = "jdbc:sqlite:save.sqlite";
+    private static final int CHANCE_TO_USE_SKILL = 10; // the chance that a hero will use skill during combat
     private static Dungeon myDungeon;
     private static boolean isPlaying;
 
@@ -32,12 +32,12 @@ public final class Combat {
      *
      * @param args Command line arguments.
      */
-    public static void main(final String[] args) throws IllegalAccessException, SQLException, IOException, ClassNotFoundException {
+    public static void main(final String[] args) throws SQLException, IOException, ClassNotFoundException {
         System.out.println("new || load || delete:");
         // process the initialization phase according to user's choice
         switch (SCANNER.nextLine()) {
             case "load" -> {
-                final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves(myDatabasePath);
+                final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
                 if (theNamesOfExistingSaves.size() > 0) {
                     theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
                     while (true) {
@@ -48,7 +48,7 @@ public final class Combat {
                         // ensure the id exists
                         if (theNamesOfExistingSaves.containsKey(index)) {
                             // load the progress (the myDungeon object to be specific) from the database with given id
-                            myDungeon = DungeonSqliteInterface.load(myDatabasePath, index);
+                            myDungeon = DungeonSqliteInterface.load(index);
                             break;
                         }
                         // if id does not exist, the ask the player to try again
@@ -60,7 +60,7 @@ public final class Combat {
                 }
             }
             case "delete" -> {
-                HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves(myDatabasePath);
+                HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
                 if (theNamesOfExistingSaves.size() > 0) {
                     while (true) {
                         theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
@@ -71,8 +71,8 @@ public final class Combat {
                         // ensure the id exists
                         if (theNamesOfExistingSaves.containsKey(index)) {
                             // load the progress (the myDungeon object to be specific) from the database with given id
-                            DungeonSqliteInterface.delete(myDatabasePath, index);
-                            theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves(myDatabasePath);
+                            DungeonSqliteInterface.delete(index);
+                            theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
                             if (theNamesOfExistingSaves.size() == 0) {
                                 newGame();
                                 break;
@@ -101,7 +101,7 @@ public final class Combat {
      *
      * @see Dungeon
      */
-    public static void newGame() throws IllegalAccessException, SQLException {
+    public static void newGame() throws SQLException {
         // ask the player to choose hero by entering a number
         System.out.println("Please choose your hero:");
         System.out.println("1 - Priestess");
@@ -203,7 +203,9 @@ public final class Combat {
                             log("There is no pillar to pick up.");
                         }
                     }
-                    case "fight" -> fightOne();
+                    case "fight" -> fightMonster(
+                            RandomSingleton.nextInt(Integer.max(myDungeon.getCurrentRoom().getNumberOfMonsters() - 1, 1))
+                    );
                     case "history" -> {
                         for (final String theMsg : messageHistory) {
                             System.out.println(theMsg);
@@ -215,7 +217,7 @@ public final class Combat {
                             final String theSaveName = SCANNER.nextLine();
                             if (!theSaveName.isEmpty()) {
                                 //save the current progress (the myDungeon object to be specific) into the database
-                                System.out.printf("Progress has been saved with id = '%d'!\n", DungeonSqliteInterface.save(myDatabasePath, theSaveName, myDungeon));
+                                System.out.printf("Progress has been saved with id = '%s'!\n", DungeonSqliteInterface.save(theSaveName, myDungeon));
                                 break;
                             }
                             System.out.println("The name cannot be empty! Please try again.");
@@ -272,48 +274,55 @@ public final class Combat {
     }
 
     /**
-     * fightOne() is a method to handle fight calculations.
+     * fightMonster() is a method to handle fight calculations.
      *
-     * @see Dungeon
+     * @param index the index of the monster inside the array
      */
-    public static void fightOne() {
-        if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
-            final Monster theTarget = myDungeon.getCurrentRoom().removeMonster(0);
-            while (true) {
-                if (myDungeon.getHero().getHealth() <= 0) {
-                    log("Mission fail, your hero is killed by the monster.");
-                    isPlaying = false;
-                    break;
-                } else if (theTarget.getHealth() <= 0) {
-                    log("You successfully kill the monster.");
-                    break;
-                } else {
-                    fight(myDungeon.getHero(), theTarget);
-                }
-            }
-        } else {
+    private static void fightMonster(int index) {
+        if (myDungeon.getCurrentRoom().getNumberOfMonsters() > index) {
+            // pop the target monster out of the array and start the auto battle
+            autoCombat(myDungeon.getCurrentRoom().removeMonster(index));
+        } else if (myDungeon.getCurrentRoom().getNumberOfMonsters() == 0) {
             log("There is no monsters in current room");
+        } else {
+            throw new IllegalArgumentException("Index out of bound!");
         }
     }
 
     /**
-     * fight() is a method to handle fight calculations.
+     * autoCombat() is a method to handle automatic fight between hero and the monster.
      *
-     * @param theHero    Hero objects for player.
      * @param theMonster Monster objects for enemy.
      * @see DungeonCharacter
      */
-    public static void fight(final Hero theHero, final Monster theMonster) {
-        if (theHero.getAttackSpeed() >= theMonster.getAttackSpeed()) {
-            for (int i = 0; i < theHero.getAttackSpeed() / theMonster.getAttackSpeed(); i++) {
-                oneAttackAnother(theHero, theMonster);
+    private static void autoCombat(final Monster theMonster) {
+
+        final int attackCost = Integer.min(myDungeon.getHero().getMaxAttackSpeed(), theMonster.getMaxAttackSpeed());
+
+        while (true) {
+            if (myDungeon.getHero().getCurrentAttackSpeed() >= theMonster.getCurrentAttackSpeed()) {
+                if (RandomSingleton.isSuccessful(CHANCE_TO_USE_SKILL)) {
+                    myDungeon.getHero().skill(theMonster, attackCost);
+                    log(String.format("The %s uses the skill!", myDungeon.getHero().getName()));
+                } else {
+                    oneAttackAnother(myDungeon.getHero(), theMonster, attackCost);
+                }
+            } else {
+                oneAttackAnother(theMonster, myDungeon.getHero(), attackCost);
             }
-            oneAttackAnother(theMonster, theHero);
-        } else {
-            for (int i = 0; i < theMonster.getAttackSpeed() / theHero.getAttackSpeed(); i++) {
-                oneAttackAnother(theMonster, theHero);
+
+            if (myDungeon.getHero().getHealth() <= 0) {
+                log("Mission fail, your hero is killed by the monster.");
+                isPlaying = false;
+                break;
+            } else if (theMonster.getHealth() <= 0) {
+                log("You successfully kill the monster.");
+                myDungeon.getHero().resetCurrentAttackSpeed();
+                break;
+            } else if (myDungeon.getHero().getCurrentAttackSpeed() <= 0 || theMonster.getCurrentAttackSpeed() <= 0) {
+                myDungeon.getHero().addCurrentAttackSpeed(myDungeon.getHero().getMaxAttackSpeed());
+                theMonster.addCurrentAttackSpeed(theMonster.getMaxAttackSpeed());
             }
-            oneAttackAnother(theHero, theMonster);
         }
     }
 
@@ -322,10 +331,11 @@ public final class Combat {
      *
      * @param theAttacker The DungeonCharacter attacking.
      * @param theTarget   The DungeonCharacter being attacked.
+     * @param theCost     The cost of doing attack
      * @see DungeonCharacter
      */
-    private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget) {
-        theAttacker.attack(theTarget);
+    private static void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget, final int theCost) {
+        theAttacker.attack(theTarget, theCost);
         log(
                 theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked() ? String.format(
                         "The %s %s successfully attacked the %s %s and did %d damage!",

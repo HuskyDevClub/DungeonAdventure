@@ -36,8 +36,9 @@ public abstract class Hero extends DungeonCharacter {
      * the skill of the Hero (the children needs to implement)
      *
      * @param theTarget the target
+     * @param theCost   the cost of using skill
      */
-    public abstract void skill(final Monster theTarget);
+    public abstract void skill(final Monster theTarget, final int theCost);
 
     /**
      * gain health positions

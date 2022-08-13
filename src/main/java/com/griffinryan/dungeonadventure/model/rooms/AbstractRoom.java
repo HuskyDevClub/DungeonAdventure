@@ -60,9 +60,9 @@ public abstract class AbstractRoom implements Serializable {
      *
      * @param thePillar the pillar to set
      */
-    public void placePillar(final Pillar thePillar) throws IllegalAccessException {
+    public void placePillar(final Pillar thePillar) {
         if (this.hasPillar()) {
-            throw new IllegalAccessException("The Pillar cannot be modified after been set.");
+            throw new IllegalStateException("The Pillar cannot be modified after been set.");
         }
         this.myPillar = thePillar;
     }

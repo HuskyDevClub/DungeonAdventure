@@ -44,7 +44,7 @@ public class Dungeon implements Serializable {
      * @param theWidth  the width of the Dungeon
      * @param theHeight the height of the Dungeon
      */
-    public Dungeon(final Hero theHero, final int theWidth, final int theHeight) throws SQLException, IllegalAccessException {
+    public Dungeon(final Hero theHero, final int theWidth, final int theHeight) throws SQLException {
         this(theHero, theWidth, theHeight, theWidth / 2, theHeight / 2);
     }
 
@@ -55,7 +55,7 @@ public class Dungeon implements Serializable {
      * @param theHeroX  the x coordinate of the hero
      * @param theHeroY  the y coordinate of the hero
      */
-    public Dungeon(final Hero theHero, final int theWidth, final int theHeight, final int theHeroX, final int theHeroY) throws IllegalAccessException, SQLException {
+    public Dungeon(final Hero theHero, final int theWidth, final int theHeight, final int theHeroX, final int theHeroY) throws SQLException {
         if (theWidth < 3 || theHeight < 3) {
             throw new IllegalArgumentException("The size of the Dungeon cannot be less than 3!");
         }
@@ -90,8 +90,8 @@ public class Dungeon implements Serializable {
                     }
                 }
             }
-            final int theExitX = RandomSingleton.nextInt(theWidth);
-            final int theExitY = RandomSingleton.nextInt(theHeight);
+            final int theExitX = RandomSingleton.nextInt(theWidth - 1);
+            final int theExitY = RandomSingleton.nextInt(theHeight - 1);
             // set Exit and Entrance
             the2dMaze2dArrayTemp[theExitY][theExitX] = new Exit();
             the2dMaze2dArrayTemp[myHeroCurrentY][myHeroCurrentX] = new Entrance();
@@ -103,8 +103,8 @@ public class Dungeon implements Serializable {
                     boolean placed = false;
                     // the system will try to place the Pillar several times before regenerating a new Dungeon
                     for (int i = 0; i < (theWidth + theHeight) / 2; i++) {
-                        final int thePillarX = RandomSingleton.nextInt(theWidth);
-                        final int thePillarY = RandomSingleton.nextInt(theHeight);
+                        final int thePillarX = RandomSingleton.nextInt(theWidth - 1);
+                        final int thePillarY = RandomSingleton.nextInt(theHeight - 1);
                         if (the2dMaze2dArrayTemp[thePillarY][thePillarX] instanceof Room && !the2dMaze2dArrayTemp[thePillarY][thePillarX].hasPillar() && theFinder.isReachable(thePillarX, thePillarY)) {
                             thePillar.setPos(thePillarX, thePillarY);
                             the2dMaze2dArrayTemp[thePillarY][thePillarX].placePillar(thePillar);

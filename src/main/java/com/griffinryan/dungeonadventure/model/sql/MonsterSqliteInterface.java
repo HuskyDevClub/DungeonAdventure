@@ -24,10 +24,9 @@ public final class MonsterSqliteInterface {
      * save a monster into the sqlite database
      *
      * @param theMonster the name to save into the sqlite database
-     * @return the index of that monster
      */
-    public static int save(final Monster theMonster) throws SQLException {
-        return DungeonCharacterSqliteInterface.save(theMonster, TABLE_NAME);
+    public static void save(final Monster theMonster) throws SQLException {
+        DungeonCharacterSqliteInterface.save(theMonster, TABLE_NAME);
     }
 
     /**
