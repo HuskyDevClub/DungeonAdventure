@@ -50,11 +50,11 @@ public class TestPathFinder {
     @Test
     public void testPathFindingOn5x5Maze() {
         AbstractRoom[][] MAZE_5x5 = {
-                {new Entrance(), new Pit(), null, null, null},
-                {null, new Pit(), null, null, null},
-                {null, new Pit(), new Pit(), null, null},
-                {null, null, new Pit(), null, null},
-                {null, null, new Pit(), new Pit(), new Pit()},
+            {new Entrance(), new Pit(), null, null, null},
+            {null, new Pit(), null, null, null},
+            {null, new Pit(), new Pit(), null, null},
+            {null, null, new Pit(), null, null},
+            {null, null, new Pit(), new Pit(), new Pit()},
         };
         final PathFinder PATH_FINDER_FOR_MAZE_5x5 = new PathFinder(MAZE_5x5, 0, 0);
         assertTrue(PATH_FINDER_FOR_MAZE_5x5.isReachable(0, 0));

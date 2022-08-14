@@ -26,25 +26,25 @@ public class TestMonsters {
     private static final int superWarriorDamage = 2000;
 
     private final static Warrior WeakWarrior = new Warrior(
-            myMonsterDummyName, defaultHealth, weakWarriorDamage, weakWarriorDamage, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
+        myMonsterDummyName, defaultHealth, weakWarriorDamage, weakWarriorDamage, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     private final static Warrior SuperWarrior = new Warrior(
-            myMonsterDummyName, defaultHealth, superWarriorDamage, superWarriorDamage, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
+        myMonsterDummyName, defaultHealth, superWarriorDamage, superWarriorDamage, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     private final static Warrior GodLikeWarrior = new Warrior(
-            myMonsterDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
+        myMonsterDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     @Test
     void testOgre() {
         testTheMonster(new Ogre(
-                myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
 
@@ -56,7 +56,10 @@ public class TestMonsters {
         checkConstantInstanceField(theMonster);
 
         // check being attack behavior
-        WeakWarrior.attack(theMonster);
+        assertEquals(WeakWarrior.getCurrentAttackSpeed(), WeakWarrior.getMaxAttackSpeed());
+        WeakWarrior.attack(theMonster, 3);
+        assertEquals(WeakWarrior.getCurrentAttackSpeed(), WeakWarrior.getMaxAttackSpeed() - 3);
+        WeakWarrior.resetCurrentAttackSpeed();
         assertFalse(theMonster.isLastAttackBlocked());
         assertFalse(theMonster.isDead());
         assertTrue(theMonster.isAlive());
@@ -69,7 +72,8 @@ public class TestMonsters {
         assertTrue(theMonster.getHealth() > _heath);
 
         // what if the monster received a critical hit from our super warrior?
-        SuperWarrior.attack(theMonster);
+        SuperWarrior.attack(theMonster, 0);
+        assertEquals(SuperWarrior.getCurrentAttackSpeed(), SuperWarrior.getMaxAttackSpeed());
         assertFalse(theMonster.isLastAttackBlocked());
         assertTrue(theMonster.isDead());
         assertFalse(theMonster.isAlive());
@@ -94,7 +98,7 @@ public class TestMonsters {
         assertEquals(theMonster.getHealth(), Integer.MAX_VALUE);
 
         // attack by a god like warrior who can do Integer.MAX_VALUE amount of damage!
-        GodLikeWarrior.attack(theMonster);
+        GodLikeWarrior.attack(theMonster, 0);
 
         // should be dead at this point
         assertFalse(theMonster.isLastAttackBlocked());
@@ -103,7 +107,7 @@ public class TestMonsters {
         assertEquals(theMonster.getHealth(), 0);
 
         // do it again?
-        GodLikeWarrior.attack(theMonster);
+        GodLikeWarrior.attack(theMonster, 0);
 
         // everything should remain the same
         assertFalse(theMonster.isLastAttackBlocked());
@@ -116,7 +120,7 @@ public class TestMonsters {
     private static void checkConstantInstanceField(Monster theMonster) {
         assertEquals(defaultMinDamage, theMonster.getMinDamage());
         assertEquals(defaultMaxDamage, theMonster.getMaxDamage());
-        assertEquals(defaultAttackSpeed, theMonster.getAttackSpeed());
+        assertEquals(defaultAttackSpeed, theMonster.getMaxAttackSpeed());
         assertEquals(defaultChanceToHit, theMonster.getChanceToHit());
         assertEquals(defaultChanceToHeal, theMonster.getChanceToHeal());
         assertEquals(defaultMinHealing, theMonster.getMinHealing());
@@ -128,16 +132,16 @@ public class TestMonsters {
     @Test
     void testGremlin() {
         testTheMonster(new Gremlin(
-                myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
 
     @Test
     void testSkeleton() {
         testTheMonster(new Skeleton(
-                myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
 }

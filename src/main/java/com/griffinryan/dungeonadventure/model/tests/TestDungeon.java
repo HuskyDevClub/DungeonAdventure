@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestDungeon {
 
     @Test
-    public void testDungeonBasicFunctionalities() throws SQLException, IllegalAccessException {
+    public void testDungeonBasicFunctionalities() throws SQLException {
         final String theHeroName = "TheHeroIsMe";
 
         final int theAssumedX = 5;
@@ -106,7 +106,7 @@ public class TestDungeon {
     }
 
     @Test
-    public void testDungeon() throws SQLException, IllegalAccessException {
+    public void testDungeon() throws SQLException {
         final String theHeroName = "TheHeroIsUs";
 
         final int theX = 124;
@@ -140,18 +140,18 @@ public class TestDungeon {
     @Test
     public void testDungeonThrows() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, 10, 10)
+            IllegalArgumentException.class,
+            () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, 10, 10)
         );
 
         assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, -1, -1)
+            IllegalArgumentException.class,
+            () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, -1, -1)
         );
 
         assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 2, 2, 0, 0)
+            IllegalArgumentException.class,
+            () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 2, 2, 0, 0)
         );
     }
 }

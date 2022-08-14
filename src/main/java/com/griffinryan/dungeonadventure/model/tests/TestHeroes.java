@@ -28,29 +28,29 @@ public class TestHeroes {
     private static final int superSkeletonDamage = 2000;
 
     private final static Skeleton WeakSkeleton = new Skeleton(
-            myHeroDummyName, defaultHealth, weakSkeletonDamage, weakSkeletonDamage, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+        myHeroDummyName, defaultHealth, weakSkeletonDamage, weakSkeletonDamage, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
     private final static Skeleton SuperSkeleton = new Skeleton(
-            myHeroDummyName, defaultHealth, superSkeletonDamage, superSkeletonDamage, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+        myHeroDummyName, defaultHealth, superSkeletonDamage, superSkeletonDamage, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
     private final static Skeleton GodLikeSkeleton = new Skeleton(
-            myHeroDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+        myHeroDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
     @Test
-    void testOgre() {
+    void testPriestess() {
         testTheHeroThatCannotBlock(new Priestess(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
         ));
         testTheHeroThatCanAlwaysBlock(new Priestess(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
         ));
     }
 
@@ -63,11 +63,16 @@ public class TestHeroes {
         assertEquals(defaultChanceToBlock, theHero.getChanceToBlock());
 
         // check being attack behavior
-        WeakSkeleton.attack(theHero);
+        assertEquals(WeakSkeleton.getCurrentAttackSpeed(), WeakSkeleton.getMaxAttackSpeed());
+        WeakSkeleton.attack(theHero, 4);
+        assertEquals(WeakSkeleton.getCurrentAttackSpeed(), WeakSkeleton.getMaxAttackSpeed() - 4);
+        WeakSkeleton.resetCurrentAttackSpeed();
+
         assertFalse(theHero.isLastAttackBlocked());
         assertFalse(theHero.isDead());
         assertTrue(theHero.isAlive());
         assertEquals(theHero.getHealth(), defaultHealth - weakSkeletonDamage);
+
         // recheck whether the supposed constant instances has been modified
         checkConstantInstanceField(theHero);
         assertEquals(defaultChanceToBlock, theHero.getChanceToBlock());
@@ -77,7 +82,8 @@ public class TestHeroes {
         assertTrue(theHero.getHealth() > _heath);
 
         // what if the monster received a critical hit from our super warrior?
-        SuperSkeleton.attack(theHero);
+        SuperSkeleton.attack(theHero, 0);
+        assertEquals(SuperSkeleton.getCurrentAttackSpeed(), SuperSkeleton.getMaxAttackSpeed());
         assertFalse(theHero.isLastAttackBlocked());
         assertTrue(theHero.isDead());
         assertFalse(theHero.isAlive());
@@ -104,7 +110,7 @@ public class TestHeroes {
         assertEquals(theHero.getHealth(), Integer.MAX_VALUE);
 
         // attack by a god like warrior who can do Integer.MAX_VALUE amount of damage!
-        GodLikeSkeleton.attack(theHero);
+        GodLikeSkeleton.attack(theHero, 0);
 
         // should be dead at this point
         assertFalse(theHero.isLastAttackBlocked());
@@ -113,7 +119,7 @@ public class TestHeroes {
         assertEquals(theHero.getHealth(), 0);
 
         // do it again?
-        GodLikeSkeleton.attack(theHero);
+        GodLikeSkeleton.attack(theHero, 0);
 
         // everything should remain the same
         assertFalse(theHero.isLastAttackBlocked());
@@ -133,7 +139,7 @@ public class TestHeroes {
         assertEquals(100, theHero.getChanceToBlock());
 
         // check being attack behavior
-        WeakSkeleton.attack(theHero);
+        WeakSkeleton.attack(theHero, 0);
         assertTrue(theHero.isLastAttackBlocked());
         assertFalse(theHero.isDead());
         assertTrue(theHero.isAlive());
@@ -147,7 +153,7 @@ public class TestHeroes {
         assertTrue(theHero.getHealth() > _heath);
 
         // what if the monster received a critical hit from our super warrior?
-        SuperSkeleton.attack(theHero);
+        SuperSkeleton.attack(theHero, 0);
         assertTrue(theHero.isLastAttackBlocked());
         assertFalse(theHero.isDead());
         assertTrue(theHero.isAlive());
@@ -164,7 +170,7 @@ public class TestHeroes {
         assertEquals(theHero.getHealth(), Integer.MAX_VALUE);
 
         // attack by a god like warrior who can do Integer.MAX_VALUE amount of damage!
-        GodLikeSkeleton.attack(theHero);
+        GodLikeSkeleton.attack(theHero, 0);
 
         // should still be alive at this point
         assertTrue(theHero.isLastAttackBlocked());
@@ -178,7 +184,7 @@ public class TestHeroes {
     private static void checkConstantInstanceField(Hero theHero) {
         assertEquals(defaultMinDamage, theHero.getMinDamage());
         assertEquals(defaultMaxDamage, theHero.getMaxDamage());
-        assertEquals(defaultAttackSpeed, theHero.getAttackSpeed());
+        assertEquals(defaultAttackSpeed, theHero.getMaxAttackSpeed());
         assertEquals(defaultChanceToHit, theHero.getChanceToHit());
         assertEquals(defaultChanceToHeal, theHero.getChanceToHeal());
         assertEquals(defaultMinHealing, theHero.getMinHealing());
@@ -186,26 +192,26 @@ public class TestHeroes {
     }
 
     @Test
-    void testGremlin() {
+    void testThief() {
         testTheHeroThatCannotBlock(new Thief(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
         ));
         testTheHeroThatCanAlwaysBlock(new Thief(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
         ));
     }
 
     @Test
-    void testSkeleton() {
+    void testWarrior() {
         testTheHeroThatCannotBlock(new Warrior(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
         ));
         testTheHeroThatCanAlwaysBlock(new Warrior(
-                myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
         ));
     }
 }

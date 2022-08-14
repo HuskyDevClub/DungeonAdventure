@@ -11,18 +11,17 @@ final class DungeonCharacterSqliteInterface {
 
     private static final String DATABASE_PATH = "jdbc:sqlite:DungeonCharacters.sqlite";
     private static final String[][] INSTANCES_TYPE = {
-            {"TYPE", SqliteInterface.TEXT}, {"HEALTH", SqliteInterface.INTEGER}, {"MIN_DAMAGE", SqliteInterface.INTEGER},
-            {"MAX_DAMAGE", SqliteInterface.INTEGER}, {"ATTACK_SPEED", SqliteInterface.INTEGER}, {"CHANCE_TO_HIT", SqliteInterface.INTEGER},
-            {"CHANCE_TO_HEAL", SqliteInterface.INTEGER}, {"MIN_HEALING", SqliteInterface.INTEGER}, {"MAX_HEALING", SqliteInterface.INTEGER},
-            {"CHANCE_TO_BLOCK", SqliteInterface.INTEGER}
+        {"TYPE", SqliteInterface.TEXT}, {"HEALTH", SqliteInterface.INTEGER}, {"MIN_DAMAGE", SqliteInterface.INTEGER},
+        {"MAX_DAMAGE", SqliteInterface.INTEGER}, {"ATTACK_SPEED", SqliteInterface.INTEGER}, {"CHANCE_TO_HIT", SqliteInterface.INTEGER},
+        {"CHANCE_TO_HEAL", SqliteInterface.INTEGER}, {"MIN_HEALING", SqliteInterface.INTEGER}, {"MAX_HEALING", SqliteInterface.INTEGER},
+        {"CHANCE_TO_BLOCK", SqliteInterface.INTEGER}
     };
 
     /**
      * @param theDungeonCharacter the DungeonCharacter that will be saved
      * @param TABLE_NAME          the name of the table
-     * @return the id location of the DungeonCharacter in that table
      */
-    static int save(final DungeonCharacter theDungeonCharacter, final String TABLE_NAME) throws SQLException {
+    static void save(final DungeonCharacter theDungeonCharacter, final String TABLE_NAME) throws SQLException {
         //establish connection
         final Connection theConnection = SqliteInterface.connectDatabase(DATABASE_PATH);
         //create a table if it does not exist
@@ -33,19 +32,17 @@ final class DungeonCharacterSqliteInterface {
         thePreparedStatement.setInt(2, theDungeonCharacter.getHealth());
         thePreparedStatement.setInt(3, theDungeonCharacter.getMinDamage());
         thePreparedStatement.setInt(4, theDungeonCharacter.getMaxDamage());
-        thePreparedStatement.setInt(5, theDungeonCharacter.getAttackSpeed());
+        thePreparedStatement.setInt(5, theDungeonCharacter.getMaxAttackSpeed());
         thePreparedStatement.setInt(6, theDungeonCharacter.getChanceToHit());
         thePreparedStatement.setInt(7, theDungeonCharacter.getChanceToHeal());
         thePreparedStatement.setInt(8, theDungeonCharacter.getMinHealing());
         thePreparedStatement.setInt(9, theDungeonCharacter.getMaxHealing());
         thePreparedStatement.setInt(10, theDungeonCharacter.getChanceToBlock());
-        // obtain the id of the save
-        final int rv = thePreparedStatement.executeUpdate();
+        // save the character into the database
+        thePreparedStatement.executeUpdate();
         // close the connections
         thePreparedStatement.close();
         theConnection.close();
-        // return the id
-        return rv;
     }
 
     /**

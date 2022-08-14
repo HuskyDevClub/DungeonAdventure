@@ -7,6 +7,7 @@ import com.griffinryan.dungeonadventure.model.heroes.Hero;
  * @author Yudong Lin (ydlin@uw.edu)
  */
 public final class DevelopmentTool {
+    static boolean canLeaveWithoutKillingAllMonsters = false;
     private static boolean invincible = false;
 
     /**
@@ -29,6 +30,9 @@ public final class DevelopmentTool {
             case "!give_vision_position" -> theHero.obtainVisionPotions(1);
             // show the entire dungeon
             case "!show_dungeon" -> System.out.println(theDungeon.toString());
+            // whether the player can leave without killing all monsters
+            case "!leave_without_killing_all_monsters" ->
+                canLeaveWithoutKillingAllMonsters = !canLeaveWithoutKillingAllMonsters;
         }
     }
 

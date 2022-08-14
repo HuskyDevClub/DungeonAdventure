@@ -42,23 +42,23 @@ public final class MonstersFactory {
         switch (theType.toLowerCase()) {
             case "ogre" -> {
                 return new Ogre(
-                        theName, OGRE_DEFAULT_INFO_ARRAY[0], OGRE_DEFAULT_INFO_ARRAY[1],
-                        OGRE_DEFAULT_INFO_ARRAY[2], OGRE_DEFAULT_INFO_ARRAY[3], OGRE_DEFAULT_INFO_ARRAY[4],
-                        OGRE_DEFAULT_INFO_ARRAY[5], OGRE_DEFAULT_INFO_ARRAY[6], OGRE_DEFAULT_INFO_ARRAY[7]
+                    theName, OGRE_DEFAULT_INFO_ARRAY[0], OGRE_DEFAULT_INFO_ARRAY[1],
+                    OGRE_DEFAULT_INFO_ARRAY[2], OGRE_DEFAULT_INFO_ARRAY[3], OGRE_DEFAULT_INFO_ARRAY[4],
+                    OGRE_DEFAULT_INFO_ARRAY[5], OGRE_DEFAULT_INFO_ARRAY[6], OGRE_DEFAULT_INFO_ARRAY[7]
                 );
             }
             case "gremlin" -> {
                 return new Gremlin(
-                        theName, GREMLIN_DEFAULT_INFO_ARRAY[0], GREMLIN_DEFAULT_INFO_ARRAY[1],
-                        GREMLIN_DEFAULT_INFO_ARRAY[2], GREMLIN_DEFAULT_INFO_ARRAY[3], GREMLIN_DEFAULT_INFO_ARRAY[4],
-                        GREMLIN_DEFAULT_INFO_ARRAY[5], GREMLIN_DEFAULT_INFO_ARRAY[6], GREMLIN_DEFAULT_INFO_ARRAY[7]
+                    theName, GREMLIN_DEFAULT_INFO_ARRAY[0], GREMLIN_DEFAULT_INFO_ARRAY[1],
+                    GREMLIN_DEFAULT_INFO_ARRAY[2], GREMLIN_DEFAULT_INFO_ARRAY[3], GREMLIN_DEFAULT_INFO_ARRAY[4],
+                    GREMLIN_DEFAULT_INFO_ARRAY[5], GREMLIN_DEFAULT_INFO_ARRAY[6], GREMLIN_DEFAULT_INFO_ARRAY[7]
                 );
             }
             case "skeleton" -> {
                 return new Skeleton(
-                        theName, SKELETON_DEFAULT_INFO_ARRAY[0], SKELETON_DEFAULT_INFO_ARRAY[1],
-                        SKELETON_DEFAULT_INFO_ARRAY[2], SKELETON_DEFAULT_INFO_ARRAY[3], SKELETON_DEFAULT_INFO_ARRAY[4],
-                        SKELETON_DEFAULT_INFO_ARRAY[5], SKELETON_DEFAULT_INFO_ARRAY[6], SKELETON_DEFAULT_INFO_ARRAY[7]
+                    theName, SKELETON_DEFAULT_INFO_ARRAY[0], SKELETON_DEFAULT_INFO_ARRAY[1],
+                    SKELETON_DEFAULT_INFO_ARRAY[2], SKELETON_DEFAULT_INFO_ARRAY[3], SKELETON_DEFAULT_INFO_ARRAY[4],
+                    SKELETON_DEFAULT_INFO_ARRAY[5], SKELETON_DEFAULT_INFO_ARRAY[6], SKELETON_DEFAULT_INFO_ARRAY[7]
                 );
             }
             default -> throw new SQLException(String.format("The monster does not have type '%s'", theType));

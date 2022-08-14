@@ -60,9 +60,9 @@ public abstract class AbstractRoom implements Serializable {
      *
      * @param thePillar the pillar to set
      */
-    public void placePillar(final Pillar thePillar) throws IllegalAccessException {
+    public void placePillar(final Pillar thePillar) {
         if (this.hasPillar()) {
-            throw new IllegalAccessException("The Pillar cannot be modified after been set.");
+            throw new IllegalStateException("The Pillar cannot be modified after been set.");
         }
         this.myPillar = thePillar;
     }
@@ -108,13 +108,13 @@ public abstract class AbstractRoom implements Serializable {
     public String toString() {
         if (!this.hasPillar()) {
             return String.format(
-                    "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
-                    this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
+                "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
+                this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
             );
         } else {
             return String.format(
-                    "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
-                    this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
+                "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
+                this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
             );
         }
     }

@@ -42,7 +42,7 @@ public class TestRooms {
         assertDoesNotThrow(() -> theEmptyRoom.placePillar(new Pillar("Abstract")));
         assertTrue(theEmptyRoom.hasPillar());
         assertEquals('A', theEmptyRoom.getFlag());
-        assertThrows(IllegalAccessException.class, () -> theEmptyRoom.placePillar(new Pillar("Magic")));
+        assertThrows(IllegalStateException.class, () -> theEmptyRoom.placePillar(new Pillar("Magic")));
         assertTrue(theEmptyRoom.hasPillar());
         assertEquals('A', theEmptyRoom.getFlag());
         assertEquals("Abstract", theEmptyRoom.pickUpPillar());

@@ -36,8 +36,9 @@ public abstract class Hero extends DungeonCharacter {
      * the skill of the Hero (the children needs to implement)
      *
      * @param theTarget the target
+     * @param theCost   the cost of using skill
      */
-    public abstract void skill(final Monster theTarget);
+    public abstract void skill(final Monster theTarget, final int theCost);
 
     /**
      * gain health positions
@@ -53,7 +54,7 @@ public abstract class Hero extends DungeonCharacter {
      *
      * @return whether 1 health position is consumed
      */
-    public boolean useHealingPotion() {
+    public boolean useOneHealingPotion() {
         if (this.myNumberOfHealingPotions > 0) {
             this.myNumberOfHealingPotions--;
             this.heal(RandomSingleton.nextInt(5, 15));
@@ -76,7 +77,7 @@ public abstract class Hero extends DungeonCharacter {
      *
      * @return whether 1 vision position is consumed
      */
-    public boolean useVisionPotion() {
+    public boolean useOneVisionPotion() {
         if (this.myNumberOfVisionPotions > 0) {
             this.myNumberOfVisionPotions--;
             return true;
@@ -90,8 +91,8 @@ public abstract class Hero extends DungeonCharacter {
     @Override
     public String toString() {
         return String.format(
-                "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d",
-                this.getName(), this.getHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions
+            "Name: %s\nHit Points: %d\nTotal Healing Potions: %d\nTotal Vision Potions: %d",
+            this.getName(), this.getHealth(), this.myNumberOfHealingPotions, this.myNumberOfVisionPotions
         );
     }
 }
