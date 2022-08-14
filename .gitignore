@@ -16,6 +16,8 @@ system/*
 # Ignore Gradle GUI config
 gradle-app.setting
 
+/**/cool-assets/*
+
 .metadata
 .metadata/*
 jdt.ls-java-project

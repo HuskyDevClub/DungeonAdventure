@@ -1,4 +1,4 @@
-package com.griffinryan.dungeonadventure.model.test;
+package com.griffinryan.dungeonadventure.model.tests;
 
 import com.griffinryan.dungeonadventure.model.MonstersFactory;
 import com.griffinryan.dungeonadventure.model.monsters.Gremlin;
@@ -25,7 +25,7 @@ final public class TestMonstersFactory {
         assertEquals(theOgre.getName(), myMonsterDummyName);
         // check if the default information has been assigned
         assertEquals(theOgre.getHealth(), 200);
-        assertEquals(theOgre.getAttackSpeed(), 2);
+        assertEquals(theOgre.getMaxAttackSpeed(), 2);
         assertEquals(theOgre.getChanceToHit(), 60);
         assertEquals(theOgre.getMinDamage(), 30);
         assertEquals(theOgre.getMaxDamage(), 60);
@@ -43,7 +43,7 @@ final public class TestMonstersFactory {
         assertEquals(theGremlin.getName(), myMonsterDummyName);
         // check if the default information has been assigned
         assertEquals(theGremlin.getHealth(), 70);
-        assertEquals(theGremlin.getAttackSpeed(), 5);
+        assertEquals(theGremlin.getMaxAttackSpeed(), 5);
         assertEquals(theGremlin.getChanceToHit(), 80);
         assertEquals(theGremlin.getMinDamage(), 15);
         assertEquals(theGremlin.getMaxDamage(), 30);
@@ -61,7 +61,7 @@ final public class TestMonstersFactory {
         assertEquals(theSkeleton.getName(), myMonsterDummyName);
         // check if the default information has been assigned
         assertEquals(theSkeleton.getHealth(), 100);
-        assertEquals(theSkeleton.getAttackSpeed(), 3);
+        assertEquals(theSkeleton.getMaxAttackSpeed(), 3);
         assertEquals(theSkeleton.getChanceToHit(), 80);
         assertEquals(theSkeleton.getMinDamage(), 30);
         assertEquals(theSkeleton.getMaxDamage(), 50);

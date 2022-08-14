@@ -1,5 +1,7 @@
 package com.griffinryan.dungeonadventure.model.rooms;
 
+import java.util.ArrayList;
+
 /**
  * Exit is a class abstracted by
  * AbstractRoom that constructs
@@ -10,7 +12,7 @@ package com.griffinryan.dungeonadventure.model.rooms;
  */
 public final class Exit extends AbstractRoom {
     public Exit() {
-        super(null, 0, 0);
+        super(new ArrayList<>(), 0, 0);
     }
 
     /**

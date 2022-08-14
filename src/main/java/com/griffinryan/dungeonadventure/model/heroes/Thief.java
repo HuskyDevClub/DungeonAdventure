@@ -1,6 +1,7 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
 
+import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
@@ -32,14 +33,17 @@ public final class Thief extends Hero {
      * the skill of the Thief
      *
      * @param theTarget the target
+     * @param theCost   the cost of using skill
      */
-    public void skill(final Monster theTarget) {
-        final int theValue = generateRandomValue(1, 100);
+    public void skill(final Monster theTarget, final int theCost) {
+        final int theValue = RandomSingleton.nextInt(1, 101);
         if (theValue < 40) {
-            this.attack(theTarget);
-            this.attack(theTarget);
+            this.attack(theTarget, 0);
+            this.attack(theTarget, theCost);
         } else if (theValue > 60) {
-            this.attack(theTarget);
+            this.attack(theTarget, theCost);
+        } else {
+            this.subtractCurrentAttackSpeed(theCost);
         }
     }
 

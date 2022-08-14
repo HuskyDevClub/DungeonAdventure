@@ -1,9 +1,11 @@
 package com.griffinryan.dungeonadventure;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.almasb.fxgl.entity.SpawnData;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
+import com.griffinryan.dungeonadventure.model.rooms.Room;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -33,7 +35,7 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  * packages found in dungeonadventure.model.
  *
  * The front-end of the application is handled by the packages
- * found in dungeonadventure.controller and dungeonadventure.engine.
+ * found in controller and engine.
  *
  * @author Griffin Ryan (glryan@uw.edu)
  * @author Yudong Lin (ydlin@uw.edu)
@@ -41,9 +43,11 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  */
 public class AdventureApp extends GameApplication {
 
-    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS, dungeon;
+    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS, dungeon, doorEntity;
 	private SpawnData doorData;
 	private PlayerComponent playerComponent;
+	private DungeonComponent dungeonComponent;
+	private RoomComponent[][] roomComponent;
 
 	/* TODO:
 	 *			-
@@ -79,7 +83,7 @@ public class AdventureApp extends GameApplication {
          /*TODO				and be set here.	*/
 		settings.setAppIcon("sprite/potion.png");
 
-		settings.setVersion("0.3");
+		settings.setVersion("0.4");
         settings.setTitle("Dungeon Adventure");
 		settings.setDeveloperMenuEnabled(true); /* press 1 */
         settings.setMainMenuEnabled(true);
@@ -138,6 +142,9 @@ public class AdventureApp extends GameApplication {
 		vars.put("east", false);
 		vars.put("west", false);
 		vars.put("south", false);
+
+		vars.put("row", 0);
+		vars.put("column", 0);
 	}
 
 	/**
@@ -153,32 +160,42 @@ public class AdventureApp extends GameApplication {
 		getGameWorld().addEntityFactory(new AdventureFactory());
 		getGameScene().setBackgroundColor(Color.color(0.2, 0.2, 0.3, 1.0));
 
-		/* 	Spawn all component entities except player.	*/
+		/* 	Spawn all component entities.	*/
 		player = spawn("Player");
 		playerComponent = player.getComponent(PlayerComponent.class);
 
 		/* Generate DungeonComponent */
 		dungeon = spawn("Dungeon");
+		dungeonComponent = dungeon.getComponent(DungeonComponent.class);
+		roomComponent = dungeonComponent.getMaze();
 
-		/*
-		 Viewport viewport = getGameScene().getViewport();
-		 viewport.setZoom(1.20);  ..etc
-		*/
+		getWorldProperties().setValue("rooms", roomComponent);
+		HashMap<String, DoorComponent> tempMap = roomComponent[0][0].getDoorComponentMap();
+
+		for(int i = 0; i < tempMap.size(); i++) {
+			if(tempMap.containsKey("doorN")) {
+				doorN = spawn("doorN");
+			}
+			if(tempMap.containsKey("doorE")) {
+				doorE = spawn("doorE");
+			}
+			if(tempMap.containsKey("doorS")) {
+				doorS = spawn("doorS");
+			}
+			if(tempMap.containsKey("doorW")) {
+				doorW = spawn("doorW");
+			}
+		}
 
 		if(!IS_NO_BACKGROUND){
 			background = spawn("Background");
 		}
+
 		if (!IS_NO_ENEMIES) {
 			enemy = spawn("Enemy");
 		}
 		if (!IS_NO_POTIONS){
 			potion = spawn("Potion");
-		}
-		if(!IS_NO_DOORS){
-			doorN = spawn("doorN");	/*	Different names */
-			doorE = spawn("doorE"); /*	for each door Entity. */
-			doorW = spawn("doorW");
-			doorS = spawn("doorS");
 		}
 
 		/* 	Add listeners for player/game values.	*/

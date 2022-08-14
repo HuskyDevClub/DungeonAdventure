@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
@@ -31,10 +32,12 @@ public final class Warrior extends Hero {
      * the skill of the Warrior
      *
      * @param theTarget the target
+     * @param theCost   the cost of using skill
      */
-    public void skill(final Monster theTarget) {
-        if (isLuckyToAct(40)) {
-            theTarget.injury(generateRandomValue(75, 175));
+    public void skill(final Monster theTarget, final int theCost) {
+        if (RandomSingleton.isSuccessful(40)) {
+            theTarget.injury(RandomSingleton.nextInt(75, 175));
         }
+        this.subtractCurrentAttackSpeed(theCost);
     }
 }

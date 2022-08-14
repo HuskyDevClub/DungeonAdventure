@@ -31,8 +31,10 @@ public final class Priestess extends Hero {
      * the skill of the Priestess
      *
      * @param theTarget the target
+     * @param theCost   the cost of using skill
      */
-    public void skill(final Monster theTarget) {
+    public void skill(final Monster theTarget, final int theCost) {
         super.selfHeal();
+        this.subtractCurrentAttackSpeed(theCost);
     }
 }

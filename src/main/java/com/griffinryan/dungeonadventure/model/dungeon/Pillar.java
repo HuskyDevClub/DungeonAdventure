@@ -9,16 +9,25 @@ import java.io.Serializable;
  * @author Yudong Lin (ydlin@uw.edu)
  */
 public final class Pillar implements Serializable {
+
+    public static final String Abstraction = "Abstraction";
+    public static final String Encapsulation = "Encapsulation";
+    public static final String Inheritance = "Inheritance";
+    public static final String Polymorphism = "Polymorphism";
+
     private final String myName;
     private boolean myHasBeenFound;
-    private int myX;
-    private int myY;
+    private int myX = 0;
+    private int myY = 0;
 
     /**
-     * @param myName the name of the Pillar
+     * @param theName the name of the Pillar
      */
-    public Pillar(final String myName) {
-        this.myName = myName;
+    public Pillar(final String theName) {
+        if (theName.isEmpty()) {
+            throw new IllegalArgumentException("The name for pillar cannot be empty");
+        }
+        this.myName = theName;
         this.myHasBeenFound = false;
     }
 
@@ -47,7 +56,7 @@ public final class Pillar implements Serializable {
     /**
      * @return the position of the room that this pillar was placed
      */
-    int[] getPos() {
+    public int[] getPos() {
         return new int[]{myX, myY};
     }
 
@@ -57,7 +66,7 @@ public final class Pillar implements Serializable {
      * @param theX the X of the room
      * @param theY the Y of the room
      */
-    void setPos(final int theX, final int theY) {
+    public void setPos(final int theX, final int theY) {
         myX = theX;
         myY = theY;
     }

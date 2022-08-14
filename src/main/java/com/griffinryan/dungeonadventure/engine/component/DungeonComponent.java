@@ -2,63 +2,58 @@ package com.griffinryan.dungeonadventure.engine.component;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.views.MinimapView;
-import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.texture.AnimatedTexture;
-import com.almasb.fxgl.texture.AnimationChannel;
-import com.almasb.fxgl.texture.Texture;
-import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
-import com.griffinryan.dungeonadventure.model.heroes.Warrior;
-import com.griffinryan.dungeonadventure.model.monsters.Ogre;
-import com.griffinryan.dungeonadventure.model.rooms.Room;
-import javafx.util.Duration;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
- * The DungeonComponent class instantiates
- * the
- * and determines the layout of the
- * dungeon's maze.
+ * The DungeonComponent class instantiates and
+ * determines the layout of the dungeon maze.
  *
  * @author Griffin Ryan (glryan@uw.edu)
- * @author Yudong Lin (ydlin@uw.edu)
- * @see Room
- * @see Ogre
+ * @see RoomComponent
  */
 public class DungeonComponent extends AbstractComponent {
 
-	private Dungeon dungeon;
-	private Ogre ogre;
-	private Warrior warrior;
-
-	private AnimatedTexture texture;
-	private Texture boundTexture;
-	private AnimationChannel idleChannel;
-
 	private MinimapView minimapView;
-	private HashMap<String, RoomComponent> dungeonMap;
-	/* TODO: 	- Make a RoomComponent
-	*  			- Store these in a HashMap in the
-	*			- constructor for this.obj
-	* 			-
-	* 			- Retrieve from the
-	* 			- Dungeon object.
-	*  */
-	private DoorComponent[] doorComponent;
-	private EnemyComponent[] enemyComponent;
-	private PlayerComponent[] playerComponent;
+	private HashMap<Integer, RoomComponent> dungeonMap;
+	private int size;
+	private RoomComponent[][] maze;
 
 	/**
 	 * DungeonComponent() is a constructor that takes different
-	 * AnimationChannel parameters to create an animated Entity.
-	 * @see Component
+	 * that creates a new randomly generated Dungeon.
+	 * Another constructed can be implemented if
+	 * the player chooses to load a save file.
+	 *
+	 * @param theSize Number of rooms in dungeon.
 	 */
-	public DungeonComponent(){
-		AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
-				4, 17, 16, Duration.seconds(0.6), 0, 3);
-		this.idleChannel = idle;
-		this.texture = new AnimatedTexture(idleChannel);
+	public DungeonComponent(int theSize){
 
-		//minimapView = new MinimapView();
+		size = theSize;
+		minimapView = new MinimapView(FXGL.getGameWorld(), FXGL.getAppWidth(),
+				FXGL.getAppWidth(), 600, 600);
+
+		/* Creates the dungeon/room HashMap */
+		maze = createMaze();
+	}
+
+	/**
+	 * Creates the initial maze using a 2D array.
+	 *
+	 * @return RoomComponent[][]
+	 * */
+	private RoomComponent[][] createMaze() {
+		maze = new RoomComponent[size/4][size/4];
+		for(int i = 0; i < maze.length; i++) {
+			for(int j = 0; j < maze.length; j++) {
+				maze[i][j] = new RoomComponent(size, i, j);
+			}
+		}
+		return maze;
+	}
+
+	public RoomComponent[][] getMaze() {
+		return maze;
 	}
 }
