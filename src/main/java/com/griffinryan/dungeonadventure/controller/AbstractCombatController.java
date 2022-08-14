@@ -19,7 +19,6 @@ public abstract class AbstractCombatController {
     // contain all the messages history
     protected final ArrayList<String> messageHistory = new ArrayList<>();
     protected Dungeon myDungeon;
-    protected boolean isPlaying = true;
 
 
     /**
@@ -44,8 +43,7 @@ public abstract class AbstractCombatController {
                 // if current room is the Exit, the player win
                 else if (myDungeon.isCurrentRoomExit()) {
                     if (myDungeon.areAllPillarsFound()) {
-                        log("Mission succeed, your find the exit and escape with all the pillars.");
-                        isPlaying = false;
+                        missionSucceed();
                     } else {
                         log("Your find the exit, but you cannot escape because you did not find all the pillars.");
                     }
@@ -116,8 +114,7 @@ public abstract class AbstractCombatController {
                 oneAttackAnother(theMonster, myDungeon.getHero(), attackCost);
             }
             if (myDungeon.getHero().getHealth() <= 0) {
-                log("Mission fail, your hero is killed by the monster.");
-                isPlaying = false;
+                missionFailed();
                 break;
             } else if (theMonster.getHealth() <= 0) {
                 log("You successfully kill the monster.");
@@ -151,5 +148,29 @@ public abstract class AbstractCombatController {
         );
     }
 
+    /**
+     * called when mission succeed
+     */
+    private void missionSucceed() {
+        log("Mission succeed, your find the exit and escape with all the pillars.");
+        stop();
+    }
+
+    /**
+     * called when mission failed
+     */
+    private void missionFailed() {
+        log("Mission fail, your hero is killed by the monster.");
+        stop();
+    }
+
+    /**
+     * end the game
+     */
+    protected void stop() {
+        System.out.println("The overview the entire dungeon:");
+        System.out.println(myDungeon.toString());
+        myDungeon = null;
+    }
 
 }

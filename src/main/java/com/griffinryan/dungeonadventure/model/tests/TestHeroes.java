@@ -42,18 +42,6 @@ public class TestHeroes {
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
-    @Test
-    void testPriestess() {
-        testTheHeroThatCannotBlock(new Priestess(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
-        ));
-        testTheHeroThatCanAlwaysBlock(new Priestess(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
-        ));
-    }
-
     private static void testTheHeroThatCannotBlock(final Hero theHero) {
         // check if the right name has been set
         assertEquals(theHero.getName(), myHeroDummyName);
@@ -189,6 +177,18 @@ public class TestHeroes {
         assertEquals(defaultChanceToHeal, theHero.getChanceToHeal());
         assertEquals(defaultMinHealing, theHero.getMinHealing());
         assertEquals(defaultMaxHealing, theHero.getMaxHealing());
+    }
+
+    @Test
+    void testPriestess() {
+        testTheHeroThatCannotBlock(new Priestess(
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
+        ));
+        testTheHeroThatCanAlwaysBlock(new Priestess(
+            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
+        ));
     }
 
     @Test

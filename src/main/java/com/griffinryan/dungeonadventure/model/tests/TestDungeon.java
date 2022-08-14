@@ -9,14 +9,12 @@ import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import com.griffinryan.dungeonadventure.model.rooms.Entrance;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDungeon {
 
     @Test
-    public void testDungeonBasicFunctionalities() throws SQLException {
+    public void testDungeonBasicFunctionalities() {
         final String theHeroName = "TheHeroIsMe";
 
         final int theAssumedX = 5;
@@ -106,7 +104,7 @@ public class TestDungeon {
     }
 
     @Test
-    public void testDungeon() throws SQLException {
+    public void testDungeon() {
         final String theHeroName = "TheHeroIsUs";
 
         final int theX = 124;

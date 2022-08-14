@@ -7,7 +7,6 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import com.griffinryan.dungeonadventure.model.rooms.*;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -44,7 +43,7 @@ public class Dungeon implements Serializable {
      * @param theWidth  the width of the Dungeon
      * @param theHeight the height of the Dungeon
      */
-    public Dungeon(final Hero theHero, final int theWidth, final int theHeight) throws SQLException {
+    public Dungeon(final Hero theHero, final int theWidth, final int theHeight) {
         this(theHero, theWidth, theHeight, theWidth / 2, theHeight / 2);
     }
 
@@ -55,7 +54,7 @@ public class Dungeon implements Serializable {
      * @param theHeroX  the x coordinate of the hero
      * @param theHeroY  the y coordinate of the hero
      */
-    public Dungeon(final Hero theHero, final int theWidth, final int theHeight, final int theHeroX, final int theHeroY) throws SQLException {
+    public Dungeon(final Hero theHero, final int theWidth, final int theHeight, final int theHeroX, final int theHeroY) {
         if (theWidth < 3 || theHeight < 3) {
             throw new IllegalArgumentException("The size of the Dungeon cannot be less than 3!");
         }

@@ -40,8 +40,6 @@ public class DungeonComponent extends AbstractComponent {
 		/* Creates the dungeon/room HashMap */
 		//maze = createMaze();
 
-		try {
-			theDungeon = new Dungeon(HeroesFactory.spawn("thief", "mike"), theWidth, theHeight, 0,0);
-		}catch (SQLException e) {}
-	}
+        theDungeon = new Dungeon(HeroesFactory.spawn("thief", "mike"), theWidth, theHeight, 0,0);
+    }
 }

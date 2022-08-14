@@ -7,8 +7,6 @@ import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import com.griffinryan.dungeonadventure.model.heroes.Warrior;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,7 +15,7 @@ public class TestHeroesFactory {
     private final static String myHeroDummyName = "dummy";
 
     @Test
-    void testDefaultWarrior() throws SQLException {
+    void testDefaultWarrior() {
         final Hero theWarrior = HeroesFactory.spawn("Warrior", myHeroDummyName);
         // check to see if the Monster return by the MonstersFactory is Gremlin
         assertTrue(theWarrior instanceof Warrior);
@@ -36,7 +34,7 @@ public class TestHeroesFactory {
     }
 
     @Test
-    void testDefaultPriestess() throws SQLException {
+    void testDefaultPriestess() {
         final Hero thePriestess = HeroesFactory.spawn("Priestess", myHeroDummyName);
         // check to see if the Monster return by the MonstersFactory is Gremlin
         assertTrue(thePriestess instanceof Priestess);
@@ -55,7 +53,7 @@ public class TestHeroesFactory {
     }
 
     @Test
-    void testDefaultThief() throws SQLException {
+    void testDefaultThief() {
         final Hero theThief = HeroesFactory.spawn("Thief", myHeroDummyName);
         // check to see if the Monster return by the MonstersFactory is Gremlin
         assertTrue(theThief instanceof Thief);
