@@ -96,6 +96,10 @@ public class AdventureApp extends GameApplication {
     }
 
 
+	public Entity getPlayer() {
+		return player;
+	}
+
 	/**
 	 * onPreInit() sets certain game settings before
 	 * the initSettings() call.
@@ -105,7 +109,7 @@ public class AdventureApp extends GameApplication {
 	@Override
 	protected void onPreInit(){
 		getSettings().setGlobalSoundVolume(IS_SOUND_ENABLED ? 2.0 : 0.0);
-		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 2.0 : 0.0);
+		getSettings().setGlobalMusicVolume(IS_SOUND_ENABLED ? 1.0 : 0.0);
 	}
 
 	/**

@@ -5,15 +5,13 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.dsl.components.ManaIntComponent;
 import com.almasb.fxgl.dsl.components.view.TextViewComponent;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.EntityFactory;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.entity.*;
 import com.almasb.fxgl.entity.component.ComponentListener;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.google.gson.Gson;
+import com.griffinryan.dungeonadventure.AdventureApp;
 import com.griffinryan.dungeonadventure.menu.HeroType;
 import com.griffinryan.dungeonadventure.menu.PlayerInfo;
 import javafx.geometry.Point2D;
@@ -125,8 +123,8 @@ public class AdventureFactory implements EntityFactory {
 
 		return FXGL.entityBuilder()
 				.type(EntityType.PLAYER)
-				.at(getRandomSpawnPoint("player")) // Set the spawn and boundary.
-				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(30, 30)))
+				.at(new Point2D(250, 250)) // Set the spawn and boundary.
+				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(20, 20)))
 				.collidable()
 				.zIndex(3)
 				.with(animatedPlayer)
@@ -145,12 +143,12 @@ public class AdventureFactory implements EntityFactory {
 	public Entity spawnEnemy(SpawnData data) {
 
 		/* Setup parameters to give to the CharacterComponent object. */
-		EnemyComponent animatedEnemy = new EnemyComponent();
+		EnemyComponent animatedEnemy = new EnemyComponent(FXGL.<AdventureApp>getAppCast().getPlayer(), 100);
 
 		var e = entityBuilder(data)
 				.type(EntityType.ENEMY)
-				.at(getRandomSpawnPoint("enemy"))
-				.bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(80, 80)))
+				.at(new Point2D(500, 500))
+				.bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(20, 20)))
 				.with(new HealthIntComponent(getWorldProperties().getInt("enemyHP")))
 				.with(new CollidableComponent(true))
 				.zIndex(1)
@@ -326,7 +324,6 @@ public class AdventureFactory implements EntityFactory {
 	 * @return Point2D
 	 */
 	private static Point2D getRandomSpawnPoint(String type){
-
 		/* return a random spawn point based on String.*/
 		if(type == "potion") {
 			return potionSpawnPoints[FXGLMath.random(0, 3)];
