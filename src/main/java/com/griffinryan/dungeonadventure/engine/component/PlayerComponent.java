@@ -38,7 +38,7 @@ public class PlayerComponent extends AbstractComponent {
 	 */
 	public PlayerComponent(){
 		int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
-		var bound = texture("sprite/front-1.png").brighter();
+		var bound = texture("sprite/front-1.png", 30, 30).brighter();
 
 		AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/front.png"),
 				4, 15, 30, Duration.seconds(0.4), 0, 3);
@@ -85,8 +85,10 @@ public class PlayerComponent extends AbstractComponent {
 	@Override
 	public void onAdded(){
 		// entity.getTransformComponent().setScaleOrigin(new Point2D(0,0));
-		entity.setScaleX(2);
-		entity.setScaleY(2);
+		//entity.setScaleX(2);
+		//entity.setScaleY(2);
+		entity.getTransformComponent().setScaleX(2);
+		entity.getTransformComponent().setScaleY(2);
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(animIdle);
 	}
@@ -140,6 +142,7 @@ public class PlayerComponent extends AbstractComponent {
 		speed = pspeed;
 		y = false;
 		getEntity().setScaleX(2);
+
 	}
 
 	/**
