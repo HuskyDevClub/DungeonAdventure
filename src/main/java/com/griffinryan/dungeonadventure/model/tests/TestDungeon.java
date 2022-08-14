@@ -140,18 +140,18 @@ public class TestDungeon {
     @Test
     public void testDungeonThrows() {
         assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, 10, 10)
+            IllegalArgumentException.class,
+            () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, 10, 10)
         );
 
         assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, -1, -1)
+            IllegalArgumentException.class,
+            () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 10, 10, -1, -1)
         );
 
         assertThrows(
-                IllegalArgumentException.class,
-                () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 2, 2, 0, 0)
+            IllegalArgumentException.class,
+            () -> new Dungeon(HeroesFactory.spawn(Warrior.class.getSimpleName(), "name"), 2, 2, 0, 0)
         );
     }
 }

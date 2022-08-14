@@ -108,13 +108,13 @@ public abstract class AbstractRoom implements Serializable {
     public String toString() {
         if (!this.hasPillar()) {
             return String.format(
-                    "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
-                    this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
+                "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
+                this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
             );
         } else {
             return String.format(
-                    "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
-                    this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
+                "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
+                this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
             );
         }
     }

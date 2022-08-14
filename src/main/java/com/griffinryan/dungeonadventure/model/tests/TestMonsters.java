@@ -26,25 +26,25 @@ public class TestMonsters {
     private static final int superWarriorDamage = 2000;
 
     private final static Warrior WeakWarrior = new Warrior(
-            myMonsterDummyName, defaultHealth, weakWarriorDamage, weakWarriorDamage, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
+        myMonsterDummyName, defaultHealth, weakWarriorDamage, weakWarriorDamage, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     private final static Warrior SuperWarrior = new Warrior(
-            myMonsterDummyName, defaultHealth, superWarriorDamage, superWarriorDamage, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
+        myMonsterDummyName, defaultHealth, superWarriorDamage, superWarriorDamage, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     private final static Warrior GodLikeWarrior = new Warrior(
-            myMonsterDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
-            100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
+        myMonsterDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
+        100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     @Test
     void testOgre() {
         testTheMonster(new Ogre(
-                myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
 
@@ -132,16 +132,16 @@ public class TestMonsters {
     @Test
     void testGremlin() {
         testTheMonster(new Gremlin(
-                myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
 
     @Test
     void testSkeleton() {
         testTheMonster(new Skeleton(
-                myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-                defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
 }

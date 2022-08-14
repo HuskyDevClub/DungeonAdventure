@@ -23,22 +23,22 @@ public class HeroesFactory {
             case "priestess" -> {
                 defaultInfoArray = HeroSqliteInterface.load(Priestess.class.getSimpleName());
                 return new Priestess(
-                        theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
-                        defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
+                    theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
+                    defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
                 );
             }
             case "thief" -> {
                 defaultInfoArray = HeroSqliteInterface.load(Thief.class.getSimpleName());
                 return new Thief(
-                        theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
-                        defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
+                    theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
+                    defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
                 );
             }
             case "warrior" -> {
                 defaultInfoArray = HeroSqliteInterface.load(Warrior.class.getSimpleName());
                 return new Warrior(
-                        theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
-                        defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
+                    theName, defaultInfoArray[0], defaultInfoArray[1], defaultInfoArray[2], defaultInfoArray[3],
+                    defaultInfoArray[4], defaultInfoArray[5], defaultInfoArray[6], defaultInfoArray[7], defaultInfoArray[8]
                 );
             }
             default -> throw new SQLException(String.format("The hero does not have type '%s'", theType));

@@ -11,10 +11,10 @@ final class DungeonCharacterSqliteInterface {
 
     private static final String DATABASE_PATH = "jdbc:sqlite:DungeonCharacters.sqlite";
     private static final String[][] INSTANCES_TYPE = {
-            {"TYPE", SqliteInterface.TEXT}, {"HEALTH", SqliteInterface.INTEGER}, {"MIN_DAMAGE", SqliteInterface.INTEGER},
-            {"MAX_DAMAGE", SqliteInterface.INTEGER}, {"ATTACK_SPEED", SqliteInterface.INTEGER}, {"CHANCE_TO_HIT", SqliteInterface.INTEGER},
-            {"CHANCE_TO_HEAL", SqliteInterface.INTEGER}, {"MIN_HEALING", SqliteInterface.INTEGER}, {"MAX_HEALING", SqliteInterface.INTEGER},
-            {"CHANCE_TO_BLOCK", SqliteInterface.INTEGER}
+        {"TYPE", SqliteInterface.TEXT}, {"HEALTH", SqliteInterface.INTEGER}, {"MIN_DAMAGE", SqliteInterface.INTEGER},
+        {"MAX_DAMAGE", SqliteInterface.INTEGER}, {"ATTACK_SPEED", SqliteInterface.INTEGER}, {"CHANCE_TO_HIT", SqliteInterface.INTEGER},
+        {"CHANCE_TO_HEAL", SqliteInterface.INTEGER}, {"MIN_HEALING", SqliteInterface.INTEGER}, {"MAX_HEALING", SqliteInterface.INTEGER},
+        {"CHANCE_TO_BLOCK", SqliteInterface.INTEGER}
     };
 
     /**

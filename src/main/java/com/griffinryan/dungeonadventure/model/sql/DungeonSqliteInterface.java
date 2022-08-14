@@ -17,7 +17,7 @@ public final class DungeonSqliteInterface {
     public static final String DATABASE_PATH = "jdbc:sqlite:save.sqlite";
     private static final String TABLE_NAME = Dungeon.class.getSimpleName();
     private static final String[][] INSTANCES_TYPE = {
-            {"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}, {"CREATED_AT", SqliteInterface.TEXT}
+        {"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}, {"CREATED_AT", SqliteInterface.TEXT}
     };
 
     /**
