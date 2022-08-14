@@ -47,7 +47,7 @@ public class DungeonMainMenu extends FXGLMenu {
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
 		if(IS_SOUND_ENABLED){
-			playAudio("drumloop.mp3");
+			playAudio("bg.mp3");
 		}
         createContent(getContentRoot());
        // new GSON();
@@ -91,10 +91,9 @@ public class DungeonMainMenu extends FXGLMenu {
         menuBox = new VBox(
                 5,
                 new MenuItem("START NEW GAME", () -> {
-					stopAudio("drumloop.mp3"); // Stops current background music.
+					//stopAudio("drumloop.mp3"); // Stops current background music.
                     play("menuSelect.mp3");
-					playAudio("chordloop.mp3"); // Starts new background music.
-					//playAudio("bg.mp3"); // Starts new background music.
+					//playAudio("chordloop.mp3"); // Starts new background music.
                     //fireNewGame();
                     chooseHero();
                 }),
@@ -110,10 +109,10 @@ public class DungeonMainMenu extends FXGLMenu {
         if (myNamesOfExistingSaves.size() > 0) {
             menuBox.getChildren().add(
                     0, new MenuItem("CONTINUE", () -> {
-                stopAudio("drumloop.mp3"); // Stops current background music.
+                //stopAudio("drumloop.mp3"); // Stops current background music.
                 play("menuSelect.mp3");
                 // Starts new background music.
-                playAudio("chordloop.mp3");
+               // playAudio("chordloop.mp3");
                 selectSave();
                     }
             )

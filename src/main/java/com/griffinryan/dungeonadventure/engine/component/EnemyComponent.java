@@ -2,7 +2,10 @@ package com.griffinryan.dungeonadventure.engine.component;
 
 import com.almasb.fxgl.dsl.FXGL;
 import javafx.geometry.Point2D;
+import com.almasb.fxgl.entity.Entity;
+
 import com.almasb.fxgl.core.math.FXGLMath;
+import com.almasb.fxgl.time.LocalTimer;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
@@ -18,14 +21,17 @@ import static com.griffinryan.dungeonadventure.engine.Config.ENEMY_MIN_SPEED;
  * @author Griffin Ryan (glryan@uw.edu)
  */
 public class EnemyComponent extends AbstractComponent {
-
+	private Point2D velocity = Point2D.ZERO;
 	private int speed;
 	private boolean y = true;
-
+	private Entity player;
+	private Entity self;
+	private LocalTimer adjustDirectionTimer = FXGL.newLocalTimer();
+	private Duration adjustDelay = Duration.seconds(1);
 	private AnimatedTexture texture;
 	private Texture boundTexture;
 	private AnimationChannel idleChannel, walkChannel, backChannel;
-
+	private int moveSpeed;
 	/**
 	 * EnemyComponent() is a constructor that takes different
 	 * AnimationChannel parameters to create an animated Entity.
@@ -33,6 +39,26 @@ public class EnemyComponent extends AbstractComponent {
 	 * @see AnimatedTexture
 	 * @see Component
 	 */
+	public EnemyComponent(Entity player, int moveSpeed) {
+		this.player = player;
+		var bound = texture("spritesheet/dungeon/game/ogre_front.png", 30, 30).brighter();
+		AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_idle_anim_f.png"),
+				4, 32, 32, Duration.seconds(0.4), 0, 3);
+		AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
+				4, 32, 32, Duration.seconds(0.4), 0, 3);
+		AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
+				4, 32, 32, Duration.seconds(0.4), 0, 3);
+
+		this.idleChannel = idle;
+		this.walkChannel = walk;
+		this.backChannel = back;
+
+		this.moveSpeed = moveSpeed;
+		this.boundTexture = bound;
+		this.texture = new AnimatedTexture(idleChannel);
+	}
+
+	/*
 	public EnemyComponent() {
 		int moveSpeed = random(ENEMY_MIN_SPEED, ENEMY_MAX_SPEED);
 		var bound = texture("sprite/enemy.png", 60, 60).brighter();
@@ -51,6 +77,7 @@ public class EnemyComponent extends AbstractComponent {
 		this.boundTexture = bound;
 		this.texture = new AnimatedTexture(idleChannel);
 	}
+*/
 
 	/**
 	 * onAdded() sets properties upon instantiation of
@@ -63,7 +90,8 @@ public class EnemyComponent extends AbstractComponent {
 		entity.getTransformComponent().setScaleOrigin(new Point2D(16, 21));
 		entity.getViewComponent().addChild(texture);
 		texture.loopAnimationChannel(idleChannel);
-
+		self = getEntity();
+		self.setScaleUniform(2);
 		getWorldProperties().setValue("enemyX", this.getEntity().getX());
 		getWorldProperties().setValue("enemyY", this.getEntity().getY());
 	}
@@ -78,37 +106,30 @@ public class EnemyComponent extends AbstractComponent {
 	 */
 	@Override
 	public void onUpdate(double tpf) {
-		/* update the position of the player. */
-		if(y != true){
-			entity.translateX(speed * tpf);
-			if (speed != 0) {
-				if (texture.getAnimationChannel() == idleChannel) {
-					texture.loopAnimationChannel(walkChannel);
-				}
-				speed = (int) (speed * 0.9);
-				if (FXGLMath.abs(speed) < 1) {
-					speed = 0;
-					texture.loopAnimationChannel(idleChannel);
-				}
-			}
-
-		} else {
-			entity.translateY(speed * tpf);
-			if (speed != 0) {
-				if (texture.getAnimationChannel() == idleChannel) {
-					texture.loopAnimationChannel(walkChannel);
-				}
-				speed = (int) (speed * 0.9);
-				if (FXGLMath.abs(speed) < 1) {
-					speed = 0;
-					texture.loopAnimationChannel(idleChannel);
-				}
-			}
-
-		}
-
+		move(tpf);
 	}
 
+	private void move(double tpf) {
+		if (adjustDirectionTimer.elapsed(adjustDelay)) {
+			adjustVelocity(tpf);
+			adjustDirectionTimer.capture();
+		}
+		self.translate(velocity);
+	}
+
+	private void adjustVelocity(double tpf) {
+		Point2D directionToPlayer = player.getCenter()
+				.subtract(self.getCenter())
+				.normalize()
+				.multiply(moveSpeed);
+
+		velocity = velocity.add(directionToPlayer).multiply(tpf);
+		if (directionToPlayer.getX() >= 0) {
+			self.setScaleX(2);
+		} else {
+			self.setScaleX(-2);
+		}
+	}
 	/**
 	 * moveRight() handles the
 	 * Entity object movement.

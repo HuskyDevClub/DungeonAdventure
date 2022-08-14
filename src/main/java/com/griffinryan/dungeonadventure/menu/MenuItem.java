@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import static com.almasb.fxgl.dsl.FXGL.getAudioPlayer;
 import static com.almasb.fxgl.dsl.FXGL.play;
 
 /**
