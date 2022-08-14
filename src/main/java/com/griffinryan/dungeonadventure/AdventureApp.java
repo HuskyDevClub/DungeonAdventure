@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.almasb.fxgl.entity.SpawnData;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
+import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.rooms.Room;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -165,6 +166,7 @@ public class AdventureApp extends GameApplication {
 		/* Generate DungeonComponent */
 		dungeon = spawn("Dungeon");
 		dungeonComponent = dungeon.getComponent(DungeonComponent.class);
+		/*
 		roomComponent = dungeonComponent.getMaze();
 
 		getWorldProperties().setValue("rooms", roomComponent);
@@ -183,6 +185,20 @@ public class AdventureApp extends GameApplication {
 			if(tempMap.containsKey("doorW")) {
 				doorW = spawn("doorW");
 			}
+		}
+		*/
+
+		if(dungeonComponent.theDungeon.canMove(Direction.UP)) {
+			doorN = spawn("doorN");
+		}
+		if(dungeonComponent.theDungeon.canMove(Direction.RIGHT)) {
+			doorE = spawn("doorE");
+		}
+		if(dungeonComponent.theDungeon.canMove(Direction.DOWN)) {
+			doorS = spawn("doorS");
+		}
+		if(dungeonComponent.theDungeon.canMove(Direction.LEFT)) {
+			doorW = spawn("doorW");
 		}
 
 		if(!IS_NO_BACKGROUND){

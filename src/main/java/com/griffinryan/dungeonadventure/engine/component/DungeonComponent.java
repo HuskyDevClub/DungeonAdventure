@@ -2,7 +2,11 @@ package com.griffinryan.dungeonadventure.engine.component;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.views.MinimapView;
+import com.griffinryan.dungeonadventure.model.HeroesFactory;
+import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
+import com.griffinryan.dungeonadventure.model.heroes.Thief;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -15,10 +19,9 @@ import java.util.LinkedHashMap;
  */
 public class DungeonComponent extends AbstractComponent {
 
-	private MinimapView minimapView;
-	private HashMap<Integer, RoomComponent> dungeonMap;
-	private int size;
-	private RoomComponent[][] maze;
+	//private MinimapView minimapView;
+
+	public static Dungeon theDungeon;
 
 	/**
 	 * DungeonComponent() is a constructor that takes different
@@ -26,34 +29,19 @@ public class DungeonComponent extends AbstractComponent {
 	 * Another constructed can be implemented if
 	 * the player chooses to load a save file.
 	 *
-	 * @param theSize Number of rooms in dungeon.
+	 * @param theWidth  the width of the dungeon.
+	 * @param theHeight the height of the dungeon.
 	 */
-	public DungeonComponent(int theSize){
+	public DungeonComponent(int theWidth, int theHeight) {
 
-		size = theSize;
-		minimapView = new MinimapView(FXGL.getGameWorld(), FXGL.getAppWidth(),
-				FXGL.getAppWidth(), 600, 600);
+		//minimapView = new MinimapView(FXGL.getGameWorld(), FXGL.getAppWidth(),
+		//		FXGL.getAppWidth(), 600, 600);
 
 		/* Creates the dungeon/room HashMap */
-		maze = createMaze();
-	}
+		//maze = createMaze();
 
-	/**
-	 * Creates the initial maze using a 2D array.
-	 *
-	 * @return RoomComponent[][]
-	 * */
-	private RoomComponent[][] createMaze() {
-		maze = new RoomComponent[size/4][size/4];
-		for(int i = 0; i < maze.length; i++) {
-			for(int j = 0; j < maze.length; j++) {
-				maze[i][j] = new RoomComponent(size, i, j);
-			}
-		}
-		return maze;
-	}
-
-	public RoomComponent[][] getMaze() {
-		return maze;
+		try {
+			theDungeon = new Dungeon(HeroesFactory.spawn("thief", "mike"), theWidth, theHeight, 0,0);
+		}catch (SQLException e) {}
 	}
 }

@@ -173,6 +173,30 @@ public class Dungeon implements Serializable {
     }
 
     /**
+     * whether you can move to a direction
+     *
+     * @param theDirection the direction towards
+     * @return whether you can or not
+     */
+    public boolean canMove(Direction theDirection) {
+        switch (theDirection) {
+            case UP -> {
+                return canMoveTo(myHeroCurrentX, myHeroCurrentY - 1);
+            }
+            case DOWN -> {
+                return canMoveTo(myHeroCurrentX, myHeroCurrentY + 1);
+            }
+            case LEFT -> {
+                return canMoveTo(myHeroCurrentX - 1, myHeroCurrentY);
+            }
+            case RIGHT -> {
+                return canMoveTo(myHeroCurrentX + 1, myHeroCurrentY);
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return String
      */
     @Override

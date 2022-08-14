@@ -7,7 +7,9 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import com.griffinryan.dungeonadventure.engine.AdventureFactory;
 import com.griffinryan.dungeonadventure.engine.component.AbstractComponent;
 import com.griffinryan.dungeonadventure.engine.component.DoorComponent;
+import com.griffinryan.dungeonadventure.engine.component.DungeonComponent;
 import com.griffinryan.dungeonadventure.engine.component.RoomComponent;
+import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import javafx.geometry.Point2D;
 
 import java.lang.reflect.Array;
@@ -42,6 +44,7 @@ public class PlayerDoorHandler extends CollisionHandler {
 		FXGL.play("stab.wav");
 		/*	Do/store damage/object calculations here!	*/
 
+		/*
 		ArrayList<Entity> list = FXGL.getGameWorld().getEntities();
 		DoorComponent temp = door.getComponent(DoorComponent.class);
 
@@ -61,6 +64,28 @@ public class PlayerDoorHandler extends CollisionHandler {
 		}
 		FXGL.getWorldProperties().setValue("row", row);
 		FXGL.getWorldProperties().setValue("column", column);
+		*/
+
+		DoorComponent temp = door.getComponent(DoorComponent.class);
+
+		System.out.println(DungeonComponent.theDungeon.getCurrentX());
+		System.out.println(DungeonComponent.theDungeon.getCurrentY());
+		System.out.println(DungeonComponent.theDungeon.getCurrentRoom().toString());
+
+		if(temp.mapKey.equalsIgnoreCase("doorN")) {
+			DungeonComponent.theDungeon.move(Direction.UP);
+		} else if(temp.mapKey.equalsIgnoreCase("doorE")) {
+			DungeonComponent.theDungeon.move(Direction.RIGHT);
+		} else if(temp.mapKey.equalsIgnoreCase("doorS")) {
+			DungeonComponent.theDungeon.move(Direction.DOWN);
+		} else if(temp.mapKey.equalsIgnoreCase("doorW")) {
+			DungeonComponent.theDungeon.move(Direction.LEFT);
+		}
+
+		System.out.println(DungeonComponent.theDungeon.getCurrentX());
+		System.out.println(DungeonComponent.theDungeon.getCurrentY());
+		System.out.println(DungeonComponent.theDungeon.getCurrentRoom().toString());
+
 
 		player.setPosition(new Point2D(FXGL.getAppWidth() - 800, FXGL.getAppHeight() - 500));
 
