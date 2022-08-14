@@ -95,9 +95,11 @@ public class AdventureApp extends GameApplication {
         });
     }
 
+
 	public Entity getPlayer() {
 		return player;
 	}
+
 	/**
 	 * onPreInit() sets certain game settings before
 	 * the initSettings() call.
