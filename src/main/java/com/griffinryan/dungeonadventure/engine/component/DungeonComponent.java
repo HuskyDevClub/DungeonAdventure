@@ -21,7 +21,7 @@ public class DungeonComponent extends AbstractComponent {
 
 	//private MinimapView minimapView;
 
-	public static Dungeon theDungeon;
+	private final Dungeon myDungeon;
 
 	/**
 	 * DungeonComponent() is a constructor that takes different
@@ -40,6 +40,10 @@ public class DungeonComponent extends AbstractComponent {
 		/* Creates the dungeon/room HashMap */
 		//maze = createMaze();
 
-        theDungeon = new Dungeon(HeroesFactory.spawn("thief", "mike"), theWidth, theHeight, 0,0);
+		myDungeon = new Dungeon(HeroesFactory.spawn("thief", "mike"), theWidth, theHeight, 0,0);
     }
+
+	public Dungeon getDungeon() {
+		return myDungeon;
+	}
 }

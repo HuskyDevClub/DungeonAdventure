@@ -1,12 +1,11 @@
 package com.griffinryan.dungeonadventure;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.almasb.fxgl.entity.SpawnData;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
-import com.griffinryan.dungeonadventure.model.rooms.Room;
+import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -146,8 +145,6 @@ public class AdventureApp extends GameApplication {
 		vars.put("west", false);
 		vars.put("south", false);
 
-		vars.put("row", 0);
-		vars.put("column", 0);
 	}
 
 	/**
@@ -170,40 +167,22 @@ public class AdventureApp extends GameApplication {
 		/* Generate DungeonComponent */
 		dungeon = spawn("Dungeon");
 		dungeonComponent = dungeon.getComponent(DungeonComponent.class);
-		/*
-		roomComponent = dungeonComponent.getMaze();
 
-		getWorldProperties().setValue("rooms", roomComponent);
-		HashMap<String, DoorComponent> tempMap = roomComponent[0][0].getDoorComponentMap();
-
-		for(int i = 0; i < tempMap.size(); i++) {
-			if(tempMap.containsKey("doorN")) {
-				doorN = spawn("doorN");
-			}
-			if(tempMap.containsKey("doorE")) {
-				doorE = spawn("doorE");
-			}
-			if(tempMap.containsKey("doorS")) {
-				doorS = spawn("doorS");
-			}
-			if(tempMap.containsKey("doorW")) {
-				doorW = spawn("doorW");
-			}
-		}
-		*/
-
-		if(dungeonComponent.theDungeon.canMove(Direction.UP)) {
-			doorN = spawn("doorN");
-		}
-		if(dungeonComponent.theDungeon.canMove(Direction.RIGHT)) {
-			doorE = spawn("doorE");
-		}
-		if(dungeonComponent.theDungeon.canMove(Direction.DOWN)) {
-			doorS = spawn("doorS");
-		}
-		if(dungeonComponent.theDungeon.canMove(Direction.LEFT)) {
-			doorW = spawn("doorW");
-		}
+		getWorldProperties().setValue("dungeonComponent_dungeon", dungeonComponent.getDungeon());
+		
+		/* Spawn doors */
+		doorN = spawn("doorN");
+		doorN.setVisible(dungeonComponent.getDungeon().canMove(Direction.UP));
+		getWorldProperties().setValue("dungeonComponent_doorN", doorN);
+		doorE = spawn("doorE");
+		doorE.setVisible(dungeonComponent.getDungeon().canMove(Direction.RIGHT));
+		getWorldProperties().setValue("dungeonComponent_doorE", doorE);
+		doorS = spawn("doorS");
+		doorS.setVisible(dungeonComponent.getDungeon().canMove(Direction.DOWN));
+		getWorldProperties().setValue("dungeonComponent_doorS", doorS);
+		doorW = spawn("doorW");
+		doorW.setVisible(dungeonComponent.getDungeon().canMove(Direction.LEFT));
+		getWorldProperties().setValue("dungeonComponent_doorW", doorW);
 
 		if(!IS_NO_BACKGROUND){
 			background = spawn("Background");
