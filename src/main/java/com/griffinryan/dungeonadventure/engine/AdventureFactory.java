@@ -121,6 +121,8 @@ public class AdventureFactory implements EntityFactory {
 					"spritesheet/dungeon/game/knight_m_run_anim_f.png");
 		}
 
+		getWorldProperties().setValue("heroType", type);
+
 		return FXGL.entityBuilder()
 				.type(EntityType.PLAYER)
 				.at(new Point2D(250, 250)) // Set the spawn and boundary.

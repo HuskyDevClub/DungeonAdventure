@@ -28,7 +28,7 @@ public abstract class AbstractHandler extends CollisionHandler {
 		/* Use the model.heroes and model.monsters packages! */
 
 		/* Set values in the Property Map here! */
-		FXGL.getWorldProperties().setValue("playerHP", 10111);
+		//FXGL.getWorldProperties().setValue("playerHP", 10111);
 		FXGL.play("coin.wav");
 	}
 }

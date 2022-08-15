@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.engine.component;
 
+import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
@@ -199,5 +200,11 @@ public class PlayerComponent extends AbstractComponent {
 	 * */
 	public Texture getBoundTexture() {
 		return boundTexture;
+	}
+
+	public static void updateHp(int value) {
+		FXGL.getWorldProperties().setValue("playerHP", value);
+		Dungeon theDungeon = FXGL.getWorldProperties().getObject("dungeonComponent_dungeon");
+		theDungeon.getHero().setHealth(value);
 	}
 }

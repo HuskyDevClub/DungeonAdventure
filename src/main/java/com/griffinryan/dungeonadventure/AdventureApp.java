@@ -125,7 +125,7 @@ public class AdventureApp extends GameApplication {
 
 		/* TODO: update with logic from model package
 		    and add values for LevelComponent. */
-		vars.put("playerHP", 100);
+		vars.put("playerHP", -1);
 		vars.put("enemyHP", 50);
 
 		vars.put("playerX", 0.0);

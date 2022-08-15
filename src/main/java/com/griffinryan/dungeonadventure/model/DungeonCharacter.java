@@ -160,6 +160,16 @@ public abstract class DungeonCharacter implements Serializable {
         return myHealth;
     }
 
+
+    /**
+     * set the current health point of the Dungeon Character
+     *
+     * @param value the health to set
+     */
+    public void setHealth(int value) {
+        myHealth = value;
+    }
+
     /**
      * get the current health point of the Dungeon Character
      *

@@ -2,6 +2,7 @@ package com.griffinryan.dungeonadventure.engine.component;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.views.MinimapView;
+import com.griffinryan.dungeonadventure.menu.HeroType;
 import com.griffinryan.dungeonadventure.model.HeroesFactory;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.heroes.Thief;
@@ -9,6 +10,8 @@ import com.griffinryan.dungeonadventure.model.heroes.Thief;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
+import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
 
 /**
  * The DungeonComponent class instantiates and
@@ -40,7 +43,12 @@ public class DungeonComponent extends AbstractComponent {
 		/* Creates the dungeon/room HashMap */
 		//maze = createMaze();
 
-		myDungeon = new Dungeon(HeroesFactory.spawn("thief", "mike"), theWidth, theHeight, 0,0);
+		HeroType selectedHeroType = getWorldProperties().getObject("heroType");
+
+		myDungeon = new Dungeon(HeroesFactory.spawn(selectedHeroType, selectedHeroType.toString()), theWidth, theHeight, 0,0);
+
+		FXGL.getWorldProperties().setValue("playerHP", myDungeon.getHero().getHealth());
+
     }
 
 	public Dungeon getDungeon() {
