@@ -33,6 +33,8 @@ public class Dungeon implements Serializable {
     private final int myMazeHeight;
     private final Pillar[] myPillars = {new Pillar(Pillar.Abstraction), new Pillar(Pillar.Encapsulation), new Pillar(Pillar.Inheritance), new Pillar(Pillar.Polymorphism)};
     private final Hero myHero;
+    private final int myExitX;
+    private final int myExitY;
     private int myHeroCurrentX;
     private int myHeroCurrentY;
 
@@ -67,6 +69,8 @@ public class Dungeon implements Serializable {
         }
         myHeroCurrentX = theHeroX;
         myHeroCurrentY = theHeroY;
+        int theExitX;
+        int theExitY;
         while (true) {
             the2dMaze2dArrayTemp = new AbstractRoom[myMazeHeight][myMazeWidth];
             for (int y = 0; y < the2dMaze2dArrayTemp.length; y++) {
@@ -89,8 +93,8 @@ public class Dungeon implements Serializable {
                     }
                 }
             }
-            final int theExitX = RandomSingleton.nextInt(theWidth - 1);
-            final int theExitY = RandomSingleton.nextInt(theHeight - 1);
+            theExitX = RandomSingleton.nextInt(theWidth - 1);
+            theExitY = RandomSingleton.nextInt(theHeight - 1);
             // set Exit and Entrance
             the2dMaze2dArrayTemp[theExitY][theExitX] = new Exit();
             the2dMaze2dArrayTemp[myHeroCurrentY][myHeroCurrentX] = new Entrance();
@@ -121,6 +125,8 @@ public class Dungeon implements Serializable {
                 }
             }
         }
+        myExitX = theExitX;
+        myExitY = theExitY;
         myMazeArray = the2dMaze2dArrayTemp;
     }
 
@@ -128,19 +134,19 @@ public class Dungeon implements Serializable {
      * @param theDirection the direction you want to move
      * @return whether you have moved or not
      */
-    public boolean move(final Direction theDirection) {
+    public boolean moveHero(final Direction theDirection) {
         switch (theDirection) {
             case UP -> {
-                return moveTo(myHeroCurrentX, myHeroCurrentY - 1);
+                return moveHeroTo(myHeroCurrentX, myHeroCurrentY - 1);
             }
             case DOWN -> {
-                return moveTo(myHeroCurrentX, myHeroCurrentY + 1);
+                return moveHeroTo(myHeroCurrentX, myHeroCurrentY + 1);
             }
             case LEFT -> {
-                return moveTo(myHeroCurrentX - 1, myHeroCurrentY);
+                return moveHeroTo(myHeroCurrentX - 1, myHeroCurrentY);
             }
             case RIGHT -> {
-                return moveTo(myHeroCurrentX + 1, myHeroCurrentY);
+                return moveHeroTo(myHeroCurrentX + 1, myHeroCurrentY);
             }
         }
         return false;
@@ -151,10 +157,10 @@ public class Dungeon implements Serializable {
      * @param theY the Y of the room that you want to move to
      * @return whether you have moved or not
      */
-    public boolean moveTo(final int theX, final int theY) {
+    public boolean moveHeroTo(final int theX, final int theY) {
         // check the coordinate to ensure that the player can move
         // which means no out of bound
-        if (this.canMoveTo(theX, theY)) {
+        if (this.canHeroMoveTo(theX, theY)) {
             myHeroCurrentX = theX;
             myHeroCurrentY = theY;
             return true;
@@ -167,7 +173,7 @@ public class Dungeon implements Serializable {
      * @param theY the Y of the room that you want to move to
      * @return boolean whether you can move to that room or not
      */
-    public boolean canMoveTo(final int theX, final int theY) {
+    public boolean canHeroMoveTo(final int theX, final int theY) {
         return 0 <= theY && theY < myMazeArray.length && 0 <= theX && theX < myMazeArray[theY].length && myMazeArray[theY][theX] != null;
     }
 
@@ -177,19 +183,19 @@ public class Dungeon implements Serializable {
      * @param theDirection the direction towards
      * @return whether you can or not
      */
-    public boolean canMove(Direction theDirection) {
+    public boolean canHeroMove(Direction theDirection) {
         switch (theDirection) {
             case UP -> {
-                return canMoveTo(myHeroCurrentX, myHeroCurrentY - 1);
+                return canHeroMoveTo(myHeroCurrentX, myHeroCurrentY - 1);
             }
             case DOWN -> {
-                return canMoveTo(myHeroCurrentX, myHeroCurrentY + 1);
+                return canHeroMoveTo(myHeroCurrentX, myHeroCurrentY + 1);
             }
             case LEFT -> {
-                return canMoveTo(myHeroCurrentX - 1, myHeroCurrentY);
+                return canHeroMoveTo(myHeroCurrentX - 1, myHeroCurrentY);
             }
             case RIGHT -> {
-                return canMoveTo(myHeroCurrentX + 1, myHeroCurrentY);
+                return canHeroMoveTo(myHeroCurrentX + 1, myHeroCurrentY);
             }
         }
         return false;
@@ -202,14 +208,14 @@ public class Dungeon implements Serializable {
     public String toString() {
         final StringBuilder theInfo = new StringBuilder();
         for (int y = 0; y < myMazeArray.length; y++) {
-            theInfo.append("[");
+            theInfo.append('[');
             for (int x = 0; x < myMazeArray[y].length; x++) {
                 if (y == myHeroCurrentY && x == myHeroCurrentX) {
-                    theInfo.append("U");
+                    theInfo.append('U');
                 } else if (myMazeArray[y][x] != null) {
                     theInfo.append(myMazeArray[y][x].getFlag());
                 } else {
-                    theInfo.append("|");
+                    theInfo.append(' ');
                 }
             }
             theInfo.append("]\n");
@@ -310,15 +316,38 @@ public class Dungeon implements Serializable {
         }
     }
 
+    /**
+     * @return the hero
+     */
     public Hero getHero() {
         return myHero;
     }
 
+    /**
+     * @return the maze width
+     */
     public int getMazeWidth() {
         return myMazeWidth;
     }
 
+    /**
+     * @return the maze height
+     */
     public int getMazeHeight() {
         return myMazeHeight;
+    }
+
+    /**
+     * @return the exit x
+     */
+    public int getExitX() {
+        return myExitX;
+    }
+
+    /**
+     * @return the exit y
+     */
+    public int getExitY() {
+        return myExitY;
     }
 }

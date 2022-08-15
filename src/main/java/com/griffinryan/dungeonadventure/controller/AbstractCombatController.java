@@ -32,21 +32,13 @@ public abstract class AbstractCombatController {
         // the player cannot leave this room without killing all monsters
         if (DevelopmentTool.canLeaveWithoutKillingAllMonsters || this.myDungeon.getCurrentRoom().getNumberOfMonsters() <= 0) {
             // check whether the hero can move to certain direction, move if the hero can
-            if (myDungeon.move(theDirection)) {
+            if (myDungeon.moveHero(theDirection)) {
                 log("Moved!");
                 // if current room is a Pit, then subtract hp from the hero
                 if (myDungeon.isCurrentRoomPit()) {
                     final int theDamage = RandomSingleton.nextInt(1, 20);
                     log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
                     myDungeon.getHero().injury(theDamage);
-                }
-                // if current room is the Exit, the player win
-                else if (myDungeon.isCurrentRoomExit()) {
-                    if (myDungeon.areAllPillarsFound()) {
-                        missionSucceed();
-                    } else {
-                        log("Your find the exit, but you cannot escape because you did not find all the pillars.");
-                    }
                 }
                 return true;
             } else {
@@ -114,7 +106,7 @@ public abstract class AbstractCombatController {
                 oneAttackAnother(theMonster, myDungeon.getHero(), attackCost);
             }
             if (myDungeon.getHero().getHealth() <= 0) {
-                missionFailed();
+                log("Your hero is killed by the monster!");
                 break;
             } else if (theMonster.getHealth() <= 0) {
                 log("You successfully kill the monster.");
@@ -146,22 +138,6 @@ public abstract class AbstractCombatController {
                 theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName()
             )
         );
-    }
-
-    /**
-     * called when mission succeed
-     */
-    private void missionSucceed() {
-        log("Mission succeed, your find the exit and escape with all the pillars.");
-        stop();
-    }
-
-    /**
-     * called when mission failed
-     */
-    private void missionFailed() {
-        log("Mission fail, your hero is killed by the monster.");
-        stop();
     }
 
     /**

@@ -38,9 +38,9 @@ public class TestDungeon {
         // test coordinate system
         assertEquals(theAssumedX, theDungeon.getCurrentX());
         assertEquals(theAssumedY, theDungeon.getCurrentY());
-        assertTrue(theDungeon.canMoveTo(theAssumedX, theAssumedY));
-        assertFalse(theDungeon.canMoveTo(-1, 0));
-        assertFalse(theDungeon.canMoveTo(10, 0));
+        assertTrue(theDungeon.canHeroMoveTo(theAssumedX, theAssumedY));
+        assertFalse(theDungeon.canHeroMoveTo(-1, 0));
+        assertFalse(theDungeon.canHeroMoveTo(10, 0));
 
         // check room
         assertTrue(theDungeon.getCurrentRoom() instanceof Entrance);
@@ -62,26 +62,26 @@ public class TestDungeon {
     }
 
     private void testMoveMethod(final Dungeon theDungeon, int theX, int theY) {
-        if (theDungeon.canMoveTo(theX, theY - 1)) {
-            theDungeon.move(Direction.UP);
+        if (theDungeon.canHeroMoveTo(theX, theY - 1)) {
+            theDungeon.moveHero(Direction.UP);
             theY--;
             assertEquals(theX, theDungeon.getCurrentX());
             assertEquals(theY, theDungeon.getCurrentY());
         }
-        if (theDungeon.canMoveTo(theX - 1, theY)) {
-            theDungeon.move(Direction.LEFT);
+        if (theDungeon.canHeroMoveTo(theX - 1, theY)) {
+            theDungeon.moveHero(Direction.LEFT);
             theX--;
             assertEquals(theX, theDungeon.getCurrentX());
             assertEquals(theY, theDungeon.getCurrentY());
         }
-        if (theDungeon.canMoveTo(theX, theY + 1)) {
-            theDungeon.move(Direction.DOWN);
+        if (theDungeon.canHeroMoveTo(theX, theY + 1)) {
+            theDungeon.moveHero(Direction.DOWN);
             theY++;
             assertEquals(theX, theDungeon.getCurrentX());
             assertEquals(theY, theDungeon.getCurrentY());
         }
-        if (theDungeon.canMoveTo(theX + 1, theY)) {
-            theDungeon.move(Direction.RIGHT);
+        if (theDungeon.canHeroMoveTo(theX + 1, theY)) {
+            theDungeon.moveHero(Direction.RIGHT);
             theX++;
             assertEquals(theX, theDungeon.getCurrentX());
             assertEquals(theY, theDungeon.getCurrentY());
@@ -89,16 +89,16 @@ public class TestDungeon {
     }
 
     private void testMoveMethodAroundEdgesIfPossible(final Dungeon theDungeon) {
-        if (theDungeon.moveTo(0, 0)) {
+        if (theDungeon.moveHeroTo(0, 0)) {
             testMoveMethod(theDungeon, 0, 0);
         }
-        if (theDungeon.moveTo(0, theDungeon.getMazeHeight())) {
+        if (theDungeon.moveHeroTo(0, theDungeon.getMazeHeight())) {
             testMoveMethod(theDungeon, 0, theDungeon.getMazeHeight());
         }
-        if (theDungeon.moveTo(theDungeon.getMazeWidth(), theDungeon.getMazeHeight())) {
+        if (theDungeon.moveHeroTo(theDungeon.getMazeWidth(), theDungeon.getMazeHeight())) {
             testMoveMethod(theDungeon, theDungeon.getMazeWidth(), theDungeon.getMazeHeight());
         }
-        if (theDungeon.moveTo(theDungeon.getMazeWidth(), 0)) {
+        if (theDungeon.moveHeroTo(theDungeon.getMazeWidth(), 0)) {
             testMoveMethod(theDungeon, theDungeon.getMazeWidth(), 0);
         }
     }

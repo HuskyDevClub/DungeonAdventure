@@ -291,4 +291,11 @@ public abstract class DungeonCharacter implements Serializable {
     public void resetCurrentAttackSpeed() {
         this.myCurrentAttackSpeed = this.myMaxAttackSpeed;
     }
+
+    /**
+     * well... the character will kill itself
+     */
+    public void suicide() {
+        this.myHealth = 0;
+    }
 }
