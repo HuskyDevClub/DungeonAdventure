@@ -5,7 +5,6 @@ import java.util.Map;
 import com.almasb.fxgl.entity.SpawnData;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
-import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -172,16 +171,16 @@ public class AdventureApp extends GameApplication {
 		
 		/* Spawn doors */
 		doorN = spawn("doorN");
-		doorN.setVisible(dungeonComponent.getDungeon().canMove(Direction.UP));
+		doorN.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.UP));
 		getWorldProperties().setValue("dungeonComponent_doorN", doorN);
 		doorE = spawn("doorE");
-		doorE.setVisible(dungeonComponent.getDungeon().canMove(Direction.RIGHT));
+		doorE.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.RIGHT));
 		getWorldProperties().setValue("dungeonComponent_doorE", doorE);
 		doorS = spawn("doorS");
-		doorS.setVisible(dungeonComponent.getDungeon().canMove(Direction.DOWN));
+		doorS.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.DOWN));
 		getWorldProperties().setValue("dungeonComponent_doorS", doorS);
 		doorW = spawn("doorW");
-		doorW.setVisible(dungeonComponent.getDungeon().canMove(Direction.LEFT));
+		doorW.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.LEFT));
 		getWorldProperties().setValue("dungeonComponent_doorW", doorW);
 
 		if(!IS_NO_BACKGROUND){
