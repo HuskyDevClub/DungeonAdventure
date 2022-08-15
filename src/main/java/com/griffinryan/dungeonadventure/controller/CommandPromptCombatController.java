@@ -10,6 +10,7 @@ import com.griffinryan.dungeonadventure.model.sql.DungeonSqliteInterface;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -240,6 +241,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     private void showCurrentStatus() {
         // print out the dungeon information - current room
         log("Current room:");
+        this.log(getRoomOverview());
         log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
         log(myDungeon.getCurrentRoom().toString());
         // print out the hero status
@@ -253,6 +255,38 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             }
             log("]");
         }
+    }
+
+    /**
+     * get the overview of current room
+     *
+     * @return a string that contain the information
+     */
+    private String getRoomOverview() {
+        final char[][] roomOverView = new char[3][3];
+        for (final char[] row:roomOverView) {
+            Arrays.fill(row, '*');
+        }
+        roomOverView[1][1] = this.myDungeon.getCurrentRoom().getFlag();
+        if (this.myDungeon.canMove(Direction.UP)) {
+            roomOverView[0][1] = '-';
+        }
+        if (this.myDungeon.canMove(Direction.DOWN)) {
+            roomOverView[2][1] = '-';
+        }
+        if (this.myDungeon.canMove(Direction.LEFT)) {
+            roomOverView[1][0] = '|';
+        }
+        if (this.myDungeon.canMove(Direction.RIGHT)) {
+            roomOverView[1][2] = '|';
+        }
+        final StringBuilder theInfo = new StringBuilder();
+        for (final char[] row:roomOverView) {
+            theInfo.append(String.valueOf(row));
+            theInfo.append('\n');
+        }
+        theInfo.deleteCharAt(theInfo.length()-1);
+        return theInfo.toString();
     }
 
     /**
