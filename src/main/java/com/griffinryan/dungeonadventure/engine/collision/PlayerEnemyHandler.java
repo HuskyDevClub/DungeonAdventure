@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
+import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
 
 import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 import static com.griffinryan.dungeonadventure.engine.EntityType.ENEMY;
@@ -40,7 +41,7 @@ public class PlayerEnemyHandler extends CollisionHandler {
 		int enemyHP = FXGL.getWorldProperties().getInt("enemyHP");
 		int resultingHP = initialHP - enemyHP;
 		int tempHP = enemyHP - initialHP;
-		FXGL.getWorldProperties().setValue("playerHP", resultingHP);
+		PlayerComponent.updateHp(resultingHP);
 		FXGL.getWorldProperties().setValue("enemyHP", tempHP);
 
 		if(tempHP <= 0){

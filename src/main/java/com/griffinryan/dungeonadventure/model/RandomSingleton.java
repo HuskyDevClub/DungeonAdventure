@@ -18,7 +18,7 @@ public final class RandomSingleton {
         if (0 > theChance || theChance > 100) {
             throw new IndexOutOfBoundsException("Chance has to be 0>= and <= 100");
         }
-        return myRANDOM.nextInt(101) <= theChance;
+        return myRANDOM.nextInt(100) < theChance;
     }
 
 

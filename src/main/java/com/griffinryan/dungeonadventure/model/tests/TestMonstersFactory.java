@@ -7,8 +7,6 @@ import com.griffinryan.dungeonadventure.model.monsters.Ogre;
 import com.griffinryan.dungeonadventure.model.monsters.Skeleton;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,7 +15,7 @@ final public class TestMonstersFactory {
     private final static String myMonsterDummyName = "dummy";
 
     @Test
-    void testDefaultOgre() throws SQLException {
+    void testDefaultOgre() {
         final Monster theOgre = MonstersFactory.spawn("Ogre", myMonsterDummyName);
         // check to see if the Monster return by the MonstersFactory is Gremlin
         assertTrue(theOgre instanceof Ogre);
@@ -35,7 +33,7 @@ final public class TestMonstersFactory {
     }
 
     @Test
-    void testDefaultGremlin() throws SQLException {
+    void testDefaultGremlin() {
         final Monster theGremlin = MonstersFactory.spawn("Gremlin", myMonsterDummyName);
         // check to see if the Monster return by the MonstersFactory is Gremlin
         assertTrue(theGremlin instanceof Gremlin);
@@ -53,7 +51,7 @@ final public class TestMonstersFactory {
     }
 
     @Test
-    void testDefaultSkeleton() throws SQLException {
+    void testDefaultSkeleton() {
         final Monster theSkeleton = MonstersFactory.spawn("Skeleton", myMonsterDummyName);
         // check to see if the Monster return by the MonstersFactory is Gremlin
         assertTrue(theSkeleton instanceof Skeleton);

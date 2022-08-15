@@ -3,6 +3,7 @@ package com.griffinryan.dungeonadventure.engine.collision;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
+import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
 
 import static com.griffinryan.dungeonadventure.engine.EntityType.PLAYER;
 import static com.griffinryan.dungeonadventure.engine.EntityType.POTION;
@@ -39,7 +40,7 @@ public class PlayerPotionHandler extends CollisionHandler {
 		int potionHP = FXGL.getWorldProperties().getInt("potionHP");
 		int resultingHP = initialHP + potionHP;
 
-		FXGL.getWorldProperties().setValue("playerHP", resultingHP);
+		PlayerComponent.updateHp(resultingHP);
 		FXGL.play("coin.wav");
 		potion.removeFromWorld();
 	}

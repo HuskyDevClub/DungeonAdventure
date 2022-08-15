@@ -16,10 +16,9 @@ public final class MonstersFactory {
     /*
      * try to cache all the data before the game loading phase
      */
-
-    static final int[] OGRE_DEFAULT_INFO_ARRAY;
-    static final int[] GREMLIN_DEFAULT_INFO_ARRAY;
-    static final int[] SKELETON_DEFAULT_INFO_ARRAY;
+    private static final int[] OGRE_DEFAULT_INFO_ARRAY;
+    private static final int[] GREMLIN_DEFAULT_INFO_ARRAY;
+    private static final int[] SKELETON_DEFAULT_INFO_ARRAY;
 
     static {
         try {
@@ -38,7 +37,7 @@ public final class MonstersFactory {
      * @param theName the name of the monster
      * @return a Monster
      */
-    public static Monster spawn(final String theType, final String theName) throws SQLException {
+    public static Monster spawn(final String theType, final String theName) {
         switch (theType.toLowerCase()) {
             case "ogre" -> {
                 return new Ogre(
@@ -61,7 +60,8 @@ public final class MonstersFactory {
                     SKELETON_DEFAULT_INFO_ARRAY[5], SKELETON_DEFAULT_INFO_ARRAY[6], SKELETON_DEFAULT_INFO_ARRAY[7]
                 );
             }
-            default -> throw new SQLException(String.format("The monster does not have type '%s'", theType));
+            default ->
+                throw new IllegalArgumentException(String.format("The monster does not have type '%s'", theType));
         }
     }
 }

@@ -40,14 +40,6 @@ public class TestMonsters {
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
-    @Test
-    void testOgre() {
-        testTheMonster(new Ogre(
-            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
-            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
-        ));
-    }
-
     private static void testTheMonster(final Monster theMonster) {
         // check if the right name has been set
         assertEquals(theMonster.getName(), myMonsterDummyName);
@@ -127,6 +119,14 @@ public class TestMonsters {
         assertEquals(defaultMaxHealing, theMonster.getMaxHealing());
         // check if hidden by useless data has been assigned
         assertEquals(0, theMonster.getChanceToBlock());
+    }
+
+    @Test
+    void testOgre() {
+        testTheMonster(new Ogre(
+            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
+        ));
     }
 
     @Test

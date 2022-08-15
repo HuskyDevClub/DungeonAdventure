@@ -45,7 +45,7 @@ public class AdventureFactory implements EntityFactory {
 	@Spawns("Dungeon")
 	public Entity spawnDungeon(SpawnData data) {
 
-		DungeonComponent dungeon = new DungeonComponent(16);
+		DungeonComponent dungeon = new DungeonComponent(10, 10);
 		/* TODO .with()
 		    Retrieve from Property Map */
 		return FXGL.entityBuilder(data)
@@ -120,6 +120,8 @@ public class AdventureFactory implements EntityFactory {
 					"spritesheet/dungeon/game/knight_m_idle_anim_f.png",
 					"spritesheet/dungeon/game/knight_m_run_anim_f.png");
 		}
+
+		getWorldProperties().setValue("heroType", type);
 
 		return FXGL.entityBuilder()
 				.type(EntityType.PLAYER)

@@ -47,20 +47,32 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     }
 
     /**
+     * print out all available commands and their functions
+     */
+    private static void showHelp() {
+        for (String _cmd : CMD_INFO.keySet()) {
+            System.out.printf("%s - %s\n", _cmd, CMD_INFO.get(_cmd));
+        }
+    }
+
+    /**
      * ask the user from input and start a new game
      */
     public void start() throws SQLException, IOException, ClassNotFoundException {
-        while (myDungeon == null) {
-            System.out.println("Please choose: new || load || delete:");
-            // process the initialization phase according to user's choice
-            switch (SCANNER.nextLine()) {
-                case "new" -> this.newGame();
-                case "load" -> this.loadProgress();
-                case "delete" -> this.removeProgress();
-                default -> System.out.println(INVALID_INPUT_MESSAGE);
+        do {
+            while (myDungeon == null) {
+                System.out.println("Please choose: new || load || delete:");
+                // process the initialization phase according to user's choice
+                switch (SCANNER.nextLine()) {
+                    case "new" -> this.newGame();
+                    case "load" -> this.loadProgress();
+                    case "delete" -> this.removeProgress();
+                    default -> System.out.println(INVALID_INPUT_MESSAGE);
+                }
             }
-        }
-        this.play();
+            this.play();
+            // if myDungeon's value has been set to null, then it means quit
+        } while (myDungeon != null);
     }
 
     /**
@@ -68,7 +80,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
      *
      * @see Dungeon
      */
-    private void newGame() throws SQLException {
+    private void newGame() {
         // ask the player to choose hero by entering a number
         int heroIndex;
         while (true) {
@@ -187,7 +199,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
         System.out.println("Your journey begins!");
         this.showCurrentStatus();
         // game main loop
-        while (isPlaying) {
+        while (myDungeon != null) {
             // ask the player to input an action
             System.out.println("Please enter action (enter 'help' for more explanations):");
             final String theInput = SCANNER.nextLine();
@@ -212,7 +224,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                         fightMonster(RandomSingleton.nextInt(Integer.max(myDungeon.getCurrentRoom().getNumberOfMonsters() - 1, 1)));
                     case "history" -> this.showMessages();
                     case "save" -> this.saveProgress();
-                    case "quit" -> isPlaying = false;
+                    case "quit" -> myDungeon = null;
                     case "help" -> showHelp();
                     default -> System.out.println(INVALID_INPUT_MESSAGE);
                 }
@@ -257,6 +269,31 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             this.showCurrentStatus();
         }
         return result;
+    }
+
+    /**
+     * now is only print message to the console, wait for the functionality to print stuff to GUI
+     *
+     * @param theMessage The message that needs to be print to the console or screen
+     */
+    @Override
+    protected void log(String theMessage) {
+        super.log(theMessage);
+        System.out.println(theMessage);
+    }
+
+    /**
+     * end the game
+     */
+    @Override
+    protected void stop() {
+        super.stop();
+        System.out.println("Retry (y/n):");
+        if (SCANNER.nextLine().equals("y")) {
+            this.newGame();
+        }
+        System.out.println("Your journey begins!");
+        this.showCurrentStatus();
     }
 
     /**
@@ -320,25 +357,5 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             }
             System.out.println("The name cannot be empty! Please try again.");
         }
-    }
-
-    /**
-     * print out all available commands and their functions
-     */
-    private static void showHelp() {
-        for (String _cmd : CMD_INFO.keySet()) {
-            System.out.printf("%s - %s\n", _cmd, CMD_INFO.get(_cmd));
-        }
-    }
-
-    /**
-     * now is only print message to the console, wait for the functionality to print stuff to GUI
-     *
-     * @param theMessage The message that needs to be print to the console or screen
-     */
-    @Override
-    protected void log(String theMessage) {
-        super.log(theMessage);
-        System.out.println(theMessage);
     }
 }
