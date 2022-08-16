@@ -124,7 +124,9 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     private void loadProgress() throws SQLException, IOException, ClassNotFoundException {
         final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
         if (theNamesOfExistingSaves.size() > 0) {
-            theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
+            theNamesOfExistingSaves.forEach(
+                (key, value) -> System.out.printf("%s - '%s' created at %s, played as %s\n", key, value[0], value[2], value[1])
+            );
             while (true) {
                 // ask the user to select a save by entering the id
                 System.out.println("Please enter save id (or entering '!back' for going back):");

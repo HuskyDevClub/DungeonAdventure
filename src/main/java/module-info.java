@@ -10,6 +10,7 @@ open module com.griffinryan.dungeonadventure {
 
     requires com.google.gson;
     requires org.junit.jupiter.api;
+    // requires annotations;
 
     exports com.griffinryan.dungeonadventure;
     exports com.griffinryan.dungeonadventure.engine;
