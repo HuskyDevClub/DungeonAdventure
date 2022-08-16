@@ -33,8 +33,7 @@ public abstract class AbstractComponent extends Component {
     protected AbstractComponent() {
 
         /* Determine spawn point for Component and mapKey.	 */
-        String key = findMapKey();
-        mapKey = key;
+        mapKey = findMapKey();
 
         /* Sets the corner of the component. */
         anchorX = setAnchorXLocation();

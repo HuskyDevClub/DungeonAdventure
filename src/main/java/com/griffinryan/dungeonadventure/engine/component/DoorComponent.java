@@ -64,10 +64,8 @@ public class DoorComponent extends AbstractComponent {
         boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
         getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
 
-        AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
+        this.idleChannel = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
             4, 17, 16, Duration.seconds(0.6), 0, 3);
-
-        this.idleChannel = idle;
         this.texture = new AnimatedTexture(idleChannel);
     }
 
@@ -105,10 +103,8 @@ public class DoorComponent extends AbstractComponent {
         boundTexture = FXGL.texture("brick.png", hitbox.getWidth(), hitbox.getHeight());
         getWorldProperties().setValue(mapKey, false); /* Set doorNSEW to false.	*/
 
-        AnimationChannel idle = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
+        this.idleChannel = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
             4, 17, 16, Duration.seconds(0.6), 0, 3);
-
-        this.idleChannel = idle;
         this.texture = new AnimatedTexture(idleChannel);
     }
 
@@ -169,8 +165,7 @@ public class DoorComponent extends AbstractComponent {
      * @return [width, length] bounds to be passed to HitBox.
      */
     public double[] getHitBoxBoundaryArray(Point2D thePoint) {
-        double[] result = {500.0, 500.0};
-        return result;
+        return new double[]{500.0, 500.0};
     }
 
     /**

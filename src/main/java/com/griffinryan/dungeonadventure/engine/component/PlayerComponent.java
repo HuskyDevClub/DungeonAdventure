@@ -108,30 +108,18 @@ public class PlayerComponent extends AbstractComponent {
         /* update the position of the player. */
         if (!y) {
             entity.translateX(speed * tpf);
-            if (speed != 0) {
-                if (texture.getAnimationChannel() == animIdle) {
-                    texture.loopAnimationChannel(animWalk);
-                }
-                speed = (int) (speed * 0.9);
-                if (FXGLMath.abs(speed) < 1) {
-                    speed = 0;
-                    texture.loopAnimationChannel(animIdle);
-                }
-            }
-
         } else {
             entity.translateY(speed * tpf);
-            if (speed != 0) {
-                if (texture.getAnimationChannel() == animIdle) {
-                    texture.loopAnimationChannel(animWalk);
-                }
-                speed = (int) (speed * 0.9);
-                if (FXGLMath.abs(speed) < 1) {
-                    speed = 0;
-                    texture.loopAnimationChannel(animIdle);
-                }
+        }
+        if (speed != 0) {
+            if (texture.getAnimationChannel() == animIdle) {
+                texture.loopAnimationChannel(animWalk);
             }
-
+            speed = (int) (speed * 0.9);
+            if (FXGLMath.abs(speed) < 1) {
+                speed = 0;
+                texture.loopAnimationChannel(animIdle);
+            }
         }
 
     }

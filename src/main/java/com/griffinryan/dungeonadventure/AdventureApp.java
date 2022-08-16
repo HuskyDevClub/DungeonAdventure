@@ -16,7 +16,7 @@ import com.griffinryan.dungeonadventure.engine.collision.PlayerPotionHandler;
 import com.griffinryan.dungeonadventure.engine.component.DungeonComponent;
 import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
 import com.griffinryan.dungeonadventure.engine.component.RoomComponent;
-import com.griffinryan.dungeonadventure.engine.utils.DungeonUtility;
+import com.griffinryan.dungeonadventure.engine.util.DungeonUtility;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import javafx.scene.input.KeyCode;
