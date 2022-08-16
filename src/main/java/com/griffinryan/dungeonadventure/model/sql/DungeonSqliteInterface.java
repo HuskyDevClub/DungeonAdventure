@@ -17,7 +17,7 @@ public final class DungeonSqliteInterface {
     public static final String DATABASE_PATH = "jdbc:sqlite:save.sqlite";
     private static final String TABLE_NAME = Dungeon.class.getSimpleName();
     private static final String[][] INSTANCES_TYPE = {
-        {"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}, {"CREATED_AT", SqliteInterface.TEXT}
+        {"NAME", SqliteInterface.TEXT}, {"DATA", SqliteInterface.BLOB}, {"HERO_TYPE", SqliteInterface.TEXT}, {"CREATED_AT", SqliteInterface.TEXT}
     };
 
     /**
@@ -48,7 +48,8 @@ public final class DungeonSqliteInterface {
         thePreparedStatement.setString(1, theName);
         // convert the object into ByteArray and save it under the DATA colum
         thePreparedStatement.setBytes(2, SqliteInterface.objectToByteArray(theDungeon));
-        thePreparedStatement.setString(3, LocalDateTime.now().toString());
+        thePreparedStatement.setString(3, theDungeon.getHero().getClass().getSimpleName());
+        thePreparedStatement.setString(4, LocalDateTime.now().toString());
         // save the data
         thePreparedStatement.executeUpdate();
         // obtain the id of the save
@@ -121,7 +122,7 @@ public final class DungeonSqliteInterface {
             final PreparedStatement thePreparedStatement = theConnection.prepareStatement(String.format("SELECT * FROM %s", TABLE_NAME));
             final ResultSet rs = thePreparedStatement.executeQuery();
             while (rs.next()) {
-                existSaves.put(rs.getString(1), new String[]{rs.getString(2), rs.getString(4)});
+                existSaves.put(rs.getString(1), new String[]{rs.getString(2), rs.getString(4), rs.getString(5)});
             }
         } catch (SQLException e) {
             // assume something must be going wrong I guess

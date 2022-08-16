@@ -17,6 +17,21 @@ public enum HeroType {
         this.text = text;
     }
 
+    public static HeroType ofValue(String theType) {
+        switch (theType.toLowerCase()) {
+            case "thief" -> {
+                return THIEF;
+            }
+            case "priestess" -> {
+                return PRIEST;
+            }
+            case "warrior" -> {
+                return WARRIOR;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return text;

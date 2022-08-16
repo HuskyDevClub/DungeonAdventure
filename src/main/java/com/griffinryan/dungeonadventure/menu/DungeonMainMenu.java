@@ -132,92 +132,76 @@ public class DungeonMainMenu extends FXGLMenu {
         Pane root = getContentRoot();
         root.getChildren().remove(menuBox);
         PlayerInfo playerInfo = new PlayerInfo();
+
+        HBox heroSelect = new HBox(20);
+        heroSelect.getChildren().add(new HeroSelect(HeroType.WARRIOR, () -> {
+            playerInfo.chosenHero = HeroType.WARRIOR;
+            gameStart(playerInfo);
+            root.getChildren().add(menuBox);
+            root.getChildren().remove(heroSelect);
+            root.getChildren().remove(root.getChildren().size() - 2);
+        }));
+        heroSelect.getChildren().add(new HeroSelect(HeroType.THIEF, () -> {
+            playerInfo.chosenHero = HeroType.THIEF;
+            gameStart(playerInfo);
+            root.getChildren().add(menuBox);
+            root.getChildren().remove(heroSelect);
+            root.getChildren().remove(root.getChildren().size() - 2);
+        }));
+        heroSelect.getChildren().add(new HeroSelect(HeroType.PRIEST, () -> {
+            playerInfo.chosenHero = HeroType.PRIEST;
+            gameStart(playerInfo);
+            root.getChildren().add(menuBox);
+            root.getChildren().remove(heroSelect);
+            root.getChildren().remove(root.getChildren().size() - 2);
+        }));
+
+        heroSelect.setTranslateX(250);
+        heroSelect.setTranslateY(400);
+
+        root.getChildren().addAll(
+            heroSelect
+        );
+
+        // implement back button
+        MenuItem theBackButton;
+        theBackButton = new MenuItem("BACK", () -> {
+            root.getChildren().add(menuBox);
+            root.getChildren().remove(heroSelect);
+            root.getChildren().remove(root.getChildren().size() - 2);
+        });
+        theBackButton.setTranslateX(250);
+        theBackButton.setTranslateY(675);
+
+        root.getChildren().add(theBackButton);
+    }
+
+    private void gameStart(PlayerInfo playerInfo) {
+        FileWriter fw;
+
         try {
-            FileWriter fw = new FileWriter("system/PlayerInfo.json");
-            PrintWriter out = new PrintWriter(fw, true);
-            Gson gson = new Gson();
-
-            HBox heroSelect = new HBox(20);
-            heroSelect.getChildren().add(new HeroSelect(HeroType.WARRIOR, () -> {
-                playerInfo.chosenHero = HeroType.WARRIOR;
-                String jsonString = gson.toJson(playerInfo);
-                out.write(jsonString);
-
-                try {
-                    out.flush();
-                    fw.flush();
-                    out.close();
-                    fw.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                fireNewGame();
-                root.getChildren().add(menuBox);
-                root.getChildren().remove(heroSelect);
-                root.getChildren().remove(root.getChildren().size() - 2);
-            }));
-
-            heroSelect.getChildren().add(new HeroSelect(HeroType.THIEF, () -> {
-                playerInfo.chosenHero = HeroType.THIEF;
-                String jsonString = gson.toJson(playerInfo);
-                out.write(jsonString);
-
-                try {
-                    out.flush();
-                    fw.flush();
-                    out.close();
-                    fw.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                fireNewGame();
-                root.getChildren().add(menuBox);
-                root.getChildren().remove(heroSelect);
-                root.getChildren().remove(root.getChildren().size() - 2);
-            }));
-            heroSelect.getChildren().add(new HeroSelect(HeroType.PRIEST, () -> {
-                    playerInfo.chosenHero = HeroType.PRIEST;
-                    String jsonString = gson.toJson(playerInfo);
-                    out.write(jsonString);
-
-                    try {
-                        out.flush();
-                        fw.flush();
-                        out.close();
-                        fw.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    fireNewGame();
-                    root.getChildren().add(menuBox);
-                    root.getChildren().remove(heroSelect);
-                    root.getChildren().remove(root.getChildren().size() - 2);
-                })
-            );
-
-            heroSelect.setTranslateX(250);
-            heroSelect.setTranslateY(400);
-
-            root.getChildren().addAll(
-                heroSelect
-            );
-
-            // implement back button
-            MenuItem theBackButton;
-            theBackButton = new MenuItem("BACK", () -> {
-                root.getChildren().add(menuBox);
-                root.getChildren().remove(heroSelect);
-                root.getChildren().remove(root.getChildren().size() - 2);
-            });
-            theBackButton.setTranslateX(250);
-            theBackButton.setTranslateY(675);
-
-            root.getChildren().add(theBackButton);
-
-
-        } catch (Exception e) {
+            fw = new FileWriter("system/PlayerInfo.json");
+        } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+        PrintWriter out = new PrintWriter(fw, true);
+        Gson gson = new Gson();
+
+        String jsonString = gson.toJson(playerInfo);
+        out.write(jsonString);
+
+        try {
+            out.flush();
+            fw.flush();
+            out.close();
+            fw.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        fireNewGame();
+
     }
 
     private void selectSave() {
@@ -235,15 +219,17 @@ public class DungeonMainMenu extends FXGLMenu {
             VBox saveSelectBox = new VBox(5);
             myNamesOfExistingSaves.forEach(
                 (key, value) -> {
-                    final LocalDateTime createdAt = LocalDateTime.parse(value[1]);
+                    final LocalDateTime createdAt = LocalDateTime.parse(value[2]);
                     saveSelectBox.getChildren().add(
                         new MenuItem(
                             String.format(
-                                "%s\n* created at\n* %s",
-                                value[0], createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                                "%s\n* created at\n* %s\n* played as %s",
+                                value[0], createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), value[1]
                             ), () -> {
                             getWorldProperties().setValue("dungeon_id", key);
-                            fireNewGame();
+                            PlayerInfo playerInfo = new PlayerInfo();
+                            playerInfo.chosenHero = HeroType.ofValue(value[1]);
+                            gameStart(playerInfo);
                         }
                         )
                     );
