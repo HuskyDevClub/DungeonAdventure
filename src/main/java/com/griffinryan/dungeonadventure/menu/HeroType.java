@@ -24,7 +24,7 @@ public enum HeroType {
 
     public List<Image> getSprites() {
         List<Image> sprites = new ArrayList<Image>();
-        switch (text){
+        switch (text) {
             case "THIEF":
                 for (int i = 0; i < 4; i++) {
                     sprites.add(FXGL.image("spritesheet/dungeon/menu/elf_m_idle_anim_f" + i + ".png", 128, 224));
@@ -32,7 +32,7 @@ public enum HeroType {
                 break;
             case "WARRIOR":
                 for (int i = 0; i < 4; i++) {
-                    sprites.add(FXGL.image("spritesheet/dungeon/menu/knight_m_idle_anim_f" + i + ".png",128, 224));
+                    sprites.add(FXGL.image("spritesheet/dungeon/menu/knight_m_idle_anim_f" + i + ".png", 128, 224));
                 }
                 break;
             case "PRIEST":

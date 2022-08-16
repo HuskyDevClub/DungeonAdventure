@@ -5,24 +5,26 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.dsl.components.ManaIntComponent;
 import com.almasb.fxgl.dsl.components.view.TextViewComponent;
-import com.almasb.fxgl.entity.*;
-import com.almasb.fxgl.entity.component.ComponentListener;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.EntityFactory;
+import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.google.gson.Gson;
 import com.griffinryan.dungeonadventure.AdventureApp;
+import com.griffinryan.dungeonadventure.engine.component.*;
 import com.griffinryan.dungeonadventure.menu.HeroType;
 import com.griffinryan.dungeonadventure.menu.PlayerInfo;
 import javafx.geometry.Point2D;
-
-import com.griffinryan.dungeonadventure.engine.component.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
+import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
 import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
 
 /**
@@ -34,323 +36,326 @@ import static com.griffinryan.dungeonadventure.engine.Config.SPAWN_DISTANCE;
  */
 public class AdventureFactory implements EntityFactory {
 
-	/**
-	 * spawnDungeon() returns an Entity
-	 * object appended with LevelComponent().
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity
-	 * @see EntityFactory
-	 */
-	@Spawns("Dungeon")
-	public Entity spawnDungeon(SpawnData data) {
+    /**
+     * A collection of potential
+     * spawnPoints in a quick Point2D[] array.
+     */
+    private static final Point2D[] potionSpawnPoints = new Point2D[]{
+        new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
+        new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, SPAWN_DISTANCE),
+        new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE),
+        new Point2D(SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE)
+    };
 
-		DungeonComponent dungeon = new DungeonComponent(10, 10);
+    /**
+     * Retrieves a random spawn point from array.
+     *
+     * @param type of Entity to get spawn point for.
+     * @return Point2D
+     */
+    private static Point2D getRandomSpawnPoint(String type) {
+        /* return a random spawn point based on String.*/
+        if (type == "potion") {
+            return potionSpawnPoints[FXGLMath.random(0, 3)];
+        } else if (type == "enemy") {
+            return potionSpawnPoints[FXGLMath.random(0, 3)];
+        } else if (type == "player") {
+            return potionSpawnPoints[FXGLMath.random(0, 3)];
+        } else if (type == "door") {
+            return potionSpawnPoints[FXGLMath.random(0, 3)];
+        }
+        return potionSpawnPoints[FXGLMath.random(0, 3)];
+    }
+
+    /**
+     * spawnDungeon() returns an Entity
+     * object appended with LevelComponent().
+     *
+     * @param data SpawnData object to use.
+     * @return Entity
+     * @see EntityFactory
+     */
+    @Spawns("Dungeon")
+    public Entity spawnDungeon(SpawnData data) {
+        DungeonComponent dungeon;
+        if (getWorldProperties().exists("dungeon_id")) {
+            dungeon = new DungeonComponent(getWorldProperties().getString("dungeon_id"));
+            getWorldProperties().remove("dungeon_id");
+        } else {
+            dungeon = new DungeonComponent(10, 10);
+        }
 		/* TODO .with()
 		    Retrieve from Property Map */
-		return FXGL.entityBuilder(data)
-				.with()
-				.with(new CollidableComponent(false))
-				.zIndex(0)
-				.with(new TextViewComponent(40, 40, "HP: "))
-				.with(new HealthIntComponent())
-				.with(new ManaIntComponent(200))
-				.with(dungeon)
-				.build();
-	}
+        return FXGL.entityBuilder(data)
+            .with()
+            .with(new CollidableComponent(false))
+            .zIndex(0)
+            .with(new TextViewComponent(40, 40, "HP: "))
+            .with(new HealthIntComponent())
+            .with(new ManaIntComponent(200))
+            .with(dungeon)
+            .build();
+    }
 
-	/**
-	 * spawnBackground() returns an Entity
-	 * object appended with LevelComponent().
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity
-	 * @see EntityFactory
-	 */
-	@Spawns("Background")
-	public Entity spawnBackground(SpawnData data){
-		return FXGL.entityBuilder(data)
-				.with(new BackgroundComponent())
-				.with(new CollidableComponent(false))
-				.zIndex(0)
-				// .with(new LevelComponent())
-				.build();
-	}
+    /**
+     * spawnBackground() returns an Entity
+     * object appended with LevelComponent().
+     *
+     * @param data SpawnData object to use.
+     * @return Entity
+     * @see EntityFactory
+     */
+    @Spawns("Background")
+    public Entity spawnBackground(SpawnData data) {
+        return FXGL.entityBuilder(data)
+            .with(new BackgroundComponent())
+            .with(new CollidableComponent(false))
+            .zIndex(0)
+            // .with(new LevelComponent())
+            .build();
+    }
 
-	/**
-	 * spawnPlayer() returns an Entity
-	 * object appended with PlayerComponent().
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity
-	 * @see PlayerComponent
-	 */
-	@Spawns("Player")
-	public Entity spawnPlayer(SpawnData data)  {
+    /**
+     * spawnPlayer() returns an Entity
+     * object appended with PlayerComponent().
+     *
+     * @param data SpawnData object to use.
+     * @return Entity
+     * @see PlayerComponent
+     */
+    @Spawns("Player")
+    public Entity spawnPlayer(SpawnData data) {
 
-		Gson gson = new Gson();
+        Gson gson = new Gson();
 
-		BufferedReader br = null;
+        BufferedReader br = null;
 
-		PlayerInfo playerObj;
-		try {
-			br = new BufferedReader(
-					new FileReader("system/PlayerInfo.json"));
-			playerObj = gson.fromJson(br, PlayerInfo.class);
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException(e);
-		}
+        PlayerInfo playerObj;
+        try {
+            br = new BufferedReader(
+                new FileReader("system/PlayerInfo.json"));
+            playerObj = gson.fromJson(br, PlayerInfo.class);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
-		//convert the json string back to object
-		HeroType type = playerObj.chosenHero;
+        //convert the json string back to object
+        HeroType type = playerObj.chosenHero;
 
 
-		PlayerComponent animatedPlayer;
+        PlayerComponent animatedPlayer;
 
-		if (type == HeroType.PRIEST) {
-			animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/wizzard_f_idle_anim_f0.png",
-					"spritesheet/dungeon/game/wizzard_f_idle_anim_f.png",
-					"spritesheet/dungeon/game/wizzard_f_run_anim_f.png");
-		} else if (type == HeroType.THIEF) {
-			animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/elft_m_idle_anim_f0.png",
-					"spritesheet/dungeon/game/elf_m_idle_anim_f.png",
-					"spritesheet/dungeon/game/elf_m_run_anim_f.png");
-		} else {
-			animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/knight_m_idle_anim_f0.png",
-					"spritesheet/dungeon/game/knight_m_idle_anim_f.png",
-					"spritesheet/dungeon/game/knight_m_run_anim_f.png");
-		}
+        if (type == HeroType.PRIEST) {
+            animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/wizzard_f_idle_anim_f0.png",
+                "spritesheet/dungeon/game/wizzard_f_idle_anim_f.png",
+                "spritesheet/dungeon/game/wizzard_f_run_anim_f.png");
+        } else if (type == HeroType.THIEF) {
+            animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/elft_m_idle_anim_f0.png",
+                "spritesheet/dungeon/game/elf_m_idle_anim_f.png",
+                "spritesheet/dungeon/game/elf_m_run_anim_f.png");
+        } else {
+            animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/knight_m_idle_anim_f0.png",
+                "spritesheet/dungeon/game/knight_m_idle_anim_f.png",
+                "spritesheet/dungeon/game/knight_m_run_anim_f.png");
+        }
 
-		getWorldProperties().setValue("heroType", type);
+        getWorldProperties().setValue("heroType", type);
 
-		return FXGL.entityBuilder()
-				.type(EntityType.PLAYER)
-				.at(new Point2D(250, 250)) // Set the spawn and boundary.
-				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(20, 20)))
-				.collidable()
-				.zIndex(3)
-				.with(animatedPlayer)
-				.build();
-	}
+        return FXGL.entityBuilder()
+            .type(EntityType.PLAYER)
+            .at(new Point2D(250, 250)) // Set the spawn and boundary.
+            .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(20, 20)))
+            .collidable()
+            .zIndex(3)
+            .with(animatedPlayer)
+            .build();
+    }
 
-	/**
-	 * spawnEnemy() returns an Entity
-	 * object appended with EnemyComponent().
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity
-	 * @see EnemyComponent
-	 */
-	@Spawns("Enemy")
-	public Entity spawnEnemy(SpawnData data) {
+    /**
+     * spawnEnemy() returns an Entity
+     * object appended with EnemyComponent().
+     *
+     * @param data SpawnData object to use.
+     * @return Entity
+     * @see EnemyComponent
+     */
+    @Spawns("Enemy")
+    public Entity spawnEnemy(SpawnData data) {
 
-		/* Setup parameters to give to the CharacterComponent object. */
-		EnemyComponent animatedEnemy = new EnemyComponent(FXGL.<AdventureApp>getAppCast().getPlayer(), 100);
+        /* Setup parameters to give to the CharacterComponent object. */
+        EnemyComponent animatedEnemy = new EnemyComponent(FXGL.<AdventureApp>getAppCast().getPlayer(), 100);
 
-		var e = entityBuilder(data)
-				.type(EntityType.ENEMY)
-				.at(new Point2D(500, 500))
-				.bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(20, 20)))
-				.with(new HealthIntComponent(getWorldProperties().getInt("enemyHP")))
-				.with(new CollidableComponent(true))
-				.zIndex(1)
-				.with(animatedEnemy)
-				.build();
-		e.setReusable(true);
+        var e = entityBuilder(data)
+            .type(EntityType.ENEMY)
+            .at(new Point2D(500, 500))
+            .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(20, 20)))
+            .with(new HealthIntComponent(getWorldProperties().getInt("enemyHP")))
+            .with(new CollidableComponent(true))
+            .zIndex(1)
+            .with(animatedEnemy)
+            .build();
+        e.setReusable(true);
 
-		return e;
-	}
+        return e;
+    }
 
-	/**
-	 * spawnPotion() returns an Entity
-	 * object appended with PotionComponent().
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity
-	 * @see PotionComponent
-	 */
-	@Spawns("Potion")
-	public Entity spawnPotion(SpawnData data){
+    /**
+     * spawnPotion() returns an Entity
+     * object appended with PotionComponent().
+     *
+     * @param data SpawnData object to use.
+     * @return Entity
+     * @see PotionComponent
+     */
+    @Spawns("Potion")
+    public Entity spawnPotion(SpawnData data) {
 
-		/* Setup parameters to give to the CharacterComponent object. */
+        /* Setup parameters to give to the CharacterComponent object. */
 
-		PotionComponent animatedPotion = new PotionComponent();
+        PotionComponent animatedPotion = new PotionComponent();
 
-		return FXGL.entityBuilder()
-				.type(EntityType.POTION)
-				.at(getRandomSpawnPoint("potion"))
-				.bbox(new HitBox(new Point2D(0,0), BoundingShape.box(80, 80)))
-				.with(animatedPotion)
-				.with(new CollidableComponent(true))
-				.zIndex(2)
-				.build();
-	}
+        return FXGL.entityBuilder()
+            .type(EntityType.POTION)
+            .at(getRandomSpawnPoint("potion"))
+            .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(80, 80)))
+            .with(animatedPotion)
+            .with(new CollidableComponent(true))
+            .zIndex(2)
+            .build();
+    }
 
-	/**
-	 * spawnDoor() returns an Entity
-	 * object appended with DoorComponent.
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity north side door
-	 * @see DoorComponent
-	 * */
-	@Spawns("door")
-	public Entity spawnDoor(SpawnData data){
+    /**
+     * spawnDoor() returns an Entity
+     * object appended with DoorComponent.
+     *
+     * @param data SpawnData object to use.
+     * @return Entity north side door
+     * @see DoorComponent
+     */
+    @Spawns("door")
+    public Entity spawnDoor(SpawnData data) {
 
-		DoorComponent door = new DoorComponent();
+        DoorComponent door = new DoorComponent();
 
-		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
-		data = new SpawnData(curDoorAnchor);
+        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        data = new SpawnData(curDoorAnchor);
 
-		var d = FXGL.entityBuilder()
-				.type(EntityType.DOOR)
-				.at(curDoorAnchor)
-				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
-				.with(door)
-				.collidable()
-				.zIndex(8) // same as player
-				.build();
-		d.setReusable(true);
+        var d = FXGL.entityBuilder()
+            .type(EntityType.DOOR)
+            .at(curDoorAnchor)
+            .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
+            .with(door)
+            .collidable()
+            .zIndex(8) // same as player
+            .build();
+        d.setReusable(true);
 
-		return d;
-	}
+        return d;
+    }
 
-	/**
-	 * spawnDoor() returns an Entity
-	 * object appended with DoorComponent.
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity north side door
-	 * @see DoorComponent
-	 * */
-	@Spawns("doorN")
-	public Entity spawnNorthDoor(SpawnData data){
+    /**
+     * spawnDoor() returns an Entity
+     * object appended with DoorComponent.
+     *
+     * @param data SpawnData object to use.
+     * @return Entity north side door
+     * @see DoorComponent
+     */
+    @Spawns("doorN")
+    public Entity spawnNorthDoor(SpawnData data) {
 
-		getWorldProperties().setValue("doorN", true);
-		DoorComponent door = new DoorComponent();
+        getWorldProperties().setValue("doorN", true);
+        DoorComponent door = new DoorComponent();
 
-		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
-		data = new SpawnData(curDoorAnchor);
+        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        data = new SpawnData(curDoorAnchor);
 
-		return FXGL.entityBuilder()
-				.type(EntityType.DOOR)
-				.at(curDoorAnchor)
-				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
-				.with(door)
-				.collidable()
-				.zIndex(8) // same as player
-				.build();
-	}
+        return FXGL.entityBuilder()
+            .type(EntityType.DOOR)
+            .at(curDoorAnchor)
+            .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
+            .with(door)
+            .collidable()
+            .zIndex(8) // same as player
+            .build();
+    }
 
-	/**
-	 * spawnDoor() returns an Entity
-	 * object appended with DoorComponent.
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity north side door
-	 * @see DoorComponent
-	 * */
-	@Spawns("doorS")
-	public Entity spawnSouthDoor(SpawnData data){
-		getWorldProperties().setValue("doorS", true);
+    /**
+     * spawnDoor() returns an Entity
+     * object appended with DoorComponent.
+     *
+     * @param data SpawnData object to use.
+     * @return Entity north side door
+     * @see DoorComponent
+     */
+    @Spawns("doorS")
+    public Entity spawnSouthDoor(SpawnData data) {
+        getWorldProperties().setValue("doorS", true);
 
-		DoorComponent door = new DoorComponent();
-		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        DoorComponent door = new DoorComponent();
+        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 
-		return FXGL.entityBuilder()
-				.type(EntityType.DOOR)
-				.at(curDoorAnchor)
-				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
-				.with(door)
-				.with(new CollidableComponent(true))
-				.zIndex(8)
-				.build();
-	}
+        return FXGL.entityBuilder()
+            .type(EntityType.DOOR)
+            .at(curDoorAnchor)
+            .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
+            .with(door)
+            .with(new CollidableComponent(true))
+            .zIndex(8)
+            .build();
+    }
 
-	/**
-	 * spawnDoor() returns an Entity
-	 * object appended with DoorComponent.
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity north side door
-	 * @see DoorComponent
-	 * */
-	@Spawns("doorE")
-	public Entity spawnEastDoor(SpawnData data){
-		getWorldProperties().setValue("doorE", true);
+    /**
+     * spawnDoor() returns an Entity
+     * object appended with DoorComponent.
+     *
+     * @param data SpawnData object to use.
+     * @return Entity north side door
+     * @see DoorComponent
+     */
+    @Spawns("doorE")
+    public Entity spawnEastDoor(SpawnData data) {
+        getWorldProperties().setValue("doorE", true);
 
-		DoorComponent door = new DoorComponent();
-		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
-		HitBox h = door.getHitBox();
+        DoorComponent door = new DoorComponent();
+        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        HitBox h = door.getHitBox();
 
-		return FXGL.entityBuilder()
-				.type(EntityType.DOOR)
-				.at(curDoorAnchor)
-				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
-				.with(door)
-				.with(new CollidableComponent(true))
-				.zIndex(8)
-				.build();
-	}
+        return FXGL.entityBuilder()
+            .type(EntityType.DOOR)
+            .at(curDoorAnchor)
+            .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
+            .with(door)
+            .with(new CollidableComponent(true))
+            .zIndex(8)
+            .build();
+    }
 
-	/**
-	 * spawnDoor() returns an Entity
-	 * object appended with DoorComponent.
-	 *
-	 * @param data SpawnData object to use.
-	 * @return Entity north side door
-	 * @see DoorComponent
-	 * */
-	@Spawns("doorW")
-	public Entity spawnWestDoor(SpawnData data){
-		getWorldProperties().setValue("doorW", true);
+    /**
+     * spawnDoor() returns an Entity
+     * object appended with DoorComponent.
+     *
+     * @param data SpawnData object to use.
+     * @return Entity north side door
+     * @see DoorComponent
+     */
+    @Spawns("doorW")
+    public Entity spawnWestDoor(SpawnData data) {
+        getWorldProperties().setValue("doorW", true);
 
-		DoorComponent door = new DoorComponent();
-		Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
-		HitBox h = door.getHitBox();
+        DoorComponent door = new DoorComponent();
+        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        HitBox h = door.getHitBox();
 
-		return FXGL.entityBuilder()
-				.type(EntityType.DOOR)
-				.at(curDoorAnchor)
-				.bbox(new HitBox(new Point2D(0.0,0.0), BoundingShape.box(80, 80)))
-				.with(door)
-				.with(new CollidableComponent(true))
-				.zIndex(8)
-				.build();
-	}
-
-	/**
-	 * Retrieves a random spawn point from array.
-	 *
-	 * @param type of Entity to get spawn point for.
-	 * @return Point2D
-	 */
-	private static Point2D getRandomSpawnPoint(String type){
-		/* return a random spawn point based on String.*/
-		if(type == "potion") {
-			return potionSpawnPoints[FXGLMath.random(0, 3)];
-		} else if(type == "enemy") {
-			return potionSpawnPoints[FXGLMath.random(0, 3)];
-		} else if(type == "player") {
-			return potionSpawnPoints[FXGLMath.random(0, 3)];
-		} else if(type == "door") {
-			return potionSpawnPoints[FXGLMath.random(0, 3)];
-		}
-		return potionSpawnPoints[FXGLMath.random(0, 3)];
-	}
-
-	/**
-	 * A collection of potential
-	 * spawnPoints in a quick Point2D[] array.
-	 *
-	 */
-	private static final Point2D[] potionSpawnPoints = new Point2D[] {
-			new Point2D(SPAWN_DISTANCE, SPAWN_DISTANCE),
-			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, SPAWN_DISTANCE),
-			new Point2D(FXGL.getAppWidth() - SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE),
-			new Point2D(SPAWN_DISTANCE, FXGL.getAppHeight() - SPAWN_DISTANCE)
-	};
-
+        return FXGL.entityBuilder()
+            .type(EntityType.DOOR)
+            .at(curDoorAnchor)
+            .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
+            .with(door)
+            .with(new CollidableComponent(true))
+            .zIndex(8)
+            .build();
+    }
 
 
 }
