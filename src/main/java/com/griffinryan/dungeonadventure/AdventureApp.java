@@ -2,6 +2,7 @@ package com.griffinryan.dungeonadventure;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.app.MenuItem;
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.dsl.FXGL;
@@ -17,12 +18,14 @@ import com.griffinryan.dungeonadventure.engine.component.DungeonComponent;
 import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
 import com.griffinryan.dungeonadventure.engine.component.RoomComponent;
 import com.griffinryan.dungeonadventure.engine.util.DungeonUtility;
+import com.griffinryan.dungeonadventure.menu.CustomGameMenu;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.EnumSet;
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -90,7 +93,13 @@ public class AdventureApp extends GameApplication {
         settings.setTitle("Dungeon Adventure");
         settings.setDeveloperMenuEnabled(true); /* press 1 */
         settings.setMainMenuEnabled(true);
+        settings.setEnabledMenuItems(EnumSet.allOf(MenuItem.class));
         settings.setSceneFactory(new SceneFactory() {
+            @Override
+            public FXGLMenu newGameMenu() {
+                return new CustomGameMenu();
+            }
+
             @Override
             public FXGLMenu newMainMenu() {
                 return new DungeonMainMenu();
