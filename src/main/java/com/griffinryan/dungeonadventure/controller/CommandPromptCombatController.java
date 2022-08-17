@@ -10,6 +10,7 @@ import com.griffinryan.dungeonadventure.model.sql.DungeonSqliteInterface;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -123,7 +124,9 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     private void loadProgress() throws SQLException, IOException, ClassNotFoundException {
         final HashMap<String, String[]> theNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
         if (theNamesOfExistingSaves.size() > 0) {
-            theNamesOfExistingSaves.forEach((key, value) -> System.out.printf("%s - '%s' created at %s\n", key, value[0], value[1]));
+            theNamesOfExistingSaves.forEach(
+                (key, value) -> System.out.printf("%s - '%s' created at %s, played as %s\n", key, value[0], value[2], value[1])
+            );
             while (true) {
                 // ask the user to select a save by entering the id
                 System.out.println("Please enter save id (or entering '!back' for going back):");
@@ -203,7 +206,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             // ask the player to input an action
             System.out.println("Please enter action (enter 'help' for more explanations):");
             final String theInput = SCANNER.nextLine();
-            // process use choice
+            /* process player choice */
             if (!theInput.startsWith("!")) {
                 switch (theInput) {
                     case "up" -> move(Direction.UP);
@@ -229,7 +232,28 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                     default -> System.out.println(INVALID_INPUT_MESSAGE);
                 }
             } else {
-                DevelopmentTool.execute(theInput, myDungeon, myDungeon.getHero());
+                DevelopmentTool.execute(theInput, myDungeon);
+            }
+            /* check win and lose conditions */
+            if (myDungeon != null) {
+                // check if hero is dead
+                if (myDungeon.getHero().getHealth() <= 0) {
+                    // if yes, then mission failed
+                    log("Mission fail... Good luck next time!");
+                    stop();
+                }
+                // if current room is the Exit
+                else if (myDungeon.isCurrentRoomExit()) {
+                    // if the player find all Pillars
+                    if (myDungeon.areAllPillarsFound()) {
+                        // if yes, then mission succeed
+                        log("Mission succeed, your find the exit and escape with all the pillars.");
+                        stop();
+                    } else {
+                        // if no, then ask the player to continue searching for all pillars.
+                        log("Your find the exit, but you cannot escape because you did not find all the pillars.");
+                    }
+                }
             }
         }
     }
@@ -240,6 +264,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     private void showCurrentStatus() {
         // print out the dungeon information - current room
         log("Current room:");
+        this.log(getRoomOverview());
         log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
         log(myDungeon.getCurrentRoom().toString());
         // print out the hero status
@@ -253,6 +278,38 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             }
             log("]");
         }
+    }
+
+    /**
+     * get the overview of current room
+     *
+     * @return a string that contain the information
+     */
+    private String getRoomOverview() {
+        final char[][] roomOverView = new char[3][3];
+        for (final char[] row : roomOverView) {
+            Arrays.fill(row, '*');
+        }
+        roomOverView[1][1] = this.myDungeon.getCurrentRoom().getFlag();
+        if (this.myDungeon.canHeroMove(Direction.UP)) {
+            roomOverView[0][1] = '-';
+        }
+        if (this.myDungeon.canHeroMove(Direction.DOWN)) {
+            roomOverView[2][1] = '-';
+        }
+        if (this.myDungeon.canHeroMove(Direction.LEFT)) {
+            roomOverView[1][0] = '|';
+        }
+        if (this.myDungeon.canHeroMove(Direction.RIGHT)) {
+            roomOverView[1][2] = '|';
+        }
+        final StringBuilder theInfo = new StringBuilder();
+        for (final char[] row : roomOverView) {
+            theInfo.append(String.valueOf(row));
+            theInfo.append('\n');
+        }
+        theInfo.deleteCharAt(theInfo.length() - 1);
+        return theInfo.toString();
     }
 
     /**
@@ -291,9 +348,9 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
         System.out.println("Retry (y/n):");
         if (SCANNER.nextLine().equals("y")) {
             this.newGame();
+            System.out.println("Your journey begins!");
+            this.showCurrentStatus();
         }
-        System.out.println("Your journey begins!");
-        this.showCurrentStatus();
     }
 
     /**

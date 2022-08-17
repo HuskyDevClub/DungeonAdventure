@@ -1,16 +1,15 @@
 package com.griffinryan.dungeonadventure.engine;
 
 /**
- *
  * @author Griffin Ryan (glryan@uw.edu)
  */
 public enum EntityType {
-	ENEMY, PLAYER, POTION,
+    ENEMY, PLAYER, POTION,
 
-	LEVEL, BACKGROUND,
+    LEVEL, BACKGROUND,
 
-	DOOR, ROOM, DUNGEON,
-	DOORN, DOORS, DOORW, DOORE
+    DOOR, ROOM, DUNGEON,
+    DOORN, DOORS, DOORW, DOORE
 
-	// PARTICLE, GRID, MAZE
+    // PARTICLE, GRID, MAZE
 }

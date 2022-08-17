@@ -1,8 +1,5 @@
 package com.griffinryan.dungeonadventure.menu;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.texture.AnimatedTexture;
-import com.almasb.fxgl.texture.AnimationChannel;
 import javafx.animation.Animation;
 import javafx.animation.FillTransition;
 import javafx.animation.Transition;
@@ -21,26 +18,23 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.almasb.fxgl.dsl.FXGL.animationBuilder;
 import static com.almasb.fxgl.dsl.FXGL.play;
 
 public class HeroSelect extends StackPane {
     HeroSelect(HeroType type, Runnable action) {
         LinearGradient gradient = new LinearGradient(
-                0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE,
-                new Stop(0.1, Color.web("black", 0.75)),
-                new Stop(1.0, Color.web("black", 0.15))
+            0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE,
+            new Stop(0.1, Color.web("black", 0.75)),
+            new Stop(1.0, Color.web("black", 0.15))
         );
         Rectangle bg0 = new Rectangle(250, 250, gradient);
         Rectangle bg1 = new Rectangle(250, 250, Color.web("black", 0.2));
 
         FillTransition ft = new FillTransition(Duration.seconds(0.6),
-                bg1, Color.web("black", 0.2), Color.web("white", 0.3));
+            bg1, Color.web("black", 0.2), Color.web("white", 0.3));
 
         ft.setAutoReverse(true);
         ft.setCycleCount(Integer.MAX_VALUE);
@@ -59,7 +53,7 @@ public class HeroSelect extends StackPane {
 
             @Override
             protected void interpolate(double fraction) {
-                int index = (int) (fraction*(images.size()-1));
+                int index = (int) (fraction * (images.size() - 1));
                 imageView.setImage(images.get(index));
             }
         };
@@ -88,19 +82,19 @@ public class HeroSelect extends StackPane {
         //line
         Rectangle line = new Rectangle(5, 250);
         line.widthProperty().bind(
-                Bindings.when(hoverProperty())
-                        .then(8).otherwise(5)
+            Bindings.when(hoverProperty())
+                .then(8).otherwise(5)
         );
         line.fillProperty().bind(
-                Bindings.when(hoverProperty())
-                        .then(Color.RED).otherwise(Color.GRAY)
+            Bindings.when(hoverProperty())
+                .then(Color.RED).otherwise(Color.GRAY)
         );
 
         Text text = new Text(type.toString());
         text.setFont(Font.font(22.0));
         text.fillProperty().bind(
-                Bindings.when(hoverProperty())
-                        .then(Color.WHITE).otherwise(Color.GRAY)
+            Bindings.when(hoverProperty())
+                .then(Color.WHITE).otherwise(Color.GRAY)
         );
 
         setOnMouseClicked(e -> action.run());
