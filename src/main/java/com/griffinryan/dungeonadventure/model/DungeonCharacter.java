@@ -113,8 +113,20 @@ public abstract class DungeonCharacter implements Serializable {
         }
         this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || RandomSingleton.isSuccessful(this.getChanceToBlock());
         if (!this.myIsLastAttackBlocked) {
-            this.myHealth = Integer.max(this.myHealth - damage, 0);
+            this.reduceHealth(damage);
         }
+    }
+
+    /**
+     * reduce a certain amount of health
+     * unlike injury(), this method will not be affected by anything
+     * it assumes who calls this method will know what he is doing
+     * otherwise, do use it!
+     *
+     * @param damage the damage that will be taken away
+     */
+    public void reduceHealth(final int damage) {
+        this.myHealth = Integer.max(this.myHealth - damage, 0);
     }
 
     /**

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SuppressWarnings("DuplicatedCode")
 public class TestHeroes {
 
     private final static String myHeroDummyName = "dummy";

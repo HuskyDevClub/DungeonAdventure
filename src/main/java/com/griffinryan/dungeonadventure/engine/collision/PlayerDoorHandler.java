@@ -40,7 +40,7 @@ public class PlayerDoorHandler extends CollisionHandler {
             Dungeon theDungeon = FXGL.getWorldProperties().getObject("dungeonComponent_dungeon");
             System.out.println(theDungeon.getCurrentX());
             System.out.println(theDungeon.getCurrentY());
-            System.out.println(theDungeon.getCurrentRoom().toString());
+            System.out.println(theDungeon.getCurrentRoom().getInfo());
 
             DoorComponent temp = door.getComponent(DoorComponent.class);
 
@@ -56,7 +56,7 @@ public class PlayerDoorHandler extends CollisionHandler {
 
             System.out.println(theDungeon.getCurrentX());
             System.out.println(theDungeon.getCurrentY());
-            System.out.println(theDungeon.getCurrentRoom().toString());
+            System.out.println(theDungeon.getCurrentRoom().getInfo());
 
 
             player.setPosition(new Point2D(FXGL.getAppWidth() - 800, FXGL.getAppHeight() - 500));

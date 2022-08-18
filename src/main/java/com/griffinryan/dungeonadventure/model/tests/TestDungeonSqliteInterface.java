@@ -28,7 +28,6 @@ public class TestDungeonSqliteInterface {
 
         // save the Dungeon and get the id of the save
         final String saveId = DungeonSqliteInterface.save(theSaveName, theDungeon);
-        System.out.println(saveId);
 
         // verify that the data has been saved into the database
         final HashMap<String, String[]> nameOfSaves = DungeonSqliteInterface.getNamesOfExistingSaves();

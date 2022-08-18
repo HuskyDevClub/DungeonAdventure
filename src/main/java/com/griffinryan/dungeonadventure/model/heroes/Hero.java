@@ -5,9 +5,7 @@ import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
- * Hero is the parent object
- * that abstracts in the model.heroes
- * and model.monsters packages.
+ * Hero is the parent class of all heroes
  *
  * @author Yudong Lin (ydlin@uw.edu)
  * @see DungeonCharacter

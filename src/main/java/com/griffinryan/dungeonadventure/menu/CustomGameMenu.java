@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.function.Consumer;
 
-import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.localize;
 
 
 public class CustomGameMenu extends FXGLDefaultMenu {
