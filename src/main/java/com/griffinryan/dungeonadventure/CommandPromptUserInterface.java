@@ -1,5 +1,7 @@
-package com.griffinryan.dungeonadventure.controller;
+package com.griffinryan.dungeonadventure;
 
+import com.griffinryan.dungeonadventure.controller.AbstractCombatController;
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.HeroesFactory;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
@@ -17,7 +19,7 @@ import java.util.Scanner;
 /**
  * @author Yudong Lin (ydlin@uw.edu)
  */
-public final class CommandPromptCombatController extends AbstractCombatController {
+public final class CommandPromptUserInterface extends AbstractCombatController {
 
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final String INVALID_INPUT_MESSAGE = "Invalid input, please try again.";
@@ -26,16 +28,16 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
         put("down", "going downward");
         put("left", "going left");
         put("right", "going right");
-        put("php", "picks up all healing potions in current room");
+        put("php", "picks up all healing potion(s) in current room");
         put("uhp", "use 1 healing potion");
-        put("pvp", "picks up all vision potions in current room");
+        put("pvp", "picks up all vision potion(s) in current room");
         put("uvp", "use 1 vision potion");
         put("pp", "(try to) pick up the pillar located in this room");
-        put("auto battle", "fight all monster(s) inside the dungeon automatically");
+        put("auto battle", "fight all monster(s) in current room automatically");
         put("battle monster", "manually battle one monster");
         put("history", "show all the messages");
         put("save", "save the current progress");
-        put("quit", "quit the game immediately");
+        put("quit", "quit the game");
         put("status", "show the status of current room and hero");
     }};
 
@@ -46,7 +48,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
      * @param args Command line arguments.
      */
     public static void main(final String[] args) throws SQLException, IOException, ClassNotFoundException {
-        new CommandPromptCombatController().start();
+        new CommandPromptUserInterface().start();
     }
 
     /**
@@ -217,7 +219,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             final String theInput = SCANNER.nextLine();
             /* process player choice */
             if (!theInput.startsWith("!")) {
-                switch (theInput) {
+                switch (theInput.toLowerCase()) {
                     case "up" -> move(Direction.UP);
                     case "down" -> move(Direction.DOWN);
                     case "left" -> move(Direction.LEFT);
