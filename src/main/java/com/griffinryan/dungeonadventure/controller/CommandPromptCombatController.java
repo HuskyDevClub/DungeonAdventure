@@ -234,9 +234,10 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                     case "quit" -> {
                         while (true) {
                             System.out.println("Do you want to save your current progress (y/n):");
-                            if (SCANNER.nextLine().equals("y")) {
+                            final String choice = SCANNER.nextLine();
+                            if (choice.equals("y")) {
                                 saveProgress();
-                            } else if (!SCANNER.nextLine().equals("n")) {
+                            } else if (!choice.equals("n")) {
                                 System.out.println(INVALID_INPUT_MESSAGE);
                                 continue;
                             }
