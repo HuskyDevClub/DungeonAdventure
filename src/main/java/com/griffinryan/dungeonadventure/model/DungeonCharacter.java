@@ -1,7 +1,5 @@
 package com.griffinryan.dungeonadventure.model;
 
-import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
-
 import java.io.Serializable;
 
 /**
@@ -102,7 +100,7 @@ public abstract class DungeonCharacter implements Serializable {
         if (damage < 0) {
             throw new IllegalArgumentException("The damage cannot be negative!");
         }
-        this.myIsLastAttackBlocked = DevelopmentTool.isInvincible() || RandomSingleton.isSuccessful(this.getChanceToBlock());
+        this.myIsLastAttackBlocked = RandomSingleton.isSuccessful(this.getChanceToBlock());
         if (!this.myIsLastAttackBlocked) {
             this.reduceHealth(damage);
         }
@@ -300,5 +298,17 @@ public abstract class DungeonCharacter implements Serializable {
      */
     public void suicide() {
         this.myHealth = 0;
+    }
+
+
+    /**
+     * set whether the last attack is blocked
+     * called when overwrite the injury()
+     *
+     * @param myIsLastAttackBlocked whether the last attack is blocked
+     */
+    @SuppressWarnings("SameParameterValue")
+    protected void setMyIsLastAttackBlocked(boolean myIsLastAttackBlocked) {
+        this.myIsLastAttackBlocked = myIsLastAttackBlocked;
     }
 }

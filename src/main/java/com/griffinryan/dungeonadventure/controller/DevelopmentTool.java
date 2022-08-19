@@ -43,11 +43,11 @@ public final class DevelopmentTool {
     }
 
     /**
-     * Returns whether the player is invincible.
+     * Returns whether the player is invincible or not
      *
-     * @return boolean returns true if invincible.
+     * @return true if not invincible or vice versa
      */
-    public static boolean isInvincible() {
-        return invincible;
+    public static boolean isNotInvincible() {
+        return !invincible;
     }
 }

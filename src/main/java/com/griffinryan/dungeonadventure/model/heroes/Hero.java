@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
@@ -95,6 +96,22 @@ public abstract class Hero extends DungeonCharacter {
             return true;
         }
         return false;
+    }
+
+    /**
+     * take away health point from the hero
+     * overwrite to make invincible cheat work
+     *
+     * @param damage the amount of health hero lost
+     */
+    @Override
+    public void injury(int damage) {
+        if (DevelopmentTool.isNotInvincible()) {
+            super.injury(damage);
+        } else {
+            this.setMyIsLastAttackBlocked(true);
+        }
+
     }
 
     /**

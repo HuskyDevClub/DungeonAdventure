@@ -63,12 +63,15 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     public void start() throws SQLException, IOException, ClassNotFoundException {
         do {
             while (myDungeon == null) {
-                System.out.println("Please choose: new || load || delete:");
+                System.out.println("Please choose: new || load || delete || exit:");
                 // process the initialization phase according to user's choice
                 switch (SCANNER.nextLine()) {
                     case "new" -> this.newGame();
                     case "load" -> this.loadProgress();
                     case "delete" -> this.removeProgress();
+                    case "exit" -> {
+                        return;
+                    }
                     default -> System.out.println(INVALID_INPUT_MESSAGE);
                 }
             }
@@ -228,32 +231,44 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                     case "battle monster" -> fightOneMonster();
                     case "history" -> this.showMessages();
                     case "save" -> this.saveProgress();
-                    case "quit" -> myDungeon = null;
+                    case "quit" -> {
+                        while (true) {
+                            System.out.println("Do you want to save your current progress (y/n):");
+                            if (SCANNER.nextLine().equals("y")) {
+                                saveProgress();
+                            } else if (!SCANNER.nextLine().equals("n")) {
+                                System.out.println(INVALID_INPUT_MESSAGE);
+                                continue;
+                            }
+                            break;
+                        }
+                        myDungeon = null;
+                        return;
+                    }
                     case "help" -> showHelp();
                     default -> System.out.println(INVALID_INPUT_MESSAGE);
                 }
             } else {
                 DevelopmentTool.execute(theInput, myDungeon);
             }
+
             /* check win and lose conditions */
-            if (myDungeon != null) {
-                // check if hero is dead
-                if (myDungeon.getHero().getHealth() <= 0) {
-                    // if yes, then mission failed
-                    log("Mission fail... Good luck next time!");
+            // check if hero is dead
+            if (myDungeon.getHero().getHealth() <= 0) {
+                // if yes, then mission failed
+                log("Mission fail... Good luck next time!");
+                stop();
+            }
+            // if current room is the Exit
+            else if (myDungeon.isCurrentRoomExit()) {
+                // if the player find all Pillars
+                if (myDungeon.areAllPillarsFound()) {
+                    // if yes, then mission succeed
+                    log("Mission succeed, your find the exit and escape with all the pillars.");
                     stop();
-                }
-                // if current room is the Exit
-                else if (myDungeon.isCurrentRoomExit()) {
-                    // if the player find all Pillars
-                    if (myDungeon.areAllPillarsFound()) {
-                        // if yes, then mission succeed
-                        log("Mission succeed, your find the exit and escape with all the pillars.");
-                        stop();
-                    } else {
-                        // if no, then ask the player to continue searching for all pillars.
-                        log("Your find the exit, but you cannot escape because you did not find all the pillars.");
-                    }
+                } else {
+                    // if no, then ask the player to continue searching for all pillars.
+                    log("Your find the exit, but you cannot escape because you did not find all the pillars.");
                 }
             }
         }

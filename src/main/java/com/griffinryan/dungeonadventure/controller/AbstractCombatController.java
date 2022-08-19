@@ -37,7 +37,11 @@ public abstract class AbstractCombatController {
                 if (myDungeon.isCurrentRoomPit()) {
                     final int theDamage = RandomSingleton.nextInt(1, 20);
                     log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
-                    myDungeon.getHero().reduceHealth(theDamage);
+                    if (DevelopmentTool.isNotInvincible()) {
+                        myDungeon.getHero().reduceHealth(theDamage);
+                    } else {
+                        log("However, as you have the cheat on, you will not take any damage.");
+                    }
                 }
                 return true;
             } else {
