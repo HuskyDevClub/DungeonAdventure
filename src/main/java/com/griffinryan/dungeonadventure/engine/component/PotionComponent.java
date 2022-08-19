@@ -26,7 +26,7 @@ public class PotionComponent extends AbstractComponent {
      */
     public PotionComponent() {
 
-        Texture bound = FXGL.texture("potion/potion.png");
+        final Texture bound = FXGL.texture("potion/potion.png");
 
         this.idleChannel = new AnimationChannel(FXGL.image("potion/lifepotion.png"),
             4, 17, 16, Duration.seconds(0.6), 0, 3);

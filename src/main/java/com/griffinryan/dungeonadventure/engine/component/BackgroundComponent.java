@@ -32,8 +32,8 @@ public class BackgroundComponent extends AbstractComponent {
      */
     @Override
     public void onAdded() {
-        double w = VIEW_RESOLUTION_X * 2; // Size of the layers.png
-        double h = VIEW_RESOLUTION_Y * 2; // 384 x 162
+        final double w = VIEW_RESOLUTION_X * 2; // Size of the layers.png
+        final double h = VIEW_RESOLUTION_Y * 2; // 384 x 162
 
         topLayer = texture("background/toplayer.png", w, h);
         middleLayer = texture("background/middlelayer.png", w, h);
@@ -57,9 +57,9 @@ public class BackgroundComponent extends AbstractComponent {
      *
      * @see Component
      */
-    public void onUpdate(double tpf) {
+    public void onUpdate(final double tpf) {
 
-        Entity player = getGameScene().getGameWorld().getEntitiesByType(PLAYER).get(0);
+        final Entity player = getGameScene().getGameWorld().getEntitiesByType(PLAYER).get(0);
 
         topLayer.setTranslateX(-BG_DISTANCE * TOP_SPEED * player.getX());
         topLayer.setTranslateY(-BG_DISTANCE * TOP_SPEED * player.getY());

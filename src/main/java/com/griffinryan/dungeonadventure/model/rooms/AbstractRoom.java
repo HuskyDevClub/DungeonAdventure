@@ -59,7 +59,7 @@ public abstract class AbstractRoom implements Serializable {
      * @param theLeft  can move to the left
      * @param theRight can move to the right
      */
-    public void updateSurrounding(boolean theUp, boolean theDown, boolean theLeft, boolean theRight) {
+    public void updateSurrounding(final boolean theUp, final boolean theDown, final boolean theLeft, final boolean theRight) {
         myCanMoveUp = theUp;
         myCanMoveDown = theDown;
         myCanMoveLeft = theLeft;
@@ -146,7 +146,7 @@ public abstract class AbstractRoom implements Serializable {
      * @param theDirection the direction
      * @return whether there is a door on given direction
      */
-    public boolean isThereDoorOn(Direction theDirection) {
+    public boolean isThereDoorOn(final Direction theDirection) {
         switch (theDirection) {
             case UP -> {
                 return myCanMoveUp;

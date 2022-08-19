@@ -24,43 +24,43 @@ import java.util.List;
 import static com.almasb.fxgl.dsl.FXGL.play;
 
 public class HeroSelect extends StackPane {
-    HeroSelect(HeroType type, Runnable action) {
-        LinearGradient gradient = new LinearGradient(
+    HeroSelect(final HeroType type, final Runnable action) {
+        final LinearGradient gradient = new LinearGradient(
             0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE,
             new Stop(0.1, Color.web("black", 0.75)),
             new Stop(1.0, Color.web("black", 0.15))
         );
-        Rectangle bg0 = new Rectangle(250, 250, gradient);
-        Rectangle bg1 = new Rectangle(250, 250, Color.web("black", 0.2));
+        final Rectangle bg0 = new Rectangle(250, 250, gradient);
+        final Rectangle bg1 = new Rectangle(250, 250, Color.web("black", 0.2));
 
-        FillTransition ft = new FillTransition(Duration.seconds(0.6),
+        final FillTransition ft = new FillTransition(Duration.seconds(0.6),
             bg1, Color.web("black", 0.2), Color.web("white", 0.3));
 
         ft.setAutoReverse(true);
         ft.setCycleCount(Integer.MAX_VALUE);
 
         //Hero Animation
-        ImageView imageView = new ImageView();
-        List<Image> images = type.getSprites();
+        final ImageView imageView = new ImageView();
+        final List<Image> images = type.getSprites();
 
         imageView.setTranslateY(-50);
         imageView.setTranslateX(60);
 
-        Transition animation = new Transition() {
+        final Transition animation = new Transition() {
             {
                 setCycleDuration(Duration.millis(500)); // total time for animation
             }
 
             @Override
-            protected void interpolate(double fraction) {
-                int index = (int) (fraction * (images.size() - 1));
+            protected void interpolate(final double fraction) {
+                final int index = (int) (fraction * (images.size() - 1));
                 imageView.setImage(images.get(index));
             }
         };
         animation.setCycleCount(Animation.INDEFINITE);
         animation.play();
 
-        ColorAdjust desaturate = new ColorAdjust();
+        final ColorAdjust desaturate = new ColorAdjust();
         desaturate.setSaturation(-1);
         imageView.setEffect(desaturate);
 
@@ -80,7 +80,7 @@ public class HeroSelect extends StackPane {
         });
 
         //line
-        Rectangle line = new Rectangle(5, 250);
+        final Rectangle line = new Rectangle(5, 250);
         line.widthProperty().bind(
             Bindings.when(hoverProperty())
                 .then(8).otherwise(5)
@@ -90,7 +90,7 @@ public class HeroSelect extends StackPane {
                 .then(Color.RED).otherwise(Color.GRAY)
         );
 
-        Text text = new Text(type.toString());
+        final Text text = new Text(type.toString());
         text.setFont(Font.font(22.0));
         text.fillProperty().bind(
             Bindings.when(hoverProperty())
@@ -105,7 +105,7 @@ public class HeroSelect extends StackPane {
 
         setAlignment(Pos.CENTER_LEFT);
 
-        HBox box = new HBox(15, text);
+        final HBox box = new HBox(15, text);
 
         box.setAlignment(Pos.BOTTOM_CENTER);
 

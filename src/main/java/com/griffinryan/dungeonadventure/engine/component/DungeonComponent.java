@@ -33,8 +33,8 @@ public class DungeonComponent extends AbstractComponent {
      * @param theWidth  the width of the dungeon.
      * @param theHeight the height of the dungeon.
      */
-    public DungeonComponent(int theWidth, int theHeight) {
-        HeroType selectedHeroType = getWorldProperties().getObject("heroType");
+    public DungeonComponent(final int theWidth, final int theHeight) {
+        final HeroType selectedHeroType = getWorldProperties().getObject("heroType");
         myDungeon = new Dungeon(HeroesFactory.spawn(selectedHeroType, selectedHeroType.toString()), theWidth, theHeight, 0, 0);
         FXGL.getWorldProperties().setValue("playerHP", myDungeon.getHero().getHealth());
 
@@ -46,10 +46,10 @@ public class DungeonComponent extends AbstractComponent {
      * Another constructed can be implemented if
      * the player chooses to load a save file.
      */
-    public DungeonComponent(String theSaveId) {
+    public DungeonComponent(final String theSaveId) {
         try {
             myDungeon = DungeonSqliteInterface.load(theSaveId);
-        } catch (SQLException | IOException | ClassNotFoundException e) {
+        } catch (final SQLException | IOException | ClassNotFoundException e) {
             System.out.println("Unable to load the Dungeon");
             throw new RuntimeException(e);
         }

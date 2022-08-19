@@ -26,7 +26,7 @@ public class TestRooms {
         assertEquals(' ', theEmptyRoom.getFlag());
     }
 
-    public void assertRoomIsEmpty(AbstractRoom theEmptyRoom) {
+    public void assertRoomIsEmpty(final AbstractRoom theEmptyRoom) {
         assertEquals(0, theEmptyRoom.getNumberOfMonsters());
         assertEquals(0, theEmptyRoom.getNumberOfHealingPotions());
         assertEquals(0, theEmptyRoom.pickUpHealingPotions());
@@ -38,7 +38,7 @@ public class TestRooms {
         assertThrows(NullPointerException.class, theEmptyRoom::pickUpPillar);
     }
 
-    public void testPillarPlacement(AbstractRoom theEmptyRoom) {
+    public void testPillarPlacement(final AbstractRoom theEmptyRoom) {
         assertDoesNotThrow(() -> theEmptyRoom.placePillar(new Pillar("Abstract")));
         assertTrue(theEmptyRoom.hasPillar());
         assertEquals('A', theEmptyRoom.getFlag());
@@ -133,7 +133,7 @@ public class TestRooms {
         assertEquals(3, theRoom.getNumberOfMonsters());
         assertEquals(' ', theRoom.getFlag());
 
-        Monster monster = theRoom.removeMonster(0);
+        final Monster monster = theRoom.removeMonster(0);
         assertEquals(2, theRoom.getNumberOfMonsters());
         assertEquals("minecraft_skeleton", monster.getName());
         assertEquals(Skeleton.class, monster.getClass());
@@ -163,7 +163,7 @@ public class TestRooms {
 
         testPillarPlacement(theRoom);
 
-        Monster monster = theRoom.removeMonster(0);
+        final Monster monster = theRoom.removeMonster(0);
         assertEquals(1, theRoom.getNumberOfMonsters());
         assertEquals("minecraft_skeleton", monster.getName());
         assertEquals(Skeleton.class, monster.getClass());

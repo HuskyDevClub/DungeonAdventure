@@ -65,8 +65,8 @@ public class AdventureFactory implements EntityFactory {
      * @see EntityFactory
      */
     @Spawns("Dungeon")
-    public Entity spawnDungeon(SpawnData data) {
-        DungeonComponent dungeon;
+    public Entity spawnDungeon(final SpawnData data) {
+        final DungeonComponent dungeon;
         if (getWorldProperties().exists("dungeon_id")) {
             dungeon = new DungeonComponent(getWorldProperties().getString("dungeon_id"));
             getWorldProperties().remove("dungeon_id");
@@ -95,7 +95,7 @@ public class AdventureFactory implements EntityFactory {
      * @see EntityFactory
      */
     @Spawns("Background")
-    public Entity spawnBackground(SpawnData data) {
+    public Entity spawnBackground(final SpawnData data) {
         return FXGL.entityBuilder(data)
             .with(new BackgroundComponent())
             .with(new CollidableComponent(false))
@@ -113,26 +113,26 @@ public class AdventureFactory implements EntityFactory {
      * @see PlayerComponent
      */
     @Spawns("Player")
-    public Entity spawnPlayer(SpawnData data) {
+    public Entity spawnPlayer(final SpawnData data) {
 
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
 
-        BufferedReader br;
+        final BufferedReader br;
 
-        PlayerInfo playerObj;
+        final PlayerInfo playerObj;
         try {
             br = new BufferedReader(
                 new FileReader("system/PlayerInfo.json"));
             playerObj = gson.fromJson(br, PlayerInfo.class);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 
         //convert the json string back to object
-        HeroType type = playerObj.chosenHero;
+        final HeroType type = playerObj.chosenHero;
 
 
-        PlayerComponent animatedPlayer;
+        final PlayerComponent animatedPlayer;
 
         if (type == HeroType.PRIEST) {
             animatedPlayer = new PlayerComponent("spritesheet/dungeon/menu/wizzard_f_idle_anim_f0.png",
@@ -169,12 +169,12 @@ public class AdventureFactory implements EntityFactory {
      * @see EnemyComponent
      */
     @Spawns("Enemy")
-    public Entity spawnEnemy(SpawnData data) {
+    public Entity spawnEnemy(final SpawnData data) {
 
         /* Setup parameters to give to the CharacterComponent object. */
-        EnemyComponent animatedEnemy = new EnemyComponent(FXGL.<AdventureApp>getAppCast().getPlayer(), 100);
+        final EnemyComponent animatedEnemy = new EnemyComponent(FXGL.<AdventureApp>getAppCast().getPlayer(), 100);
 
-        Entity e = entityBuilder(data)
+        final Entity e = entityBuilder(data)
             .type(EntityType.ENEMY)
             .at(new Point2D(500, 500))
             .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(20, 20)))
@@ -197,11 +197,11 @@ public class AdventureFactory implements EntityFactory {
      * @see PotionComponent
      */
     @Spawns("Potion")
-    public Entity spawnPotion(SpawnData data) {
+    public Entity spawnPotion(final SpawnData data) {
 
         /* Setup parameters to give to the CharacterComponent object. */
 
-        PotionComponent animatedPotion = new PotionComponent();
+        final PotionComponent animatedPotion = new PotionComponent();
 
         return FXGL.entityBuilder()
             .type(EntityType.POTION)
@@ -224,12 +224,12 @@ public class AdventureFactory implements EntityFactory {
     @Spawns("door")
     public Entity spawnDoor(SpawnData data) {
 
-        DoorComponent door = new DoorComponent();
+        final DoorComponent door = new DoorComponent();
 
-        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        final Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
         data = new SpawnData(curDoorAnchor);
 
-        Entity d = FXGL.entityBuilder()
+        final Entity d = FXGL.entityBuilder()
             .type(EntityType.DOOR)
             .at(curDoorAnchor)
             .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
@@ -254,9 +254,9 @@ public class AdventureFactory implements EntityFactory {
     public Entity spawnNorthDoor(SpawnData data) {
 
         getWorldProperties().setValue("doorN", true);
-        DoorComponent door = new DoorComponent();
+        final DoorComponent door = new DoorComponent();
 
-        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        final Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
         data = new SpawnData(curDoorAnchor);
 
         return FXGL.entityBuilder()
@@ -278,11 +278,11 @@ public class AdventureFactory implements EntityFactory {
      * @see DoorComponent
      */
     @Spawns("doorS")
-    public Entity spawnSouthDoor(SpawnData data) {
+    public Entity spawnSouthDoor(final SpawnData data) {
         getWorldProperties().setValue("doorS", true);
 
-        DoorComponent door = new DoorComponent();
-        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        final DoorComponent door = new DoorComponent();
+        final Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
 
         return FXGL.entityBuilder()
             .type(EntityType.DOOR)
@@ -303,7 +303,7 @@ public class AdventureFactory implements EntityFactory {
      * @see DoorComponent
      */
     @Spawns("doorE")
-    public Entity spawnEastDoor(SpawnData data) {
+    public Entity spawnEastDoor(final SpawnData data) {
         getWorldProperties().setValue("doorE", true);
 
         return buildDoorEntity();
@@ -318,7 +318,7 @@ public class AdventureFactory implements EntityFactory {
      * @see DoorComponent
      */
     @Spawns("doorW")
-    public Entity spawnWestDoor(SpawnData data) {
+    public Entity spawnWestDoor(final SpawnData data) {
         getWorldProperties().setValue("doorW", true);
 
         return buildDoorEntity();
@@ -330,9 +330,9 @@ public class AdventureFactory implements EntityFactory {
      * @return a Door Entity
      */
     private Entity buildDoorEntity() {
-        DoorComponent door = new DoorComponent();
-        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
-        HitBox h = door.getHitBox();
+        final DoorComponent door = new DoorComponent();
+        final Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
+        final HitBox h = door.getHitBox();
 
         return FXGL.entityBuilder()
             .type(EntityType.DOOR)

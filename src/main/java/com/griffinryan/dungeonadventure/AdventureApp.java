@@ -64,7 +64,7 @@ public class AdventureApp extends GameApplication {
      * @param args Passed arguments.
      * @see GameApplication in FXGL.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 
@@ -77,7 +77,7 @@ public class AdventureApp extends GameApplication {
      */
 
     @Override
-    protected void initSettings(GameSettings settings) {
+    protected void initSettings(final GameSettings settings) {
         settings.setWidth(1280);
         settings.setHeight(720);
 		/*TODO 	Cannot Set this to a double in initSettings
@@ -168,7 +168,7 @@ public class AdventureApp extends GameApplication {
      * @see com.almasb.fxgl.entity.GameWorld for property map.
      */
     @Override
-    protected void initGameVars(Map<String, Object> vars) {
+    protected void initGameVars(final Map<String, Object> vars) {
 
 		/* TODO: update with logic from model package
 		    and add values for LevelComponent. */
@@ -211,25 +211,25 @@ public class AdventureApp extends GameApplication {
         player = spawn("Player");
 
         /* Generate DungeonComponent */
-        Entity dungeon = spawn("Dungeon");
-        DungeonComponent dungeonComponent = dungeon.getComponent(DungeonComponent.class);
+        final Entity dungeon = spawn("Dungeon");
+        final DungeonComponent dungeonComponent = dungeon.getComponent(DungeonComponent.class);
 
         getWorldProperties().setValue("dungeonComponent_dungeon", dungeonComponent.getDungeon());
 
         /* Spawn doors */
-        Entity doorN = spawn("doorN");
+        final Entity doorN = spawn("doorN");
         doorN.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.UP));
         getWorldProperties().setValue("dungeonComponent_doorN", doorN);
 
-        Entity doorE = spawn("doorE");
+        final Entity doorE = spawn("doorE");
         doorE.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.RIGHT));
         getWorldProperties().setValue("dungeonComponent_doorE", doorE);
 
-        Entity doorS = spawn("doorS");
+        final Entity doorS = spawn("doorS");
         doorS.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.DOWN));
         getWorldProperties().setValue("dungeonComponent_doorS", doorS);
 
-        Entity doorW = spawn("doorW");
+        final Entity doorW = spawn("doorW");
         doorW.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.LEFT));
         getWorldProperties().setValue("dungeonComponent_doorW", doorW);
 
@@ -258,7 +258,7 @@ public class AdventureApp extends GameApplication {
      */
     @Override
     protected void initPhysics() {
-        PhysicsWorld physics = getPhysicsWorld();
+        final PhysicsWorld physics = getPhysicsWorld();
 
         physics.addCollisionHandler(new PlayerEnemyHandler());
         physics.addCollisionHandler(new PlayerPotionHandler());
@@ -273,11 +273,11 @@ public class AdventureApp extends GameApplication {
     @Override
     protected void initUI() {
 
-        Texture closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");
+        final Texture closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");
         closeUpTexture.setTranslateX(50);
         closeUpTexture.setTranslateY(450);
 
-        Text textPixels = new Text();
+        final Text textPixels = new Text();
         textPixels.setTranslateX(50); // x = 50
         textPixels.setTranslateY(100); // y = 100
 

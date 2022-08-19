@@ -36,14 +36,14 @@ public class PlayerComponent extends AbstractComponent {
      * @see Component
      */
     public PlayerComponent() {
-        int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
-        Texture bound = texture("sprite/front-1.png", 30, 30).brighter();
+        final int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
+        final Texture bound = texture("sprite/front-1.png", 30, 30).brighter();
 
-        AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/front.png"),
+        final AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/front.png"),
             4, 15, 30, Duration.seconds(0.4), 0, 3);
-        AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/right.png"),
+        final AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/right.png"),
             4, 15, 30, Duration.seconds(0.4), 0, 3);
-        AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/down.png"),
+        final AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/down.png"),
             4, 15, 30, Duration.seconds(0.4), 0, 3);
 
         this.animIdle = idle;
@@ -54,16 +54,16 @@ public class PlayerComponent extends AbstractComponent {
         this.texture = new AnimatedTexture(animIdle);
     }
 
-    public PlayerComponent(String bounding, String front, String right) {
-        int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
-        Texture bound = texture(bounding).brighter();
+    public PlayerComponent(final String bounding, final String front, final String right) {
+        final int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
+        final Texture bound = texture(bounding).brighter();
 
-        AnimationChannel idle = new AnimationChannel(FXGL.image(front),
+        final AnimationChannel idle = new AnimationChannel(FXGL.image(front),
             4, 16, 28, Duration.seconds(.7), 0, 3);
 
-        AnimationChannel walk = new AnimationChannel(FXGL.image(right),
+        final AnimationChannel walk = new AnimationChannel(FXGL.image(right),
             4, 16, 28, Duration.seconds(.7), 0, 3);
-        AnimationChannel back = new AnimationChannel(FXGL.image(right),
+        final AnimationChannel back = new AnimationChannel(FXGL.image(right),
             4, 16, 28, Duration.seconds(.7), 0, 3);
 
         this.animIdle = idle;
@@ -74,9 +74,9 @@ public class PlayerComponent extends AbstractComponent {
         this.texture = new AnimatedTexture(animIdle);
     }
 
-    public static void updateHp(int value) {
+    public static void updateHp(final int value) {
         FXGL.getWorldProperties().setValue("playerHP", value);
-        Dungeon theDungeon = FXGL.getWorldProperties().getObject("dungeonComponent_dungeon");
+        final Dungeon theDungeon = FXGL.getWorldProperties().getObject("dungeonComponent_dungeon");
         theDungeon.getHero().setHealth(value);
     }
 
@@ -101,7 +101,7 @@ public class PlayerComponent extends AbstractComponent {
      * @see Component
      */
     @Override
-    public void onUpdate(double tpf) {
+    public void onUpdate(final double tpf) {
         /* update the position of the player. */
         if (!y) {
             entity.translateX(speed * tpf);

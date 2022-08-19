@@ -23,16 +23,16 @@ import static com.almasb.fxgl.dsl.FXGL.play;
  * @see StackPane for more.
  */
 public class MenuItem extends StackPane {
-    MenuItem(String name, Runnable action) {
-        LinearGradient gradient = new LinearGradient(
+    MenuItem(final String name, final Runnable action) {
+        final LinearGradient gradient = new LinearGradient(
             0, 0.5, 1, 0.5, true, CycleMethod.NO_CYCLE,
             new Stop(0.1, Color.web("black", 0.75)),
             new Stop(1.0, Color.web("black", 0.15))
         );
-        Rectangle bg0 = new Rectangle(250, 30, gradient);
-        Rectangle bg1 = new Rectangle(250, 30, Color.web("black", 0.2));
+        final Rectangle bg0 = new Rectangle(250, 30, gradient);
+        final Rectangle bg1 = new Rectangle(250, 30, Color.web("black", 0.2));
 
-        FillTransition ft = new FillTransition(Duration.seconds(0.6),
+        final FillTransition ft = new FillTransition(Duration.seconds(0.6),
             bg1, Color.web("black", 0.2), Color.web("white", 0.3));
 
         ft.setAutoReverse(true);
@@ -48,7 +48,7 @@ public class MenuItem extends StackPane {
             }
         });
 
-        Rectangle line = new Rectangle(5, 30);
+        final Rectangle line = new Rectangle(5, 30);
         line.widthProperty().bind(
             Bindings.when(hoverProperty())
                 .then(8).otherwise(5)
@@ -58,7 +58,7 @@ public class MenuItem extends StackPane {
                 .then(Color.RED).otherwise(Color.GRAY)
         );
 
-        Text text = new Text(name);
+        final Text text = new Text(name);
         text.setFont(Font.font(22.0));
         text.fillProperty().bind(
             Bindings.when(hoverProperty())
@@ -73,7 +73,7 @@ public class MenuItem extends StackPane {
 
         setAlignment(Pos.CENTER_LEFT);
 
-        HBox box = new HBox(15, line, text);
+        final HBox box = new HBox(15, line, text);
         box.setAlignment(Pos.CENTER_LEFT);
 
         getChildren().addAll(bg0, bg1, box);

@@ -13,11 +13,11 @@ public enum HeroType {
 
     private final String text;
 
-    HeroType(String text) {
+    HeroType(final String text) {
         this.text = text;
     }
 
-    public static HeroType ofValue(String theType) {
+    public static HeroType ofValue(final String theType) {
         switch (theType.toLowerCase()) {
             case "thief" -> {
                 return THIEF;
@@ -38,7 +38,7 @@ public enum HeroType {
     }
 
     public List<Image> getSprites() {
-        List<Image> sprites = new ArrayList<>();
+        final List<Image> sprites = new ArrayList<>();
         switch (text) {
             case "THIEF":
                 for (int i = 0; i < 4; i++) {

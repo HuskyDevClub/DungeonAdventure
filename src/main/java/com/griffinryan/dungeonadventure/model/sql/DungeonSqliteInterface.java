@@ -53,7 +53,7 @@ public final class DungeonSqliteInterface {
         // save the data
         thePreparedStatement.executeUpdate();
         // obtain the id of the save
-        ResultSet rs = thePreparedStatement.getGeneratedKeys();
+        final ResultSet rs = thePreparedStatement.getGeneratedKeys();
         final String itemId = rs.next() ? rs.getString(1) : "-1";
         // close the connections
         rs.close();
@@ -124,7 +124,7 @@ public final class DungeonSqliteInterface {
             while (rs.next()) {
                 existSaves.put(rs.getString(1), new String[]{rs.getString(2), rs.getString(4), rs.getString(5)});
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             // assume something must be going wrong I guess
         }
         return existSaves;

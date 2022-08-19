@@ -40,7 +40,7 @@ public class TestPathFinder {
 
     @Test
     public void testPathFindingOn1x1Maze() {
-        AbstractRoom[][] MAZE_1x1 = {{new Entrance()}};
+        final AbstractRoom[][] MAZE_1x1 = {{new Entrance()}};
         final PathFinder PATH_FINDER_FOR_MAZE_1x1 = new PathFinder(MAZE_1x1, 0, 0);
         assertTrue(PATH_FINDER_FOR_MAZE_1x1.isReachable(0, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> PATH_FINDER_FOR_MAZE_1x1.isReachable(-10, -10));
@@ -49,7 +49,7 @@ public class TestPathFinder {
 
     @Test
     public void testPathFindingOn5x5Maze() {
-        AbstractRoom[][] MAZE_5x5 = {
+        final AbstractRoom[][] MAZE_5x5 = {
             {new Entrance(), new Pit(), null, null, null},
             {null, new Pit(), null, null, null},
             {null, new Pit(), new Pit(), null, null},

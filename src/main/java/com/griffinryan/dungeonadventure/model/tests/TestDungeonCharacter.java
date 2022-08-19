@@ -21,7 +21,7 @@ abstract class TestDungeonCharacter {
     protected static final int weakDamage = 20;
     protected static final int superDamage = 2000;
 
-    protected static void checkConstantInstanceField(DungeonCharacter theCharacter) {
+    protected static void checkConstantInstanceField(final DungeonCharacter theCharacter) {
         assertEquals(defaultMinDamage, theCharacter.getMinDamage());
         assertEquals(defaultMaxDamage, theCharacter.getMaxDamage());
         assertEquals(defaultAttackSpeed, theCharacter.getMaxAttackSpeed());

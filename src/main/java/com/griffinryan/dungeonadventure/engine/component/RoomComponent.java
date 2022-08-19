@@ -18,7 +18,7 @@ public class RoomComponent extends AbstractComponent {
     private PotionComponent potionComponent;
     private EnemyComponent enemyComponent;
 
-    public RoomComponent(int theSize, int theX, int theY) {
+    public RoomComponent(final int theSize, final int theX, final int theY) {
         size = theSize;
         x = theX;
         y = theY;

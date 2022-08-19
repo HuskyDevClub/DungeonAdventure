@@ -55,7 +55,7 @@ public final class CommandPromptUserInterface extends AbstractCombatController {
      * print out all available commands and their functions
      */
     private static void showHelp() {
-        for (String _cmd : CMD_INFO.keySet()) {
+        for (final String _cmd : CMD_INFO.keySet()) {
             System.out.printf("%s - %s\n", _cmd, CMD_INFO.get(_cmd));
         }
     }
@@ -101,7 +101,7 @@ public final class CommandPromptUserInterface extends AbstractCombatController {
                 if (1 <= heroIndex && heroIndex <= 3) {
                     break;
                 }
-            } catch (NumberFormatException ignored) {
+            } catch (final NumberFormatException ignored) {
             }
             System.out.println(INVALID_INPUT_MESSAGE);
         }
@@ -313,7 +313,7 @@ public final class CommandPromptUserInterface extends AbstractCombatController {
      * @see Direction
      */
     @Override
-    protected boolean move(Direction theDirection) {
+    protected boolean move(final Direction theDirection) {
         final boolean result = super.move(theDirection);
         if (result) {
             this.showCurrentStatus();
@@ -327,7 +327,7 @@ public final class CommandPromptUserInterface extends AbstractCombatController {
      * @param theMessage The message that needs to be print to the console or screen
      */
     @Override
-    protected void log(String theMessage) {
+    protected void log(final String theMessage) {
         super.log(theMessage);
         System.out.println(theMessage);
     }

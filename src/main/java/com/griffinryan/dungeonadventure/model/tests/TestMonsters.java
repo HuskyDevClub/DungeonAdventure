@@ -26,7 +26,7 @@ public class TestMonsters extends TestDungeonCharacter {
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
-    private static void checkConstantInstanceField(Monster theMonster) {
+    private static void checkConstantInstanceField(final Monster theMonster) {
         TestDungeonCharacter.checkConstantInstanceField(theMonster);
         // check if hidden by useless data has been assigned
         assertEquals(0, theMonster.getChanceToBlock());

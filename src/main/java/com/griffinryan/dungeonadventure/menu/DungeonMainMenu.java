@@ -56,8 +56,8 @@ public class DungeonMainMenu extends FXGLMenu {
      *
      * @param s Title of .mp3 file to play.
      */
-    private void playAudio(String s) {
-        Music m = FXGL.getAssetLoader().loadMusic(s);
+    private void playAudio(final String s) {
+        final Music m = FXGL.getAssetLoader().loadMusic(s);
         FXGL.getAudioPlayer().loopMusic(m);
     }
 
@@ -67,7 +67,7 @@ public class DungeonMainMenu extends FXGLMenu {
      * in the assets/music path.
      */
     private void stopAudio() {
-        Music m = FXGL.getAssetLoader().loadMusic("drumloop.mp3");
+        final Music m = FXGL.getAssetLoader().loadMusic("drumloop.mp3");
         FXGL.getAudioPlayer().stopMusic(m);
     }
 
@@ -78,10 +78,10 @@ public class DungeonMainMenu extends FXGLMenu {
      *
      * @param root The Pane object to build with.
      */
-    private void createContent(Pane root) {
+    private void createContent(final Pane root) {
         root.setPrefSize(1280, 720);
         //DungeonMainMenu.class.getResource("dungeonadventure.jpg").toString()
-        Image bgImage = FXGL.image("background/dungeonadventure.jpg", 1280, 720);
+        final Image bgImage = FXGL.image("background/dungeonadventure.jpg", 1280, 720);
 
         menuBox = new VBox(
             5,
@@ -102,7 +102,7 @@ public class DungeonMainMenu extends FXGLMenu {
         //stopAudio("drumloop.mp3"); // Stops current background music.
         // Starts new background music.
         // playAudio("chordloop.mp3");
-        MenuItem CONTINUE_BUTTON = new MenuItem("CONTINUE", () -> {
+        final MenuItem CONTINUE_BUTTON = new MenuItem("CONTINUE", () -> {
             //stopAudio("drumloop.mp3"); // Stops current background music.
             play("menuSelect.mp3");
             // Starts new background music.
@@ -126,11 +126,11 @@ public class DungeonMainMenu extends FXGLMenu {
     }
 
     private void chooseHero() {
-        Pane root = getContentRoot();
+        final Pane root = getContentRoot();
         root.getChildren().remove(menuBox);
-        PlayerInfo playerInfo = new PlayerInfo();
+        final PlayerInfo playerInfo = new PlayerInfo();
 
-        HBox heroSelect = new HBox(20);
+        final HBox heroSelect = new HBox(20);
         heroSelect.getChildren().add(new HeroSelect(HeroType.WARRIOR, () -> {
             playerInfo.chosenHero = HeroType.WARRIOR;
             gameStart(playerInfo);
@@ -161,7 +161,7 @@ public class DungeonMainMenu extends FXGLMenu {
         );
 
         // implement back button
-        MenuItem theBackButton;
+        final MenuItem theBackButton;
         theBackButton = new MenuItem("BACK", () -> {
             root.getChildren().add(menuBox);
             root.getChildren().remove(heroSelect);
@@ -173,20 +173,20 @@ public class DungeonMainMenu extends FXGLMenu {
         root.getChildren().add(theBackButton);
     }
 
-    private void gameStart(PlayerInfo playerInfo) {
-        FileWriter fw;
+    private void gameStart(final PlayerInfo playerInfo) {
+        final FileWriter fw;
 
         try {
             fw = new FileWriter("system/PlayerInfo.json");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
 
-        PrintWriter out = new PrintWriter(fw, true);
-        Gson gson = new Gson();
+        final PrintWriter out = new PrintWriter(fw, true);
+        final Gson gson = new Gson();
 
-        String jsonString = gson.toJson(playerInfo);
+        final String jsonString = gson.toJson(playerInfo);
         out.write(jsonString);
 
         try {
@@ -194,7 +194,7 @@ public class DungeonMainMenu extends FXGLMenu {
             fw.flush();
             out.close();
             fw.close();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -202,10 +202,10 @@ public class DungeonMainMenu extends FXGLMenu {
     }
 
     private void selectSave() {
-        Pane root = getContentRoot();
+        final Pane root = getContentRoot();
         root.getChildren().remove(menuBox);
         try {
-            VBox saveSelectOptionsBox = new VBox(
+            final VBox saveSelectOptionsBox = new VBox(
                 5,
                 new MenuItem("NEXT PAGE", () -> {
                 }),
@@ -213,7 +213,7 @@ public class DungeonMainMenu extends FXGLMenu {
                 })
             );
 
-            VBox saveSelectBox = new VBox(5);
+            final VBox saveSelectBox = new VBox(5);
             myNamesOfExistingSaves.forEach(
                 (key, value) -> {
                     final LocalDateTime createdAt = LocalDateTime.parse(value[2]);
@@ -224,7 +224,7 @@ public class DungeonMainMenu extends FXGLMenu {
                                 value[0], createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), value[1]
                             ), () -> {
                             getWorldProperties().setValue("dungeon_id", key);
-                            PlayerInfo playerInfo = new PlayerInfo();
+                            final PlayerInfo playerInfo = new PlayerInfo();
                             playerInfo.chosenHero = HeroType.ofValue(value[1]);
                             gameStart(playerInfo);
                         }
@@ -251,7 +251,7 @@ public class DungeonMainMenu extends FXGLMenu {
                 saveSelectBox, saveSelectOptionsBox
             );
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }

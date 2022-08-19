@@ -84,7 +84,7 @@ public abstract class DungeonCharacter implements Serializable {
      *
      * @param theTarget the Dungeon Character to attack
      */
-    public void attack(final DungeonCharacter theTarget, int theCost) {
+    public void attack(final DungeonCharacter theTarget, final int theCost) {
         this.myLastDamageDone = RandomSingleton.isSuccessful(this.myChanceToHit) ? RandomSingleton.nextInt(this.myMinDamage, this.myMaxDamage) : 0;
         theTarget.injury(this.myLastDamageDone);
         this.myCurrentAttackSpeed -= theCost;
@@ -167,7 +167,7 @@ public abstract class DungeonCharacter implements Serializable {
      *
      * @param value the health to set
      */
-    public void setHealth(int value) {
+    public void setHealth(final int value) {
         myHealth = value;
     }
 
@@ -273,7 +273,7 @@ public abstract class DungeonCharacter implements Serializable {
      *
      * @param theCurrentAttackSpeed the value to add to the current attack speed
      */
-    public void addCurrentAttackSpeed(int theCurrentAttackSpeed) {
+    public void addCurrentAttackSpeed(final int theCurrentAttackSpeed) {
         this.myCurrentAttackSpeed += theCurrentAttackSpeed;
     }
 
@@ -282,7 +282,7 @@ public abstract class DungeonCharacter implements Serializable {
      *
      * @param theCurrentAttackSpeed the value to subtract from the current attack speed
      */
-    public void subtractCurrentAttackSpeed(int theCurrentAttackSpeed) {
+    public void subtractCurrentAttackSpeed(final int theCurrentAttackSpeed) {
         this.myCurrentAttackSpeed -= theCurrentAttackSpeed;
     }
 
@@ -308,7 +308,7 @@ public abstract class DungeonCharacter implements Serializable {
      * @param myIsLastAttackBlocked whether the last attack is blocked
      */
     @SuppressWarnings("SameParameterValue")
-    protected void setMyIsLastAttackBlocked(boolean myIsLastAttackBlocked) {
+    protected void setMyIsLastAttackBlocked(final boolean myIsLastAttackBlocked) {
         this.myIsLastAttackBlocked = myIsLastAttackBlocked;
     }
 }

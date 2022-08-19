@@ -38,14 +38,14 @@ public class EnemyComponent extends AbstractComponent {
      * @see AnimatedTexture
      * @see Component
      */
-    public EnemyComponent(Entity player, int moveSpeed) {
+    public EnemyComponent(final Entity player, final int moveSpeed) {
         this.player = player;
-        Texture bound = texture("spritesheet/dungeon/game/ogre_front.png", 30, 30).brighter();
-        AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_idle_anim_f.png"),
+        final Texture bound = texture("spritesheet/dungeon/game/ogre_front.png", 30, 30).brighter();
+        final AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_idle_anim_f.png"),
             4, 32, 32, Duration.seconds(0.4), 0, 3);
-        AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
+        final AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
             4, 32, 32, Duration.seconds(0.4), 0, 3);
-        AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
+        final AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
             4, 32, 32, Duration.seconds(0.4), 0, 3);
 
         this.idleChannel = idle;
@@ -83,11 +83,11 @@ public class EnemyComponent extends AbstractComponent {
      * @see Component
      */
     @Override
-    public void onUpdate(double tpf) {
+    public void onUpdate(final double tpf) {
         move(tpf);
     }
 
-    private void move(double tpf) {
+    private void move(final double tpf) {
         if (adjustDirectionTimer.elapsed(adjustDelay)) {
             adjustVelocity(tpf);
             adjustDirectionTimer.capture();
@@ -95,8 +95,8 @@ public class EnemyComponent extends AbstractComponent {
         self.translate(velocity);
     }
 
-    private void adjustVelocity(double tpf) {
-        Point2D directionToPlayer = player.getCenter()
+    private void adjustVelocity(final double tpf) {
+        final Point2D directionToPlayer = player.getCenter()
             .subtract(self.getCenter())
             .normalize()
             .multiply(moveSpeed);

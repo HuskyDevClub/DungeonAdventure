@@ -2,7 +2,6 @@ package com.griffinryan.dungeonadventure.engine.menu;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.MenuType;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * An FXGLMenu for the MinimapView object.
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MinimapMenu extends FXGLMenu {
 
-    public MinimapMenu(@NotNull MenuType type) {
+    public MinimapMenu(final MenuType type) {
         super(type);
     }
 

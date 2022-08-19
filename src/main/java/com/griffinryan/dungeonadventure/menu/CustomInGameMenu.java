@@ -19,8 +19,8 @@ public class CustomInGameMenu extends FXGLDefaultMenu {
         super(MenuType.GAME_MENU);
 
         // add save button
-        MenuItem theSaveOption = new MenuItem("Save to Sqlite Database", () -> {
-            Consumer<String> saveFileNameConsumer = theSaveName -> {
+        final MenuItem theSaveOption = new MenuItem("Save to Sqlite Database", () -> {
+            final Consumer<String> saveFileNameConsumer = theSaveName -> {
                 if (!theSaveName.isEmpty()) {
                     //save the current progress (the myDungeon object to be specific) into the database
                     try {
@@ -28,7 +28,7 @@ public class CustomInGameMenu extends FXGLDefaultMenu {
                             "Progress has been saved with id = '%s'!\n",
                             DungeonSqliteInterface.save(theSaveName, FXGL.getWorldProperties().getObject("dungeonComponent_dungeon"))
                         );
-                    } catch (SQLException | IOException e) {
+                    } catch (final SQLException | IOException e) {
                         System.out.println("Fail to creat save");
                         e.printStackTrace();
                     }

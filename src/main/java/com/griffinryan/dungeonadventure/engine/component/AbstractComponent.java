@@ -38,9 +38,9 @@ public abstract class AbstractComponent extends Component {
         /* Sets the corner of the component. */
         anchorX = setAnchorXLocation();
         anchorY = setAnchorYLocation();
-        Point2D tempPoint = new Point2D(anchorX, anchorY);
+        final Point2D tempPoint = new Point2D(anchorX, anchorY);
 
-        double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
+        final double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
 
         hitbox = new HitBox(mapKey,
             tempPoint, BoundingShape.box(widthLengthArray[0], widthLengthArray[1]));
@@ -61,7 +61,7 @@ public abstract class AbstractComponent extends Component {
     public void onAdded() {
 
         /* Setting Point2D to corner of Entity. TODO: Maybe with HitBox reference? */
-        Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
+        final Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
         entity.getTransformComponent().setAnchoredPosition(anchor);
 
         entity.getViewComponent().addChild(boundTexture);
@@ -74,7 +74,7 @@ public abstract class AbstractComponent extends Component {
      *
      * @see Component
      */
-    public void onUpdate(double tpf) {
+    public void onUpdate(final double tpf) {
 
         // Entity player = getGameScene().getGameWorld().getEntitiesByType(PLAYER).get(0);
 
@@ -91,8 +91,8 @@ public abstract class AbstractComponent extends Component {
      * @param thePoint The HitBox's center point.
      * @return [width, length] bounds to be passed to HitBox.
      */
-    private double[] getHitBoxBoundaryArray(Point2D thePoint) {
-        double[] result = {0.0, 0.0};
+    private double[] getHitBoxBoundaryArray(final Point2D thePoint) {
+        final double[] result = {0.0, 0.0};
 
         if (mapKey.equalsIgnoreCase("north")) {
             result[0] = getAppWidth() / 4.0;
@@ -127,7 +127,7 @@ public abstract class AbstractComponent extends Component {
      * of the Entity's String.
      */
     private String findMapKey() {
-        String result = "";
+        final String result = "";
 
         for (int i = 0; i < getWorldProperties().toMap().size(); i++) {
 

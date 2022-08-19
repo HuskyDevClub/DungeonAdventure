@@ -31,13 +31,13 @@ public class PlayerPotionHandler extends CollisionHandler {
      * @param potion Entity for the potion.
      */
     @Override
-    protected void onCollisionBegin(Entity player, Entity potion) {
+    protected void onCollisionBegin(final Entity player, final Entity potion) {
         FXGL.getGameScene().getViewport().shakeTranslational(30);
 
         /*	Do/store damage calculations here!	*/
-        int initialHP = FXGL.getWorldProperties().getInt("playerHP");
-        int potionHP = FXGL.getWorldProperties().getInt("potionHP");
-        int resultingHP = initialHP + potionHP;
+        final int initialHP = FXGL.getWorldProperties().getInt("playerHP");
+        final int potionHP = FXGL.getWorldProperties().getInt("potionHP");
+        final int resultingHP = initialHP + potionHP;
 
         PlayerComponent.updateHp(resultingHP);
         FXGL.play("coin.wav");

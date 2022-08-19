@@ -105,7 +105,7 @@ public abstract class Hero extends DungeonCharacter {
      * @param damage the amount of health hero lost
      */
     @Override
-    public void injury(int damage) {
+    public void injury(final int damage) {
         if (DevelopmentTool.isNotInvincible()) {
             super.injury(damage);
         } else {

@@ -31,14 +31,14 @@ public class PlayerEnemyHandler extends CollisionHandler {
      * @param enemy  Entity for the enemy.
      */
     @Override
-    protected void onCollisionBegin(Entity player, Entity enemy) {
+    protected void onCollisionBegin(final Entity player, final Entity enemy) {
         FXGL.getGameScene().getViewport().shakeTranslational(100);
 
         /* 	Do/store damage calculations here! */
-        int initialHP = FXGL.getWorldProperties().getInt("playerHP");
-        int enemyHP = FXGL.getWorldProperties().getInt("enemyHP");
-        int resultingHP = initialHP - enemyHP;
-        int tempHP = enemyHP - initialHP;
+        final int initialHP = FXGL.getWorldProperties().getInt("playerHP");
+        final int enemyHP = FXGL.getWorldProperties().getInt("enemyHP");
+        final int resultingHP = initialHP - enemyHP;
+        final int tempHP = enemyHP - initialHP;
         PlayerComponent.updateHp(resultingHP);
         FXGL.getWorldProperties().setValue("enemyHP", tempHP);
 

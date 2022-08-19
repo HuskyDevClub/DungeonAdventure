@@ -31,19 +31,19 @@ public class PlayerDoorHandler extends CollisionHandler {
      * @param door   Entity for the door.
      */
     @Override
-    protected void onCollisionBegin(Entity player, Entity door) {
+    protected void onCollisionBegin(final Entity player, final Entity door) {
         if (door.isVisible()) {
             FXGL.getGameScene().getViewport().shakeTranslational(50);
             FXGL.play("stab.wav");
             /*	Do/store damage/object calculations here!	*/
 
-            Dungeon theDungeon = FXGL.getWorldProperties().getObject("dungeonComponent_dungeon");
+            final Dungeon theDungeon = FXGL.getWorldProperties().getObject("dungeonComponent_dungeon");
             System.out.println(theDungeon.getCurrentX());
             System.out.println(theDungeon.getCurrentY());
             System.out.println(theDungeon.getCurrentRoom().getInfo());
 
 
-            DoorComponent temp = door.getComponent(DoorComponent.class);
+            final DoorComponent temp = door.getComponent(DoorComponent.class);
 
             if (temp.mapKey.equalsIgnoreCase("doorN")) {
                 theDungeon.moveHero(Direction.UP);
@@ -63,13 +63,13 @@ public class PlayerDoorHandler extends CollisionHandler {
             player.setPosition(new Point2D(FXGL.getAppWidth() - 800, FXGL.getAppHeight() - 500));
 
             /* hide entities and respawn for next room */
-            Entity doorN = FXGL.getWorldProperties().getObject("dungeonComponent_doorN");
+            final Entity doorN = FXGL.getWorldProperties().getObject("dungeonComponent_doorN");
             doorN.setVisible(theDungeon.canHeroMove(Direction.UP));
-            Entity doorE = FXGL.getWorldProperties().getObject("dungeonComponent_doorE");
+            final Entity doorE = FXGL.getWorldProperties().getObject("dungeonComponent_doorE");
             doorE.setVisible(theDungeon.canHeroMove(Direction.RIGHT));
-            Entity doorS = FXGL.getWorldProperties().getObject("dungeonComponent_doorS");
+            final Entity doorS = FXGL.getWorldProperties().getObject("dungeonComponent_doorS");
             doorS.setVisible(theDungeon.canHeroMove(Direction.DOWN));
-            Entity doorW = FXGL.getWorldProperties().getObject("dungeonComponent_doorW");
+            final Entity doorW = FXGL.getWorldProperties().getObject("dungeonComponent_doorW");
             doorW.setVisible(theDungeon.canHeroMove(Direction.LEFT));
         }
     }

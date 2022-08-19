@@ -7,7 +7,7 @@ import com.griffinryan.dungeonadventure.engine.EntityType;
 
 public abstract class AbstractHandler extends CollisionHandler {
 
-    public AbstractHandler(EntityType player, EntityType enemy) {
+    public AbstractHandler(final EntityType player, final EntityType enemy) {
         super(player, enemy);
     }
 
@@ -19,12 +19,12 @@ public abstract class AbstractHandler extends CollisionHandler {
      * @param potion Entity for the potion.
      */
     @Override
-    protected void onCollisionBegin(Entity player, Entity potion) {
+    protected void onCollisionBegin(final Entity player, final Entity potion) {
         FXGL.getGameScene().getViewport().shakeTranslational(1000);
 
         /*	Do/store damage/object calculations here!	*/
-        int initialHP = FXGL.getWorldProperties().getInt("playerHP");
-        int potionHP = FXGL.getWorldProperties().getInt("potionHP");
+        final int initialHP = FXGL.getWorldProperties().getInt("playerHP");
+        final int potionHP = FXGL.getWorldProperties().getInt("potionHP");
         /* Use the model.heroes and model.monsters packages! */
 
         /* Set values in the Property Map here! */

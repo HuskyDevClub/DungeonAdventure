@@ -36,7 +36,7 @@ public class DoorComponent extends AbstractComponent {
      *
      * @see Component
      */
-    public DoorComponent(String position) {
+    public DoorComponent(final String position) {
 
         /* Determine spawn point for Component and mapKey.	 */
         mapKey = setMapKey(position);
@@ -44,9 +44,9 @@ public class DoorComponent extends AbstractComponent {
         /* set the corner of the component. */
         anchorX = setAnchorXLocation();
         anchorY = setAnchorYLocation();
-        Point2D tempPoint = new Point2D(anchorX, anchorY);
+        final Point2D tempPoint = new Point2D(anchorX, anchorY);
 
-        double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
+        final double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
 
         if (Objects.equals(mapKey, "doorS")) {
             hitbox = new HitBox(
@@ -83,9 +83,9 @@ public class DoorComponent extends AbstractComponent {
         /* set the corner of the component. */
         anchorX = setAnchorXLocation();
         anchorY = setAnchorYLocation();
-        Point2D tempPoint = new Point2D(anchorX, anchorY);
+        final Point2D tempPoint = new Point2D(anchorX, anchorY);
 
-        double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
+        final double[] widthLengthArray = getHitBoxBoundaryArray(tempPoint);
 
         if (Objects.equals(mapKey, "doorS")) {
             hitbox = new HitBox(
@@ -118,7 +118,7 @@ public class DoorComponent extends AbstractComponent {
     public void onAdded() {
 
         /* Setting Point2D to corner of Entity. TODO: Maybe with HitBox reference? */
-        Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
+        final Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
         entity.getTransformComponent().setScaleOrigin(anchor);
         entity.getViewComponent().addChild(boundTexture);
     }
@@ -162,15 +162,15 @@ public class DoorComponent extends AbstractComponent {
      * @param thePoint The HitBox's center point.
      * @return [width, length] bounds to be passed to HitBox.
      */
-    public double[] getHitBoxBoundaryArray(Point2D thePoint) {
+    public double[] getHitBoxBoundaryArray(final Point2D thePoint) {
         return new double[]{500.0, 500.0};
     }
 
     /**
      * Sets the Component mapKey String value
      */
-    private String setMapKey(String s) {
-        String result = "";
+    private String setMapKey(final String s) {
+        final String result = "";
 
         if (s.equalsIgnoreCase("north")) {
             return "doorN";
@@ -189,7 +189,7 @@ public class DoorComponent extends AbstractComponent {
      * Sets the Component mapKey String value
      */
     private String setMapKey() {
-        String result = "";
+        final String result = "";
 
         for (int i = 0; i < getWorldProperties().toMap().size(); i++) {
 
