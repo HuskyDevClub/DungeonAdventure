@@ -14,8 +14,8 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.getDialogService;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.localize;
 
 
-public class CustomGameMenu extends FXGLDefaultMenu {
-    public CustomGameMenu() {
+public class CustomInGameMenu extends FXGLDefaultMenu {
+    public CustomInGameMenu() {
         super(MenuType.GAME_MENU);
 
         // add save button

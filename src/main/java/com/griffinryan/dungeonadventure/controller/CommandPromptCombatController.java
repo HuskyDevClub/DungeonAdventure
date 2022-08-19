@@ -36,6 +36,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
         put("history", "show all the messages");
         put("save", "save the current progress");
         put("quit", "quit the game immediately");
+        put("status", "show the status of current room and hero");
     }};
 
     /**
@@ -112,7 +113,11 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                 switch (heroIndex) {
                     case 1 -> theHero = HeroesFactory.spawn("Priestess", theName);
                     case 2 -> theHero = HeroesFactory.spawn("Thief", theName);
-                    default -> theHero = HeroesFactory.spawn("Warrior", theName);
+                    case 3 -> theHero = HeroesFactory.spawn("Warrior", theName);
+                    default -> {
+                        log(INVALID_INPUT_MESSAGE);
+                        continue;
+                    }
                 }
                 break;
             }
@@ -231,6 +236,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                     case "battle monster" -> fightOneMonster();
                     case "history" -> this.showMessages();
                     case "save" -> this.saveProgress();
+                    case "status" -> this.showCurrentStatus();
                     case "quit" -> {
                         while (true) {
                             System.out.println("Do you want to save your current progress (y/n):");
