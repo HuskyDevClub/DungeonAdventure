@@ -10,6 +10,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsWorld;
+import com.almasb.fxgl.texture.Texture;
 import com.griffinryan.dungeonadventure.engine.AdventureFactory;
 import com.griffinryan.dungeonadventure.engine.collision.PlayerDoorHandler;
 import com.griffinryan.dungeonadventure.engine.collision.PlayerEnemyHandler;
@@ -273,16 +274,7 @@ public class AdventureApp extends GameApplication {
     @Override
     protected void initUI() {
 
-		/*
-		if(getSettings().isDeveloperMenuEnabled()){
-			Text devCoords = new Text(); // x = 600
-			devCoords.setTranslateX(500);
-			devCoords.setTranslateY(500);
-			devCoords.textProperty().bind(getWorldProperties().getValue("playerX"));
-			devCoords.textProperty().bind(getWorldProperties().getValue("playerY"));
-		}	*/
-
-        var closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");
+        Texture closeUpTexture = FXGL.getAssetLoader().loadTexture("sprite/closeup-1.png");
         closeUpTexture.setTranslateX(50);
         closeUpTexture.setTranslateY(450);
 

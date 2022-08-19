@@ -37,7 +37,7 @@ public class PlayerComponent extends AbstractComponent {
      */
     public PlayerComponent() {
         int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
-        var bound = texture("sprite/front-1.png", 30, 30).brighter();
+        Texture bound = texture("sprite/front-1.png", 30, 30).brighter();
 
         AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/front.png"),
             4, 15, 30, Duration.seconds(0.4), 0, 3);
@@ -56,7 +56,7 @@ public class PlayerComponent extends AbstractComponent {
 
     public PlayerComponent(String bounding, String front, String right) {
         int moveSpeed = random(PLAYER_MIN_SPEED, PLAYER_MAX_SPEED);
-        var bound = texture(bounding).brighter();
+        Texture bound = texture(bounding).brighter();
 
         AnimationChannel idle = new AnimationChannel(FXGL.image(front),
             4, 16, 28, Duration.seconds(.7), 0, 3);

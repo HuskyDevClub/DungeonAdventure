@@ -19,7 +19,7 @@ public class CustomInGameMenu extends FXGLDefaultMenu {
         super(MenuType.GAME_MENU);
 
         // add save button
-        var theSaveOption = new MenuItem("Save to Sqlite Database", () -> {
+        MenuItem theSaveOption = new MenuItem("Save to Sqlite Database", () -> {
             Consumer<String> saveFileNameConsumer = theSaveName -> {
                 if (!theSaveName.isEmpty()) {
                     //save the current progress (the myDungeon object to be specific) into the database

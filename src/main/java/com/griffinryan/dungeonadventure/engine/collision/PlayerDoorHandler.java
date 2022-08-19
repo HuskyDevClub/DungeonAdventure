@@ -62,7 +62,7 @@ public class PlayerDoorHandler extends CollisionHandler {
 
             player.setPosition(new Point2D(FXGL.getAppWidth() - 800, FXGL.getAppHeight() - 500));
 
-            /* hide entities and respawn for next room.. */
+            /* hide entities and respawn for next room */
             Entity doorN = FXGL.getWorldProperties().getObject("dungeonComponent_doorN");
             doorN.setVisible(theDungeon.canHeroMove(Direction.UP));
             Entity doorE = FXGL.getWorldProperties().getObject("dungeonComponent_doorE");

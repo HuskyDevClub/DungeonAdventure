@@ -43,15 +43,9 @@ public class DungeonMainMenu extends FXGLMenu {
      */
     public DungeonMainMenu() {
         super(MenuType.MAIN_MENU);
-<<<<<<< HEAD
-		if(IS_SOUND_ENABLED){
-			playAudio("drumloop.mp3");
-		}
-=======
         if (IS_SOUND_ENABLED) {
             playAudio("drumloop.mp3");
         }
->>>>>>> main
         createContent(getContentRoot());
         // new GSON();
     }
@@ -92,26 +86,11 @@ public class DungeonMainMenu extends FXGLMenu {
         Image bgImage = FXGL.image("background/dungeonadventure.jpg", 1280, 720);
 
         menuBox = new VBox(
-<<<<<<< HEAD
-                5,
-                new MenuItem("START NEW GAME", () -> {
-					stopAudio("drumloop.mp3"); // Stops current background music.
-                    play("menuSelect.mp3");
-					playAudio("chordloop.mp3"); // Starts new background music.
-                    //fireNewGame();
-                    chooseHero();
-                }),
-                new MenuItem("SETTINGS", () -> {
-                }),
-                new MenuItem("CREDITS", () -> {
-                }),
-                new MenuItem("QUIT", Platform::exit)
-=======
             5,
             new MenuItem("START NEW GAME", () -> {
-                //stopAudio("drumloop.mp3"); // Stops current background music.
+                stopAudio("drumloop.mp3"); // Stops current background music.
                 play("menuSelect.mp3");
-                //playAudio("chordloop.mp3"); // Starts new background music.
+                playAudio("chordloop.mp3"); // Starts new background music.
                 chooseHero();
             }),
             new MenuItem("SETTINGS", () -> {
@@ -119,7 +98,6 @@ public class DungeonMainMenu extends FXGLMenu {
             new MenuItem("CREDITS", () -> {
             }),
             new MenuItem("QUIT", Platform::exit)
->>>>>>> main
         );
 
         // if there is existing saves, add the "Continue" option into the menuBox

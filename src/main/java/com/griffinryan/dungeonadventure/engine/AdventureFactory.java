@@ -55,16 +55,23 @@ public class AdventureFactory implements EntityFactory {
      */
     private static Point2D getRandomSpawnPoint(String type) {
         /* return a random spawn point based on String.*/
-        if (type == "potion") {
-            return potionSpawnPoints[FXGLMath.random(0, 3)];
-        } else if (type == "enemy") {
-            return potionSpawnPoints[FXGLMath.random(0, 3)];
-        } else if (type == "player") {
-            return potionSpawnPoints[FXGLMath.random(0, 3)];
-        } else if (type == "door") {
-            return potionSpawnPoints[FXGLMath.random(0, 3)];
+        switch (type) {
+            case "potion" -> {
+                return potionSpawnPoints[FXGLMath.random(0, 3)];
+            }
+            case "enemy" -> {
+                return potionSpawnPoints[FXGLMath.random(0, 3)];
+            }
+            case "player" -> {
+                return potionSpawnPoints[FXGLMath.random(0, 3)];
+            }
+            case "door" -> {
+                return potionSpawnPoints[FXGLMath.random(0, 3)];
+            }
+            default -> {
+                return potionSpawnPoints[FXGLMath.random(0, 3)];
+            }
         }
-        return potionSpawnPoints[FXGLMath.random(0, 3)];
     }
 
     /**
@@ -185,7 +192,7 @@ public class AdventureFactory implements EntityFactory {
         /* Setup parameters to give to the CharacterComponent object. */
         EnemyComponent animatedEnemy = new EnemyComponent(FXGL.<AdventureApp>getAppCast().getPlayer(), 100);
 
-        var e = entityBuilder(data)
+        Entity e = entityBuilder(data)
             .type(EntityType.ENEMY)
             .at(new Point2D(500, 500))
             .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(20, 20)))
@@ -240,7 +247,7 @@ public class AdventureFactory implements EntityFactory {
         Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
         data = new SpawnData(curDoorAnchor);
 
-        var d = FXGL.entityBuilder()
+        Entity d = FXGL.entityBuilder()
             .type(EntityType.DOOR)
             .at(curDoorAnchor)
             .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))

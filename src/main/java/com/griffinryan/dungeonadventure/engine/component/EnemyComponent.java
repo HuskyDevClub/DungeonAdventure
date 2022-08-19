@@ -40,7 +40,7 @@ public class EnemyComponent extends AbstractComponent {
      */
     public EnemyComponent(Entity player, int moveSpeed) {
         this.player = player;
-        var bound = texture("spritesheet/dungeon/game/ogre_front.png", 30, 30).brighter();
+        Texture bound = texture("spritesheet/dungeon/game/ogre_front.png", 30, 30).brighter();
         AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_idle_anim_f.png"),
             4, 32, 32, Duration.seconds(0.4), 0, 3);
         AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/dungeon/game/ogre_run_anim_f.png"),
