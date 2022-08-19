@@ -1,8 +1,8 @@
 package com.griffinryan.dungeonadventure.model.dungeon;
 
 /**
- * Direction is a list of up, left, right,
- * and down enums for the model.dungeon package.
+ * Direction is enums that representing directions
+ * such as up, left, right, and down
  *
  * @author Yudong Lin (ydlin@uw.edu)
  */

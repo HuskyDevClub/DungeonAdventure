@@ -91,7 +91,6 @@ public class DungeonMainMenu extends FXGLMenu {
                 //stopAudio("drumloop.mp3"); // Stops current background music.
                 play("menuSelect.mp3");
                 //playAudio("chordloop.mp3"); // Starts new background music.
-                //fireNewGame();
                 chooseHero();
             }),
             new MenuItem("SETTINGS", () -> {
@@ -102,19 +101,19 @@ public class DungeonMainMenu extends FXGLMenu {
         );
 
         // if there is existing saves, add the "Continue" option into the menuBox
+        //stopAudio("drumloop.mp3"); // Stops current background music.
+        // Starts new background music.
+        // playAudio("chordloop.mp3");
+        MenuItem CONTINUE_BUTTON = new MenuItem("CONTINUE", () -> {
+            //stopAudio("drumloop.mp3"); // Stops current background music.
+            play("menuSelect.mp3");
+            // Starts new background music.
+            // playAudio("chordloop.mp3");
+            selectSave();
+        });
+        menuBox.getChildren().add(0, CONTINUE_BUTTON);
         myNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
-        if (myNamesOfExistingSaves.size() > 0) {
-            menuBox.getChildren().add(
-                0, new MenuItem("CONTINUE", () -> {
-                    //stopAudio("drumloop.mp3"); // Stops current background music.
-                    play("menuSelect.mp3");
-                    // Starts new background music.
-                    // playAudio("chordloop.mp3");
-                    selectSave();
-                }
-                )
-            );
-        }
+        CONTINUE_BUTTON.setVisible(myNamesOfExistingSaves.size() > 0);
 
         menuBox.setBackground(new Background(
             new BackgroundFill(Color.web("black", 0.6), null, null)
@@ -200,8 +199,14 @@ public class DungeonMainMenu extends FXGLMenu {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         fireNewGame();
 
+        /*
+        myNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
+        CONTINUE_BUTTON.setVisible(myNamesOfExistingSaves.size() > 0);
+        // need to figure out a way to update the continue button
+         */
     }
 
     private void selectSave() {

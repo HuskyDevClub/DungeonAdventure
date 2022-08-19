@@ -46,7 +46,7 @@ public class Dungeon implements Serializable {
      * @param theHeight the height of the Dungeon
      */
     public Dungeon(final Hero theHero, final int theWidth, final int theHeight) {
-        this(theHero, theWidth, theHeight, theWidth / 2, theHeight / 2);
+        this(theHero, theWidth, theHeight, RandomSingleton.nextInt(theWidth - 1), RandomSingleton.nextInt(theHeight - 1));
     }
 
     /**
@@ -128,6 +128,17 @@ public class Dungeon implements Serializable {
         myExitX = theExitX;
         myExitY = theExitY;
         myMazeArray = the2dMaze2dArrayTemp;
+        // for each room, update its doors
+        for (int i = 0; i < myMazeArray.length; i++) {
+            for (int j = 0; j < myMazeArray[i].length; j++) {
+                if (myMazeArray[i][j] != null) {
+                    myMazeArray[i][j].updateSurrounding(
+                        canHeroMoveTo(j, i - 1), canHeroMoveTo(j, i + 1),
+                        canHeroMoveTo(j - 1, i), canHeroMoveTo(j + 1, i)
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -153,6 +164,18 @@ public class Dungeon implements Serializable {
     }
 
     /**
+     * @param theX the X of the room that you want to get
+     * @param theY the Y of the room that you want to get
+     * @return a valid room or null
+     */
+    public AbstractRoom tryGetRoom(final int theX, final int theY) {
+        if (0 <= theY && theY < myMazeArray.length && 0 <= theX && theX < myMazeArray[theY].length) {
+            return myMazeArray[theY][theX];
+        }
+        return null;
+    }
+
+    /**
      * @param theX the X of the room that you want to move to
      * @param theY the Y of the room that you want to move to
      * @return whether you have moved or not
@@ -174,7 +197,7 @@ public class Dungeon implements Serializable {
      * @return boolean whether you can move to that room or not
      */
     public boolean canHeroMoveTo(final int theX, final int theY) {
-        return 0 <= theY && theY < myMazeArray.length && 0 <= theX && theX < myMazeArray[theY].length && myMazeArray[theY][theX] != null;
+        return tryGetRoom(theX, theY) != null;
     }
 
     /**

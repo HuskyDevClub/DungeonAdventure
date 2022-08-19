@@ -20,7 +20,6 @@ public abstract class AbstractCombatController {
     protected final ArrayList<String> messageHistory = new ArrayList<>();
     protected Dungeon myDungeon;
 
-
     /**
      * move() moves the player given a direction enum.
      *
@@ -38,7 +37,11 @@ public abstract class AbstractCombatController {
                 if (myDungeon.isCurrentRoomPit()) {
                     final int theDamage = RandomSingleton.nextInt(1, 20);
                     log(String.format("But since there is a pit in the room, you lost %d hit points", theDamage));
-                    myDungeon.getHero().injury(theDamage);
+                    if (DevelopmentTool.isNotInvincible()) {
+                        myDungeon.getHero().reduceHealth(theDamage);
+                    } else {
+                        log("However, as you have the cheat on, you will not take any damage.");
+                    }
                 }
                 return true;
             } else {
@@ -69,36 +72,37 @@ public abstract class AbstractCombatController {
     }
 
     /**
-     * fightMonster() is a method to handle fight calculations.
-     *
-     * @param index the index of the monster inside the array
+     * autoBattleAllMonsters() is a method to handle fight calculations automatically
      */
-    protected void fightMonster(int index) {
-        if (myDungeon.getCurrentRoom().getNumberOfMonsters() > index) {
-            // pop the target monster out of the array and start the auto battle
-            autoCombat(myDungeon.getCurrentRoom().removeMonster(index));
-        } else if (myDungeon.getCurrentRoom().getNumberOfMonsters() == 0) {
-            log("There is no monsters in current room");
+    protected void autoBattleAllMonsters() {
+        if (myDungeon.getCurrentRoom().getNumberOfMonsters() == 0) {
+            log("There is no monster in current room");
         } else {
-            throw new IllegalArgumentException("Index out of bound!");
+            for (int i = myDungeon.getCurrentRoom().getNumberOfMonsters() - 1; i >= 0; i--) {
+                // pop the target monster out of the array and start the auto battle
+                autoBattling(myDungeon.getCurrentRoom().removeMonster(i));
+                // if the hero is killed by the monster
+                if (myDungeon.getHero().getHealth() <= 0) {
+                    break;
+                }
+            }
         }
     }
 
     /**
-     * autoCombat() is a method to handle automatic fight between hero and a monster.
+     * autoBattling() is a method to handle automatic fight between hero and a monster.
      *
      * @param theMonster Monster objects for enemy.
      * @see DungeonCharacter
      */
-    private void autoCombat(final Monster theMonster) {
+    private void autoBattling(final Monster theMonster) {
 
         final int attackCost = Integer.min(myDungeon.getHero().getMaxAttackSpeed(), theMonster.getMaxAttackSpeed());
 
         while (true) {
             if (myDungeon.getHero().getCurrentAttackSpeed() >= theMonster.getCurrentAttackSpeed()) {
                 if (RandomSingleton.isSuccessful(CHANCE_TO_USE_SKILL)) {
-                    myDungeon.getHero().skill(theMonster, attackCost);
-                    log(String.format("The %s %s uses the skill!", myDungeon.getHero().getClass().getSimpleName(), myDungeon.getHero().getName()));
+                    heroUsesSkill(theMonster, attackCost);
                 } else {
                     oneAttackAnother(myDungeon.getHero(), theMonster, attackCost);
                 }
@@ -111,6 +115,8 @@ public abstract class AbstractCombatController {
             } else if (theMonster.getHealth() <= 0) {
                 log("You successfully kill the monster.");
                 myDungeon.getHero().resetCurrentAttackSpeed();
+                // print out the hero status
+                log(String.format("Your current heath: %s", myDungeon.getHero().getHealth()));
                 break;
             } else if (myDungeon.getHero().getCurrentAttackSpeed() <= 0 || theMonster.getCurrentAttackSpeed() <= 0) {
                 myDungeon.getHero().addCurrentAttackSpeed(myDungeon.getHero().getMaxAttackSpeed());
@@ -127,7 +133,7 @@ public abstract class AbstractCombatController {
      * @param theCost     The cost of doing attack
      * @see DungeonCharacter
      */
-    private void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget, final int theCost) {
+    protected void oneAttackAnother(final DungeonCharacter theAttacker, final DungeonCharacter theTarget, final int theCost) {
         theAttacker.attack(theTarget, theCost);
         log(
             theAttacker.getLastDamageDone() > 0 && !theTarget.isLastAttackBlocked() ? String.format(
@@ -138,6 +144,20 @@ public abstract class AbstractCombatController {
                 theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName()
             )
         );
+    }
+
+    /**
+     * handle the process of hero using skill
+     *
+     * @param theMonster the target monster (if that is the target)
+     * @param theCost    The cost of using skill
+     */
+    protected void heroUsesSkill(final Monster theMonster, final int theCost) {
+        myDungeon.getHero().skill(theMonster, theCost);
+        log(String.format("The %s %s uses the skill!", myDungeon.getHero().getClass().getSimpleName(), myDungeon.getHero().getName()));
+        log(String.format("And %s's skill is:", myDungeon.getHero().getName()));
+        log(myDungeon.getHero().getSkillDescription());
+        log(myDungeon.getHero().getSkillUsageResult());
     }
 
     /**

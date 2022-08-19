@@ -9,40 +9,33 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SuppressWarnings("DuplicatedCode")
-public class TestMonsters {
-    private final static String myMonsterDummyName = "dummy";
-
-    private static final int defaultHealth = 100;
-    private static final int defaultMinDamage = 50;
-    private static final int defaultMaxDamage = 90;
-    private static final int defaultAttackSpeed = 5;
-    private static final int defaultChanceToHit = 80;
-    private static final int defaultChanceToHeal = 100;
-    private static final int defaultMinHealing = 10;
-    private static final int defaultMaxHealing = 50;
-
-    private static final int weakWarriorDamage = 20;
-    private static final int superWarriorDamage = 2000;
+public class TestMonsters extends TestDungeonCharacter {
 
     private final static Warrior WeakWarrior = new Warrior(
-        myMonsterDummyName, defaultHealth, weakWarriorDamage, weakWarriorDamage, defaultAttackSpeed,
+        myDummyName, defaultHealth, weakDamage, weakDamage, defaultAttackSpeed,
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     private final static Warrior SuperWarrior = new Warrior(
-        myMonsterDummyName, defaultHealth, superWarriorDamage, superWarriorDamage, defaultAttackSpeed,
+        myDummyName, defaultHealth, superDamage, superDamage, defaultAttackSpeed,
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
     private final static Warrior GodLikeWarrior = new Warrior(
-        myMonsterDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
+        myDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 0
     );
 
+    private static void checkConstantInstanceField(Monster theMonster) {
+        TestDungeonCharacter.checkConstantInstanceField(theMonster);
+        // check if hidden by useless data has been assigned
+        assertEquals(0, theMonster.getChanceToBlock());
+
+    }
+
     private static void testTheMonster(final Monster theMonster) {
         // check if the right name has been set
-        assertEquals(theMonster.getName(), myMonsterDummyName);
+        assertEquals(theMonster.getName(), myDummyName);
         // check if the correct data has been assigned
         assertEquals(theMonster.getHealth(), defaultHealth);
         checkConstantInstanceField(theMonster);
@@ -55,13 +48,9 @@ public class TestMonsters {
         assertFalse(theMonster.isLastAttackBlocked());
         assertFalse(theMonster.isDead());
         assertTrue(theMonster.isAlive());
-        assertEquals(theMonster.getHealth(), defaultHealth - weakWarriorDamage);
+        assertEquals(theMonster.getHealth(), defaultHealth - weakDamage);
         // recheck whether the supposed constant instances has been modified
         checkConstantInstanceField(theMonster);
-
-        final int _heath = theMonster.getHealth();
-        theMonster.selfHeal();
-        assertTrue(theMonster.getHealth() > _heath);
 
         // what if the monster received a critical hit from our super warrior?
         SuperWarrior.attack(theMonster, 0);
@@ -69,7 +58,7 @@ public class TestMonsters {
         assertFalse(theMonster.isLastAttackBlocked());
         assertTrue(theMonster.isDead());
         assertFalse(theMonster.isAlive());
-        assertNotEquals(theMonster.getHealth(), defaultHealth - weakWarriorDamage);
+        assertNotEquals(theMonster.getHealth(), defaultHealth - weakDamage);
         assertEquals(theMonster.getHealth(), 0);
         // recheck whether the supposed constant instances has been modified
         checkConstantInstanceField(theMonster);
@@ -109,22 +98,11 @@ public class TestMonsters {
         checkConstantInstanceField(theMonster);
     }
 
-    private static void checkConstantInstanceField(Monster theMonster) {
-        assertEquals(defaultMinDamage, theMonster.getMinDamage());
-        assertEquals(defaultMaxDamage, theMonster.getMaxDamage());
-        assertEquals(defaultAttackSpeed, theMonster.getMaxAttackSpeed());
-        assertEquals(defaultChanceToHit, theMonster.getChanceToHit());
-        assertEquals(defaultChanceToHeal, theMonster.getChanceToHeal());
-        assertEquals(defaultMinHealing, theMonster.getMinHealing());
-        assertEquals(defaultMaxHealing, theMonster.getMaxHealing());
-        // check if hidden by useless data has been assigned
-        assertEquals(0, theMonster.getChanceToBlock());
-    }
 
     @Test
     void testOgre() {
         testTheMonster(new Ogre(
-            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
@@ -132,7 +110,7 @@ public class TestMonsters {
     @Test
     void testGremlin() {
         testTheMonster(new Gremlin(
-            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
@@ -140,7 +118,7 @@ public class TestMonsters {
     @Test
     void testSkeleton() {
         testTheMonster(new Skeleton(
-            myMonsterDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
         ));
     }
