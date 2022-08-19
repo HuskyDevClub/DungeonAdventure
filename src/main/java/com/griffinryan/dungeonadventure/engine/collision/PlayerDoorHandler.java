@@ -42,6 +42,7 @@ public class PlayerDoorHandler extends CollisionHandler {
             System.out.println(theDungeon.getCurrentY());
             System.out.println(theDungeon.getCurrentRoom().getInfo());
 
+
             DoorComponent temp = door.getComponent(DoorComponent.class);
 
             if (temp.mapKey.equalsIgnoreCase("doorN")) {

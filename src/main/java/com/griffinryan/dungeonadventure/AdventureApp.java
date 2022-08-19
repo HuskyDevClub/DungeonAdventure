@@ -136,7 +136,6 @@ public class AdventureApp extends GameApplication {
                 player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
             }
         }, KeyCode.D);
-
         FXGL.getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
@@ -160,7 +159,6 @@ public class AdventureApp extends GameApplication {
                 // player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
             }
         }, KeyCode.W);
-
     }
 
     /**
