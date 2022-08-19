@@ -57,27 +57,6 @@ public class EnemyComponent extends AbstractComponent {
         this.texture = new AnimatedTexture(idleChannel);
     }
 
-	/*
-	public EnemyComponent() {
-		int moveSpeed = random(ENEMY_MIN_SPEED, ENEMY_MAX_SPEED);
-		var bound = texture("sprite/enemy.png", 60, 60).brighter();
-		AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/efront.png"),
-				4, 20, 30, Duration.seconds(0.4), 0, 3);
-		AnimationChannel walk = new AnimationChannel(FXGL.image("spritesheet/eleft.png"),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-		AnimationChannel back = new AnimationChannel(FXGL.image("spritesheet/eback.png"),
-				4, 15, 30, Duration.seconds(0.4), 0, 3);
-
-		this.idleChannel = idle;
-		this.walkChannel = walk;
-		this.backChannel = back;
-
-		this.speed = moveSpeed;
-		this.boundTexture = bound;
-		this.texture = new AnimatedTexture(idleChannel);
-	}
-*/
-
     /**
      * onAdded() sets properties upon instantiation of
      * the Component object.

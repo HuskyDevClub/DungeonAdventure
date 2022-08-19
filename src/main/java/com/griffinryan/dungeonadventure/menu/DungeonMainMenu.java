@@ -65,11 +65,9 @@ public class DungeonMainMenu extends FXGLMenu {
     /**
      * stopAudio() stops a .mp3 file located
      * in the assets/music path.
-     *
-     * @param s Title of .mp3 to stop.
      */
-    private void stopAudio(String s) {
-        Music m = FXGL.getAssetLoader().loadMusic(s);
+    private void stopAudio() {
+        Music m = FXGL.getAssetLoader().loadMusic("drumloop.mp3");
         FXGL.getAudioPlayer().stopMusic(m);
     }
 
@@ -88,7 +86,7 @@ public class DungeonMainMenu extends FXGLMenu {
         menuBox = new VBox(
             5,
             new MenuItem("START NEW GAME", () -> {
-                stopAudio("drumloop.mp3"); // Stops current background music.
+                stopAudio(); // Stops current background music.
                 play("menuSelect.mp3");
                 playAudio("chordloop.mp3"); // Starts new background music.
                 chooseHero();
@@ -201,12 +199,6 @@ public class DungeonMainMenu extends FXGLMenu {
         }
 
         fireNewGame();
-
-        /*
-        myNamesOfExistingSaves = DungeonSqliteInterface.getNamesOfExistingSaves();
-        CONTINUE_BUTTON.setVisible(myNamesOfExistingSaves.size() > 0);
-        // need to figure out a way to update the continue button
-         */
     }
 
     private void selectSave() {

@@ -34,17 +34,8 @@ public class DungeonComponent extends AbstractComponent {
      * @param theHeight the height of the dungeon.
      */
     public DungeonComponent(int theWidth, int theHeight) {
-
-        //minimapView = new MinimapView(FXGL.getGameWorld(), FXGL.getAppWidth(),
-        //		FXGL.getAppWidth(), 600, 600);
-
-        /* Creates the dungeon/room HashMap */
-        //maze = createMaze();
-
         HeroType selectedHeroType = getWorldProperties().getObject("heroType");
-
         myDungeon = new Dungeon(HeroesFactory.spawn(selectedHeroType, selectedHeroType.toString()), theWidth, theHeight, 0, 0);
-
         FXGL.getWorldProperties().setValue("playerHP", myDungeon.getHero().getHealth());
 
     }

@@ -38,7 +38,7 @@ public enum HeroType {
     }
 
     public List<Image> getSprites() {
-        List<Image> sprites = new ArrayList<Image>();
+        List<Image> sprites = new ArrayList<>();
         switch (text) {
             case "THIEF":
                 for (int i = 0; i < 4; i++) {

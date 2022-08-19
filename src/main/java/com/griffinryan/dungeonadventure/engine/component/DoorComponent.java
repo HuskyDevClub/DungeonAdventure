@@ -22,13 +22,13 @@ import static com.almasb.fxgl.dsl.FXGL.getWorldProperties;
  */
 public class DoorComponent extends AbstractComponent {
 
+    public final String mapKey;
     private final AnimatedTexture texture;
     private final Texture boundTexture;
     private final HitBox hitbox;
     private final double anchorX;
     private final double anchorY;
     private final AnimationChannel idleChannel;
-    public String mapKey;
 
     /**
      * DoorComponent is a constructor that creates
@@ -121,8 +121,6 @@ public class DoorComponent extends AbstractComponent {
         Point2D anchor = new Point2D(this.getAnchorX(), this.getAnchorY());
         entity.getTransformComponent().setScaleOrigin(anchor);
         entity.getViewComponent().addChild(boundTexture);
-        // entity.getViewComponent().addChild(texture);
-        // texture.loopAnimationChannel(idleChannel);
     }
 
     /**
@@ -224,8 +222,7 @@ public class DoorComponent extends AbstractComponent {
     private double setAnchorXLocation() {
 
         return switch (this.mapKey) {
-            case "doorN" -> 600.0;
-            case "doorS" -> 600.0;
+            case "doorN", "doorS" -> 600.0;
             case "doorE" -> 1220.0;
             case "doorW" -> 0.0;
             default -> 0;
@@ -249,8 +246,7 @@ public class DoorComponent extends AbstractComponent {
         return switch (this.mapKey) {
             case "doorN" -> 0.0;
             case "doorS" -> 660.0;
-            case "doorE" -> 330.0;
-            case "doorW" -> 330.0;
+            case "doorE", "doorW" -> 330.0;
             default -> 0;
         };
     }

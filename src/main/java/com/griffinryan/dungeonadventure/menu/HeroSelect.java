@@ -108,13 +108,6 @@ public class HeroSelect extends StackPane {
         HBox box = new HBox(15, text);
 
         box.setAlignment(Pos.BOTTOM_CENTER);
-        /*
-        AnimationChannel idle = new AnimationChannel(FXGL.image("spritesheet/dungeon/knight_m_idle_anim_f.png"),
-                4, 16, 28, Duration.seconds(0.6), 0, 3);
-        AnimatedTexture texture = new AnimatedTexture(idle);
-        texture.loopAnimationChannel(idle);
-
-         */
 
 
         getChildren().addAll(bg0, bg1, box, line, imageView);

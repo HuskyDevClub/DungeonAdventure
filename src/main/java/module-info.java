@@ -1,16 +1,12 @@
 open module com.griffinryan.dungeonadventure {
     requires javafx.base;
-    requires javafx.controls;
-    // requires javafx.fxml;
     requires javafx.graphics;
-    requires javafx.media;
     requires com.almasb.fxgl.all;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
 
     requires com.google.gson;
     requires org.junit.jupiter.api;
-    // requires annotations;
 
     exports com.griffinryan.dungeonadventure;
     exports com.griffinryan.dungeonadventure.engine;

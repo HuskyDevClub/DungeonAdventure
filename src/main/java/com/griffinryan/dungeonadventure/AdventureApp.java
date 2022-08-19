@@ -7,7 +7,6 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsWorld;
 import com.almasb.fxgl.texture.Texture;
@@ -17,7 +16,6 @@ import com.griffinryan.dungeonadventure.engine.collision.PlayerEnemyHandler;
 import com.griffinryan.dungeonadventure.engine.collision.PlayerPotionHandler;
 import com.griffinryan.dungeonadventure.engine.component.DungeonComponent;
 import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
-import com.griffinryan.dungeonadventure.engine.component.RoomComponent;
 import com.griffinryan.dungeonadventure.engine.util.DungeonUtility;
 import com.griffinryan.dungeonadventure.menu.CustomInGameMenu;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
@@ -49,11 +47,10 @@ import static com.griffinryan.dungeonadventure.engine.Config.*;
  */
 public class AdventureApp extends GameApplication {
 
-    private Entity player, potion, enemy, background, doorN, doorE, doorW, doorS, dungeon, doorEntity;
-    private SpawnData doorData;
-    private PlayerComponent playerComponent;
-    private DungeonComponent dungeonComponent;
-    private RoomComponent[][] roomComponent;
+    private Entity player;
+
+    public AdventureApp() {
+    }
 
     /* TODO:
      *			-
@@ -212,37 +209,39 @@ public class AdventureApp extends GameApplication {
 
         /* 	Spawn all component entities.	*/
         player = spawn("Player");
-        playerComponent = player.getComponent(PlayerComponent.class);
 
         /* Generate DungeonComponent */
-        dungeon = spawn("Dungeon");
-        dungeonComponent = dungeon.getComponent(DungeonComponent.class);
+        Entity dungeon = spawn("Dungeon");
+        DungeonComponent dungeonComponent = dungeon.getComponent(DungeonComponent.class);
 
         getWorldProperties().setValue("dungeonComponent_dungeon", dungeonComponent.getDungeon());
 
         /* Spawn doors */
-        doorN = spawn("doorN");
+        Entity doorN = spawn("doorN");
         doorN.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.UP));
         getWorldProperties().setValue("dungeonComponent_doorN", doorN);
-        doorE = spawn("doorE");
+
+        Entity doorE = spawn("doorE");
         doorE.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.RIGHT));
         getWorldProperties().setValue("dungeonComponent_doorE", doorE);
-        doorS = spawn("doorS");
+
+        Entity doorS = spawn("doorS");
         doorS.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.DOWN));
         getWorldProperties().setValue("dungeonComponent_doorS", doorS);
-        doorW = spawn("doorW");
+
+        Entity doorW = spawn("doorW");
         doorW.setVisible(dungeonComponent.getDungeon().canHeroMove(Direction.LEFT));
         getWorldProperties().setValue("dungeonComponent_doorW", doorW);
 
+        /* Spawn other entities */
         if (!IS_NO_BACKGROUND) {
-            background = spawn("Background");
+            spawn("Background");
         }
-
         if (!IS_NO_ENEMIES) {
-            enemy = spawn("Enemy");
+            spawn("Enemy");
         }
         if (!IS_NO_POTIONS) {
-            potion = spawn("Potion");
+            spawn("Potion");
         }
 
         /* 	Add listeners for player/game values.	*/

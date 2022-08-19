@@ -18,11 +18,11 @@ import static com.almasb.fxgl.dsl.FXGL.*;
  */
 public abstract class AbstractComponent extends Component {
 
+    public final String mapKey;
     private final Texture boundTexture;
     private final HitBox hitbox;
     private final double anchorX;
     private final double anchorY;
-    public String mapKey;
 
     /**
      * DoorComponent is a constructor that creates
@@ -169,8 +169,7 @@ public abstract class AbstractComponent extends Component {
     private double setAnchorXLocation() {
 
         return switch (this.mapKey) {
-            case "north" -> getAppWidth() / 2.0 - getAppWidth() / 32.0;
-            case "south" -> getAppWidth() / 2.0 - getAppWidth() / 32.0;
+            case "north", "south" -> getAppWidth() / 2.0 - getAppWidth() / 32.0;
             case "east" -> 15.0 * getAppWidth() / 16.0 + getAppWidth() / 64.0;
             case "west" -> 0.0;
             default -> 0;
@@ -201,8 +200,7 @@ public abstract class AbstractComponent extends Component {
         return switch (this.mapKey) {
             case "north" -> 0.0;
             case "south" -> 11 * getAppHeight() / 12.0 - getAppHeight() / 54.0;
-            case "east" -> getAppHeight() / 2.0 - getAppHeight() / 12.0;
-            case "west" -> getAppHeight() / 2.0 - getAppHeight() / 12.0;
+            case "east", "west" -> getAppHeight() / 2.0 - getAppHeight() / 12.0;
             default -> 0;
         };
     }

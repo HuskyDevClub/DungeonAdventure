@@ -50,28 +50,10 @@ public class AdventureFactory implements EntityFactory {
     /**
      * Retrieves a random spawn point from array.
      *
-     * @param type of Entity to get spawn point for.
      * @return Point2D
      */
-    private static Point2D getRandomSpawnPoint(String type) {
-        /* return a random spawn point based on String.*/
-        switch (type) {
-            case "potion" -> {
-                return potionSpawnPoints[FXGLMath.random(0, 3)];
-            }
-            case "enemy" -> {
-                return potionSpawnPoints[FXGLMath.random(0, 3)];
-            }
-            case "player" -> {
-                return potionSpawnPoints[FXGLMath.random(0, 3)];
-            }
-            case "door" -> {
-                return potionSpawnPoints[FXGLMath.random(0, 3)];
-            }
-            default -> {
-                return potionSpawnPoints[FXGLMath.random(0, 3)];
-            }
-        }
+    private static Point2D getRandomSpawnPoint() {
+        return potionSpawnPoints[FXGLMath.random(0, 3)];
     }
 
     /**
@@ -135,7 +117,7 @@ public class AdventureFactory implements EntityFactory {
 
         Gson gson = new Gson();
 
-        BufferedReader br = null;
+        BufferedReader br;
 
         PlayerInfo playerObj;
         try {
@@ -223,7 +205,7 @@ public class AdventureFactory implements EntityFactory {
 
         return FXGL.entityBuilder()
             .type(EntityType.POTION)
-            .at(getRandomSpawnPoint("potion"))
+            .at(getRandomSpawnPoint())
             .bbox(new HitBox(new Point2D(0, 0), BoundingShape.box(80, 80)))
             .with(animatedPotion)
             .with(new CollidableComponent(true))
@@ -324,18 +306,7 @@ public class AdventureFactory implements EntityFactory {
     public Entity spawnEastDoor(SpawnData data) {
         getWorldProperties().setValue("doorE", true);
 
-        DoorComponent door = new DoorComponent();
-        Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
-        HitBox h = door.getHitBox();
-
-        return FXGL.entityBuilder()
-            .type(EntityType.DOOR)
-            .at(curDoorAnchor)
-            .bbox(new HitBox(new Point2D(0.0, 0.0), BoundingShape.box(80, 80)))
-            .with(door)
-            .with(new CollidableComponent(true))
-            .zIndex(8)
-            .build();
+        return buildDoorEntity();
     }
 
     /**
@@ -350,6 +321,15 @@ public class AdventureFactory implements EntityFactory {
     public Entity spawnWestDoor(SpawnData data) {
         getWorldProperties().setValue("doorW", true);
 
+        return buildDoorEntity();
+    }
+
+    /**
+     * build the door entity using FXGL
+     *
+     * @return a Door Entity
+     */
+    private Entity buildDoorEntity() {
         DoorComponent door = new DoorComponent();
         Point2D curDoorAnchor = new Point2D(door.getAnchorX(), door.getAnchorY());
         HitBox h = door.getHitBox();

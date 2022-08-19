@@ -88,9 +88,6 @@ public class PlayerComponent extends AbstractComponent {
      */
     @Override
     public void onAdded() {
-        // entity.getTransformComponent().setScaleOrigin(new Point2D(0,0));
-        //entity.setScaleX(2);
-        //entity.setScaleY(2);
         entity.getTransformComponent().setScaleX(2);
         entity.getTransformComponent().setScaleY(2);
         entity.getViewComponent().addChild(texture);

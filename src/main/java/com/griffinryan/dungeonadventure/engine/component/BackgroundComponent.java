@@ -65,10 +65,6 @@ public class BackgroundComponent extends AbstractComponent {
         topLayer.setTranslateY(-BG_DISTANCE * TOP_SPEED * player.getY());
 
         middleLayer.setTranslateX(-BG_DISTANCE * MIDDLE_SPEED * player.getX());
-        //middleLayer.setTranslateY(-BG_DISTANCE * MIDDLE_SPEED * player.getY());
-
-        // bottomLayer.setTranslateX(-BG_DISTANCE * BOTTOM_SPEED * player.getX());
-        // bottomLayer.setTranslateY(-BG_DISTANCE * BOTTOM_SPEED * player.getY());
 
         lightLayer.setTranslateX(-BG_DISTANCE * LIGHT_SPEED * player.getX());
         lightLayer.setTranslateY(-BG_DISTANCE * LIGHT_SPEED * player.getY());
