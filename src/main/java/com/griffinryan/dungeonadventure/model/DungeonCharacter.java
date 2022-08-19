@@ -69,15 +69,6 @@ public abstract class DungeonCharacter implements Serializable {
     }
 
     /**
-     * if the Dungeon Character has chance to heal himself/herself, then try to do so
-     */
-    public void selfHeal() {
-        if (RandomSingleton.isSuccessful(this.myChanceToHeal)) {
-            this.heal(RandomSingleton.nextInt(this.myMinHealing, this.myMaxHealing));
-        }
-    }
-
-    /**
      * heal the Dungeon Character
      *
      * @param value the amount of health Dungeon Character heal

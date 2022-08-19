@@ -98,8 +98,7 @@ public abstract class AbstractCombatController {
         while (true) {
             if (myDungeon.getHero().getCurrentAttackSpeed() >= theMonster.getCurrentAttackSpeed()) {
                 if (RandomSingleton.isSuccessful(CHANCE_TO_USE_SKILL)) {
-                    myDungeon.getHero().skill(theMonster, attackCost);
-                    log(String.format("The %s %s uses the skill!", myDungeon.getHero().getClass().getSimpleName(), myDungeon.getHero().getName()));
+                    heroUsesSkill(theMonster, attackCost);
                 } else {
                     oneAttackAnother(myDungeon.getHero(), theMonster, attackCost);
                 }
@@ -141,6 +140,20 @@ public abstract class AbstractCombatController {
                 theAttacker.getClass().getSimpleName(), theAttacker.getName(), theTarget.getClass().getSimpleName(), theTarget.getName()
             )
         );
+    }
+
+    /**
+     * handle the process of hero using skill
+     *
+     * @param theMonster the target monster (if that is the target)
+     * @param theCost    The cost of using skill
+     */
+    protected void heroUsesSkill(final Monster theMonster, final int theCost) {
+        myDungeon.getHero().skill(theMonster, theCost);
+        log(String.format("The %s %s uses the skill!", myDungeon.getHero().getClass().getSimpleName(), myDungeon.getHero().getName()));
+        log(String.format("And %s's skill is:", myDungeon.getHero().getName()));
+        log(myDungeon.getHero().getSkillDescription());
+        log(myDungeon.getHero().getSkillUsageResult());
     }
 
     /**

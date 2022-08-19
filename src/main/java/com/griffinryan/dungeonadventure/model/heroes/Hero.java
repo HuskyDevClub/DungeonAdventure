@@ -39,6 +39,20 @@ public abstract class Hero extends DungeonCharacter {
     public abstract void skill(final Monster theTarget, final int theCost);
 
     /**
+     * get the description of hero's skill
+     *
+     * @return description of hero's skill
+     */
+    public abstract String getSkillDescription();
+
+    /**
+     * get the result of hero using his/her skill (succeed? and how?)
+     *
+     * @return the result of hero using his/her skill
+     */
+    public abstract String getSkillUsageResult();
+
+    /**
      * gain health positions
      *
      * @param theNum the amount of health positions that hero gets

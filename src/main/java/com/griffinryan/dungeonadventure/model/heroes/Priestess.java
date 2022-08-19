@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
@@ -10,6 +11,8 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  * @see Hero
  */
 public final class Priestess extends Hero {
+
+    private int myLastHealDoneByUsingSkill = 0;
 
     /**
      * @param theName          the name of the Priestess
@@ -28,13 +31,36 @@ public final class Priestess extends Hero {
     }
 
     /**
-     * the skill of the Priestess
+     * the skill of the Priestess:
+     * heal self based on theMinHealing and theMaxHealing
      *
      * @param theTarget the target
      * @param theCost   the cost of using skill
      */
     public void skill(final Monster theTarget, final int theCost) {
-        super.selfHeal();
+        myLastHealDoneByUsingSkill = RandomSingleton.isSuccessful(this.getChanceToHeal()) ? RandomSingleton.nextInt(this.getMinHealing(), this.getMaxHealing()) : 0;
+        this.heal(myLastHealDoneByUsingSkill);
         this.subtractCurrentAttackSpeed(theCost);
+    }
+
+    /**
+     * get the description of hero's skill
+     *
+     * @return description of hero's skill
+     */
+    public String getSkillDescription() {
+        return "Self Healing - She will recovering some health";
+    }
+
+    /**
+     * get the result of hero using his/her skill (succeed? and how?)
+     *
+     * @return the result of hero using his/her skill
+     */
+    @Override
+    public String getSkillUsageResult() {
+        return myLastHealDoneByUsingSkill <= 0
+            ? "But she is not lucky enough to do any healing."
+            : String.format("She successfully heals herself %d points.", myLastHealDoneByUsingSkill);
     }
 }

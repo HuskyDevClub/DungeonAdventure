@@ -419,10 +419,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                 System.out.println("Please choose your action (attack / skill)");
                 switch (SCANNER.nextLine()) {
                     case "attack" -> oneAttackAnother(myDungeon.getHero(), theMonster, attackCost);
-                    case "skill" -> {
-                        myDungeon.getHero().skill(theMonster, attackCost);
-                        log(String.format("The %s %s uses the skill!", myDungeon.getHero().getClass().getSimpleName(), myDungeon.getHero().getName()));
-                    }
+                    case "skill" -> heroUsesSkill(theMonster, attackCost);
                     default -> log(INVALID_INPUT_MESSAGE);
                 }
             } else {

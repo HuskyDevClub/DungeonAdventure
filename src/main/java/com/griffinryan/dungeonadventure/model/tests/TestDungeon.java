@@ -111,6 +111,12 @@ public class TestDungeon {
         assertEquals(theWidth, theDungeon.getMazeWidth());
         assertEquals(theHeight, theDungeon.getMazeHeight());
 
+        // check current room's doors
+        assertEquals(theDungeon.canHeroMove(Direction.UP), theDungeon.getCurrentRoom().isThereDoorOn(Direction.UP));
+        assertEquals(theDungeon.canHeroMove(Direction.LEFT), theDungeon.getCurrentRoom().isThereDoorOn(Direction.LEFT));
+        assertEquals(theDungeon.canHeroMove(Direction.RIGHT), theDungeon.getCurrentRoom().isThereDoorOn(Direction.RIGHT));
+        assertEquals(theDungeon.canHeroMove(Direction.DOWN), theDungeon.getCurrentRoom().isThereDoorOn(Direction.DOWN));
+
         // check hero
         final Hero theHero = theDungeon.getHero();
         assertTrue(theHero instanceof Warrior);

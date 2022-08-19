@@ -1,5 +1,6 @@
 package com.griffinryan.dungeonadventure.model.rooms;
 
+import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
@@ -132,11 +133,34 @@ public abstract class AbstractRoom implements Serializable {
                 "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
                 this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
             );
-        } else {
-            return String.format(
-                "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
-                this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
-            );
+        }
+        return String.format(
+            "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
+            this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
+        );
+    }
+
+    /**
+     * get whether there is a door on given direction
+     *
+     * @param theDirection the direction
+     * @return whether there is a door on given direction
+     */
+    public boolean isThereDoorOn(Direction theDirection) {
+        switch (theDirection) {
+            case UP -> {
+                return myCanMoveUp;
+            }
+            case DOWN -> {
+                return myCanMoveDown;
+            }
+            case LEFT -> {
+                return myCanMoveLeft;
+            }
+            case RIGHT -> {
+                return myCanMoveRight;
+            }
+            default -> throw new IllegalArgumentException("Invalid Direction");
         }
     }
 
