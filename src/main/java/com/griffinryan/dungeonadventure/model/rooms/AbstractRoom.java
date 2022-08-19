@@ -1,14 +1,15 @@
 package com.griffinryan.dungeonadventure.model.rooms;
 
+import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Pillar;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * AbstractRoom is the parent object
- * extended by model.dungeon objects.
+ * AbstractRoom is the parent of all rooms
  *
  * @author Yudong Lin (ydlin@uw.edu)
  */
@@ -17,6 +18,13 @@ public abstract class AbstractRoom implements Serializable {
     private Pillar myPillar = null;
     private int myNumberOfHealingPotions;
     private int myNumberOfVisionPotions;
+
+    /* update doors */
+    private boolean myCanMoveUp = false;
+    private boolean myCanMoveDown = false;
+    private boolean myCanMoveLeft = false;
+    private boolean myCanMoveRight = false;
+
 
     /**
      * @param theMonsters               the monsters in this room
@@ -41,6 +49,21 @@ public abstract class AbstractRoom implements Serializable {
         final int num = myNumberOfHealingPotions;
         myNumberOfHealingPotions = 0;
         return num;
+    }
+
+    /**
+     * update the references for surrounding rooms
+     *
+     * @param theUp    can move upward
+     * @param theDown  can move downward
+     * @param theLeft  can move to the left
+     * @param theRight can move to the right
+     */
+    public void updateSurrounding(boolean theUp, boolean theDown, boolean theLeft, boolean theRight) {
+        myCanMoveUp = theUp;
+        myCanMoveDown = theDown;
+        myCanMoveLeft = theLeft;
+        myCanMoveRight = theRight;
     }
 
     /**
@@ -102,21 +125,76 @@ public abstract class AbstractRoom implements Serializable {
     }
 
     /**
-     * @return String
+     * @return the information regarding this room
      */
-    @Override
-    public String toString() {
+    public String getInfo() {
         if (!this.hasPillar()) {
             return String.format(
                 "Monsters: %d\nHealing Potions: %d\nVision Potions: %d",
                 this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions()
             );
-        } else {
-            return String.format(
-                "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
-                this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
-            );
         }
+        return String.format(
+            "Monsters: %d\nHealing Potions: %d\nVision Potions: %d\nPillar: [%s]",
+            this.getNumberOfMonsters(), this.getNumberOfHealingPotions(), this.getNumberOfVisionPotions(), this.myPillar.toString()
+        );
+    }
+
+    /**
+     * get whether there is a door on given direction
+     *
+     * @param theDirection the direction
+     * @return whether there is a door on given direction
+     */
+    public boolean isThereDoorOn(Direction theDirection) {
+        switch (theDirection) {
+            case UP -> {
+                return myCanMoveUp;
+            }
+            case DOWN -> {
+                return myCanMoveDown;
+            }
+            case LEFT -> {
+                return myCanMoveLeft;
+            }
+            case RIGHT -> {
+                return myCanMoveRight;
+            }
+            default -> throw new IllegalArgumentException("Invalid Direction");
+        }
+    }
+
+    /**
+     * get the overview of current room
+     *
+     * @return a string that contain the information
+     */
+    @Override
+    public String toString() {
+        final char[][] roomOverView = new char[3][3];
+        for (final char[] row : roomOverView) {
+            Arrays.fill(row, '*');
+        }
+        roomOverView[1][1] = this.getFlag();
+        if (myCanMoveUp) {
+            roomOverView[0][1] = '-';
+        }
+        if (myCanMoveDown) {
+            roomOverView[2][1] = '-';
+        }
+        if (myCanMoveLeft) {
+            roomOverView[1][0] = '|';
+        }
+        if (myCanMoveRight) {
+            roomOverView[1][2] = '|';
+        }
+        final StringBuilder theInfo = new StringBuilder();
+        for (final char[] row : roomOverView) {
+            theInfo.append(String.valueOf(row));
+            theInfo.append('\n');
+        }
+        theInfo.deleteCharAt(theInfo.length() - 1);
+        return theInfo.toString();
     }
 
     /**

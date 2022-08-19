@@ -3,9 +3,7 @@ package com.griffinryan.dungeonadventure.model.monsters;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 
 /**
- * Monster is the parent object
- * that abstracts in the model.heroes
- * and model.monsters packages.
+ * Monster is the parent class of all monsters
  *
  * @author Yudong Lin (ydlin@uw.edu)
  * @see DungeonCharacter

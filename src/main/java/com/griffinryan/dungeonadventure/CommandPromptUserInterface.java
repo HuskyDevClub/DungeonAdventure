@@ -1,23 +1,25 @@
-package com.griffinryan.dungeonadventure.controller;
+package com.griffinryan.dungeonadventure;
 
+import com.griffinryan.dungeonadventure.controller.AbstractCombatController;
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
+import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.HeroesFactory;
-import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import com.griffinryan.dungeonadventure.model.dungeon.Dungeon;
 import com.griffinryan.dungeonadventure.model.heroes.Hero;
+import com.griffinryan.dungeonadventure.model.monsters.Monster;
 import com.griffinryan.dungeonadventure.model.sql.DungeonSqliteInterface;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
 /**
  * @author Yudong Lin (ydlin@uw.edu)
  */
-public final class CommandPromptCombatController extends AbstractCombatController {
+public final class CommandPromptUserInterface extends AbstractCombatController {
 
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final String INVALID_INPUT_MESSAGE = "Invalid input, please try again.";
@@ -26,15 +28,17 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
         put("down", "going downward");
         put("left", "going left");
         put("right", "going right");
-        put("php", "picks up all healing potions in current room");
+        put("php", "picks up all healing potion(s) in current room");
         put("uhp", "use 1 healing potion");
-        put("pvp", "picks up all vision potions in current room");
+        put("pvp", "picks up all vision potion(s) in current room");
         put("uvp", "use 1 vision potion");
         put("pp", "(try to) pick up the pillar located in this room");
-        put("fight", "fight a monster inside the dungeon");
+        put("auto battle", "fight all monster(s) in current room automatically");
+        put("battle monster", "manually battle one monster");
         put("history", "show all the messages");
         put("save", "save the current progress");
-        put("quit", "quit the game immediately");
+        put("quit", "quit the game");
+        put("status", "show the status of current room and hero");
     }};
 
     /**
@@ -44,7 +48,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
      * @param args Command line arguments.
      */
     public static void main(final String[] args) throws SQLException, IOException, ClassNotFoundException {
-        new CommandPromptCombatController().start();
+        new CommandPromptUserInterface().start();
     }
 
     /**
@@ -62,12 +66,15 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     public void start() throws SQLException, IOException, ClassNotFoundException {
         do {
             while (myDungeon == null) {
-                System.out.println("Please choose: new || load || delete:");
+                System.out.println("Please choose: new || load || delete || exit:");
                 // process the initialization phase according to user's choice
                 switch (SCANNER.nextLine()) {
                     case "new" -> this.newGame();
                     case "load" -> this.loadProgress();
                     case "delete" -> this.removeProgress();
+                    case "exit" -> {
+                        return;
+                    }
                     default -> System.out.println(INVALID_INPUT_MESSAGE);
                 }
             }
@@ -108,7 +115,11 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                 switch (heroIndex) {
                     case 1 -> theHero = HeroesFactory.spawn("Priestess", theName);
                     case 2 -> theHero = HeroesFactory.spawn("Thief", theName);
-                    default -> theHero = HeroesFactory.spawn("Warrior", theName);
+                    case 3 -> theHero = HeroesFactory.spawn("Warrior", theName);
+                    default -> {
+                        log(INVALID_INPUT_MESSAGE);
+                        continue;
+                    }
                 }
                 break;
             }
@@ -208,7 +219,7 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             final String theInput = SCANNER.nextLine();
             /* process player choice */
             if (!theInput.startsWith("!")) {
-                switch (theInput) {
+                switch (theInput.toLowerCase()) {
                     case "up" -> move(Direction.UP);
                     case "down" -> move(Direction.DOWN);
                     case "left" -> move(Direction.LEFT);
@@ -223,36 +234,50 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                             ? String.format("%s picks up pillar [%s]", myDungeon.getHero().getName(), myDungeon.getCurrentRoom().pickUpPillar())
                             : "There is no pillar to pick up."
                     );
-                    case "fight" ->
-                        fightMonster(RandomSingleton.nextInt(Integer.max(myDungeon.getCurrentRoom().getNumberOfMonsters() - 1, 1)));
+                    case "auto battle" -> autoBattleAllMonsters();
+                    case "battle monster" -> fightOneMonster();
                     case "history" -> this.showMessages();
                     case "save" -> this.saveProgress();
-                    case "quit" -> myDungeon = null;
+                    case "status" -> this.showCurrentStatus();
+                    case "quit" -> {
+                        while (true) {
+                            System.out.println("Do you want to save your current progress (y/n):");
+                            final String choice = SCANNER.nextLine();
+                            if (choice.equals("y")) {
+                                saveProgress();
+                            } else if (!choice.equals("n")) {
+                                System.out.println(INVALID_INPUT_MESSAGE);
+                                continue;
+                            }
+                            break;
+                        }
+                        myDungeon = null;
+                        return;
+                    }
                     case "help" -> showHelp();
                     default -> System.out.println(INVALID_INPUT_MESSAGE);
                 }
             } else {
                 DevelopmentTool.execute(theInput, myDungeon);
             }
+
             /* check win and lose conditions */
-            if (myDungeon != null) {
-                // check if hero is dead
-                if (myDungeon.getHero().getHealth() <= 0) {
-                    // if yes, then mission failed
-                    log("Mission fail... Good luck next time!");
+            // check if hero is dead
+            if (myDungeon.getHero().getHealth() <= 0) {
+                // if yes, then mission failed
+                log("Mission fail... Good luck next time!");
+                stop();
+            }
+            // if current room is the Exit
+            else if (myDungeon.isCurrentRoomExit()) {
+                // if the player find all Pillars
+                if (myDungeon.areAllPillarsFound()) {
+                    // if yes, then mission succeed
+                    log("Mission succeed, your find the exit and escape with all the pillars.");
                     stop();
-                }
-                // if current room is the Exit
-                else if (myDungeon.isCurrentRoomExit()) {
-                    // if the player find all Pillars
-                    if (myDungeon.areAllPillarsFound()) {
-                        // if yes, then mission succeed
-                        log("Mission succeed, your find the exit and escape with all the pillars.");
-                        stop();
-                    } else {
-                        // if no, then ask the player to continue searching for all pillars.
-                        log("Your find the exit, but you cannot escape because you did not find all the pillars.");
-                    }
+                } else {
+                    // if no, then ask the player to continue searching for all pillars.
+                    log("Your find the exit, but you cannot escape because you did not find all the pillars.");
                 }
             }
         }
@@ -264,9 +289,9 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
     private void showCurrentStatus() {
         // print out the dungeon information - current room
         log("Current room:");
-        this.log(getRoomOverview());
+        this.log(myDungeon.getCurrentRoom().toString());
         log(String.format("X: %d, Y: %d", myDungeon.getCurrentX(), myDungeon.getCurrentY()));
-        log(myDungeon.getCurrentRoom().toString());
+        log(myDungeon.getCurrentRoom().getInfo());
         // print out the hero status
         log(myDungeon.getHero().toString());
         // list out all the Pillar(s) that player found (if any)
@@ -278,38 +303,6 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
             }
             log("]");
         }
-    }
-
-    /**
-     * get the overview of current room
-     *
-     * @return a string that contain the information
-     */
-    private String getRoomOverview() {
-        final char[][] roomOverView = new char[3][3];
-        for (final char[] row : roomOverView) {
-            Arrays.fill(row, '*');
-        }
-        roomOverView[1][1] = this.myDungeon.getCurrentRoom().getFlag();
-        if (this.myDungeon.canHeroMove(Direction.UP)) {
-            roomOverView[0][1] = '-';
-        }
-        if (this.myDungeon.canHeroMove(Direction.DOWN)) {
-            roomOverView[2][1] = '-';
-        }
-        if (this.myDungeon.canHeroMove(Direction.LEFT)) {
-            roomOverView[1][0] = '|';
-        }
-        if (this.myDungeon.canHeroMove(Direction.RIGHT)) {
-            roomOverView[1][2] = '|';
-        }
-        final StringBuilder theInfo = new StringBuilder();
-        for (final char[] row : roomOverView) {
-            theInfo.append(String.valueOf(row));
-            theInfo.append('\n');
-        }
-        theInfo.deleteCharAt(theInfo.length() - 1);
-        return theInfo.toString();
     }
 
     /**
@@ -413,6 +406,60 @@ public final class CommandPromptCombatController extends AbstractCombatControlle
                 break;
             }
             System.out.println("The name cannot be empty! Please try again.");
+        }
+    }
+
+    /**
+     * fightOneMonster() is a method to handle fight calculations.
+     */
+    private void fightOneMonster() {
+        if (myDungeon.getCurrentRoom().getNumberOfMonsters() > 0) {
+            // pop the target monster out of the array and start the auto battle
+            roundBasedBattling(myDungeon.getCurrentRoom().removeMonster(0));
+        } else if (myDungeon.getCurrentRoom().getNumberOfMonsters() == 0) {
+            log("There is no monster in current room");
+        } else {
+            throw new IllegalArgumentException("Index out of bound!");
+        }
+    }
+
+    /**
+     * autoBattling() is a method to handle automatic fight between hero and a monster.
+     *
+     * @param theMonster Monster objects for enemy.
+     * @see DungeonCharacter
+     */
+    private void roundBasedBattling(final Monster theMonster) {
+
+        final int attackCost = Integer.min(myDungeon.getHero().getMaxAttackSpeed(), theMonster.getMaxAttackSpeed());
+
+        while (true) {
+            // print out the hero health status
+            log(String.format("Your current heath: %d", myDungeon.getHero().getHealth()));
+            // print out the monster health status
+            log(String.format("Monster heath: %d", theMonster.getHealth()));
+            // if this is your round
+            if (myDungeon.getHero().getCurrentAttackSpeed() >= theMonster.getCurrentAttackSpeed()) {
+                System.out.println("Please choose your action (attack / skill)");
+                switch (SCANNER.nextLine()) {
+                    case "attack" -> oneAttackAnother(myDungeon.getHero(), theMonster, attackCost);
+                    case "skill" -> heroUsesSkill(theMonster, attackCost);
+                    default -> log(INVALID_INPUT_MESSAGE);
+                }
+            } else {
+                oneAttackAnother(theMonster, myDungeon.getHero(), attackCost);
+            }
+            if (myDungeon.getHero().getHealth() <= 0) {
+                log("Your hero is killed by the monster!");
+                break;
+            } else if (theMonster.getHealth() <= 0) {
+                log("You successfully kill the monster.");
+                myDungeon.getHero().resetCurrentAttackSpeed();
+                break;
+            } else if (myDungeon.getHero().getCurrentAttackSpeed() <= 0 || theMonster.getCurrentAttackSpeed() <= 0) {
+                myDungeon.getHero().addCurrentAttackSpeed(myDungeon.getHero().getMaxAttackSpeed());
+                theMonster.addCurrentAttackSpeed(theMonster.getMaxAttackSpeed());
+            }
         }
     }
 }

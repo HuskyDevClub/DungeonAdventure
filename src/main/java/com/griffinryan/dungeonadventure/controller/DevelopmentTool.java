@@ -17,24 +17,26 @@ public final class DevelopmentTool {
      * @param theDungeon Object for Dungeon.
      */
     public static void execute(final String cmd, final Dungeon theDungeon) {
-        switch (cmd) {
-            // make the hero invincible or not
+        switch (cmd.toLowerCase()) {
+            // The hero will be able to doge any incoming damage.
             case "!invincible" -> invincible = !invincible;
             // all the pillars will be picked up by the hero immediately
             case "!pick_up_all_pillars" -> theDungeon.pickUpAllPillars();
-            // give current player 1 healing position
+            // give the player 1 healing position
             case "!give_healing_position" -> theDungeon.getHero().obtainHealingPotions(1);
-            // give current player 1 vision position
+            // give the player 1 vision position
             case "!give_vision_position" -> theDungeon.getHero().obtainVisionPotions(1);
-            // show the entire dungeon
+            // show the overview of the entire dungeon
             case "!show_dungeon" -> System.out.println(theDungeon.toString());
             // whether the player can leave without killing all monsters
             case "!leave_without_killing_all_monsters" ->
                 canLeaveWithoutKillingAllMonsters = !canLeaveWithoutKillingAllMonsters;
+            // the player will kill him/herself, which means game over
             case "!i_cannot_take_it_anymore" -> {
                 theDungeon.getHero().suicide();
                 System.out.println("Your hero decides that he cannot take it anymore and choose to kill himself.");
             }
+            // the player will win the game immediately
             case "!ez" -> {
                 theDungeon.moveHeroTo(theDungeon.getExitX(), theDungeon.getExitY());
                 theDungeon.pickUpAllPillars();
@@ -43,11 +45,11 @@ public final class DevelopmentTool {
     }
 
     /**
-     * Returns whether the player is invincible.
+     * Returns whether the player is invincible or not
      *
-     * @return boolean returns true if invincible.
+     * @return true if not invincible or vice versa
      */
-    public static boolean isInvincible() {
-        return invincible;
+    public static boolean isNotInvincible() {
+        return !invincible;
     }
 }

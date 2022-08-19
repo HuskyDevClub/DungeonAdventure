@@ -29,7 +29,8 @@ public final class Warrior extends Hero {
     }
 
     /**
-     * the skill of the Warrior
+     * the skill of the Warrior:
+     * Crushing Blow - does 75 to 175 points of damage but only has a 40% chance of succeeding
      *
      * @param theTarget the target
      * @param theCost   the cost of using skill
@@ -39,5 +40,25 @@ public final class Warrior extends Hero {
             theTarget.injury(RandomSingleton.nextInt(75, 175));
         }
         this.subtractCurrentAttackSpeed(theCost);
+    }
+
+    /**
+     * get the description of hero's skill
+     *
+     * @return description of hero's skill
+     */
+    @Override
+    public String getSkillDescription() {
+        return "Crushing Blow - He has a 40% chance of doing 75 to 175 points of damage to the monster!";
+    }
+
+    /**
+     * get the result of hero using his/her skill (succeed? and how?)
+     *
+     * @return the result of hero using his/her skill
+     */
+    @Override
+    public String getSkillUsageResult() {
+        return this.getLastDamageDone() > 0 ? "He crushed the monster like legends said." : "But the monster dodged his attack.";
     }
 }

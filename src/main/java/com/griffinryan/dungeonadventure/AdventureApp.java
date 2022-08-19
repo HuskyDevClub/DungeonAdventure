@@ -18,7 +18,7 @@ import com.griffinryan.dungeonadventure.engine.component.DungeonComponent;
 import com.griffinryan.dungeonadventure.engine.component.PlayerComponent;
 import com.griffinryan.dungeonadventure.engine.component.RoomComponent;
 import com.griffinryan.dungeonadventure.engine.util.DungeonUtility;
-import com.griffinryan.dungeonadventure.menu.CustomGameMenu;
+import com.griffinryan.dungeonadventure.menu.CustomInGameMenu;
 import com.griffinryan.dungeonadventure.menu.DungeonMainMenu;
 import com.griffinryan.dungeonadventure.model.dungeon.Direction;
 import javafx.scene.input.KeyCode;
@@ -97,7 +97,7 @@ public class AdventureApp extends GameApplication {
         settings.setSceneFactory(new SceneFactory() {
             @Override
             public FXGLMenu newGameMenu() {
-                return new CustomGameMenu();
+                return new CustomInGameMenu();
             }
 
             @Override
@@ -136,7 +136,6 @@ public class AdventureApp extends GameApplication {
                 player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
             }
         }, KeyCode.D);
-
         FXGL.getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
@@ -160,7 +159,6 @@ public class AdventureApp extends GameApplication {
                 // player.getComponent(PlayerComponent.class).updatePlayerCoordinates();
             }
         }, KeyCode.W);
-
     }
 
     /**

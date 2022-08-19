@@ -16,13 +16,9 @@ public class TestDungeon {
     @Test
     public void testDungeonBasicFunctionalities() {
         final String theHeroName = "TheHeroIsMe";
-
-        final int theAssumedX = 5;
-        final int theAssumedY = 5;
         final int theWidth = 10;
         final int theHeight = 10;
         final Dungeon theDungeon = new Dungeon(HeroesFactory.spawn(Thief.class.getSimpleName(), theHeroName), theWidth, theHeight);
-
 
         assertEquals(theWidth, theDungeon.getMazeWidth());
         assertEquals(theHeight, theDungeon.getMazeHeight());
@@ -36,9 +32,7 @@ public class TestDungeon {
         testPillar(theDungeon);
 
         // test coordinate system
-        assertEquals(theAssumedX, theDungeon.getCurrentX());
-        assertEquals(theAssumedY, theDungeon.getCurrentY());
-        assertTrue(theDungeon.canHeroMoveTo(theAssumedX, theAssumedY));
+        assertTrue(theDungeon.canHeroMoveTo(theDungeon.getCurrentX(), theDungeon.getCurrentY()));
         assertFalse(theDungeon.canHeroMoveTo(-1, 0));
         assertFalse(theDungeon.canHeroMoveTo(10, 0));
 
@@ -48,7 +42,7 @@ public class TestDungeon {
         assertFalse(theDungeon.isCurrentRoomPit());
 
         // test move method
-        testMoveMethod(theDungeon, theAssumedX, theAssumedY);
+        testMoveMethod(theDungeon, theDungeon.getCurrentX(), theDungeon.getCurrentY());
         testMoveMethodAroundEdgesIfPossible(theDungeon);
     }
 
@@ -116,6 +110,12 @@ public class TestDungeon {
 
         assertEquals(theWidth, theDungeon.getMazeWidth());
         assertEquals(theHeight, theDungeon.getMazeHeight());
+
+        // check current room's doors
+        assertEquals(theDungeon.canHeroMove(Direction.UP), theDungeon.getCurrentRoom().isThereDoorOn(Direction.UP));
+        assertEquals(theDungeon.canHeroMove(Direction.LEFT), theDungeon.getCurrentRoom().isThereDoorOn(Direction.LEFT));
+        assertEquals(theDungeon.canHeroMove(Direction.RIGHT), theDungeon.getCurrentRoom().isThereDoorOn(Direction.RIGHT));
+        assertEquals(theDungeon.canHeroMove(Direction.DOWN), theDungeon.getCurrentRoom().isThereDoorOn(Direction.DOWN));
 
         // check hero
         final Hero theHero = theDungeon.getHero();

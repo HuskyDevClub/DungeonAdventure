@@ -9,42 +9,26 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SuppressWarnings("DuplicatedCode")
-public class TestHeroes {
-
-    private final static String myHeroDummyName = "dummy";
-
-    private static final int defaultHealth = 100;
-    private static final int defaultMinDamage = 50;
-    private static final int defaultMaxDamage = 90;
-    private static final int defaultAttackSpeed = 5;
-    private static final int defaultChanceToHit = 80;
-    private static final int defaultChanceToHeal = 100;
-    private static final int defaultMinHealing = 10;
-    private static final int defaultMaxHealing = 50;
-    private static final int defaultChanceToBlock = 0;
-
-    private static final int weakSkeletonDamage = 20;
-    private static final int superSkeletonDamage = 2000;
+public class TestHeroes extends TestDungeonCharacter {
 
     private final static Skeleton WeakSkeleton = new Skeleton(
-        myHeroDummyName, defaultHealth, weakSkeletonDamage, weakSkeletonDamage, defaultAttackSpeed,
+        myDummyName, defaultHealth, weakDamage, weakDamage, defaultAttackSpeed,
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
     private final static Skeleton SuperSkeleton = new Skeleton(
-        myHeroDummyName, defaultHealth, superSkeletonDamage, superSkeletonDamage, defaultAttackSpeed,
+        myDummyName, defaultHealth, superDamage, superDamage, defaultAttackSpeed,
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
     private final static Skeleton GodLikeSkeleton = new Skeleton(
-        myHeroDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
+        myDummyName, defaultHealth, Integer.MAX_VALUE, Integer.MAX_VALUE, defaultAttackSpeed,
         100, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing
     );
 
     private static void testTheHeroThatCannotBlock(final Hero theHero) {
         // check if the right name has been set
-        assertEquals(theHero.getName(), myHeroDummyName);
+        assertEquals(theHero.getName(), myDummyName);
         // check if the correct data has been assigned
         assertEquals(theHero.getHealth(), defaultHealth);
         checkConstantInstanceField(theHero);
@@ -59,15 +43,11 @@ public class TestHeroes {
         assertFalse(theHero.isLastAttackBlocked());
         assertFalse(theHero.isDead());
         assertTrue(theHero.isAlive());
-        assertEquals(theHero.getHealth(), defaultHealth - weakSkeletonDamage);
+        assertEquals(theHero.getHealth(), defaultHealth - weakDamage);
 
         // recheck whether the supposed constant instances has been modified
         checkConstantInstanceField(theHero);
         assertEquals(defaultChanceToBlock, theHero.getChanceToBlock());
-
-        final int _heath = theHero.getHealth();
-        theHero.selfHeal();
-        assertTrue(theHero.getHealth() > _heath);
 
         // what if the monster received a critical hit from our super warrior?
         SuperSkeleton.attack(theHero, 0);
@@ -75,7 +55,7 @@ public class TestHeroes {
         assertFalse(theHero.isLastAttackBlocked());
         assertTrue(theHero.isDead());
         assertFalse(theHero.isAlive());
-        assertNotEquals(theHero.getHealth(), defaultHealth - weakSkeletonDamage);
+        assertNotEquals(theHero.getHealth(), defaultHealth - weakDamage);
         assertEquals(theHero.getHealth(), 0);
         // recheck whether the supposed constant instances has been modified
         checkConstantInstanceField(theHero);
@@ -120,7 +100,7 @@ public class TestHeroes {
 
     private static void testTheHeroThatCanAlwaysBlock(final Hero theHero) {
         // check if the right name has been set
-        assertEquals(theHero.getName(), myHeroDummyName);
+        assertEquals(theHero.getName(), myDummyName);
         // check if the correct data has been assigned
         assertEquals(theHero.getHealth(), defaultHealth);
         checkConstantInstanceField(theHero);
@@ -136,16 +116,12 @@ public class TestHeroes {
         checkConstantInstanceField(theHero);
         assertEquals(100, theHero.getChanceToBlock());
 
-        final int _heath = theHero.getHealth();
-        theHero.selfHeal();
-        assertTrue(theHero.getHealth() > _heath);
-
         // what if the monster received a critical hit from our super warrior?
         SuperSkeleton.attack(theHero, 0);
         assertTrue(theHero.isLastAttackBlocked());
         assertFalse(theHero.isDead());
         assertTrue(theHero.isAlive());
-        assertNotEquals(theHero.getHealth(), defaultHealth);
+        assertEquals(theHero.getHealth(), defaultHealth);
         // recheck whether the supposed constant instances has been modified
         checkConstantInstanceField(theHero);
         assertEquals(100, theHero.getChanceToBlock());
@@ -169,24 +145,14 @@ public class TestHeroes {
         assertEquals(100, theHero.getChanceToBlock());
     }
 
-    private static void checkConstantInstanceField(Hero theHero) {
-        assertEquals(defaultMinDamage, theHero.getMinDamage());
-        assertEquals(defaultMaxDamage, theHero.getMaxDamage());
-        assertEquals(defaultAttackSpeed, theHero.getMaxAttackSpeed());
-        assertEquals(defaultChanceToHit, theHero.getChanceToHit());
-        assertEquals(defaultChanceToHeal, theHero.getChanceToHeal());
-        assertEquals(defaultMinHealing, theHero.getMinHealing());
-        assertEquals(defaultMaxHealing, theHero.getMaxHealing());
-    }
-
     @Test
     void testPriestess() {
         testTheHeroThatCannotBlock(new Priestess(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
         ));
         testTheHeroThatCanAlwaysBlock(new Priestess(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
         ));
     }
@@ -194,11 +160,11 @@ public class TestHeroes {
     @Test
     void testThief() {
         testTheHeroThatCannotBlock(new Thief(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
         ));
         testTheHeroThatCanAlwaysBlock(new Thief(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
         ));
     }
@@ -206,11 +172,11 @@ public class TestHeroes {
     @Test
     void testWarrior() {
         testTheHeroThatCannotBlock(new Warrior(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, defaultChanceToBlock
         ));
         testTheHeroThatCanAlwaysBlock(new Warrior(
-            myHeroDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
+            myDummyName, defaultHealth, defaultMinDamage, defaultMaxDamage, defaultAttackSpeed,
             defaultChanceToHit, defaultChanceToHeal, defaultMinHealing, defaultMaxHealing, 100
         ));
     }

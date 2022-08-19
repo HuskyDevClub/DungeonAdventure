@@ -1,13 +1,12 @@
 package com.griffinryan.dungeonadventure.model.heroes;
 
+import com.griffinryan.dungeonadventure.controller.DevelopmentTool;
 import com.griffinryan.dungeonadventure.model.DungeonCharacter;
 import com.griffinryan.dungeonadventure.model.RandomSingleton;
 import com.griffinryan.dungeonadventure.model.monsters.Monster;
 
 /**
- * Hero is the parent object
- * that abstracts in the model.heroes
- * and model.monsters packages.
+ * Hero is the parent class of all heroes
  *
  * @author Yudong Lin (ydlin@uw.edu)
  * @see DungeonCharacter
@@ -39,6 +38,20 @@ public abstract class Hero extends DungeonCharacter {
      * @param theCost   the cost of using skill
      */
     public abstract void skill(final Monster theTarget, final int theCost);
+
+    /**
+     * get the description of hero's skill
+     *
+     * @return description of hero's skill
+     */
+    public abstract String getSkillDescription();
+
+    /**
+     * get the result of hero using his/her skill (succeed? and how?)
+     *
+     * @return the result of hero using his/her skill
+     */
+    public abstract String getSkillUsageResult();
 
     /**
      * gain health positions
@@ -83,6 +96,22 @@ public abstract class Hero extends DungeonCharacter {
             return true;
         }
         return false;
+    }
+
+    /**
+     * take away health point from the hero
+     * overwrite to make invincible cheat work
+     *
+     * @param damage the amount of health hero lost
+     */
+    @Override
+    public void injury(int damage) {
+        if (DevelopmentTool.isNotInvincible()) {
+            super.injury(damage);
+        } else {
+            this.setMyIsLastAttackBlocked(true);
+        }
+
     }
 
     /**

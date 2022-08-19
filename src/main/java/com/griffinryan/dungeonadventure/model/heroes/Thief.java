@@ -13,6 +13,8 @@ import com.griffinryan.dungeonadventure.model.monsters.Monster;
  */
 public final class Thief extends Hero {
 
+    private int mySkillResult = -1;
+
     /**
      * @param theName          the name of the Thief
      * @param theHealth        the health/hit point of the Thief
@@ -30,7 +32,11 @@ public final class Thief extends Hero {
     }
 
     /**
-     * the skill of the Thief
+     * the skill of the Thief:
+     * surprise attack - 40 percent chance it is successful.
+     * If it is successful, Thief gets an attack and another turn (extra attack) in the current round.
+     * There is a 20 percent chance the Thief is caught in which case no attack at all is rendered.
+     * The other 40 percent is just a normal attack.
      *
      * @param theTarget the target
      * @param theCost   the cost of using skill
@@ -40,11 +46,35 @@ public final class Thief extends Hero {
         if (theValue < 40) {
             this.attack(theTarget, 0);
             this.attack(theTarget, theCost);
+            mySkillResult = 1;
         } else if (theValue > 60) {
             this.attack(theTarget, theCost);
+            mySkillResult = 0;
         } else {
             this.subtractCurrentAttackSpeed(theCost);
+            mySkillResult = -1;
         }
+    }
+
+    /**
+     * get the description of hero's skill
+     *
+     * @return description of hero's skill
+     */
+    public String getSkillDescription() {
+        return "Surprise Attack - If it is successful, he gets an attack and another turn (extra attack) in the current round.";
+    }
+
+    /**
+     * get the result of hero using his/her skill (succeed? and how?)
+     *
+     * @return the result of hero using his/her skill
+     */
+    @Override
+    public String getSkillUsageResult() {
+        return mySkillResult < 0 ? "Unfortunately, his attack was noticed by the monster, so he was not able to do any damage to the monster"
+            : mySkillResult == 0 ? "Although his attack somewhat surprised the monster, he was only able to do one attack to the monster"
+            : "His attack caught monster completely off guard, so he was able to attack the monster twice during this round!";
     }
 
 }
