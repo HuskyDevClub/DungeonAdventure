@@ -26,7 +26,11 @@ public class Dungeon implements Serializable {
     // the chance that it will generate a room instead of a wall
     private static final int CHANCE_TO_GENERATE_ROOM = 80;
     // if a room needs to be generated, chance that it is a normal room instead of a pit
-    private static final int CHANCE_TO_BE_ROOM = 80;
+    private static final int CHANCE_TO_BE_ROOM = 90;
+    // chance that at least one healing potion will be placed inside this room
+    private static final int CHANCE_TO_HAVE_HEALING_POTION = 10;
+    // chance that at least one vision potion will be placed inside this room
+    private static final int CHANCE_TO_HAVE_VISION_POTION = 10;
 
     private final AbstractRoom[][] myMazeArray;
     private final int myMazeWidth;
@@ -86,7 +90,11 @@ public class Dungeon implements Serializable {
                                     default -> theMonsters.add(MonstersFactory.spawn("Skeleton", "S1"));
                                 }
                             }
-                            the2dMaze2dArrayTemp[y][x] = new Room(theMonsters, RandomSingleton.nextInt(0, 3), RandomSingleton.nextInt(0, 2));
+                            the2dMaze2dArrayTemp[y][x] = new Room(
+                                theMonsters,
+                                RandomSingleton.isSuccessful(CHANCE_TO_HAVE_HEALING_POTION) ? RandomSingleton.nextInt(1, 3) : 0,
+                                RandomSingleton.isSuccessful(CHANCE_TO_HAVE_VISION_POTION) ? RandomSingleton.nextInt(1, 2) : 0
+                                );
                         } else {
                             the2dMaze2dArrayTemp[y][x] = new Pit();
                         }
