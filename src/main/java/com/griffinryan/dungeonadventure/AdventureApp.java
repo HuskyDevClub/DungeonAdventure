@@ -122,7 +122,6 @@ public class AdventureApp extends GameApplication {
      * for user input. It handles the updated state
      * using the onAction() method.
      *
-     * @see UserAction for more.
      */
     @Override
     protected void initInput() {
